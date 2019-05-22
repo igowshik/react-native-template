@@ -13,4 +13,10 @@ export const Styles = StyleSheet.create({
   textColor: {
     color: '#fff',
   },
+  searchbar: {
+    // margin: 2,
+    marginBottom: 2,
+    borderWidth: 0.5,
+    borderColor: 'rgba(0,0,0,0.3)',
+  },
 });

@@ -1,49 +1,73 @@
-/**
- * Notes tab component
- * Added by Selvam K
- */
-// Native imports
-import React from 'react';
-import { View, ScrollView } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
+import { FAB } from 'react-native-paper';
 
-// Package imports
-import { Card, CardItem, Text, Body } from 'native-base';
-import HTMLView from 'react-native-htmlview';
+import * as colors from 'cnxapp/src/utils/colorsConstants';
+import Timeline from '../UIComponents/Timeline';
 
-// Absolute imports
-// import { CNXText } from 'cnxapp/src/components/CNXTexts';
+const notes = require('cnxapp/src/assets/pastel/notes.png');
 
-// Relative imports
-import { Styles } from './styles';
+export default class Notes extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+    };
+  }
 
-class Notes extends React.Component {
-  componentDidMount() {}
-
-  notesCards = () => {
+  componentDidMount() {
     const { conexionNotes } = this.props;
-
-    return conexionNotes.map(note => (
-      <Card key={note.ConexionNoteId}>
-        <CardItem header>
-          <Text>{note.ConexionNoteId}</Text>
-        </CardItem>
-        <CardItem>
-          <Body>
-            <HTMLView value={note.Note} />
-          </Body>
-        </CardItem>
-        <CardItem footer>
-          <Text>Edit</Text>
-        </CardItem>
-      </Card>
-    ));
-  };
+    const notesData = [
+      {
+        time: '16-05-2019',
+        title: 'Notes',
+        icon: notes,
+        circleColor: 'transparent',
+      },
+    ];
+    conexionNotes.map(note =>
+      notesData.push({
+        time: '03:00 PM',
+        title: `Note ${note.ConexionNoteId}`,
+        description: note.Note,
+        state: 0,
+      }),
+    );
+    this.setState({ data: notesData });
+  }
 
   render() {
     return (
-      <View style={Styles.mainViewContainer}>
-        <ScrollView>{this.notesCards()}</ScrollView>
+      <View style={{ flex: 1 }}>
+        <View style={styles.container}>
+          <Timeline
+            style={styles.list}
+            data={this.state.data}
+            circleSize={20}
+            circleColor={colors.HEADER}
+            lineColor="rgba(0,0,0,0.6)"
+            timeContainerStyle={{ minWidth: 100, marginTop: -5 }}
+            timeStyle={{
+              textAlign: 'center',
+              color: colors.PURPLE,
+              padding: 5,
+              borderRadius: 13,
+              backgroundColor: 'transparent',
+            }}
+            descriptionStyle={{ color: 'gray' }}
+            options={{
+              style: { paddingTop: 5 },
+            }}
+            innerCircle="icon"
+          />
+        </View>
+        <FAB
+          style={styles.fab}
+          icon="add"
+          color="white"
+          onPress={() => console.log('Pressed')}
+        />
       </View>
     );
   }
@@ -53,4 +77,21 @@ Notes.propTypes = {
   conexionNotes: PropTypes.array,
 };
 
-export default Notes;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 15,
+    backgroundColor: 'white',
+  },
+  list: {
+    flex: 1,
+    paddingTop: 15,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+    backgroundColor: colors.BLUE,
+  },
+});
