@@ -24,6 +24,8 @@ export const primaryColorSet = ['#007aff', '#007aff', '#007aff'];
 
 export const NAVHEADER = '#F2F3F4';
 
+export const HEADER = '#34495E';
+
 // Color set
 export const BLUE = '#007aff';
 export const TEALBLUE = '#5ac8fa';

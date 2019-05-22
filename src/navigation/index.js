@@ -61,7 +61,7 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
     iconName = `ellipsis-h`;
   }
 
-  return <IconComponent name={iconName} size={19} color={tintColor} light />;
+  return <IconComponent name={iconName} size={18} color={tintColor} light />;
 };
 
 const AppStack = createMaterialBottomTabNavigator(
@@ -95,12 +95,12 @@ const AppStack = createMaterialBottomTabNavigator(
       Platform.OS === 'ios'
         ? { backgroundColor: Colors.ORANGE }
         : {
-          backgroundColor: Colors.ORANGE,
-          height: '8%',
-          justifyContent: 'center',
-          alignItems: 'center',
-          // paddingBottom: 30,
-        },
+            backgroundColor: Colors.ORANGE,
+            height: '8%',
+            justifyContent: 'center',
+            alignItems: 'center',
+            // paddingBottom: 30,
+          },
   },
 );
 

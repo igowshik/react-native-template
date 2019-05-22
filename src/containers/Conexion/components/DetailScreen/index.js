@@ -13,6 +13,7 @@ import { compose } from 'redux';
 import { withNavigation } from 'react-navigation';
 import { Container, Tab, Tabs, TabHeading, Text } from 'native-base';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
+import { Searchbar } from 'react-native-paper';
 
 // Absolute imports
 import { HorizDivider } from 'cnxapp/src/components/CNXDividers';
@@ -22,7 +23,7 @@ import { CNXText } from 'cnxapp/src/components/CNXTexts';
 
 // Relative imports
 import { Styles } from './styles';
-import Dashboard from './Dashboard';
+// import Dashboard from './Dashboard';
 import { INDIVIDUAL, ORGANIZATION } from '../../constants';
 import {
   selectToken,
@@ -33,13 +34,13 @@ import {
 } from '../../selectors';
 import { getConexionsNotesAction } from '../../actions';
 import ConexionProfileView from './ConexionProfileView';
-// import Notes from './Notes';
-import Timeline from './Timeline';
+import Notes from './Notes';
 
 class DetailScreen extends React.Component {
   state = {
     selected: INDIVIDUAL,
     conexionProfile: null,
+    firstQuery: '',
   };
 
   componentDidMount() {
@@ -64,11 +65,15 @@ class DetailScreen extends React.Component {
     getConexionNotes(selectedId);
   }
 
+  searchConexions = searchText => {
+    this.setState({ firstQuery: searchText });
+  };
+
   render() {
-    const { selected, conexionProfile } = this.state;
+    const { selected, conexionProfile, firstQuery } = this.state;
     return (
       <Container>
-        <Dashboard />
+        {/* <Dashboard /> */}
         <HorizDivider />
         <Tabs>
           <Tab
@@ -92,8 +97,13 @@ class DetailScreen extends React.Component {
               </TabHeading>
             }
           >
-            {/* <Notes conexionNotes={this.props.conexionNotes} /> */}
-            <Timeline />
+            <Searchbar
+              placeholder="Search conexions"
+              onChangeText={query => this.searchConexions(query)}
+              value={firstQuery}
+              style={Styles.searchbar}
+            />
+            <Notes conexionNotes={this.props.conexionNotes} />
           </Tab>
           <Tab
             heading={
@@ -116,7 +126,7 @@ DetailScreen.propTypes = {
   indConexions: PropTypes.array.isRequired,
   orgConexions: PropTypes.array.isRequired,
   setGlobalLoaderState: PropTypes.func.isRequired,
-  // conexionNotes: PropTypes.array,
+  conexionNotes: PropTypes.array,
   getConexionNotes: PropTypes.func,
 };
 
