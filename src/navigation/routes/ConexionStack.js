@@ -5,25 +5,45 @@ import DetailScreen from 'cnxapp/src/containers/Conexion/components/DetailScreen
 
 import { NAVHEADER } from 'cnxapp/src/utils/colorsConstants';
 
+import { Platform } from 'react-native';
 import { CONEXION } from '../constants';
 
 const ConexionStack = createStackNavigator(
   {
-    [CONEXION]: {
-      screen: ConexionScreen,
-      navigationOptions: {
-        title: 'CONEXION',
-        headerStyle: {
-          backgroundColor: NAVHEADER,
+    [CONEXION]:
+      Platform.OS === 'ios'
+        ? {
+          screen: ConexionScreen,
+          navigationOptions: {
+            title: 'CONEXION',
+            headerStyle: {
+              backgroundColor: NAVHEADER,
+            },
+            headerTitleStyle: {
+              color: '#000',
+              fontFamily: 'Montserrat',
+              fontWeight: '400',
+              fontSize: 25,
+            },
+          },
+        }
+        : {
+          screen: ConexionScreen,
+          navigationOptions: {
+            title: 'CONEXION',
+            headerStyle: {
+              backgroundColor: NAVHEADER,
+            },
+            headerTitleStyle: {
+              color: '#000',
+              fontFamily: 'Montserrat-Regular',
+              fontWeight: '400',
+              fontSize: 25,
+              flexGrow: 1,
+              textAlign: 'center',
+            },
+          },
         },
-        headerTitleStyle: {
-          color: '#000',
-          fontFamily: 'Montserrat',
-          fontWeight: '400',
-          fontSize: 25,
-        },
-      },
-    },
     SecondScreen: {
       screen: DetailScreen,
       navigationOptions: {

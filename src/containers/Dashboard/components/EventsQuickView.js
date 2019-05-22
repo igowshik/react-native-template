@@ -88,10 +88,12 @@ const EventsQuickView = () => (
               <CNXH4 style={styles.textMargin}>Conference</CNXH4>
             </CardItem>
             <Container>
-              <Tabs>
+              <Tabs tabContainerStyle={{ elevation: 0 }}>
                 <Tab
                   heading={
-                    <TabHeading style={{ backgroundColor: 'transparent' }}>
+                    <TabHeading
+                      style={{ backgroundColor: 'transparent', elevation: 0 }}
+                    >
                       <FontAwesome5 name="video" color="#fff" size={20} brand />
                     </TabHeading>
                   }

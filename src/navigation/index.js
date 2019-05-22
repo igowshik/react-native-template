@@ -11,6 +11,8 @@ import { createMaterialBottomTabNavigator } from 'react-navigation-material-bott
 // Absolute imports
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 
+import { Platform } from 'react-native';
+
 // Relative imports
 import AuthLoadingScreen from '../components/AuthLoadingScreen';
 import OtherScreen from '../containers/Home/OtherScreen';
@@ -59,7 +61,7 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
     iconName = `ellipsis-h`;
   }
 
-  return <IconComponent name={iconName} size={20} color={tintColor} light />;
+  return <IconComponent name={iconName} size={19} color={tintColor} light />;
 };
 
 const AppStack = createMaterialBottomTabNavigator(
@@ -80,14 +82,25 @@ const AppStack = createMaterialBottomTabNavigator(
       tabBarIcon: ({ focused, tintColor }) =>
         getTabBarIcon(navigation, focused, tintColor),
     }),
-    // tabBarOptions: {
-    //   activeTintColor: Colors.ORANGE,
-    //   inactiveTintColor: Colors.ORANGE,
-    // },
+    tabBarOptions: {
+      labelStyle: {
+        margin: 10,
+      },
+      showIcon: false,
+    },
     initialRouteName: CONEXION,
     activeColor: Colors.WHITE,
     inactiveColor: Colors.DARK,
-    barStyle: { backgroundColor: Colors.ORANGE },
+    barStyle:
+      Platform.OS === 'ios'
+        ? { backgroundColor: Colors.ORANGE }
+        : {
+          backgroundColor: Colors.ORANGE,
+          height: '8%',
+          justifyContent: 'center',
+          alignItems: 'center',
+          // paddingBottom: 30,
+        },
   },
 );
 

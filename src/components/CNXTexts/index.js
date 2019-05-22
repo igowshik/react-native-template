@@ -1,11 +1,20 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 
 export const CNXText = props => {
   const { style, children } = props;
   return (
-    <Text props style={[style, { fontFamily: 'Proxima Nova' }]}>
+    <Text
+      props
+      style={[
+        style,
+        {
+          fontFamily:
+            Platform.OS === 'ios' ? 'Proxima Nova' : 'ProximaNova-Regular',
+        },
+      ]}
+    >
       {children}
     </Text>
   );
@@ -19,7 +28,17 @@ CNXText.propTypes = {
 export const CNXTextBold = props => {
   const { style, children } = props;
   return (
-    <Text style={[style, { fontFamily: 'Proxima Nova', fontWeight: '500' }]}>
+    <Text
+      style={[
+        style,
+        {
+          fontFamily: proxima,
+          // Platform.OS === 'ios' ? 'Proxima Nova' : 'ProximaNova-Regular',
+          fontWeight: '400', // was 500
+          color: '#000',
+        },
+      ]}
+    >
       {children}
     </Text>
   );
@@ -61,7 +80,7 @@ CNXTextUltraLight.propTypes = {
 export const CNXTextLight = props => {
   const { style, children } = props;
   return (
-    <Text style={[style, { fontFamily: 'Proxima Nova', fontWeight: '300' }]}>
+    <Text style={[style, { fontFamily: proxima, fontWeight: '300' }]}>
       {children}
     </Text>
   );
@@ -75,11 +94,14 @@ CNXTextLight.propTypes = {
 export const CNXTextM = props => {
   const { style, children } = props;
   return (
-    <Text style={[style, { fontFamily: 'Montserrat', fontWeight: '400' }]}>
+    <Text style={[style, { fontFamily: mont, fontWeight: '400' }]}>
       {children}
     </Text>
   );
 };
+
+const mont = Platform.OS === 'ios' ? 'Montserrat' : 'Montserrat-Regular';
+const proxima = Platform.OS === 'ios' ? 'Proxima Nova' : 'ProximaNova-Regular';
 
 CNXTextM.propTypes = {
   style: PropTypes.object,

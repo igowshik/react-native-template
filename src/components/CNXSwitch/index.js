@@ -2,7 +2,7 @@ import { Text } from 'native-base';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Switch, TouchableRipple } from 'react-native-paper';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 export default class CNXSwitch extends React.Component {
@@ -42,6 +42,7 @@ CNXSwitch.propTypes = {
 const styles = StyleSheet.create({
   textStyle: {
     paddingRight: 10,
+    fontFamily: Platform.OS === 'android' ? 'Montserrat-Regular' : 'Montserrat',
   },
   row: {
     flexDirection: 'row',
