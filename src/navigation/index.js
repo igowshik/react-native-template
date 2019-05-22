@@ -59,7 +59,7 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
     iconName = `ellipsis-h`;
   }
 
-  return <IconComponent name={iconName} size={20} color={tintColor} light />;
+  return <IconComponent name={iconName} size={18} color={tintColor} light />;
 };
 
 const AppStack = createMaterialBottomTabNavigator(

@@ -71,6 +71,7 @@
 		388ED674221DB9BB00BC68DD /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 388ED668221DB9BA00BC68DD /* Montserrat-Regular.ttf */; };
 		388ED715221DCE4400BC68DD /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 388ED6C8221DCD3100BC68DD /* Lottie.framework */; };
 		388ED716221DCE4400BC68DD /* Lottie.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 388ED6C8221DCD3100BC68DD /* Lottie.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		38C0AA6722955659001DFF5B /* libReact-Native-Webview-Bridge.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38C0AA5022955622001DFF5B /* libReact-Native-Webview-Bridge.a */; };
 		3B527397B1E74B3BB37AC4C4 /* FontAwesome5_Pro_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8587A3A7BD5A471BABA131E1 /* FontAwesome5_Pro_Brands.ttf */; };
 		3EDF78FC1E4645E4ABFE494B /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A9E60786754F48E3A6C3CBC0 /* FontAwesome5_Regular.ttf */; };
 		4B8796FB0B7E41F68BB45229 /* libLottie.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D9462EA1E5DE4E9EBABAFD6C /* libLottie.a */; };
@@ -336,6 +337,13 @@
 			remoteGlobalIDString = 62CA59B71E3C173B002D7188;
 			remoteInfo = Lottie_iOS;
 		};
+		38C0AA4F22955622001DFF5B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 38C0AA3022955622001DFF5B /* React-Native-Webview-Bridge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4114DC4C1C187C3A003CD988;
+			remoteInfo = "React-Native-Webview-Bridge";
+		};
 		38F422E6228D634D00C2A959 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0E7FCB6BE1A34E74A99946D9 /* RNGestureHandler.xcodeproj */;
@@ -530,6 +538,7 @@
 		388ED666221DB9BA00BC68DD /* Montserrat-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.ttf"; sourceTree = "<group>"; };
 		388ED667221DB9BA00BC68DD /* Montserrat-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Light.ttf"; sourceTree = "<group>"; };
 		388ED668221DB9BA00BC68DD /* Montserrat-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.ttf"; sourceTree = "<group>"; };
+		38C0AA3022955622001DFF5B /* React-Native-Webview-Bridge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "React-Native-Webview-Bridge.xcodeproj"; path = "../node_modules/react-native-webview-bridge-updated/ios/React-Native-Webview-Bridge.xcodeproj"; sourceTree = "<group>"; };
 		397398CBDA804B63863FAC3B /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		3F940B504F1F4D32903B774E /* FontAwesome5_Pro_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Pro_Solid.ttf; path = ../assets/fonts/FontAwesome5_Pro_Solid.ttf; sourceTree = "<group>"; };
 		410E7B7617494EF59C888D21 /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSVG.a; sourceTree = "<group>"; };
@@ -585,6 +594,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38C0AA6722955659001DFF5B /* libReact-Native-Webview-Bridge.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				388ED715221DCE4400BC68DD /* Lottie.framework in Frameworks */,
 				11D1A2F320CAFA9E000508D9 /* libRCTAnimation.a in Frameworks */,
@@ -831,6 +841,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		38C0AA3122955622001DFF5B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				38C0AA5022955622001DFF5B /* libReact-Native-Webview-Bridge.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		5E91572E1DD0AC6500FF2AA8 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -852,6 +870,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				38C0AA3022955622001DFF5B /* React-Native-Webview-Bridge.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -1140,6 +1159,10 @@
 					ProjectRef = 139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */;
 				},
 				{
+					ProductGroup = 38C0AA3122955622001DFF5B /* Products */;
+					ProjectRef = 38C0AA3022955622001DFF5B /* React-Native-Webview-Bridge.xcodeproj */;
+				},
+				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
@@ -1382,6 +1405,13 @@
 			fileType = archive.ar;
 			path = libLottieReactNative.a;
 			remoteRef = 388ED713221DCD3A00BC68DD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		38C0AA5022955622001DFF5B /* libReact-Native-Webview-Bridge.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libReact-Native-Webview-Bridge.a";
+			remoteRef = 38C0AA4F22955622001DFF5B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		38F422E7228D634D00C2A959 /* libRNGestureHandler-tvOS.a */ = {

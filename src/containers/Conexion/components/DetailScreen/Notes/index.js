@@ -3,8 +3,12 @@ import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { FAB } from 'react-native-paper';
 
+import CNXFullPageModal from 'cnxapp/src/components/CNXFullPageModal';
+
 import * as colors from 'cnxapp/src/utils/colorsConstants';
-import Timeline from '../UIComponents/Timeline';
+// import { Text } from 'native-base';
+import Timeline from './Timeline';
+import RichTextExample from './RichTextEditor';
 
 const notes = require('cnxapp/src/assets/pastel/notes.png');
 
@@ -13,6 +17,7 @@ export default class Notes extends Component {
     super(props);
     this.state = {
       data: [],
+      modalOpen: false,
     };
   }
 
@@ -37,7 +42,17 @@ export default class Notes extends Component {
     this.setState({ data: notesData });
   }
 
+  _closeModal = () => {
+    this.setState({ modalOpen: false });
+  };
+
+  _openModal = () => {
+    this.setState({ modalOpen: true });
+  };
+
   render() {
+    const { modalOpen } = this.state;
+
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
@@ -66,8 +81,15 @@ export default class Notes extends Component {
           style={styles.fab}
           icon="add"
           color="white"
-          onPress={() => console.log('Pressed')}
+          onPress={this._openModal}
         />
+        <CNXFullPageModal
+          visible={modalOpen}
+          handleModalVisible={this._closeModal}
+          modalHeaderText="Create note"
+        >
+          <RichTextExample />
+        </CNXFullPageModal>
       </View>
     );
   }
