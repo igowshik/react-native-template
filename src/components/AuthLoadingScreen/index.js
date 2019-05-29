@@ -2,7 +2,7 @@ import React from 'react';
 import { AsyncStorage, StatusBar, View } from 'react-native';
 import PropTypes from 'prop-types';
 
-import CNXLoader from '../CNXLoader';
+import Loader from '../Loader';
 
 class AuthLoadingScreen extends React.Component {
   constructor() {
@@ -25,7 +25,7 @@ class AuthLoadingScreen extends React.Component {
   render() {
     return (
       <View>
-        <CNXLoader showLoader loadingText="Conexus gives users superpowers!!" />
+        <Loader showLoader loadingText="BOAST gives users superpowers!!" />
         <StatusBar barStyle="default" />
       </View>
     );

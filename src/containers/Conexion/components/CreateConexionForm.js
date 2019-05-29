@@ -3,10 +3,7 @@ import { Form } from 'native-base';
 import PropTypes from 'prop-types';
 
 // Absolute imports
-import {
-  CNXTextInput,
-  CNXNumberInput,
-} from 'cnxapp/src/components/CNXInputField';
+import { TextInput, NumberInput } from 'cnxapp/src/components/InputField';
 
 // Relative imports
 import { INDIVIDUAL } from '../constants';
@@ -14,17 +11,13 @@ import { INDIVIDUAL } from '../constants';
 class CreateConexionForm extends React.Component {
   renderIndividualForm = () => (
     <Form>
-      <CNXTextInput label="First Name" name="first_name" required />
-      <CNXTextInput label="Last Name" name="last_name" required />
-      <CNXTextInput label="Job Title" name="job_title" required />
-      <CNXTextInput label="Organization" name="organization" required />
-      <CNXNumberInput
-        label="Telephone Number"
-        name="telephone_number"
-        required
-      />
-      <CNXTextInput label="Business Email" name="business_email" required />
-      <CNXTextInput
+      <TextInput label="First Name" name="first_name" required />
+      <TextInput label="Last Name" name="last_name" required />
+      <TextInput label="Job Title" name="job_title" required />
+      <TextInput label="Organization" name="organization" required />
+      <NumberInput label="Telephone Number" name="telephone_number" required />
+      <TextInput label="Business Email" name="business_email" required />
+      <TextInput
         label="Business Telephone Number"
         name="business_telephone_number"
         required
@@ -34,12 +27,12 @@ class CreateConexionForm extends React.Component {
 
   renderOrgForm = () => (
     <Form>
-      <CNXTextInput label="Name" name="org_name" required />
-      <CNXTextInput
+      <TextInput label="Name" name="org_name" required />
+      <TextInput
         label="Business Telephone Number"
         name="org_business_telephone_numbers"
       />
-      <CNXTextInput label="Business Homepage" name="org_business_homepages" />
+      <TextInput label="Business Homepage" name="org_business_homepages" />
     </Form>
   );
 

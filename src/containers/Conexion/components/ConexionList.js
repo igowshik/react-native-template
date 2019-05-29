@@ -12,8 +12,8 @@ import {
 } from 'native-base';
 
 // Absolute imports
-import CNXLottieListLoader from 'cnxapp/src/components/CNXLotties/CNXLottieListLoader';
-import { CNXTextBold, CNXTextLight } from 'cnxapp/src/components/CNXTexts';
+import LottieListLoader from 'cnxapp/src/components/Lotties/LottieListLoader';
+import { CNXTextBold, CNXTextLight } from 'cnxapp/src/components/Texts';
 
 // Relative imports
 import { listViewStyle } from '../styles';
@@ -93,7 +93,7 @@ class ConexionList extends React.Component {
         <Content>
           {loattieLoader ? (
             <View>
-              <CNXLottieListLoader />
+              <LottieListLoader />
             </View>
           ) : (
             <List>{this.getRenderPart()}</List>

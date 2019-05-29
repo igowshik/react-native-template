@@ -3,10 +3,9 @@ import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { FAB } from 'react-native-paper';
 
-import CNXFullPageModal from 'cnxapp/src/components/CNXFullPageModal';
+import FullPageModal from 'cnxapp/src/components/FullPageModal';
 
 import * as colors from 'cnxapp/src/utils/colorsConstants';
-// import { Text } from 'native-base';
 import Timeline from './Timeline';
 import RichTextExample from './RichTextEditor';
 
@@ -83,13 +82,13 @@ export default class Notes extends Component {
           color="white"
           onPress={this._openModal}
         />
-        <CNXFullPageModal
+        <FullPageModal
           visible={modalOpen}
           handleModalVisible={this._closeModal}
-          modalHeaderText="Create note"
+          modalHeaderText="New note"
         >
           <RichTextExample />
-        </CNXFullPageModal>
+        </FullPageModal>
       </View>
     );
   }
@@ -103,11 +102,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 15,
+    paddingTop: 0,
     backgroundColor: 'white',
   },
   list: {
     flex: 1,
-    paddingTop: 15,
+    paddingTop: 25,
   },
   fab: {
     position: 'absolute',

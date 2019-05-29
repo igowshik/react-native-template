@@ -245,36 +245,38 @@ export default class CNXTimeline extends Component {
     };
 
     const title = rowData.description ? (
-      <Card elevation={2}>
-        <Card.Content>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignContent: 'center',
-            }}
-          >
-            <Title>
-              <Text style={[styles.title, this.props.titleStyle]}>
-                {rowData.title}
-              </Text>
-            </Title>
-            <Button color={getNoteState(rowData.state)} icon="star" />
-          </View>
-          <View style={[styles.description, this.props.descriptionStyle]}>
-            <HTMLView value={rowData.description} />
-          </View>
-        </Card.Content>
-        <Card.Actions>
-          <Button color={colors.BLUE} icon="edit" onPress={() => {}}>
-            Edit
-          </Button>
-          <Button color={colors.PINK} icon="delete" onPress={() => {}}>
-            Delete
-          </Button>
-        </Card.Actions>
-      </Card>
+      <View style={{ paddingRight: 20 }}>
+        <Card elevation={2}>
+          <Card.Content>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignContent: 'center',
+              }}
+            >
+              <Title>
+                <Text style={[styles.title, this.props.titleStyle]}>
+                  {rowData.title}
+                </Text>
+              </Title>
+              <Button color={getNoteState(rowData.state)} icon="star" />
+            </View>
+            <View style={[styles.description, this.props.descriptionStyle]}>
+              <HTMLView value={rowData.description} />
+            </View>
+          </Card.Content>
+          <Card.Actions>
+            <Button color={colors.BLUE} icon="edit" onPress={() => {}}>
+              Edit
+            </Button>
+            <Button color={colors.PINK} icon="delete" onPress={() => {}}>
+              Delete
+            </Button>
+          </Card.Actions>
+        </Card>
+      </View>
     ) : (
       <Text style={[styles.title, this.props.titleStyle]}>{rowData.title}</Text>
     );

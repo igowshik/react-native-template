@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { View, TextInput, StyleSheet, StatusBar } from 'react-native';
 
 // Absolute imports
-import { PrimaryButtonGradient } from 'cnxapp/src/components/CNXButtons/Primary';
+import { PrimaryButtonGradient } from 'cnxapp/src/components/Buttons/Primary';
 
 class LoginForm extends Component {
   state = {

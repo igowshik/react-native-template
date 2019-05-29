@@ -16,9 +16,8 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { Searchbar } from 'react-native-paper';
 
 // Absolute imports
-import { HorizDivider } from 'cnxapp/src/components/CNXDividers';
+import { HorizDivider } from 'cnxapp/src/components/Dividers';
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
-import { CNXText } from 'cnxapp/src/components/CNXTexts';
 // import * as Colors from 'cnxapp/src/utils/colorsConstants';
 
 // Relative imports
@@ -105,7 +104,7 @@ class DetailScreen extends React.Component {
             />
             <Notes conexionNotes={this.props.conexionNotes} />
           </Tab>
-          <Tab
+          {/* <Tab
             heading={
               <TabHeading style={{ backgroundColor: 'transparent' }}>
                 <FontAwesome5 name="share-alt" color="#fff" size={20} brand />
@@ -114,7 +113,7 @@ class DetailScreen extends React.Component {
             }
           >
             <CNXText>Tab 3</CNXText>
-          </Tab>
+          </Tab> */}
         </Tabs>
       </Container>
     );

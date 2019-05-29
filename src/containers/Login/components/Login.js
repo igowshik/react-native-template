@@ -9,7 +9,7 @@ import { Row, Grid } from 'react-native-easy-grid';
 
 // Absolute imports
 // import BackgroundImage from 'cnxapp/src/components/CNXBackgroundImage';
-import CNXLoader from 'cnxapp/src/components/CNXLoader';
+import Loader from 'cnxapp/src/components/Loader';
 
 // Relative imports
 import LoginForm from './LoginForm';
@@ -72,7 +72,7 @@ class Login extends Component {
           </View>
         </KeyboardAvoidingView>
 
-        <CNXLoader showLoader={loaderState} loadingText="Signing in..." />
+        <Loader showLoader={loaderState} loadingText="Signing in..." />
       </View>
       // </BackgroundImage>
     );

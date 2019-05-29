@@ -8,7 +8,7 @@ import { View } from 'react-native';
 // Package imports
 
 // Absolute imports
-import { CNXTextM } from 'cnxapp/src/components/CNXTexts';
+import { CNXTextM } from 'cnxapp/src/components/Texts';
 
 // Relative imports
 import { Styles } from './styles';

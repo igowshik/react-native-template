@@ -3,7 +3,6 @@ import {
   createStackNavigator,
   createSwitchNavigator,
   createAppContainer,
-  // createBottomTabNavigator,
 } from 'react-navigation';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
@@ -14,6 +13,7 @@ import * as Colors from 'cnxapp/src/utils/colorsConstants';
 // Relative imports
 import AuthLoadingScreen from '../components/AuthLoadingScreen';
 import OtherScreen from '../containers/Home/OtherScreen';
+import Expense from '../containers/Expense';
 import Login from '../containers/Login';
 import {
   HOME,
@@ -59,7 +59,15 @@ const getTabBarIcon = (navigation, focused, tintColor) => {
     iconName = `ellipsis-h`;
   }
 
-  return <IconComponent name={iconName} size={18} color={tintColor} light />;
+  return (
+    <IconComponent
+      name={iconName}
+      size={18}
+      color={tintColor}
+      solid={focused}
+      light={!focused}
+    />
+  );
 };
 
 const AppStack = createMaterialBottomTabNavigator(
@@ -67,7 +75,7 @@ const AppStack = createMaterialBottomTabNavigator(
     HOME: HomeStack,
     CONEXION: ConexionStack,
     CHAT: ConexionStack,
-    EXPENSE: { screen: OtherScreen },
+    EXPENSE: { screen: Expense },
     TIMESHEET: { screen: OtherScreen },
     CASE: { screen: OtherScreen },
     TRACKER: { screen: OtherScreen },
@@ -85,9 +93,9 @@ const AppStack = createMaterialBottomTabNavigator(
     //   inactiveTintColor: Colors.ORANGE,
     // },
     initialRouteName: CONEXION,
-    activeColor: Colors.WHITE,
+    activeColor: '#004DFF',
     inactiveColor: Colors.DARK,
-    barStyle: { backgroundColor: Colors.ORANGE },
+    barStyle: { backgroundColor: '#FFF' },
   },
 );
 

@@ -14,9 +14,9 @@ import { TouchableRipple, Searchbar } from 'react-native-paper';
 
 // Absolute imports
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
-import CNXHeader from 'cnxapp/src/components/CNXHeader';
-import { CNXH2, CNXH3 } from 'cnxapp/src/components/CNXTypography';
-import CNXSwitch from 'cnxapp/src/components/CNXSwitch';
+import Header from 'cnxapp/src/components/Header';
+import { CNXH2, CNXH3 } from 'cnxapp/src/components/Typography';
+import Switch from 'cnxapp/src/components/Switch';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 // Relative imports
@@ -190,12 +190,12 @@ class Conexion extends React.Component {
             }}
           >
             <CNXH3 style={{ color: colors.PINK }}>Select conexion type:</CNXH3>
-            <CNXSwitch
+            <Switch
               label={INDIVIDUAL}
               selected={indSelected}
               onChange={this._onSwitchIndOrgPress}
             />
-            <CNXSwitch
+            <Switch
               label={ORGANIZATION}
               selected={orgSelected}
               onChange={this._onSwitchIndOrgPress}
@@ -213,11 +213,11 @@ class Conexion extends React.Component {
             onLayout={this.onLayout}
             style={[styles.viewCol1Style, { height: this.state.height }]}
           >
-            <CNXHeader>
+            <Header>
               <CNXH2 style={{ color: '#fff' }}>
                 {`${this.getConexionTitle()} Conexions`}
               </CNXH2>
-            </CNXHeader>
+            </Header>
             <Searchbar
               placeholder="Search conexions"
               onChangeText={query => this.searchConexions(query)}
@@ -239,7 +239,7 @@ class Conexion extends React.Component {
             </KeyboardAvoidingView>
           </View>
         </View>
-        {/* <CNXLoader showLoader={loaderState} loadingText={loaderText} /> */}
+        {/* <Loader showLoader={loaderState} loadingText={loaderText} /> */}
 
         {this.props.isFocused ? (
           <TouchableRipple rippleColor="rgba(0, 0, 0, .3)">
