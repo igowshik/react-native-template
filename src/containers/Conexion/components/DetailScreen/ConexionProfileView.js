@@ -14,10 +14,9 @@ import {
 } from 'native-base';
 
 // Absolute imports
-import { HorizDivider } from 'cnxapp/src/components/CNXDividers';
-import { CNXTextM, CNXTextBold } from 'cnxapp/src/components/CNXTexts';
-import { CNXH2 } from 'cnxapp/src/components/CNXTypography';
-// import { SecondaryButton } from 'cnxapp/src/components/CNXButtons/Secondary';
+import { HorizDivider } from 'cnxapp/src/components/Dividers';
+import { CNXTextM, CNXTextBold } from 'cnxapp/src/components/Texts';
+import { CNXH2 } from 'cnxapp/src/components/Typography';
 
 // Relative imports
 import { INDIVIDUAL, ORGANIZATION } from '../../constants';

@@ -3,13 +3,13 @@ import { StyleSheet, View } from 'react-native';
 import { Row, CardItem, Card, Col, Body } from 'native-base';
 
 import { BarChart, ProgressChart } from 'react-native-chart-kit';
-import { CNXH4 } from 'cnxapp/src/components/CNXTypography';
+import { CNXH4 } from 'cnxapp/src/components/Typography';
 
 const data = [0.3, 0.6, 0.8];
 
 const ReportQuickView = () => (
   <View style={styles.containerContent}>
-    <Row style={{ height: 270 }}>
+    <Row style={{ height: 300 }}>
       <Col style={styles.coloumnCard}>
         <Card style={{ height: 250 }}>
           <CardItem>

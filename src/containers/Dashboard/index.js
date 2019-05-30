@@ -3,13 +3,15 @@ import { StyleSheet, View, ScrollView } from 'react-native';
 import { Header, Left, Right, Button } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
+import { Card } from 'react-native-paper';
 
-import CNXFullPageModal from 'cnxapp/src/components/CNXFullPageModal';
-import { CNXH4, CNXH3, CNXH2 } from 'cnxapp/src/components/CNXTypography';
+import FullPageModal from 'cnxapp/src/components/FullPageModal';
+import { CNXH4, CNXH3, CNXH2 } from 'cnxapp/src/components/Typography';
 
 // import ReportQuickView from './components/ReportQuickView';
 import AnalyticsOverview from './components/AnalyticsOverview';
 import EventsQuickView from './components/EventsQuickView';
+// import ReportQuickView from './components/ReportQuickView';
 
 class DashboardMainView extends React.Component {
   state = {
@@ -25,21 +27,21 @@ class DashboardMainView extends React.Component {
   render() {
     return (
       <View style={{ height: '100%' }}>
-        <ScrollView>
-          <View>
+        <ScrollView style={{ padding: 20, paddingBottom: 0 }}>
+          <Card elevation={3}>
             <LinearGradient
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
               colors={[
-                'rgba(255, 149, 0,0.3)',
-                'rgba(255, 149, 0,0.5)',
-                'rgba(255, 149, 0,1)',
+                'rgba(4,73,208,1) 8%',
+                'rgba(0,84,250,1) 54%',
+                'rgba(25,173,255,1) 97%',
               ]}
               style={styles.linearGradientStyle}
             >
               <Header style={styles.headerContainer}>
                 <Left>
-                  <CNXH3 style={{ color: '#000' }}>Analytics Overview</CNXH3>
+                  <CNXH3 style={{ color: '#FFF' }}>Analytics Overview</CNXH3>
                 </Left>
                 <Right>
                   <Button iconRight bordered dark onPress={this.showModal}>
@@ -55,32 +57,31 @@ class DashboardMainView extends React.Component {
               </Header>
               <AnalyticsOverview />
             </LinearGradient>
-
-            <CNXFullPageModal
-              visible={this.state.modalVisible}
-              handleModalVisible={this.modalVisibilityChange}
-              modalHeaderText="Testing modal header"
-            >
-              <View style={{ paddingBottom: 40 }}>
-                <Header style={styles.header}>
-                  <CNXH2 style={{ color: 'black' }}>Events view</CNXH2>
-                </Header>
-                <EventsQuickView />
-              </View>
-            </CNXFullPageModal>
-
+          </Card>
+          <FullPageModal
+            visible={this.state.modalVisible}
+            handleModalVisible={this.modalVisibilityChange}
+            modalHeaderText="Testing modal header"
+          >
             <View style={{ paddingBottom: 40 }}>
               <Header style={styles.header}>
                 <CNXH2 style={{ color: 'black' }}>Events view</CNXH2>
               </Header>
               <EventsQuickView />
             </View>
-            {/* <View style={{ paddingBottom: 40, paddingTop: 10 }}>
+          </FullPageModal>
+
+          <View style={{ paddingBottom: 40 }}>
             <Header style={styles.header}>
+              <CNXH2 style={{ color: 'black' }}>Events view</CNXH2>
+            </Header>
+            <EventsQuickView />
+          </View>
+          <View style={{ paddingBottom: 40, paddingTop: 10 }}>
+            {/* <Header style={styles.header}>
               <CNXH2 style={{ color: 'black' }}>Quick report</CNXH2>
             </Header>
-            <ReportQuickView />
-          </View> */}
+            <ReportQuickView /> */}
           </View>
         </ScrollView>
       </View>
@@ -117,9 +118,9 @@ const styles = StyleSheet.create({
   },
   linearGradientStyle: {
     paddingBottom: 40,
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: 'rgba(255, 149, 0,0.9)',
+    borderRadius: 5,
+    // borderWidth: 1,
+    // borderColor: 'rgba(0,0, 0,0.3)',
   },
 });
 

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 
-import Modal from 'react-native-modal';
-import { Button, Text } from 'native-base';
+// import Modal from 'react-native-modal';
+// import { Button, Text } from 'native-base';
 
 export default class CreateExpense extends Component {
   _closeModal = () => {
@@ -12,17 +12,17 @@ export default class CreateExpense extends Component {
   };
 
   render() {
-    const { modalOpen } = this.props;
+    // const { modalOpen } = this.props;
     return (
       <View style={styles.container}>
-        <Modal isVisible={modalOpen}>
+        {/* <Modal isVisible={modalOpen}>
           <View style={styles.modalContent}>
             <Text>Hello!</Text>
             <Button onPress={this._closeModal}>
               <Text>Close</Text>
             </Button>
           </View>
-        </Modal>
+        </Modal> */}
       </View>
     );
   }
@@ -30,7 +30,7 @@ export default class CreateExpense extends Component {
 
 CreateExpense.propTypes = {
   setModalOpenClose: PropTypes.func.isRequired,
-  modalOpen: PropTypes.bool,
+  // modalOpen: PropTypes.bool,
 };
 
 const styles = StyleSheet.create({

@@ -4,6 +4,9 @@ export const BGCOLOR = '#F7F9F9';
 // Primary color
 export const PRIMARY = '#007aff';
 
+// secondary color
+export const SECONDARY = '#ff2d55';
+
 // Primary header
 export const PRIHEADER = '#ff9500';
 
@@ -15,8 +18,6 @@ export const EXTRA = 'grey';
 
 export const DARK = '#17202A';
 
-export const SECONDARY = '#ff9500';
-
 export const WHITE = '#FBFCFC';
 
 // Primary header button linear color set
@@ -24,7 +25,7 @@ export const primaryColorSet = ['#007aff', '#007aff', '#007aff'];
 
 export const NAVHEADER = '#F2F3F4';
 
-export const HEADER = '#34495E';
+export const HEADER = '#1F2667'; // rgb(31,38,103)
 
 // Color set
 export const BLUE = '#007aff';

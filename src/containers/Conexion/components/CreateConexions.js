@@ -5,8 +5,8 @@ import { reduxForm } from 'redux-form';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 // Absolute imports
-import CNXFullPageModal from 'cnxapp/src/components/CNXFullPageModal';
-import { PrimaryButton } from 'cnxapp/src/components/CNXButtons/Primary';
+import FullPageModal from 'cnxapp/src/components/FullPageModal';
+import { PrimaryButton } from 'cnxapp/src/components/Buttons/Primary';
 
 // Relative imports
 import CreateConexionForm from './CreateConexionForm';
@@ -60,7 +60,7 @@ class CreateConexions extends Component {
     } = this.props;
     return (
       <View>
-        <CNXFullPageModal
+        <FullPageModal
           visible={modalOpen}
           handleModalVisible={this._closeModal}
           modalHeaderText="Create Conexion"
@@ -78,7 +78,7 @@ class CreateConexions extends Component {
               <CreateConexionForm viewType={conexionType} />
             </ScrollView>
           </KeyboardAwareScrollView>
-        </CNXFullPageModal>
+        </FullPageModal>
       </View>
     );
   }

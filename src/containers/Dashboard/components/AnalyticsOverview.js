@@ -1,10 +1,9 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Row, CardItem, Card, Col, Body } from 'native-base';
+import { Row, CardItem, Card, Col, Body, Text } from 'native-base';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
-import { CNXText } from 'cnxapp/src/components/CNXTexts';
-import { CNXH1 } from 'cnxapp/src/components/CNXTypography';
+import { CNXH1 } from 'cnxapp/src/components/Typography';
 
 const AnalyticsOverview = props => ( //eslint-disable-line
   <View style={styles.containerContent}>
@@ -28,7 +27,7 @@ const AnalyticsOverview = props => ( //eslint-disable-line
                 />
               </View>
               <CNXH1 style={styles.h1Style}>7</CNXH1>
-              <CNXText>Pending expense</CNXText>
+              <Text>Pending expense</Text>
             </Body>
           </CardItem>
         </Card>
@@ -52,7 +51,7 @@ const AnalyticsOverview = props => ( //eslint-disable-line
                 />
               </View>
               <CNXH1 style={styles.h1Style}>52</CNXH1>
-              <CNXText>Pending cases</CNXText>
+              <Text>Pending cases</Text>
             </Body>
           </CardItem>
         </Card>
@@ -75,7 +74,7 @@ const AnalyticsOverview = props => ( //eslint-disable-line
                 />
               </View>
               <CNXH1 style={styles.h1Style}>23</CNXH1>
-              <CNXText>Pending calls</CNXText>
+              <Text>Pending calls</Text>
             </Body>
           </CardItem>
         </Card>
@@ -93,7 +92,7 @@ const AnalyticsOverview = props => ( //eslint-disable-line
                 <FontAwesome5 name="comments" color="#4A235A" size={20} light />
               </View>
               <CNXH1 style={styles.h1Style}>14</CNXH1>
-              <CNXText>Unread messages</CNXText>
+              <Text>Unread messages</Text>
             </Body>
           </CardItem>
         </Card>

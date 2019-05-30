@@ -15,7 +15,7 @@ import {
 } from 'native-base';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
-import { CNXH4 } from 'cnxapp/src/components/CNXTypography';
+import { CNXH4 } from 'cnxapp/src/components/Typography';
 
 const EventsQuickView = () => (
   <View style={styles.containerContent}>

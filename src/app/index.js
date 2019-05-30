@@ -9,8 +9,10 @@ import StoreWrappedApp from './components/StoreWrappedApp';
 import getTheme from '../native-base-theme/components';
 import material from '../native-base-theme/variables/material';
 
+import paperTheme from '../theme/react-native-paper/paperTheme';
+
 const App = () => (
-  <PaperProvider>
+  <PaperProvider theme={paperTheme}>
     <StyleProvider style={getTheme(material)}>
       <Provider store={Store}>
         <StoreWrappedApp />

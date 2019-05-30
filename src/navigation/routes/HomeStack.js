@@ -12,7 +12,7 @@ const HomeStack = createStackNavigator(
     Home: {
       screen: HomeScreen,
       navigationOptions: {
-        title: 'Welcome to Conexus Platform',
+        title: 'Welcome to BOAST',
         headerStyle: {
           backgroundColor: NAVHEADER,
         },

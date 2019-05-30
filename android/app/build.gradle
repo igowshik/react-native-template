@@ -141,6 +141,7 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-webview')
     compile project(':react-native-picker-module')
     compile project(':lottie-react-native')
     compile project(':react-native-vector-icons')
@@ -157,9 +158,4 @@ dependencies {
 task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
-}
-
-project.afterEvaluate {
-    apply from: '../../node_modules/react-native-zss-rich-text-editor/htmlCopy.gradle';
-    copyEditorHtmlToAppAssets(file('../../node_modules/react-native-zss-rich-text-editor'))
 }

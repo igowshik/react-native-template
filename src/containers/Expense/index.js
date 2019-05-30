@@ -13,7 +13,7 @@ import { Col, Grid } from 'react-native-easy-grid';
 import LinearGradient from 'react-native-linear-gradient';
 
 import DateTimePickerUI from '../../components/DateTimePickerUI';
-import { HorizDivider } from '../../components/CNXDividers';
+import { HorizDivider } from '../../components/Dividers';
 
 import ExpenseTable from './components/ExpenseTable';
 import CreateExpense from './components/CreateExpense';

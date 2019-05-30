@@ -1,71 +1,131 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, Platform } from 'react-native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import {
-  RichTextEditor,
-  RichTextToolbar,
-  ACTIONS,
-} from 'react-native-zss-rich-text-editor';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
+  TouchableRipple,
+  Avatar,
+  Card,
+  Checkbox,
+  Button,
+} from 'react-native-paper';
+import { Form, Item, Input, Label, Text, H3 } from 'native-base';
+// import PropTypes from 'prop-types';
 
-export default class RichTextExample extends Component {
-  constructor(props) {
-    super(props);
-    this.getHTML = this.getHTML.bind(this);
-    this.setFocusHandlers = this.setFocusHandlers.bind(this);
+import WebViewQuillEditor from 'cnxapp/src/components/QuillEditor/WebViewQuillEditor';
+import * as colors from 'cnxapp/src/utils/colorsConstants';
+
+class RichTextEditor extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      editorMessageDelta: '',
+      checked: true,
+    };
   }
+
+  getEditorDelta = () => {
+    // this.webViewQuillEditor.getDelta();
+    console.log(this.webViewQuillEditor.getDelta());
+  };
 
   render() {
+    const { checked } = this.state;
+
     return (
-      <View style={styles.container}>
-        <RichTextEditor
-          ref={r => (this.richtext = r)}
-          style={styles.richText}
-          initialTitleHTML="Title!!"
-          initialContentHTML={
-            'Hello <b>World</b> <p>this is a new paragraph</p> <p>this is another new paragraph</p>'
-          }
-          editorInitializedCallback={() => this.onEditorInitialized()}
-        />
-        <RichTextToolbar
-          getEditor={() => this.richtext}
-          actions={['h1', 'SET_PARAGRAPH']}
-        />
-        {Platform.OS === 'ios' && <KeyboardSpacer />}
+      <View
+        style={{
+          ...StyleSheet.absoluteFillObject,
+        }}
+      >
+        <View style={{ padding: 10 }}>
+          <Card elevation={2} style={styles.card}>
+            <View style={styles.headerView}>
+              <Avatar.Icon
+                style={styles.avatar}
+                size={40}
+                icon="description"
+                color={colors.WHITE}
+              />
+              <H3 style={{ paddingLeft: 10 }}>Note details</H3>
+            </View>
+            <Card.Content>
+              <Form style={styles.form}>
+                <Item style={{ width: '50%' }}>
+                  <Label style={{ color: colors.BLUE }}>Title:</Label>
+                  <Input />
+                </Item>
+                <TouchableRipple
+                  onPress={() => {
+                    this.setState({ checked: !checked });
+                  }}
+                >
+                  <View style={styles.row}>
+                    <Text style={{ paddingTop: 15 }}>Private Note</Text>
+                    <View pointerEvents="none" style={{ paddingTop: 15 }}>
+                      <Checkbox
+                        color={colors.BLUE}
+                        status={this.state.checked ? 'checked' : 'unchecked'}
+                      />
+                    </View>
+                  </View>
+                </TouchableRipple>
+                <View style={{ paddingLeft: 20, paddingTop: 10 }}>
+                  <Button
+                    mode="contained"
+                    color={colors.BLUE}
+                    onPress={() => console.log('Pressed')}
+                  >
+                    Add note
+                  </Button>
+                </View>
+              </Form>
+            </Card.Content>
+          </Card>
+        </View>
+        <View style={styles.webView}>
+          <WebViewQuillEditor
+            contentToDisplay={this.state.editorMessageDelta}
+          />
+        </View>
       </View>
     );
-  }
-
-  onEditorInitialized() {
-    this.setFocusHandlers();
-    this.getHTML();
-  }
-
-  async getHTML() {
-    const titleHtml = await this.richtext.getTitleHtml();
-    const contentHtml = await this.richtext.getContentHtml();
-    // alert(titleHtml + ' ' + contentHtml)
-  }
-
-  setFocusHandlers() {
-    this.richtext.setTitleFocusHandler(() => {
-      // alert('title focus');
-    });
-    this.richtext.setContentFocusHandler(() => {
-      // alert('content focus');
-    });
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#ffffff',
-    paddingTop: 40,
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+    backgroundColor: colors.PURPLE,
   },
-  richText: {
+  row: {
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
+    alignContent: 'flex-end',
+    justifyContent: 'space-around',
+    paddingLeft: 20,
+  },
+  card: {
+    borderTopColor: colors.YELLOW,
+    borderTopWidth: 4,
+  },
+  headerView: {
+    padding: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  avatar: { backgroundColor: colors.PINK },
+  form: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  webView: { flex: 1 },
+  label: {
+    color: colors.BLUE,
+    fontFamily: 'Montserrat',
   },
 });
+
+export default RichTextEditor;

@@ -7,7 +7,7 @@ import { getLoginModule } from './module';
 
 class LoginScreen extends React.Component {
   static navigationOptions = {
-    title: 'Welcome to Conexus Platform',
+    title: 'Welcome to BOAST',
     headerStyle: {
       backgroundColor: '#FFF',
     },

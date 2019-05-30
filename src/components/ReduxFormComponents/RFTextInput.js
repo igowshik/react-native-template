@@ -5,7 +5,7 @@ import { Item, Label } from 'native-base';
 import { PRIMARY } from 'cnxapp/src/utils/colorsConstants';
 
 // Relative imports
-import { CNXTextLight, CNXTextM } from '../CNXTexts';
+import { CNXTextLight, CNXTextM } from '../Texts';
 
 export const RFTextInput = props => {
   const {
