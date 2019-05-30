@@ -96,9 +96,9 @@ const AppStack = createMaterialBottomTabNavigator(
         ? { backgroundColor: Colors.ORANGE }
         : {
             backgroundColor: Colors.ORANGE,
-            height: '8%',
-            justifyContent: 'center',
-            alignItems: 'center',
+            height: '7%',
+            // justifyContent: 'center',
+            // alignItems: 'center',
             // paddingBottom: 30,
           },
   },

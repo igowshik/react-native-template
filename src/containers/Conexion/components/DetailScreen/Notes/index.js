@@ -70,7 +70,7 @@ export default class Notes extends Component {
               borderRadius: 13,
               backgroundColor: 'transparent',
             }}
-            descriptionStyle={{ color: 'gray' }}
+            descriptionStyle={{ color: 'black' }} // color was set 'gray'
             options={{
               style: { paddingTop: 5 },
             }}
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 15,
+    paddingTop: 0,
     backgroundColor: 'white',
   },
   list: {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { DynamicModuleLoader } from 'redux-dynamic-modules';
 
+import { Platform } from 'react-native';
 import Login from './components/Login';
 import { getLoginModule } from './module';
 
@@ -11,9 +12,11 @@ class LoginScreen extends React.Component {
       backgroundColor: '#FFF',
     },
     headerTitleStyle: {
-      fontFamily: 'Montserrat',
+      fontFamily: Platform.OS === 'ios' ? 'Montserrat' : 'Montserrat-Regular',
       fontWeight: '400',
       fontSize: 25,
+      flexGrow: 1,
+      textAlign: 'center',
     },
   };
 

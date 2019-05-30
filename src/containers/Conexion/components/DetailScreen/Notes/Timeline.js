@@ -4,6 +4,7 @@ import {
   Image,
   View,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import React, { Component } from 'react';
 import { Button, Card, Title } from 'react-native-paper';
@@ -298,7 +299,7 @@ export default class CNXTimeline extends Component {
       : this.props.lineWidth
         ? this.props.lineWidth
         : defaultLineWidth;
-  /* eslint-enable */
+    /* eslint-enable */
     let circleStyle = null;
 
     switch (this.props.columnFormat) {
@@ -341,9 +342,11 @@ export default class CNXTimeline extends Component {
         const iconStyle = {
           height: 30,
           width: 30,
+          marginTop: 8,
         };
         innerCircle = (
           <Image
+            resizeMode = "contain"
             source={iconSource}
             style={[iconStyle, this.props.iconStyle]}
           />
@@ -465,6 +468,8 @@ const styles = StyleSheet.create({
   time: {
     textAlign: 'right',
     color: defaultTimeTextColor,
+    // ------------------ jy
+    fontFamily: 'Montserrat-Regular',
   },
   circle: {
     width: 16,
@@ -483,7 +488,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    fontWeight: 'bold',
+    color: '#000',
+    fontWeight: Platform.OS === 'ios' ? 'bold' : '900',
+    fontFamily: 'Montserrat-Regular',
   },
   details: {
     borderLeftWidth: defaultLineWidth,
@@ -493,6 +500,7 @@ const styles = StyleSheet.create({
   detail: { paddingBottom: 20 },
   description: {
     marginTop: 10,
+    fontFamily: 'Montserrat-Regular',
   },
   separator: {
     height: 1,

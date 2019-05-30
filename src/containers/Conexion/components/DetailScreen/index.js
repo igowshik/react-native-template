@@ -80,7 +80,13 @@ class DetailScreen extends React.Component {
             heading={
               <TabHeading>
                 <FontAwesome5 name="info-circle" color="#fff" size={20} brand />
-                <Text style={Styles.textColor}>Details</Text>
+                <Text
+                  style={
+                    (Styles.textColor, { fontFamily: 'Montserrat-Regular' })
+                  }
+                >
+                  Details
+                </Text>
               </TabHeading>
             }
           >
@@ -93,7 +99,13 @@ class DetailScreen extends React.Component {
             heading={
               <TabHeading style={{ backgroundColor: 'transparent' }}>
                 <FontAwesome5 name="sticky-note" color="#fff" size={20} brand />
-                <Text style={Styles.textColor}>Notes</Text>
+                <Text
+                  style={
+                    (Styles.textColor, { fontFamily: 'Montserrat-Regular' })
+                  }
+                >
+                  Notes
+                </Text>
               </TabHeading>
             }
           >
@@ -109,7 +121,13 @@ class DetailScreen extends React.Component {
             heading={
               <TabHeading style={{ backgroundColor: 'transparent' }}>
                 <FontAwesome5 name="share-alt" color="#fff" size={20} brand />
-                <Text style={Styles.textColor}>Sharing</Text>
+                <Text
+                  style={
+                    (Styles.textColor, { fontFamily: 'Montserrat-Regular' })
+                  }
+                >
+                  Sharing
+                </Text>
               </TabHeading>
             }
           >

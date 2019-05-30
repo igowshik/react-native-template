@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TextInput, StyleSheet } from 'react-native';
+import { TextInput, StyleSheet, View } from 'react-native';
 import { Item, Label } from 'native-base';
 import { PRIMARY } from 'cnxapp/src/utils/colorsConstants';
 
@@ -39,6 +39,8 @@ export const RFTextInput = props => {
         onBlur={input.onBlur}
         onFocus={input.onFocus}
         value={input.value}
+        style={{ paddingTop: 0, paddingBottom: 0 }}
+        underlineColorAndroid="transparent"
       />
     </Item>
   );
@@ -52,6 +54,7 @@ RFTextInput.propTypes = {
 };
 
 const styles = StyleSheet.create({
+  // const styles = {
   item: {
     flex: 1,
     flexDirection: 'column',
@@ -78,3 +81,4 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 });
+// };
