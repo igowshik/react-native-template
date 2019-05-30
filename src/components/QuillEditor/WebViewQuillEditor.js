@@ -1,12 +1,8 @@
 import React from 'react';
-import {
-  View,
-  ActivityIndicator,
-  StyleSheet,
-  WebView,
-  Alert,
-} from 'react-native';
+import { View, ActivityIndicator, StyleSheet, Alert } from 'react-native';
 import PropTypes from 'prop-types';
+
+import { WebView } from 'react-native-webview';
 
 /*eslint-disable*/
 const patchPostMessageFunction = function() {
@@ -29,7 +25,7 @@ const patchPostMessageFunction = function() {
 
 const patchPostMessageJsCode = `(${String(patchPostMessageFunction)})();`;
 
-const QuillHTML = require('../../assets/dist/index.html');
+// const QuillHTML = require('../../web/QuillEditor/index.html');
 
 export default class WebViewQuillEditor extends React.Component {
   constructor() {
@@ -92,7 +88,8 @@ export default class WebViewQuillEditor extends React.Component {
       <WebView
         style={{ ...StyleSheet.absoluteFillObject }}
         ref={this.createWebViewRef}
-        source={QuillHTML}
+        // source={QuillHTML}
+        source={{ uri: 'http://localhost:3000/' }}
         onLoadEnd={this.onWebViewLoaded}
         onMessage={this.handleMessage}
         startInLoadingState
@@ -100,10 +97,10 @@ export default class WebViewQuillEditor extends React.Component {
         renderError={this.renderError}
         javaScriptEnabled
         onError={this.onError}
-        scalesPageToFit={false}
         mixedContentMode="always"
         domStorageEnabled
         injectedJavaScript={patchPostMessageJsCode}
+        originWhitelist={['*']}
       />
     </View>
   );

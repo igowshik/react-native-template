@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { KeyboardAwareView } from 'react-native-keyboard-aware-view';
 import {
   TouchableRipple,
   Avatar,
@@ -82,13 +81,11 @@ class RichTextEditor extends React.Component {
             </Card.Content>
           </Card>
         </View>
-        <KeyboardAwareView>
-          <View style={styles.webView}>
-            <WebViewQuillEditor
-              contentToDisplay={this.state.editorMessageDelta}
-            />
-          </View>
-        </KeyboardAwareView>
+        <View style={styles.webView}>
+          <WebViewQuillEditor
+            contentToDisplay={this.state.editorMessageDelta}
+          />
+        </View>
       </View>
     );
   }
