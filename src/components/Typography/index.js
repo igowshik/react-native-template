@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { H1, H2, H3 } from 'native-base';
-
+import { Platform } from 'react-native';
 import { CNXText } from '../Texts';
 
 // added by jy
