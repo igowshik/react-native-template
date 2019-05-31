@@ -6,19 +6,21 @@ import {
   Card,
   Checkbox,
   Button,
+  TextInput,
 } from 'react-native-paper';
-import { Form, Item, Input, Label, Text, H3 } from 'native-base';
+import { Text, H3 } from 'native-base';
 // import PropTypes from 'prop-types';
 
-import WebViewQuillEditor from 'cnxapp/src/components/QuillEditor/WebViewQuillEditor';
+// import WebViewQuillEditor from 'cnxapp/src/components/QuillEditor/WebViewQuillEditor';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 class RichTextEditor extends React.Component {
   constructor() {
     super();
     this.state = {
-      editorMessageDelta: '',
+      // editorMessageDelta: '',
       checked: true,
+      text: '',
     };
   }
 
@@ -48,11 +50,14 @@ class RichTextEditor extends React.Component {
               <H3 style={{ paddingLeft: 10 }}>Note details</H3>
             </View>
             <Card.Content>
-              <Form style={styles.form}>
-                <Item style={{ width: '50%' }}>
-                  <Label style={{ color: colors.BLUE }}>Title:</Label>
-                  <Input />
-                </Item>
+              <View style={styles.form}>
+                <TextInput
+                  style={{ width: '50%' }}
+                  label="Title"
+                  value={this.state.text}
+                  onChangeText={text => this.setState({ text })}
+                  // mode="outlined"
+                />
                 <TouchableRipple
                   onPress={() => {
                     this.setState({ checked: !checked });
@@ -62,7 +67,7 @@ class RichTextEditor extends React.Component {
                     <Text style={{ paddingTop: 15 }}>Private Note</Text>
                     <View pointerEvents="none" style={{ paddingTop: 15 }}>
                       <Checkbox
-                        color={colors.BLUE}
+                        color={colors.PRIMARY}
                         status={this.state.checked ? 'checked' : 'unchecked'}
                       />
                     </View>
@@ -71,20 +76,20 @@ class RichTextEditor extends React.Component {
                 <View style={{ paddingLeft: 20, paddingTop: 10 }}>
                   <Button
                     mode="contained"
-                    color={colors.BLUE}
+                    color={colors.PRIMARY}
                     onPress={() => console.log('Pressed')}
                   >
                     Add note
                   </Button>
                 </View>
-              </Form>
+              </View>
             </Card.Content>
           </Card>
         </View>
         <View style={styles.webView}>
-          <WebViewQuillEditor
+          {/* <WebViewQuillEditor
             contentToDisplay={this.state.editorMessageDelta}
-          />
+          /> */}
         </View>
       </View>
     );
@@ -115,7 +120,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  avatar: { backgroundColor: colors.PINK },
+  avatar: { backgroundColor: colors.SECONDARY },
   form: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -123,7 +128,7 @@ const styles = StyleSheet.create({
   },
   webView: { flex: 1 },
   label: {
-    color: colors.BLUE,
+    color: colors.PRIMARY,
     fontFamily: 'Montserrat',
   },
 });

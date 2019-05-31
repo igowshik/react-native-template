@@ -28,14 +28,14 @@ class DashboardMainView extends React.Component {
     return (
       <View style={{ height: '100%' }}>
         <ScrollView style={{ padding: 20, paddingBottom: 0 }}>
-          <Card elevation={3}>
+          <Card elevation={5}>
             <LinearGradient
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 0 }}
               colors={[
-                'rgba(4,73,208,1) 8%',
-                'rgba(0,84,250,1) 54%',
-                'rgba(25,173,255,1) 97%',
+                'rgba(17,111,255,1) 11.2%',
+                'rgba(112,226,226,1) 91.1%',
+                // 'rgba(118,0,159,1) 94%',
               ]}
               style={styles.linearGradientStyle}
             >
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   },
   linearGradientStyle: {
     paddingBottom: 40,
-    borderRadius: 5,
+    borderRadius: 3,
     // borderWidth: 1,
     // borderColor: 'rgba(0,0, 0,0.3)',
   },

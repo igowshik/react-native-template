@@ -32,7 +32,7 @@ export const primaryButtonGradientStyle = StyleSheet.create({
 export const primaryButtonStyle = StyleSheet.create({
   linearGradientButton: {
     borderRadius: 5,
-    borderColor: colors.BLUE,
+    borderColor: colors.PRIMARY,
     borderWidth: 1,
   },
   linearDisabled: {
@@ -48,7 +48,7 @@ export const primaryButtonStyle = StyleSheet.create({
   },
   buttonTextStyle: {
     margin: 5,
-    color: colors.BLUE,
+    color: colors.PRIMARY,
     fontWeight: '500',
     fontSize: 14,
   },

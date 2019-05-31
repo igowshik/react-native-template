@@ -9,10 +9,11 @@ const paperTheme = {
     ...DefaultTheme.colors,
     primary: colors.PRIMARY,
     accent: colors.SECONDARY,
+    background: 'transparent',
   },
   fonts: {
     ...DefaultTheme.fonts,
-    regular: 'Proxima Nova',
+    regular: 'Montserrat',
     medium: 'Montserrat',
     light: 'Proxima Nova',
     thin: 'Proxima Nova',

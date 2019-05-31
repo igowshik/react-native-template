@@ -246,7 +246,7 @@ export default class CNXTimeline extends Component {
 
     const title = rowData.description ? (
       <View style={{ paddingRight: 20 }}>
-        <Card elevation={2}>
+        <Card elevation={2} style={styles.card}>
           <Card.Content>
             <View
               style={{
@@ -268,10 +268,10 @@ export default class CNXTimeline extends Component {
             </View>
           </Card.Content>
           <Card.Actions>
-            <Button color={colors.BLUE} icon="edit" onPress={() => {}}>
+            <Button color={colors.PRIMARY} icon="edit" onPress={() => {}}>
               Edit
             </Button>
-            <Button color={colors.PINK} icon="delete" onPress={() => {}}>
+            <Button color={colors.SECONDARY} icon="delete" onPress={() => {}}>
               Delete
             </Button>
           </Card.Actions>
@@ -501,5 +501,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#aaa',
     marginTop: 10,
     marginBottom: 10,
+  },
+  card: {
+    borderTopColor: colors.DARK,
+    borderTopWidth: 2,
   },
 });

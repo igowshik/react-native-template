@@ -95,7 +95,7 @@ const AppStack = createMaterialBottomTabNavigator(
     initialRouteName: CONEXION,
     activeColor: '#004DFF',
     inactiveColor: Colors.DARK,
-    barStyle: { backgroundColor: '#EAF0FF' },
+    barStyle: { backgroundColor: '#FDFDFF' },
   },
 );
 

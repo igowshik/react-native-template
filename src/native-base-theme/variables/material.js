@@ -3,6 +3,7 @@
 import color from 'color';
 
 import { Platform, Dimensions, PixelRatio } from 'react-native';
+import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 const deviceHeight = Dimensions.get('window').height;
 const deviceWidth = Dimensions.get('window').width;
@@ -233,14 +234,14 @@ export default {
   inverseSpinnerColor: '#1A191B',
 
   // Tab
-  tabDefaultBg: '#1F2667',
+  tabDefaultBg: colors.HEADER,
   topTabBarTextColor: '#fff',
   topTabBarActiveTextColor: '#fff',
   topTabBarBorderColor: '#fff',
-  topTabBarActiveBorderColor: '#34aadc',
+  topTabBarActiveBorderColor: colors.WHITE,
 
   // Tabs
-  tabBgColor: '#1F2667',
+  tabBgColor: colors.HEADER,
   tabFontSize: 15,
 
   // Text

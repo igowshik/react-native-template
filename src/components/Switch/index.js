@@ -19,13 +19,13 @@ export default class Switchs extends React.Component {
           <Text
             style={[
               styles.textStyle,
-              { color: selected ? colors.BLUE : '#000' },
+              { color: selected ? colors.PRIMARY : '#000' },
             ]}
           >
             {label}
           </Text>
           <View pointerEvents="none">
-            <Switch color={colors.BLUE} value={selected} />
+            <Switch color={colors.PRIMARY} value={selected} />
           </View>
         </View>
       </TouchableRipple>
