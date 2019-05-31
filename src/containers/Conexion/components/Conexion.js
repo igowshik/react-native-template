@@ -189,7 +189,7 @@ class Conexion extends React.Component {
               alignItems: 'center',
             }}
           >
-            <CNXH3 style={{ color: colors.PINK }}>Select conexion type:</CNXH3>
+            <CNXH3 style={{ color: colors.DARK }}>Select conexion type:</CNXH3>
             <Switch
               label={INDIVIDUAL}
               selected={indSelected}

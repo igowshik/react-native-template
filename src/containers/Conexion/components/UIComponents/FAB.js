@@ -16,7 +16,7 @@ class FABUI extends React.Component {
         <FAB.Group
           fabStyle={{
             right: 0,
-            backgroundColor: colors.BLUE,
+            backgroundColor: colors.PRIMARY,
           }}
           style={{
             paddingBottom: 60,
@@ -30,7 +30,7 @@ class FABUI extends React.Component {
               label: 'Individual',
               onPress: () => this.props.handleConexionCreate(true, INDIVIDUAL),
               style: {
-                backgroundColor: colors.PINK,
+                backgroundColor: colors.SECONDARY,
                 color: '#000',
               },
             },
@@ -40,7 +40,7 @@ class FABUI extends React.Component {
               onPress: () =>
                 this.props.handleConexionCreate(true, ORGANIZATION),
               style: {
-                backgroundColor: colors.PINK,
+                backgroundColor: colors.SECONDARY,
               },
             },
           ]}

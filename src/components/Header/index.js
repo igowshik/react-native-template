@@ -2,12 +2,9 @@ import { StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import React from 'react';
 import PropTypes from 'prop-types';
+import * as colors from 'cnxapp/src/utils/colorsConstants';
 
-const primaryColorSet = [
-  'rgba(31,38,103,1)',
-  'rgba(31,38,103,1)',
-  'rgba(31,38,103,1)',
-];
+const primaryColorSet = [colors.HEADER, colors.HEADER, colors.HEADER];
 
 const Header = props => {
   const { children } = props;

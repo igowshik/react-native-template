@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TextInput, StyleSheet, View } from 'react-native';
-import { Item, Label } from 'native-base';
+import { StyleSheet, View } from 'react-native';
 import { PRIMARY } from 'cnxapp/src/utils/colorsConstants';
+import { TextInput } from 'react-native-paper';
 
 // Relative imports
-import { CNXTextLight, CNXTextM } from '../Texts';
+import { CNXTextLight } from '../Texts';
 
 export const RFTextInput = props => {
   const {
@@ -16,7 +16,7 @@ export const RFTextInput = props => {
     ...inputProps
   } = props;
   let hasError = false;
-  let errorField = null;
+  let errorField = null; //eslint-disable-line
 
   if (required && touched && error) {
     hasError = true;
@@ -26,23 +26,18 @@ export const RFTextInput = props => {
       );
   }
   return (
-    <Item error={hasError} style={styles.item}>
-      <Label>
-        <CNXTextM style={hasError ? styles.lableError : styles.lable}>
-          {label}
-        </CNXTextM>
-        {errorField}
-      </Label>
+    <View style={styles.item}>
       <TextInput
         {...inputProps}
+        label={label}
         onChangeText={input.onChange}
         onBlur={input.onBlur}
         onFocus={input.onFocus}
         value={input.value}
-        style={{ paddingTop: 0, paddingBottom: 0 }}
-        underlineColorAndroid="transparent"
+        style={{ width: '40%' }}
+        error={hasError}
       />
-    </Item>
+    </View>
   );
 };
 
@@ -59,7 +54,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'flex-start',
-    marginTop: 8,
+    margin: 8,
+    marginBottom: 0,
+    marginTop: 0,
   },
   field: {
     width: '100%',

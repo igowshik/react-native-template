@@ -265,10 +265,10 @@ export default class Timeline extends Component {
           </Paragraph>
         </Card.Content>
         <Card.Actions>
-          <Button color={colors.BLUE} icon="edit" onPress={() => {}}>
+          <Button color={colors.PRIMARY} icon="edit" onPress={() => {}}>
             Edit
           </Button>
-          <Button color={colors.PINK} icon="delete" onPress={() => {}}>
+          <Button color={colors.SECONDARY} icon="delete" onPress={() => {}}>
             Delete
           </Button>
         </Card.Actions>
