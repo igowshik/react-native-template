@@ -59,7 +59,7 @@ export default class Notes extends Component {
             style={styles.list}
             data={this.state.data}
             circleSize={20}
-            circleColor={colors.HEADER}
+            circleColor={colors.DARK}
             lineColor="rgba(0,0,0,0.6)"
             timeContainerStyle={{ minWidth: 100, marginTop: -5 }}
             timeStyle={{
@@ -114,6 +114,6 @@ const styles = StyleSheet.create({
     margin: 16,
     right: 0,
     bottom: 0,
-    backgroundColor: colors.BLUE,
+    backgroundColor: colors.PRIMARY,
   },
 });

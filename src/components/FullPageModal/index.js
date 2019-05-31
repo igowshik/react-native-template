@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import FontAwesome5 from 'react-native-vector-icons/EvilIcons';
 import { CNXH1 } from 'cnxapp/src/components/Typography';
 import { HorizDivider } from 'cnxapp/src/components/Dividers';
+import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 class FullPageModal extends React.Component {
   setModalVisible(visible) {
@@ -68,7 +69,7 @@ const styles = StyleSheet.create({
   titleView: {
     display: 'flex',
     flexDirection: 'row',
-    backgroundColor: 'rgba(31,38,103,1)',
+    backgroundColor: colors.HEADER,
     height: 50,
   },
   closeIcon: {
