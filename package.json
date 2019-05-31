@@ -55,7 +55,7 @@
     "redux": "^4.0.1",
     "redux-dynamic-modules": "^3.3.1",
     "redux-dynamic-modules-saga": "^3.3.1",
-    "redux-form": "^8.1.0",
+    "redux-form": "^8.2.3",
     "redux-saga": "0.16.0",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
