@@ -5,8 +5,19 @@ import PropTypes from 'prop-types';
 // Absolute imports
 import { TextInput, NumberInput } from 'cnxapp/src/components/InputField';
 
+import Dropdown from '../../../components/Dropdown';
+
 // Relative imports
 import { INDIVIDUAL } from '../constants';
+
+const data = [
+  {
+    value: 'Home',
+  },
+  {
+    value: 'Office',
+  },
+];
 
 class CreateConexionForm extends React.Component {
   renderIndividualForm = () => (
@@ -22,6 +33,7 @@ class CreateConexionForm extends React.Component {
         name="business_telephone_number"
         required
       />
+      <Dropdown label="Phone type" name="phone_type" required data={data} />
     </Form>
   );
 

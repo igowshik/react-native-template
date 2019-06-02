@@ -2,8 +2,6 @@
 import { createStore } from 'redux-dynamic-modules';
 // Saga extension allows us to use Saga middleware in the module store.
 import { getSagaExtension } from 'redux-dynamic-modules-saga';
-import { offline } from '@redux-offline/redux-offline';
-import offlineConfig from '@redux-offline/redux-offline/lib/defaults';
 import { compose } from 'redux';
 import { getRootModule } from './app/module';
 
@@ -19,7 +17,7 @@ const addPromiseSupportToDispatch = store => {
 
 const store = createStore(
   {},
-  [offline(offlineConfig), compose()],
+  [compose()],
   [getSagaExtension()],
   getRootModule(),
 );

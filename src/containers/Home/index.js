@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { AsyncStorage, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withNavigation } from 'react-navigation';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import DashboardMainScreen from '../Dashboard';
 

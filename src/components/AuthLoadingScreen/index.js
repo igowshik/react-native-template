@@ -1,6 +1,7 @@
 import React from 'react';
-import { AsyncStorage, StatusBar, View } from 'react-native';
+import { StatusBar, View } from 'react-native';
 import PropTypes from 'prop-types';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import Loader from '../Loader';
 

@@ -48,6 +48,5 @@ const styles = StyleSheet.create({
   field: {
     width: '100%',
     marginTop: 5,
-    fontSize: 13,
   },
 });

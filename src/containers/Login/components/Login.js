@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Image, KeyboardAvoidingView, AsyncStorage } from 'react-native';
+import { View, Image, KeyboardAvoidingView } from 'react-native';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { withNavigation } from 'react-navigation';
 import { compose } from 'redux';
 import { Row, Grid } from 'react-native-easy-grid';
+import AsyncStorage from '@react-native-community/async-storage';
 
 // Absolute imports
 // import BackgroundImage from 'cnxapp/src/components/CNXBackgroundImage';
