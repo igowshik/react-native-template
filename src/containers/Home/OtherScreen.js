@@ -1,12 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  AsyncStorage,
-  Button,
-  StatusBar,
-  View,
-  StyleSheet,
-} from 'react-native';
+import { Button, StatusBar, View, StyleSheet } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 class OtherScreen extends React.Component {
   render() {

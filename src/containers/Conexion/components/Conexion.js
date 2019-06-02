@@ -167,13 +167,14 @@ class Conexion extends React.Component {
     //   org_business_homepage: '',
     // };
     const indIntitalValue = {
-      first_name: 'Selvam',
-      last_name: 'Kumar',
-      job_title: 'Developer',
-      organization: 'Conexous',
-      telephone_number: '9597404134',
-      business_email: 'selvamk@cnxsi.com',
-      business_telephone_number: '12121212',
+      first_name: '',
+      last_name: '',
+      job_title: '',
+      organization: '',
+      telephone_number: '',
+      business_email: '',
+      business_telephone_number: '',
+      phone_type: 'Home',
     };
 
     // const handleSearch = debounce(values => this.searchConexions(values), 100);

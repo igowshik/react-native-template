@@ -12,11 +12,12 @@
     "lint:js": "npm run lint:eslint -- . ",
     "lint:staged": "lint-staged",
     "prettify": "prettier --write",
-    "startios": "react-native run-ios --simulator='iPad Air 2'",
-    "startandroid": "react-native run-android",
-    "startdebugger": "open 'rndebugger://set-debugger-loc?host=localhost&port=8081'"
+    "start-ios": "react-native run-ios --simulator='iPad Air 2'",
+    "start-android": "react-native run-android",
+    "start-debugger": "open 'rndebugger://set-debugger-loc?host=localhost&port=8081'"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.4.2",
     "@redux-offline/redux-offline": "^2.5.1",
     "babel-polyfill": "^6.26.0",
     "hoist-non-react-statics": "^3.3.0",
@@ -28,24 +29,21 @@
     "react": "^16.8.3",
     "react-art": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-loadable": "^5.5.0",
     "react-native": "^0.59.8",
     "react-native-chart-kit": "^2.0.1",
     "react-native-easy-grid": "^0.2.0",
     "react-native-gesture-handler": "^1.0.15",
-    "react-native-htmlview": "^0.13.0",
+    "react-native-htmlview": "^0.14.0",
     "react-native-keyboard-aware-scroll-view": "^0.8.0",
     "react-native-keyboard-aware-view": "^0.0.14",
     "react-native-keyboard-spacer": "^0.4.1",
     "react-native-linear-gradient": "^2.5.3",
-    "react-native-loading-spinner-overlay": "^1.0.1",
-    "react-native-modal-datetime-picker": "^6.0.0",
+    "react-native-material-dropdown": "^0.11.1",
+    "react-native-modal-datetime-picker": "^7.4.2",
     "react-native-paper": "^2.14.0",
-    "react-native-picker-module": "^1.0.1",
+    "react-native-picker-module": "^1.1.1",
     "react-native-svg": "^6.5.3",
     "react-native-svg-charts": "^5.2.0",
-    "react-native-timeline-listview": "^0.2.3",
-    "react-native-toaster": "^1.2.2",
     "react-native-vector-icons": "^6.2.0",
     "react-native-web": "^0.11.4",
     "react-native-webview": "^5.10.0",
@@ -57,7 +55,6 @@
     "redux-dynamic-modules-saga": "^3.3.1",
     "redux-form": "^8.1.0",
     "redux-saga": "0.16.0",
-    "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "whatwg-fetch": "^3.0.0"
   },
@@ -87,8 +84,7 @@
   },
   "rnpm": {
     "assets": [
-      "./assets/fonts/",
-      "./assets/fonts"
+      "./assets/fonts/"
     ]
   }
 }
