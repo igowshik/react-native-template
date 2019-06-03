@@ -3,10 +3,10 @@ import { rootInitialState } from './rootReducer';
 const rootReducers = state =>
   state.rootReducers ? state.rootReducers : rootInitialState;
 
-const selectToastMessage = () =>
+const selectToastData = () =>
   createSelector(
     rootReducers,
-    dataState => dataState.toastMessage,
+    dataState => dataState.toast,
   );
 
 const selectGlobalLoader = () =>
@@ -21,4 +21,14 @@ const selectRootAccessToken = () =>
     dataState => dataState.accessToken,
   );
 
-export { selectToastMessage, selectGlobalLoader, selectRootAccessToken };
+const selectToastVisibility = () =>
+  createSelector(
+    rootReducers,
+    dataState => dataState.toastVisible,
+  );
+export {
+  selectToastData,
+  selectGlobalLoader,
+  selectRootAccessToken,
+  selectToastVisibility,
+};

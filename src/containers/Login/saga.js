@@ -3,7 +3,12 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 // Absolute imports
 import request from 'cnxapp/src/utils/request';
 import config from 'cnxapp/src/config/config';
-import { setRootAccessToken } from 'cnxapp/src/app/rootActions';
+import {
+  setRootAccessToken,
+  setToastMessage,
+  setToastVisibility,
+} from 'cnxapp/src/app/rootActions';
+import { ERROR } from 'cnxapp/src/utils/constants';
 
 import { GET_ACCESS_TOKEN } from './constants';
 import { setAccessToken, setLoaderValue } from './actions';
@@ -20,12 +25,25 @@ function* getAccessToken({ userName, password }) {
   const data = yield call(request, requestURL, options);
   if (data && !data.access_token) {
     // if we have 'message' in response this means we have error
-    console.log('Error occured',data);//eslint-disable-line
+    yield put(
+      setToastMessage({
+        toastMessage: data.response.error_description,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setToastVisibility(true));
     yield put(setLoaderValue(false));
   } else if (data.access_token) {
     yield put(setLoaderValue(false));
     yield put(setAccessToken(data.access_token));
     yield put(setRootAccessToken(data.access_token));
+    // yield put(
+    //   setToastMessage({
+    //     toastMessage: 'Welcome to BOAST!',
+    //     toastType: INFO,
+    //   }),
+    // );
+    // yield put(setToastVisibility(true));
   }
 }
 

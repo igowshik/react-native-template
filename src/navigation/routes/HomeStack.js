@@ -37,20 +37,4 @@ const HomeStack = createStackNavigator(
   },
 );
 
-const ios = {
-  color: '#000',
-  fontFamily: 'Montserrat',
-  fontWeight: '400',
-  fontSize: 23,
-};
-const android = {
-  color: '#000',
-  fontFamily: 'Montserrat-Regular',
-  fontWeight: '400',
-  fontSize: 23,
-  // below three lines added ----------------jy
-  textAlign: 'center',
-  flexGrow: 1,
-};
-
 export default withNavigation(HomeStack);

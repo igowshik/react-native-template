@@ -11,11 +11,14 @@ import material from '../native-base-theme/variables/material';
 
 import paperTheme from '../theme/react-native-paper/paperTheme';
 
+import Snackbar from '../components/Snackbar';
+
 const App = () => (
   <PaperProvider theme={paperTheme}>
     <StyleProvider style={getTheme(material)}>
       <Provider store={Store}>
         <StoreWrappedApp />
+        <Snackbar />
       </Provider>
     </StyleProvider>
   </PaperProvider>

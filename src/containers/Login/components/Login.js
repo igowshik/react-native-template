@@ -9,17 +9,25 @@ import { Row, Grid } from 'react-native-easy-grid';
 import AsyncStorage from '@react-native-community/async-storage';
 
 // Absolute imports
-// import BackgroundImage from 'cnxapp/src/components/CNXBackgroundImage';
+import BackgroundImage from 'cnxapp/src/components/BackgroundImage';
 import Loader from 'cnxapp/src/components/Loader';
+import Snackbar from 'cnxapp/src/components/Snackbar';
 
 // Relative imports
-import LoginForm from './LoginForm';
-import { selectToken, selectLoader } from '../selectors';
+import {
+  selectToken,
+  selectLoader,
+  selectToastVisibility,
+  selectToastData,
+} from '../selectors';
 import { getAccessToken, setLoaderValue } from '../actions';
 import { styles } from '../styles';
 
+// Components
+import LoginForm from './LoginForm';
+
 const logo = require('cnxapp/src/assets/images/Boast_logo.png');
-// const backgroundImage = require('cnxapp/src/assets/images/arrow.png');
+const backgroundImage = require('cnxapp/src/assets/images/arrow.png');
 
 class Login extends Component {
   constructor(props) {
@@ -47,35 +55,39 @@ class Login extends Component {
   };
 
   render() {
-    const { loaderState } = this.props;
+    const { loaderState, toastVisible, toast } = this.props;
     return (
-      // <BackgroundImage imageSource={backgroundImage}>
-      <View style={styles.parentViewWrapper}>
-        <KeyboardAvoidingView
-          style={{
-            flex: 1,
-            flexDirection: 'column',
-            justifyContent: 'center',
-          }}
-          behavior="padding"
-          enabled
-          keyboardVerticalOffset={100}
-        >
-          <View style={styles.loginContainer}>
-            <Grid>
-              <Row style={styles.logoContainer} size={1}>
-                <Image resizeMode="contain" style={styles.logo} source={logo} />
-              </Row>
-              <Row style={styles.fieldContainer} size={2}>
-                <LoginForm onLogin={this.handleUserLogin} />
-              </Row>
-            </Grid>
-          </View>
-        </KeyboardAvoidingView>
-
-        <Loader showLoader={loaderState} loadingText="Signing in..." />
-      </View>
-      // </BackgroundImage>
+      <BackgroundImage imageSource={backgroundImage}>
+        <View style={styles.parentViewWrapper}>
+          <KeyboardAvoidingView
+            style={{
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }}
+            behavior="padding"
+            enabled
+            keyboardVerticalOffset={100}
+          >
+            <View style={styles.loginContainer}>
+              <Grid>
+                <Row style={styles.logoContainer} size={1}>
+                  <Image
+                    resizeMode="contain"
+                    style={styles.logo}
+                    source={logo}
+                  />
+                </Row>
+                <Row style={styles.fieldContainer} size={2}>
+                  <LoginForm onLogin={this.handleUserLogin} />
+                </Row>
+              </Grid>
+            </View>
+          </KeyboardAvoidingView>
+          <Snackbar toastVisible={toastVisible} toast={toast} />
+          <Loader showLoader={loaderState} loadingText="Signing in..." />
+        </View>
+      </BackgroundImage>
     );
   }
 }
@@ -86,6 +98,8 @@ Login.propTypes = {
   accessToken: PropTypes.string,
   loaderState: PropTypes.bool.isRequired,
   setLoaderState: PropTypes.func.isRequired,
+  toastVisible: PropTypes.bool.isRequired,
+  toast: PropTypes.object.isRequired,
 };
 
 /**
@@ -96,6 +110,8 @@ Login.propTypes = {
 const mapStateToProps = createStructuredSelector({
   accessToken: selectToken(),
   loaderState: selectLoader(),
+  toastVisible: selectToastVisibility(),
+  toast: selectToastData(),
 });
 
 /**
