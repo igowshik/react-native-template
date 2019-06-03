@@ -8,7 +8,8 @@ import FullPageModal from 'cnxapp/src/components/FullPageModal';
 import { PrimaryButton } from 'cnxapp/src/components/Buttons/Primary';
 
 // Relative imports
-import CreateConexionForm from './CreateConexionForm';
+// import CreateConexionForm from './CreateConexionForm';
+import CreateConexionForm1 from './CreateConexionForm1';
 import { validate } from '../validate';
 
 class CreateConexions extends Component {
@@ -73,11 +74,9 @@ class CreateConexions extends Component {
               disabled={pristine || submitting || invalid}
             />
           </View>
-          <KeyboardAwareScrollView style={{ width: '100%' }}>
-            <ScrollView>
-              <CreateConexionForm viewType={conexionType} />
-            </ScrollView>
-          </KeyboardAwareScrollView>
+          <ScrollView style={{ height: '100%' }}>
+            <CreateConexionForm1 viewType={conexionType} />
+          </ScrollView>
         </FullPageModal>
       </View>
     );

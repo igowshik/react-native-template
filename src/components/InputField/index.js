@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 
 import { RFTextInput } from '../ReduxFormComponents/RFTextInput';
 import { RFNumberInput } from '../ReduxFormComponents/RFNumberInput';
+import { RFRadioButton } from '../ReduxFormComponents/RFRadioButton';
 
 export const TextInput = props => {
   const { label, name, required } = props;
@@ -44,6 +45,22 @@ NumberInput.propTypes = {
   required: PropTypes.bool,
 };
 
+export const RadioInput = props => {
+  const { label, name, required } = props;
+  return (
+    <Field
+      label={label}
+      component={RFRadioButton}
+      name={name}
+      required={required}
+    />
+  );
+};
+RadioInput.propTypes = {
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  required: PropTypes.bool,
+};
 const styles = StyleSheet.create({
   field: {
     width: '100%',
