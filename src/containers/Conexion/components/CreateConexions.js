@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { ScrollView, View, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 // Absolute imports
 import FullPageModal from 'cnxapp/src/components/FullPageModal';
 import { PrimaryButton } from 'cnxapp/src/components/Buttons/Primary';
@@ -74,9 +73,9 @@ class CreateConexions extends Component {
               disabled={pristine || submitting || invalid}
             />
           </View>
-          <ScrollView style={{ height: '100%' }}>
+          <View style={{ flex: 1 }}>
             <CreateConexionForm1 viewType={conexionType} />
-          </ScrollView>
+          </View>
         </FullPageModal>
       </View>
     );

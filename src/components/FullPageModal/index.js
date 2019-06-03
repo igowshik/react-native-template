@@ -5,16 +5,30 @@ import {
   Platform,
   StatusBar,
   StyleSheet,
+  Dimensions,
 } from 'react-native';
 import React from 'react';
 import PropTypes from 'prop-types';
-
 import FontAwesome5 from 'react-native-vector-icons/EvilIcons';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 import { CNXH1 } from 'cnxapp/src/components/Typography';
 import { HorizDivider } from 'cnxapp/src/components/Dividers';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 
+const { height } = Dimensions.get('window');
+
 class FullPageModal extends React.Component {
+  state = {
+    // We don't know the size of the content initially, and the probably won't instantly try to scroll, so set the initial content height to 0
+    screenHeight: 0,
+  };
+
+  onContentSizeChange = (contentWidth, contentHeight) => {
+    // Save the content height in state
+    this.setState({ screenHeight: contentHeight });
+  };
+
   setModalVisible(visible) {
     this.props.handleModalVisible(visible);
   }
@@ -23,6 +37,8 @@ class FullPageModal extends React.Component {
 
   render() {
     const { visible, children, modalHeaderText } = this.props;
+    const scrollEnabled = this.state.screenHeight > height;
+
     return (
       <View
         style={{
@@ -53,7 +69,14 @@ class FullPageModal extends React.Component {
               </View>
             </View>
             <HorizDivider />
-            <View style={styles.scrollView}>{children}</View>
+            <KeyboardAwareScrollView
+              style={{ flex: 1 }}
+              contentContainerStyle={styles.scrollview}
+              scrollEnabled={scrollEnabled}
+              onContentSizeChange={this.onContentSizeChange}
+            >
+              {children}
+            </KeyboardAwareScrollView>
           </View>
         </Modal>
       </View>
@@ -62,7 +85,7 @@ class FullPageModal extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  parentView: {},
+  parentView: { flex: 1 },
   icon: {
     color: '#fff',
   },
@@ -86,8 +109,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '90%',
   },
-  scrollView: {
-    height: '100%',
+  scrollview: {
+    flexGrow: 1,
   },
   headerText: {
     color: '#fff',

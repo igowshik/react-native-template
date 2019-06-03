@@ -10,8 +10,6 @@ import { createMaterialBottomTabNavigator } from 'react-navigation-material-bott
 // Absolute imports
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 
-import { Platform } from 'react-native';
-
 // Relative imports
 import AuthLoadingScreen from '../components/AuthLoadingScreen';
 import OtherScreen from '../containers/Home/OtherScreen';
