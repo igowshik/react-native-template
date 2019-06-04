@@ -77,24 +77,39 @@ class CreateConexionForm1 extends React.Component {
           {/* </View> */}
         </View>
         <View style={styles.placeRight}>
-          <View style={{ flex: 1 }}>
-            <Dropdown
-              label="Primary Mobile"
-              name="primary_mobile"
-              required
-              data={title}
-            />
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ width: '20%' }}>
+              <Dropdown label="+91" name="country_code" required data={title} />
+            </View>
+            <View style={(styles.container, { flex: 1, marginTop: 4 })}>
+              <TextInput
+                label="Primary Mobile"
+                name="primary_mobile"
+                required
+              />
+            </View>
           </View>
-          <View style={{ flex: 1 }}>
-            <Dropdown
-              label="Secondary Mobile"
-              name="secondary_mobile"
-              required
-              data={title}
-            />
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ width: '20%' }}>
+              <Dropdown
+                label="+91"
+                name="country_code"
+                required
+                style={{ width: '10%' }}
+                data={title}
+              />
+            </View>
+            <View style={(styles.container, { flex: 1, marginTop: 4 })}>
+              <TextInput
+                label="Secondary Mobile"
+                name="secondary_mobile"
+                style={{ width: '90%' }}
+                required
+              />
+            </View>
           </View>
         </View>
-        <Divider style={{ marginLeft: 10, marginRight: 20 }} />
+        <Divider style={{ marginLeft: 10, marginRight: 20, marginTop: 20 }} />
         <View style={{ flexDirection: 'row', margin: 10 }}>
           <Text style={{ marginRight: 30, marginTop: 8, fontSize: 20 }}>
             Sharing?
@@ -194,12 +209,18 @@ class CreateConexionForm1 extends React.Component {
             <Dropdown label="Home Fax" name="home_fax" required data={title} />
           </View>
         </View>
-        <TextInput label="Personal Email" name="personal_email" required />
-        <TextInput
-          label="Personal Home Page"
-          name="personal_home_page"
-          required
-        />
+        <View style={styles.placeRight}>
+          <View style={{ flex: 1 }}>
+            <TextInput label="Personal Email" name="personal_email" required />
+          </View>
+          <View style={{ flex: 1 }}>
+            <TextInput
+              label="Personal Home Page"
+              name="personal_home_page"
+              required
+            />
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -246,6 +267,11 @@ const styles = StyleSheet.create({
     marginRight: 30,
     marginTop: 8,
     fontSize: 17,
+  },
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '90%',
   },
 });
 
