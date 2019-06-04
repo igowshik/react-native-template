@@ -46,12 +46,15 @@ NumberInput.propTypes = {
 };
 
 export const RadioInput = props => {
-  const { label, name, required } = props;
+  const { label, name, required, status, onChange, value } = props;
   return (
     <Field
       label={label}
       component={RFRadioButton}
       name={name}
+      status={status}
+      onChange={onChange}
+      value={value}
       required={required}
     />
   );
@@ -60,6 +63,9 @@ RadioInput.propTypes = {
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   required: PropTypes.bool,
+  status: PropTypes.string,
+  onChange: PropTypes.func,
+  value: PropTypes.string,
 };
 const styles = StyleSheet.create({
   field: {

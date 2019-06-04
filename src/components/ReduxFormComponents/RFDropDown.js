@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.MONTSERRAT,
   },
   parentView: {
-    width: '40%',
+    width: '90%',
     margin: 10,
     marginBottom: 0,
     marginTop: 0,
