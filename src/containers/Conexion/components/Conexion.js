@@ -1,11 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  ScrollView,
-  Dimensions,
-  KeyboardAvoidingView,
-} from 'react-native';
+import { View, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -17,6 +12,7 @@ import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
 import Header from 'cnxapp/src/components/Header';
 import { CNXH2, CNXH3 } from 'cnxapp/src/components/Typography';
 import Switch from 'cnxapp/src/components/Switch';
+import Snackbar from 'cnxapp/src/components/Snackbar';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 // Relative imports
@@ -27,11 +23,14 @@ import {
   selectIndConexion,
   selectOrgConexion,
   selectGlobalLoader,
+  selectToastVisibility,
+  selectToastData,
 } from '../selectors';
 import {
   getIndConexions,
   getOrgConexions,
   setConexionDataAction,
+  saveselectedConexionId,
 } from '../actions';
 import { conexionStyles as styles } from '../styles';
 import { INDIVIDUAL, ORGANIZATION, ALL } from '../constants';
@@ -78,7 +77,8 @@ class Conexion extends React.Component {
 
   handleConexionSelect = id => {
     const { indSelected } = this.state;
-    const { navigation } = this.props;
+    const { navigation, dispatchSetConexionId } = this.props;
+    dispatchSetConexionId(id);
     navigation.navigate('SecondScreen', {
       selectedValue: indSelected,
       selectedId: id,
@@ -102,7 +102,7 @@ class Conexion extends React.Component {
 
   onLayout() {
     this.setState({
-      height: Dimensions.get('window').height - 200,
+      height: Dimensions.get('window').height - 180,
     });
   }
 
@@ -161,6 +161,8 @@ class Conexion extends React.Component {
       firstQuery,
     } = this.state;
 
+    const { toastVisible, toast, loaderState } = this.props;
+
     // const orgIntitalValue = {
     //   org_name: '',
     //   org_business_telephone_number: '',
@@ -177,19 +179,10 @@ class Conexion extends React.Component {
       phone_type: 'Home',
     };
 
-    // const handleSearch = debounce(values => this.searchConexions(values), 100);
-
     return (
       <View>
         <View>
-          <View
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              margin: 10,
-              alignItems: 'center',
-            }}
-          >
+          <View style={styles.headerStyle}>
             <CNXH3 style={{ color: colors.DARK }}>Select conexion type:</CNXH3>
             <Switch
               label={INDIVIDUAL}
@@ -210,10 +203,7 @@ class Conexion extends React.Component {
               conexionType={createConexionType}
             />
           </View>
-          <View
-            onLayout={this.onLayout}
-            style={[styles.viewCol1Style, { height: this.state.height }]}
-          >
+          <View onLayout={this.onLayout} style={{ height: this.state.height }}>
             <Header>
               <CNXH2 style={{ color: '#fff' }}>
                 {`${this.getConexionTitle()} Conexions`}
@@ -225,28 +215,20 @@ class Conexion extends React.Component {
               value={firstQuery}
               style={styles.searchbar}
             />
-            <KeyboardAvoidingView
-              behavior="padding"
-              enabled
-              keyboardVerticalOffset={100}
-            >
-              <ScrollView>
-                <ConexionList
-                  conexioListData={this.getConexionList()}
-                  indSelected={indSelected}
-                  clickListItemHandler={this.handleConexionSelect}
-                />
-              </ScrollView>
-            </KeyboardAvoidingView>
+            <ConexionList
+              conexioListData={this.getConexionList()}
+              indSelected={indSelected}
+              clickListItemHandler={this.handleConexionSelect}
+              loader={loaderState}
+            />
           </View>
         </View>
-        {/* <Loader showLoader={loaderState} loadingText={loaderText} /> */}
-
         {this.props.isFocused ? (
           <TouchableRipple rippleColor="rgba(0, 0, 0, .3)">
             <FABUI handleConexionCreate={this.createConexionTrigger} />
           </TouchableRipple>
         ) : null}
+        <Snackbar toastVisible={toastVisible} toast={toast} />
       </View>
     );
   }
@@ -257,12 +239,15 @@ Conexion.propTypes = {
   fetchIndConexion: PropTypes.func.isRequired,
   fetchOrgConexion: PropTypes.func.isRequired,
   setGlobalLoaderState: PropTypes.func.isRequired,
-  // loaderState: PropTypes.bool.isRequired,
+  loaderState: PropTypes.bool.isRequired,
   indConexions: PropTypes.array.isRequired,
   orgConexions: PropTypes.array.isRequired,
   setConexionData: PropTypes.func.isRequired,
   navigation: PropTypes.any,
   isFocused: PropTypes.bool.isRequired,
+  toastVisible: PropTypes.bool.isRequired,
+  toast: PropTypes.object.isRequired,
+  dispatchSetConexionId: PropTypes.func.isRequired,
 };
 
 /**
@@ -275,6 +260,8 @@ const mapStateToProps = createStructuredSelector({
   loaderState: selectGlobalLoader(),
   indConexions: selectIndConexion(),
   orgConexions: selectOrgConexion(),
+  toastVisible: selectToastVisibility(),
+  toast: selectToastData(),
 });
 
 /**
@@ -287,6 +274,7 @@ const mapDispatchToProps = dispatch => ({
   fetchOrgConexion: token => dispatch(getOrgConexions(token)),
   setGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),
   setConexionData: data => dispatch(setConexionDataAction(data)),
+  dispatchSetConexionId: id => dispatch(saveselectedConexionId(id)),
 });
 
 const withConnect = connect(

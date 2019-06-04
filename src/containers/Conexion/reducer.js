@@ -4,6 +4,8 @@ import {
   SET_ORG_CONEXIONS,
   SET_CREATE_CONEXION_DATE,
   SET_CONEXION_NOTES,
+  SET_CONEXION_ID,
+  SET_CONEXION_DETAILS,
 } from './constants';
 
 export const conexionInitialState = {
@@ -14,6 +16,8 @@ export const conexionInitialState = {
     types: '',
   },
   conexionNotes: [],
+  selectedConexion: '',
+  conexionDetails: {},
 };
 
 const conexionStore = (state = conexionInitialState, action) =>
@@ -34,6 +38,14 @@ const conexionStore = (state = conexionInitialState, action) =>
       }
       case SET_CONEXION_NOTES: {
         draftState.conexionNotes = action.notesData;
+        break;
+      }
+      case SET_CONEXION_ID: {
+        draftState.selectedConexion = action.id;
+        break;
+      }
+      case SET_CONEXION_DETAILS: {
+        draftState.conexionDetails = action.details;
         break;
       }
       default: {

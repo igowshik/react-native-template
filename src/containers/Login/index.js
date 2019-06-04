@@ -9,7 +9,7 @@ class LoginScreen extends React.Component {
   static navigationOptions = {
     title: 'Welcome to BOAST',
     headerStyle: {
-      backgroundColor: '#FFF',
+      backgroundColor: '#6F5CEC',
     },
     headerTitleStyle: {
       fontFamily: Platform.OS === 'ios' ? 'Montserrat' : 'Montserrat-Regular',
@@ -17,6 +17,7 @@ class LoginScreen extends React.Component {
       fontSize: 25,
       flexGrow: 1,
       textAlign: 'center',
+      color: '#fff',
     },
   };
 

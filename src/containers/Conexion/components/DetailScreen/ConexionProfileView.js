@@ -11,6 +11,7 @@ import {
   Thumbnail,
   Right,
   Text,
+  H3,
 } from 'native-base';
 
 // Absolute imports
@@ -49,7 +50,14 @@ class ConexionProfileView extends React.Component {
           <Left>
             <Thumbnail style={profileViewStyles.avatarView} source={profile} />
             <Body style={profileViewStyles.cardBodyView}>
-              <CNXTextBold>{conexionProfile.DisplayName}</CNXTextBold>
+              <H3 style={{ paddingLeft: 3 }}>{`${conexionProfile.Title}.${
+                conexionProfile.Name
+              }`}</H3>
+              <Text style={profileViewStyles.extraText}>
+                {conexionProfile.Organization
+                  ? conexionProfile.Organization.Name.trim()
+                  : null}
+              </Text>
               <Text style={profileViewStyles.linkText}>
                 {conexionProfile.BusinessEmailAddress}
               </Text>
@@ -69,7 +77,7 @@ class ConexionProfileView extends React.Component {
               <ListItem>
                 <Left style={profileViewStyles.leftViewJustify}>
                   <CNXTextM>Name</CNXTextM>
-                  <Text>{conexionProfile.DisplayName}</Text>
+                  <Text>{conexionProfile.Name}</Text>
                 </Left>
               </ListItem>
               <ListItem>
@@ -87,7 +95,11 @@ class ConexionProfileView extends React.Component {
               <ListItem>
                 <Left style={profileViewStyles.leftViewJustify}>
                   <CNXTextM>Organization</CNXTextM>
-                  <Text>{conexionProfile.Organization}</Text>
+                  <Text>
+                    {conexionProfile.Organization
+                      ? conexionProfile.Organization.Name.trim()
+                      : null}
+                  </Text>
                 </Left>
               </ListItem>
             </ScrollView>

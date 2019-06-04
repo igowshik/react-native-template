@@ -1,17 +1,52 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+import { View } from 'react-native';
+import { compose } from 'redux';
+import PropTypes from 'prop-types';
 
 // Absolute imports
 import Navigation from 'cnxapp/src/navigation';
 
 // Relative imports
-import { selectRootAccessToken } from '../rootSelector';
+import Snackbar from '../../components/Snackbar';
+import { selectToastVisibility, selectToastData } from '../rootSelector';
+import { setRootGlobalLoader } from '../rootActions';
 
-const StoreWrappedApp = () => <Navigation />;
+const StoreWrappedApp = props => (
+  <View style={{ flex: 1 }}>
+    <Navigation />
+    <Snackbar toastVisible={props.toastVisible} toast={props.toast} />
+  </View>
+);
 
+StoreWrappedApp.propTypes = {
+  toastVisible: PropTypes.bool.isRequired,
+  toast: PropTypes.object.isRequired,
+};
+
+/**
+ * @method: mapStateToProps()
+ * @description: Redux Map method to map all redux state into each individual state value
+ * @returns: jobState ans filterState in the State
+ */
 const mapStateToProps = createStructuredSelector({
-  accessToken: selectRootAccessToken(),
+  toastVisible: selectToastVisibility(),
+  toast: selectToastData(),
 });
 
-export default connect(mapStateToProps)(StoreWrappedApp);
+/**
+ * @method: mapDispatchToProps()
+ * @description: Map the Props of this class to the respective Redux dispatch functions
+ * @returns: Mapped functions
+ */
+const mapDispatchToProps = dispatch => ({
+  setLoaderState: value => dispatch(setRootGlobalLoader(value)),
+});
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default compose(withConnect)(StoreWrappedApp);

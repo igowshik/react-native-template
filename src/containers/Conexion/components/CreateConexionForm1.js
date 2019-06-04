@@ -2,6 +2,8 @@ import React from 'react';
 import { Form } from 'native-base';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet } from 'react-native';
+import { Divider } from 'react-native-paper';
+
 // Absolute imports
 import {
   TextInput,
@@ -44,7 +46,7 @@ class CreateConexionForm1 extends React.Component {
   };
 
   renderIndividualForm = () => (
-    <Form>
+    <Form style={{ margin: 20 }}>
       <View style={styles.row}>
         <View style={styles.placeRight}>
           <TextInput label="First Name" name="first_name" required />
@@ -55,8 +57,12 @@ class CreateConexionForm1 extends React.Component {
           <TextInput label="initial" name="initial" required />
         </View>
         <View style={styles.placeRight}>
-          <Dropdown label="Title" name="title" required data={title} />
-          <Dropdown label="Suffix" name="suffix" required data={suffix} />
+          <View style={{ flex: 1, marginRight: 10 }}>
+            <Dropdown label="Title" name="title" required data={title} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Dropdown label="Suffix" name="suffix" required data={suffix} />
+          </View>
         </View>
         <View style={styles.placeRight}>
           <Dropdown
@@ -81,7 +87,7 @@ class CreateConexionForm1 extends React.Component {
             data={title}
           />
         </View>
-        <HorizDivider />
+        <Divider />
         <View style={{ flexDirection: 'row', margin: 10 }}>
           <Text style={{ marginRight: 30, marginTop: 8, fontSize: 20 }}>
             Sharing?
@@ -90,9 +96,10 @@ class CreateConexionForm1 extends React.Component {
             value="Public"
             label="Public"
             name="Public"
-            onPress={() => {
-              this.setState({ checked: 'Public' });
-            }}
+            checked={!false}
+            // onPress={() => {
+            //   this.setState({ checked: 'Public' });
+            // }}
             required
           />
           <Text style={{ marginRight: 30, marginTop: 8, fontSize: 17 }}>

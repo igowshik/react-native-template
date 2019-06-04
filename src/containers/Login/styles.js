@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
     width: Util.size.width / 2,
     borderColor: 'rgba(0,0,0,0.3)',
     borderWidth: 1,
-    backgroundColor: 'rgba(255,255,255,0.7)',
+    backgroundColor: 'rgba(255,255,255,1)',
     borderRadius: 8,
   },
   logoContainer: {

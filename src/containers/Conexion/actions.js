@@ -6,6 +6,9 @@ import {
   SET_CREATE_CONEXION_DATE,
   SET_CONEXION_NOTES,
   GET_CONEXION_NOTES,
+  SET_CONEXION_ID,
+  SET_CONEXION_DETAILS,
+  GET_CONEXION_DETAILS,
 } from './constants';
 
 export function getIndConexions() {
@@ -39,4 +42,18 @@ export const getConexionsNotesAction = conexionId => ({
 export const saveConexionNotesAction = notesData => ({
   type: SET_CONEXION_NOTES,
   notesData,
+});
+
+export const saveselectedConexionId = id => ({
+  type: SET_CONEXION_ID,
+  id,
+});
+
+export const getConexionDetails = () => ({
+  type: GET_CONEXION_DETAILS,
+});
+
+export const saveConexionDetails = details => ({
+  type: SET_CONEXION_DETAILS,
+  details,
 });

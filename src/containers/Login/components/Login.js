@@ -27,7 +27,7 @@ import { styles } from '../styles';
 import LoginForm from './LoginForm';
 
 const logo = require('cnxapp/src/assets/images/Boast_logo.png');
-const backgroundImage = require('cnxapp/src/assets/images/arrow.png');
+const backgroundImage = require('cnxapp/src/assets/images/login.png');
 
 class Login extends Component {
   constructor(props) {

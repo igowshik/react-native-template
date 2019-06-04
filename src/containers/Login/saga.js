@@ -24,7 +24,6 @@ function* getAccessToken({ userName, password }) {
   };
   const data = yield call(request, requestURL, options);
   if (data && !data.access_token) {
-    // if we have 'message' in response this means we have error
     yield put(
       setToastMessage({
         toastMessage: data.response.error_description,
@@ -37,13 +36,6 @@ function* getAccessToken({ userName, password }) {
     yield put(setLoaderValue(false));
     yield put(setAccessToken(data.access_token));
     yield put(setRootAccessToken(data.access_token));
-    // yield put(
-    //   setToastMessage({
-    //     toastMessage: 'Welcome to BOAST!',
-    //     toastType: INFO,
-    //   }),
-    // );
-    // yield put(setToastVisibility(true));
   }
 }
 

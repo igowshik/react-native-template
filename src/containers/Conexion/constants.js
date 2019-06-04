@@ -1,13 +1,16 @@
 // Actions constants
-export const SET_IND_CONEXIONS = 'SET_IND_CONEXIONS';
-export const GET_IND_CONEXIONS = 'GET_IND_CONEXIONS';
-export const SET_ORG_CONEXIONS = 'SET_ORG_CONEXIONS';
-export const GET_LIST_OF_ORG = 'GET_LIST_OF_ORG';
-export const SET_GLOBALE_ERROR = 'SET_GLOBALE_ERROR';
-export const SET_GLOBALE_LOADER = 'SET_GLOBALE_LOADER';
-export const SET_CREATE_CONEXION_DATE = 'SET_CREATE_CONEXION_DATE';
-export const SET_CONEXION_NOTES = 'SET_CONEXION_NOTES';
-export const GET_CONEXION_NOTES = 'GET_CONEXION_NOTES';
+export const SET_IND_CONEXIONS = '@Conexion/SET_IND_CONEXIONS';
+export const GET_IND_CONEXIONS = '@Conexion/GET_IND_CONEXIONS';
+export const SET_ORG_CONEXIONS = '@Conexion/SET_ORG_CONEXIONS';
+export const GET_LIST_OF_ORG = '@Conexion/GET_LIST_OF_ORG';
+export const SET_GLOBALE_ERROR = '@Conexion/SET_GLOBALE_ERROR';
+export const SET_GLOBALE_LOADER = '@Conexion/SET_GLOBALE_LOADER';
+export const SET_CREATE_CONEXION_DATE = '@Conexion/SET_CREATE_CONEXION_DATE';
+export const SET_CONEXION_NOTES = '@Conexion/SET_CONEXION_NOTES';
+export const GET_CONEXION_NOTES = '@Conexion/GET_CONEXION_NOTES';
+export const SET_CONEXION_ID = '@Conexion/SET_CONEXION_ID';
+export const GET_CONEXION_DETAILS = '@Conexion/GET_CONEXION_DETAILS';
+export const SET_CONEXION_DETAILS = '@Conexion/SET_CONEXION_DETAILS';
 
 // Local component constants
 export const INDIVIDUAL = 'Individual';
@@ -18,3 +21,5 @@ export const conexionSelectListItems = [
   { label: 'Individual', value: INDIVIDUAL, key: 'key1' },
   { label: 'Organization', value: ORGANIZATION, key: 'key2' },
 ];
+
+export const GENERAL_ERROR = 'Something just went wrong!';

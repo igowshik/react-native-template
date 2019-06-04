@@ -6,11 +6,10 @@ import * as Colors from 'cnxapp/src/utils/colorsConstants';
 
 export const conexionStyles = StyleSheet.create({
   headerStyle: {
-    backgroundColor: '#fff',
+    display: 'flex',
     flexDirection: 'row',
+    margin: 10,
     alignItems: 'center',
-    justifyContent: 'center',
-    borderBottomColor: 'rgba(0,0,0,0)',
   },
   iconRoundBackground: {
     borderWidth: 1,
@@ -27,10 +26,7 @@ export const conexionStyles = StyleSheet.create({
   viewCol2Style: {
     height: Util.size.height,
   },
-  viewCol1Style: {
-    borderColor: 'rgba(0,0,0,0.1)',
-    borderWidth: 1,
-  },
+  viewCol1Style: {},
   cardContentContainerReport: {
     alignItems: 'stretch',
     justifyContent: 'flex-start',
@@ -101,7 +97,7 @@ export const profileViewStyles = StyleSheet.create({
     marginLeft: 20,
   },
   linkText: {
-    color: Colors.link,
+    color: Colors.LINK,
     margin: 4,
   },
   extraText: {

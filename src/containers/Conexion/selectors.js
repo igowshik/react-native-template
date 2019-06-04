@@ -25,6 +25,18 @@ const selectGlobalLoader = () =>
     dataState => dataState.globalLoader,
   );
 
+const selectToastVisibility = () =>
+  createSelector(
+    rootReducers,
+    dataState => dataState.toastVisible,
+  );
+
+const selectToastData = () =>
+  createSelector(
+    rootReducers,
+    dataState => dataState.toast,
+  );
+
 // Conexion Reducers selectors
 const selectIndConexion = () =>
   createSelector(
@@ -51,6 +63,18 @@ const selectConexionNotesData = () =>
     dataState => dataState.conexionNotes,
   );
 
+const selectConexionId = () =>
+  createSelector(
+    conexionReducers,
+    dataState => dataState.selectedConexion,
+  );
+
+const selectConexionDetails = () =>
+  createSelector(
+    conexionReducers,
+    dataState => dataState.conexionDetails,
+  );
+
 export {
   selectIndConexion,
   selectOrgConexion,
@@ -58,4 +82,8 @@ export {
   selectGlobalLoader,
   selectConexionData,
   selectConexionNotesData,
+  selectToastVisibility,
+  selectToastData,
+  selectConexionId,
+  selectConexionDetails,
 };
