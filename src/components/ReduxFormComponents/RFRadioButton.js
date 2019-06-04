@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, Text } from 'react-native';
-import { PRIMARY } from 'cnxapp/src/utils/colorsConstants';
 import { RadioButton } from 'react-native-paper';
 
 export const RFRadioButton = props => {
@@ -10,10 +9,20 @@ export const RFRadioButton = props => {
     label,
     required,
     // meta: { error, touched },
+    status,
+    onChange,
+    value,
     ...inputProps
   } = props;
 
-  return <RadioButton {...inputProps} />;
+  return (
+    <RadioButton
+      {...inputProps}
+      status={status}
+      value={value}
+      onPress={onChange}
+    />
+  );
 };
 
 RFRadioButton.propTypes = {
@@ -21,4 +30,7 @@ RFRadioButton.propTypes = {
   // meta: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
   required: PropTypes.bool,
+  status: PropTypes.string,
+  onChange: PropTypes.func,
+  value: PropTypes.string,
 };

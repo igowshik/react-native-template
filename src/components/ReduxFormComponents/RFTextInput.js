@@ -34,7 +34,7 @@ export const RFTextInput = props => {
         onBlur={input.onBlur}
         onFocus={input.onFocus}
         value={input.value}
-        style={{ width: '40%' }}
+        style={{ width: '90%' }}
         error={hasError}
       />
     </View>

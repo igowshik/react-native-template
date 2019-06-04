@@ -2,6 +2,7 @@ import React from 'react';
 import { Form } from 'native-base';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet } from 'react-native';
+import { Divider, RadioButton } from 'react-native-paper';
 // Absolute imports
 import {
   TextInput,
@@ -40,11 +41,11 @@ const suffix = [
 ];
 class CreateConexionForm1 extends React.Component {
   state = {
-    checked: 'Private',
+    value: '',
   };
 
   renderIndividualForm = () => (
-    <Form>
+    <View style={{ marginBottom: 30 }}>
       <View style={styles.row}>
         <View style={styles.placeRight}>
           <TextInput label="First Name" name="first_name" required />
@@ -55,105 +56,143 @@ class CreateConexionForm1 extends React.Component {
           <TextInput label="initial" name="initial" required />
         </View>
         <View style={styles.placeRight}>
-          <Dropdown label="Title" name="title" required data={title} />
-          <Dropdown label="Suffix" name="suffix" required data={suffix} />
+          <View style={{ flex: 1 }}>
+            <Dropdown label="Title" name="title" required data={title} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Dropdown label="Suffix" name="suffix" required data={suffix} />
+          </View>
         </View>
         <View style={styles.placeRight}>
-          <Dropdown
-            label="Select Oraganisation"
-            name="job_title"
-            required
-            data={title} // organisation data to be filled
-          />
+          <View style={{ flex: 1 }}>
+            <Dropdown
+              label="Select Oraganisation"
+              name="select_oraganisation"
+              required
+              data={title} // organisation data to be filled
+            />
+          </View>
+          {/* <View style={{ flex: 1 }}> */}
           <TextInput label="Job Title" name="job_title" required />
+          {/* </View> */}
         </View>
         <View style={styles.placeRight}>
-          <Dropdown
-            label="Primary Mobile"
-            name="telephone_number"
-            required
-            data={title}
-          />
-          <Dropdown
-            label="Secondary Mobile"
-            name="telephone_number"
-            required
-            data={title}
-          />
+          <View style={{ flex: 1 }}>
+            <Dropdown
+              label="Primary Mobile"
+              name="primary_mobile"
+              required
+              data={title}
+            />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Dropdown
+              label="Secondary Mobile"
+              name="secondary_mobile"
+              required
+              data={title}
+            />
+          </View>
         </View>
-        <HorizDivider />
+        <Divider style={{ marginLeft: 10, marginRight: 20 }} />
         <View style={{ flexDirection: 'row', margin: 10 }}>
           <Text style={{ marginRight: 30, marginTop: 8, fontSize: 20 }}>
             Sharing?
           </Text>
-          <RadioInput
-            value="Public"
-            label="Public"
-            name="Public"
-            onPress={() => {
-              this.setState({ checked: 'Public' });
-            }}
-            required
-          />
-          <Text style={{ marginRight: 30, marginTop: 8, fontSize: 17 }}>
-            Public
-          </Text>
-          <RadioInput label="private" name="Private" required />
-          <Text style={{ marginRight: 30, marginTop: 8, fontSize: 17 }}>
-            Private
-          </Text>
-          <RadioInput label="Shared" name="Shared" required />
-          <Text style={{ marginRight: 30, marginTop: 8, fontSize: 17 }}>
-            Shared
-          </Text>
+
+          <RadioButton.Group
+            onValueChange={value => this.setState({ value })}
+            value={this.state.value}
+          >
+            <View
+              style={{
+                flexDirection: 'row',
+              }}
+            >
+              <RadioButton value="public" />
+              <Text style={styles.radioText}>Public</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+              }}
+            >
+              <RadioButton value="private" />
+              <Text style={styles.radioText}>Private</Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+              }}
+            >
+              <RadioButton value="shared" />
+              <Text style={styles.radioText}>Shared</Text>
+            </View>
+          </RadioButton.Group>
         </View>
-        <HorizDivider />
-        <View style={styles.placeRight}>
-          <Dropdown
-            label="Business Phone"
-            name="telephone_number"
-            required
-            data={title}
-          />
-          <Dropdown
-            label="Business Phone 2"
-            name="telephone_number"
-            required
-            data={title}
-          />
-          <Dropdown
-            label="Business Fax"
-            name="telephone_number"
-            required
-            data={title}
-          />
+        <Divider style={{ marginLeft: 10, marginRight: 20 }} />
+        <View style={styles.placeRightPhone}>
+          <View style={{ flex: 1 }}>
+            <Dropdown
+              label="Business Phone"
+              name="business_phone"
+              style={styles.dropdownPhone}
+              required
+              data={title}
+            />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Dropdown
+              label="Business Phone 2"
+              name="business_phone_2"
+              style={styles.dropdownPhone}
+              required
+              data={title}
+            />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Dropdown
+              label="Business Fax"
+              name="business_fax"
+              style={styles.dropdownPhone}
+              required
+              data={title}
+            />
+          </View>
         </View>
-        <TextInput label="Business Email" name="business_email" required />
-        <TextInput
-          label="Business Home Page"
-          name="business_home_page"
-          required
-        />
-        <HorizDivider style={{ marginTop: 10 }} />
         <View style={styles.placeRight}>
-          <Dropdown
-            label="Home Phone"
-            name="telephone_number"
-            required
-            data={title}
-          />
-          <Dropdown
-            label="Home Phone 2"
-            name="telephone_number"
-            required
-            data={title}
-          />
-          <Dropdown
-            label="Home Fax"
-            name="telephone_number"
-            required
-            data={title}
-          />
+          <View style={{ flex: 1 }}>
+            <TextInput label="Business Email" name="business_email" required />
+          </View>
+          <View style={{ flex: 1 }}>
+            <TextInput
+              label="Business Home Page"
+              name="business_home_page"
+              required
+            />
+          </View>
+        </View>
+        <Divider style={{ marginTop: 10, marginLeft: 10, marginRight: 20 }} />
+        <View style={styles.placeRight}>
+          <View style={{ flex: 1 }}>
+            <Dropdown
+              label="Home Phone"
+              name="home_phone"
+              required
+              data={title}
+            />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Dropdown
+              label="Home Phone 2"
+              name="home_phone_2"
+              required
+              data={title}
+            />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Dropdown label="Home Fax" name="home_fax" required data={title} />
+          </View>
         </View>
         <TextInput label="Personal Email" name="personal_email" required />
         <TextInput
@@ -162,7 +201,7 @@ class CreateConexionForm1 extends React.Component {
           required
         />
       </View>
-    </Form>
+    </View>
   );
 
   renderOrgForm = () => (
@@ -195,6 +234,18 @@ const styles = StyleSheet.create({
     flex: 1,
     marginBottom: 10,
     flexDirection: 'row',
+  },
+  placeRightPhone: {
+    flex: 1,
+    marginBottom: 10,
+    flexDirection: 'row',
+    // width: '33%',
+  },
+  // dropdownPhone: { width: '33%' },
+  radioText: {
+    marginRight: 30,
+    marginTop: 8,
+    fontSize: 17,
   },
 });
 
