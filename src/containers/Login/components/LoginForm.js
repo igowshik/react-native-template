@@ -25,7 +25,7 @@ class LoginForm extends Component {
     const { userName, password } = this.state;
     return (
       <View>
-        <StatusBar barStyle="default" />
+        <StatusBar barStyle="default" backgroundColor="#6F5CEC" />
         <TextInput
           style={styles.input}
           autoCapitalize="none"
