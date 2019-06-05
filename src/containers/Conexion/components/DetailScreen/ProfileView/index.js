@@ -13,32 +13,35 @@ import {
   Text,
   H3,
 } from 'native-base';
+import LinearGradient from 'react-native-linear-gradient';
+import { Surface } from 'react-native-paper';
 
 // Absolute imports
 import { HorizDivider } from 'cnxapp/src/components/Dividers';
 import { CNXTextM, CNXTextBold } from 'cnxapp/src/components/Texts';
 import { CNXH2 } from 'cnxapp/src/components/Typography';
+// import * as Colors from 'cnxapp/src/utils/colorsConstants';
 
 // Relative imports
-import { INDIVIDUAL, ORGANIZATION } from '../../constants';
-import { profileViewStyles } from '../../styles';
+import { INDIVIDUAL, ORGANIZATION } from '../../../constants';
+import { profileViewStyles } from '../../../styles';
 
 const selectListimage = require('cnxapp/src/assets/illustration/selectfromlist.png');
 const profile = require('cnxapp/src/assets/pastel/indavatar.png');
 const organization = require('cnxapp/src/assets/pastel/orgavatar.png');
 
-class ConexionProfileView extends React.Component {
+class ProfileView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      height: Dimensions.get('window').height,
+      // height: Dimensions.get('window').height,
     };
     this.onLayout = this.onLayout.bind(this);
   }
 
   onLayout() {
     this.setState({
-      height: Dimensions.get('window').height - 600,
+      // height: Dimensions.get('window').height - 600,
     });
   }
 
@@ -193,16 +196,49 @@ class ConexionProfileView extends React.Component {
 
   render() {
     return (
-      <View onLayout={this.onLayout} style={{ height: this.state.height }}>
-        <View>{this.getProfileViewContent()}</View>
+      <View onLayout={this.onLayout} style={{ flex: 1 }}>
+        {/* <View>{this.getProfileViewContent()}</View> */}
+        <LinearGradient
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+          colors={['rgba(79,172,254,1) 2%', 'rgba(195,0,242,1) 83%']}
+          style={{
+            height: 120,
+            // borderBottomLeftRadius: 25,
+            // borderBottomRightRadius: 25,
+          }}
+        />
+        <View
+          style={{
+            height: 130,
+            marginTop: -75,
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+          }}
+        >
+          <Surface
+            style={{
+              height: 130,
+              width: 500,
+              alignItems: 'center',
+              justifyContent: 'center',
+              elevation: 8,
+            }}
+          >
+            <View style={{ flex: 1 }}>
+              <Text>Surface</Text>
+            </View>
+          </Surface>
+        </View>
       </View>
     );
   }
 }
 
-ConexionProfileView.propTypes = {
+ProfileView.propTypes = {
   selectedValue: PropTypes.string.isRequired,
   conexionProfile: PropTypes.object,
 };
 
-export default ConexionProfileView;
+export default ProfileView;

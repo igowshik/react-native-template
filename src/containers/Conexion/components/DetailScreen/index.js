@@ -39,7 +39,7 @@ import {
   selectToastData,
 } from '../../selectors';
 import { getConexionsNotesAction, getConexionDetails } from '../../actions';
-import ConexionProfileView from './ConexionProfileView';
+import ProfileView from './ProfileView';
 import Notes from './Notes';
 
 class DetailScreen extends React.Component {
@@ -61,9 +61,9 @@ class DetailScreen extends React.Component {
       selected: selectedValue ? INDIVIDUAL : ORGANIZATION,
     });
 
-    dispatchSetGlobalLoaderState(true);
-    dispatchGetConexionNotes(selectedId);
-    dispatchGetConexionDetails();
+    // dispatchSetGlobalLoaderState(true);
+    // dispatchGetConexionNotes(selectedId);
+    // dispatchGetConexionDetails();
   }
 
   searchConexions = searchText => {
@@ -97,7 +97,7 @@ class DetailScreen extends React.Component {
                 <LottieListLoader />
               </View>
             ) : (
-              <ConexionProfileView
+              <ProfileView
                 conexionProfile={conexionDetails}
                 selectedValue={selected}
               />
