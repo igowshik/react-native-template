@@ -23,3 +23,7 @@ export const conexionSelectListItems = [
 ];
 
 export const GENERAL_ERROR = 'Something just went wrong!';
+
+export const CREATOR = 'CTOR';
+export const SHARED = 'SHAR';
+export const MANGER = 'MGR';

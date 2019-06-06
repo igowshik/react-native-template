@@ -34,7 +34,6 @@ import {
   selectOrgConexion,
   selectGlobalLoader,
   selectConexionNotesData,
-  selectConexionDetails,
   selectToastVisibility,
   selectToastData,
 } from '../../selectors';
@@ -61,9 +60,9 @@ class DetailScreen extends React.Component {
       selected: selectedValue ? INDIVIDUAL : ORGANIZATION,
     });
 
-    // dispatchSetGlobalLoaderState(true);
-    // dispatchGetConexionNotes(selectedId);
-    // dispatchGetConexionDetails();
+    dispatchSetGlobalLoaderState(true);
+    dispatchGetConexionNotes(selectedId);
+    dispatchGetConexionDetails();
   }
 
   searchConexions = searchText => {
@@ -72,7 +71,7 @@ class DetailScreen extends React.Component {
 
   render() {
     const { selected, firstQuery } = this.state;
-    const { conexionDetails, loaderState, toastVisible, toast } = this.props;
+    const { loaderState, toastVisible, toast } = this.props;
     return (
       <Container>
         {/* <Dashboard /> */}
@@ -82,13 +81,7 @@ class DetailScreen extends React.Component {
             heading={
               <TabHeading>
                 <FontAwesome5 name="info-circle" color="#fff" size={20} brand />
-                <Text
-                  style={
-                    (Styles.textColor, { fontFamily: 'Montserrat-Regular' })
-                  }
-                >
-                  Details
-                </Text>
+                <Text style={Styles.textColor}>Profile</Text>
               </TabHeading>
             }
           >
@@ -97,23 +90,14 @@ class DetailScreen extends React.Component {
                 <LottieListLoader />
               </View>
             ) : (
-              <ProfileView
-                conexionProfile={conexionDetails}
-                selectedValue={selected}
-              />
+              <ProfileView selectedValue={selected} />
             )}
           </Tab>
           <Tab
             heading={
-              <TabHeading style={{ backgroundColor: 'transparent' }}>
+              <TabHeading>
                 <FontAwesome5 name="sticky-note" color="#fff" size={20} brand />
-                <Text
-                  style={
-                    (Styles.textColor, { fontFamily: 'Montserrat-Regular' })
-                  }
-                >
-                  Notes
-                </Text>
+                <Text style={Styles.textColor}>Notes</Text>
               </TabHeading>
             }
           >
@@ -143,7 +127,6 @@ DetailScreen.propTypes = {
   dispatchSetGlobalLoaderState: PropTypes.func.isRequired,
   conexionNotes: PropTypes.array,
   dispatchGetConexionNotes: PropTypes.func,
-  conexionDetails: PropTypes.object.isRequired,
   dispatchGetConexionDetails: PropTypes.func.isRequired,
   loaderState: PropTypes.bool.isRequired,
   toastVisible: PropTypes.bool.isRequired,
@@ -161,7 +144,6 @@ const mapStateToProps = createStructuredSelector({
   indConexions: selectIndConexion(),
   orgConexions: selectOrgConexion(),
   conexionNotes: selectConexionNotesData(),
-  conexionDetails: selectConexionDetails(),
   toastVisible: selectToastVisibility(),
   toast: selectToastData(),
 });

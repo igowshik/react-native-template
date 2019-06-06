@@ -13,7 +13,7 @@ import { INFO, ERROR, WARNING, SUCCESS } from '../../utils/constants';
 class SnackbarCustom extends React.Component {
   getMessage = () => {
     const { toast } = this.props;
-    if (toast) {
+    if (typeof toast.toastMessage === 'string' && toast) {
       switch (toast.toastType) {
         case INFO: {
           return (

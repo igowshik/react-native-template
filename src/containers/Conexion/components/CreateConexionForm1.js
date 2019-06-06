@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form } from 'native-base';
 import PropTypes from 'prop-types';
-import { View,ScrollView } from 'react-native';
+import { View } from 'react-native';
 // Absolute imports
 import { TextInput } from 'cnxapp/src/components/InputField';
 
@@ -26,11 +26,11 @@ import { ConexionFooterForm } from './ConexionFooterForm';
 
 class CreateConexionForm1 extends React.Component {
   renderIndividualForm = () => (
-    <ScrollView style={{flex:1}}>
+    <View>
       <ConexionHeaderForm />
       <ConexionShareForm />
       <ConexionFooterForm />
-    </ScrollView>
+    </View>
   );
 
   renderOrgForm = () => (

@@ -95,14 +95,14 @@ function* getConexionNotesAPI({ conexionId }) {
     yield put(setRootGlobalLoader(false));
     yield put(saveConexionNotesAction(data));
   } else {
-    yield put(
-      setToastMessage({
-        toastMessage: data,
-        toastType: ERROR,
-      }),
-    );
+    // yield put(
+    //   setToastMessage({
+    //     toastMessage: data.message,
+    //     toastType: ERROR,
+    //   }),
+    // );
     yield put(setRootGlobalLoader(false));
-    yield put(setToastVisibility(true));
+    // yield put(setToastVisibility(true));
   }
 }
 
