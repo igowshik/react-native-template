@@ -66,9 +66,11 @@ const Communication = props => {
                   <DataTable.Row>
                     <DataTable.Cell>Home Telephone Number:</DataTable.Cell>
                     <DataTable.Cell>
-                      {data.HomeTelephoneNumber
-                        ? data.HomeTelephoneNumber
-                        : null}
+                      <Text style={styles.linkText}>
+                        {data.HomeTelephoneNumber
+                          ? data.HomeTelephoneNumber
+                          : null}
+                      </Text>
                     </DataTable.Cell>
                   </DataTable.Row>
                   <DataTable.Row>

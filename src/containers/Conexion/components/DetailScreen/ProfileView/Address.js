@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
-import { Divider, Card, Title, Paragraph, Text } from 'react-native-paper';
+import { Divider, Card, Paragraph, Button, Avatar } from 'react-native-paper';
 import Lo from 'lodash';
 
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
@@ -11,16 +11,13 @@ const Address = props => {
   const { data } = props;
   if (!Lo.isEmpty(data)) {
     return (
-      <View style={{ flex: 1, margin: 15 }}>
+      <View style={styles.parentView}>
         <Card elevation={4}>
           <Card.Title
             title="Address"
             left={propss => (
               <View
-                style={[
-                  styles.iconRoundBackground,
-                  { backgroundColor: '#E8F5E9', borderColor: '#1B5E20' },
-                ]}
+                style={[styles.iconRoundBackground, styles.iconsColor]}
                 {...propss}
               >
                 <FontAwesome5
@@ -36,17 +33,28 @@ const Address = props => {
           <Card.Content>
             {data.Addresses.map(add => (
               <View style={{ margin: 10 }} key={add.ConexionAddressId}>
-                <Title>
-                  <FontAwesome5
-                    name="map-marker-plus"
-                    color={Colors.YELLOW}
-                    size={20}
-                    light
+                <Card>
+                  <Card.Title
+                    title={add.AddressType}
+                    left={prope => (
+                      <Avatar.Icon
+                        {...prope}
+                        icon="place"
+                        style={styles.avatar}
+                        color={Colors.YELLOW}
+                      />
+                    )}
                   />
-                  <Text style={{ marginLeft: 3 }}>{add.AddressType}</Text>
-                </Title>
-                <Divider />
-                <Paragraph>{add.DisplayAddress}</Paragraph>
+                  <Card.Content>
+                    <Paragraph>{add.DisplayAddress}</Paragraph>
+                  </Card.Content>
+                  <Card.Actions>
+                    <Button onPress={() => {}}>Edit</Button>
+                    <Button color={Colors.RED} onPress={() => {}}>
+                      Delete
+                    </Button>
+                  </Card.Actions>
+                </Card>
               </View>
             ))}
           </Card.Content>
@@ -69,6 +77,16 @@ const styles = StyleSheet.create({
     height: 45,
     borderRadius: 100,
   },
+  avatar: {
+    backgroundColor: '#FFF',
+    borderColor: '#FCBB0D',
+    borderWidth: 1,
+  },
+  parentView: {
+    flex: 1,
+    margin: 15,
+  },
+  iconsColor: { backgroundColor: '#E8F5E9', borderColor: '#1B5E20' },
 });
 
 export default Address;

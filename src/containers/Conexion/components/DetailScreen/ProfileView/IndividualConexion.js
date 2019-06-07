@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { withNavigation } from 'react-navigation';
-import { Avatar, Surface, FAB, Text } from 'react-native-paper';
+import { Avatar, Surface, FAB } from 'react-native-paper';
 // import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 
 // Absolute imports
@@ -22,7 +22,7 @@ import Address from './Address';
 import Sharing from './Sharing';
 
 const profile = require('cnxapp/src/assets/pastel/indavatar.png');
-const profileBG = require('cnxapp/src/assets/images/profilebg.png');
+const profileBG = require('cnxapp/src/assets/images/newprofile.png');
 
 class IndividualConexion extends React.Component {
   constructor(props) {
@@ -39,11 +39,6 @@ class IndividualConexion extends React.Component {
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           colors={['rgba(3,0,187,1) 65%', 'rgba(7,133,244,1) 0%']}
-          // colors={[
-          //   'rgba(112,226,226,1) 0%',
-          //   'rgba(49,148,224,1) 15%',
-          //   'rgba(0,79,200,1) 40%',
-          // ]}
           style={styles.linearGraident}
         >
           <ImageBackground source={profileBG} style={styles.imageBG}>
@@ -82,13 +77,7 @@ class IndividualConexion extends React.Component {
             <Sharing data={conexionDetails} />
           </ScrollView>
         </Surface>
-        <FAB
-          style={styles.fab}
-          icon="edit"
-          onPress={() => {
-            console.log(); //eslint-disable-line
-          }}
-        />
+        <FAB style={styles.fab} icon="edit" onPress={() => {}} />
       </View>
     );
   }
@@ -107,11 +96,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     backgroundColor: 'transparent',
     margin: 10,
-    marginLeft: 50,
-    marginRight: 0,
+    marginTop: 20,
+    // marginLeft: 50,
   },
   overlap: {
-    marginTop: -75,
+    marginTop: -15,
     flex: 1,
     marginBottom: 10,
     flexDirection: 'row',
@@ -122,11 +111,9 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   linearGraident: {
-    height: 230,
+    height: 180,
     flexDirection: 'row',
     justifyContent: 'center',
-    // borderTopLeftRadius: 30,
-    // borderTopRightRadius: 30,
   },
   headerView: {
     flexDirection: 'column',
@@ -144,14 +131,14 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
     borderRadius: 100,
-    // borderWidth: 1,
   },
   imageBG: {
     width: '100%',
     height: '100%',
     flexWrap: 'wrap',
     flexDirection: 'row',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
+    alignContent: 'center',
   },
   fab: {
     position: 'absolute',
