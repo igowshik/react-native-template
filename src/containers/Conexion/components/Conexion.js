@@ -183,7 +183,7 @@ class Conexion extends React.Component {
       <View>
         <View>
           <View style={styles.headerStyle}>
-            <CNXH3 style={{ color: colors.DARK }}>Select conexion type:</CNXH3>
+            <CNXH3 style={{ color: colors.DARK }}>Conexion type:</CNXH3>
             <Switch
               label={INDIVIDUAL}
               selected={indSelected}
@@ -203,7 +203,13 @@ class Conexion extends React.Component {
               conexionType={createConexionType}
             />
           </View>
-          <View onLayout={this.onLayout} style={{ height: this.state.height }}>
+          <View
+            onLayout={this.onLayout}
+            style={{
+              height: this.state.height,
+              backgroundColor: colors.BGCOLOR,
+            }}
+          >
             <Header>
               <CNXH2 style={{ color: '#fff' }}>
                 {`${this.getConexionTitle()} Conexions`}

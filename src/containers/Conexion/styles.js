@@ -128,10 +128,18 @@ export const listViewStyle = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
+    alignItems: 'center',
+    alignContent: 'center',
   },
   listBody: {
     margin: 5,
+    marginTop: 5,
     alignItems: 'flex-start',
+  },
+  cardMargin: {
+    marginTop: 2,
+    marginRight: 1,
+    marginLeft: 1,
   },
 });
 

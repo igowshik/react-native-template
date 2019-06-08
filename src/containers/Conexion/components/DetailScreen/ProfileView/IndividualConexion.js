@@ -11,12 +11,12 @@ import { Avatar, Surface, FAB } from 'react-native-paper';
 
 // Absolute imports
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
-import { CNXH1 as H1, CNXH3 as H3 } from 'cnxapp/src/components/Typography';
+import { CNXH1 as H1 } from 'cnxapp/src/components/Typography';
 import ScrollView from 'cnxapp/src/components/ScrollView';
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 
 import { selectConexionDetails } from '../../../selectors';
-import { getTitleName, getOrgName } from './util';
+import { getTitleName, getOrgName, getEmail, getPhone } from './util';
 import Communication from './Communication';
 import Address from './Address';
 import Sharing from './Sharing';
@@ -34,7 +34,7 @@ class IndividualConexion extends React.Component {
     const { conexionDetails } = this.props;
 
     return (
-      <View style={{ flex: 1, backgroundColor: '#E9EAEF' }}>
+      <View style={{ flex: 1, backgroundColor: Colors.BGCOLOR }}>
         <LinearGradient
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
@@ -56,17 +56,12 @@ class IndividualConexion extends React.Component {
                   conexionDetails.DisplayName,
                 )} (${conexionDetails.ShortName})`}
               </H1>
-              <H3 style={styles.headerText}>
-                {`${conexionDetails.JobTitle} Works at ${getOrgName(
-                  conexionDetails.Organization,
-                )}`}
-              </H3>
-              <H3 style={styles.headerText}>
-                {conexionDetails.BusinessEmailAddress}
-              </H3>
-              <H3 style={styles.headerText}>
-                {conexionDetails.BusinessTelephoneNumber}
-              </H3>
+              {getOrgName(
+                conexionDetails.JobTitle,
+                conexionDetails.Organization,
+              )}
+              {getEmail(conexionDetails.BusinessEmailAddress)}
+              {getPhone(conexionDetails.BusinessTelephoneNumber)}
             </View>
           </ImageBackground>
         </LinearGradient>
@@ -97,7 +92,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     margin: 10,
     marginTop: 20,
-    // marginLeft: 50,
+    marginLeft: 50,
   },
   overlap: {
     marginTop: -15,
@@ -137,7 +132,7 @@ const styles = StyleSheet.create({
     height: '100%',
     flexWrap: 'wrap',
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignContent: 'center',
   },
   fab: {

@@ -11,7 +11,7 @@ export const GREY = '#8e8e93';
 export const GREEN = '#4cd964';
 
 // Background color for the app
-export const BGCOLOR = '#F7F9F9';
+export const BGCOLOR = '#E9EAEF';
 
 // Primary color
 export const PRIMARY = BLUE;
