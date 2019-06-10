@@ -1,11 +1,11 @@
 import React from 'react';
 import { Field } from 'redux-form';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ViewPropTypes } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { RFTextInput } from '../ReduxFormComponents/RFTextInput';
 import { RFNumberInput } from '../ReduxFormComponents/RFNumberInput';
-import { RFRadioButton } from '../ReduxFormComponents/RFRadioButton';
+import { RFRadioButtonV2 } from '../ReduxFormComponents/RFRadioButtonV2';
 
 export const TextInput = props => {
   const { label, name, required } = props;
@@ -46,26 +46,39 @@ NumberInput.propTypes = {
 };
 
 export const RadioInput = props => {
-  const { label, name, required, status, onChange, value } = props;
+  const {
+    label,
+    name,
+    required,
+    status,
+    onPress,
+    onValueChange,
+    value,
+    style,
+  } = props;
   return (
     <Field
       label={label}
-      component={RFRadioButton}
+      component={RFRadioButtonV2}
       name={name}
       status={status}
-      onChange={onChange}
+      onPress={onPress}
       value={value}
+      onValueChange={onValueChange}
       required={required}
+      style={style}
     />
   );
 };
 RadioInput.propTypes = {
-  label: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  name: PropTypes.string,
   required: PropTypes.bool,
   status: PropTypes.string,
-  onChange: PropTypes.func,
+  onPress: PropTypes.func,
   value: PropTypes.string,
+  onValueChange: PropTypes.func,
+  style: ViewPropTypes.style,
 };
 const styles = StyleSheet.create({
   field: {

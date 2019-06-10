@@ -6,12 +6,12 @@ import { View } from 'react-native';
 import { TextInput } from 'cnxapp/src/components/InputField';
 
 // Relative imports
-import { INDIVIDUAL } from '../constants';
+// import { INDIVIDUAL } from '../../constants'
 
 //---------------------
-import { ConexionHeaderForm } from './ConexionHeaderForm';
-import { ConexionShareForm } from './ConexionShareForm';
-import { ConexionFooterForm } from './ConexionFooterForm';
+import { Details } from './Details';
+import { ShareType } from './ShareType';
+import { Communication } from './Commuinacation';
 // eslint-disable-next-line import/named
 // import ScrollView from '../../../components/ScrollView';
 
@@ -27,9 +27,9 @@ import { ConexionFooterForm } from './ConexionFooterForm';
 class CreateConexionForm1 extends React.Component {
   renderIndividualForm = () => (
     <View>
-      <ConexionHeaderForm />
-      <ConexionShareForm />
-      <ConexionFooterForm />
+      <Details />
+      <ShareType />
+      <Communication />
     </View>
   );
 
@@ -46,7 +46,7 @@ class CreateConexionForm1 extends React.Component {
 
   render() {
     const { viewType } = this.props;
-    if (viewType === INDIVIDUAL) return this.renderIndividualForm();
+    if (viewType === 'Individual') return this.renderIndividualForm();
     return this.renderOrgForm();
   }
 }

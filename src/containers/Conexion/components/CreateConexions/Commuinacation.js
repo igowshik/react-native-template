@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Divider } from 'react-native-paper';
-import { TextInput, NumberInput } from 'cnxapp/src/components/InputField';
-import Dropdown from '../../../components/Dropdown';
+import { TextInput } from 'cnxapp/src/components/InputField';
+import Dropdown from '../../../../components/Dropdown';
 
 const title = [
   { value: 'Dr.' },
@@ -13,7 +13,7 @@ const title = [
   { value: 'Prof.' },
 ];
 
-const ConexionFooterForm = () => (
+const Communication = () => (
   <View>
     <View style={styles.placeRightPhone}>
       <View style={{ flex: 1 }}>
@@ -116,4 +116,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { ConexionFooterForm };
+export { Communication };

@@ -24,12 +24,22 @@ function* getAccessToken({ userName, password }) {
   };
   const data = yield call(request, requestURL, options);
   if (data && !data.access_token) {
-    yield put(
-      setToastMessage({
-        toastMessage: data.response.error_description,
-        toastType: ERROR,
-      }),
-    );
+    if (data.response) {
+      yield put(
+        setToastMessage({
+          toastMessage: data.response.error_description,
+          toastType: ERROR,
+        }),
+      );
+    } else {
+      yield put(
+        setToastMessage({
+          toastMessage: data.message,
+          toastType: ERROR,
+        }),
+      );
+    }
+
     yield put(setToastVisibility(true));
     yield put(setLoaderValue(false));
   } else if (data.access_token) {

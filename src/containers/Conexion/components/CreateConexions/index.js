@@ -9,7 +9,9 @@ import { PrimaryButton } from 'cnxapp/src/components/Buttons/Primary';
 // Relative imports
 // import CreateConexionForm from './CreateConexionForm';
 import CreateConexionForm1 from './CreateConexionForm1';
-import { validate } from '../validate';
+import CreateAddress from '../DetailScreen/ProfileView/CreateAddress';
+
+import { validate } from '../../validate';
 
 class CreateConexions extends Component {
   constructor(props) {
@@ -75,6 +77,7 @@ class CreateConexions extends Component {
           </View>
           <View style={{ flex: 1 }}>
             <CreateConexionForm1 viewType={conexionType} />
+            {/* <CreateAddress viewType={conexionType} /> */}
           </View>
         </FullPageModal>
       </View>
