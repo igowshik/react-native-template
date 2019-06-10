@@ -3,7 +3,7 @@ import Lo from 'lodash';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { CNXH3 as H3 } from 'cnxapp/src/components/Typography';
-import { CREATOR } from '../../../constants';
+import { CREATOR, MANGER } from '../../../constants';
 
 export const getTitleName = (title, displayName) => {
   if (title) return `${title}. ${displayName}`;
@@ -35,7 +35,13 @@ export const getPhone = phone => {
 
 export const getShareUser = role => {
   if (role === CREATOR) return Colors.ORANGE;
+  if (role === MANGER) return Colors.GREEN;
   return Colors.PURPLE;
+};
+
+export const getHomePage = page => {
+  if (page) return <H3 style={styles.headerText}>{page}</H3>;
+  return null;
 };
 
 const styles = StyleSheet.create({

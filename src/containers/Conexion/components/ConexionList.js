@@ -69,7 +69,7 @@ class ConexionList extends React.Component {
                 {...props}
                 size={50}
                 label={this.getIndAvatarText(conexion.DisplayName.trim())}
-                style={{ backgroundColor: Colors.PURPLE }}
+                style={{ backgroundColor: Colors.SECONDARY }}
               />
             )}
           />
@@ -99,7 +99,7 @@ class ConexionList extends React.Component {
                 {...props}
                 size={50}
                 label={this.getOrgAvatarText(conexion.Name.trim())}
-                style={{ backgroundColor: Colors.PURPLE }}
+                style={{ backgroundColor: Colors.SECONDARY }}
               />
             )}
           />

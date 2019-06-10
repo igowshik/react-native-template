@@ -7,16 +7,16 @@ import { Divider, Card, Chip } from 'react-native-paper';
 import Lo from 'lodash';
 
 // import * as Colors from 'cnxapp/src/utils/colorsConstants';
-import { getShareUser } from './util';
+import { getShareUser } from '../util';
 
-const Sharing = props => {
+const Managers = props => {
   const { data } = props;
   if (!Lo.isEmpty(data)) {
     return (
       <View style={{ flex: 1, margin: 15 }}>
         <Card elevation={4}>
           <Card.Title
-            title="Sharing"
+            title="Managers"
             left={propss => (
               <View
                 style={[
@@ -25,12 +25,7 @@ const Sharing = props => {
                 ]}
                 {...propss}
               >
-                <FontAwesome5
-                  name="share-alt"
-                  color="#880E4F"
-                  size={25}
-                  light
-                />
+                <FontAwesome5 name="sitemap" color="#880E4F" size={25} light />
               </View>
             )}
           />
@@ -73,7 +68,7 @@ const Sharing = props => {
   return null;
 };
 
-Sharing.propTypes = {
+Managers.propTypes = {
   data: PropTypes.object,
 };
 
@@ -87,4 +82,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Sharing;
+export default Managers;

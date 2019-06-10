@@ -15,8 +15,8 @@ import { CNXH1 as H1 } from 'cnxapp/src/components/Typography';
 import ScrollView from 'cnxapp/src/components/ScrollView';
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 
-import { selectConexionDetails } from '../../../selectors';
-import { getTitleName, getOrgName, getEmail, getPhone } from './util';
+import { selectConexionDetails } from '../../../../selectors';
+import { getTitleName, getOrgName, getEmail, getPhone } from '../util';
 import Communication from './Communication';
 import Address from './Address';
 import Sharing from './Sharing';
