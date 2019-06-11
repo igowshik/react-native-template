@@ -65,10 +65,12 @@ class Conexion extends React.Component {
       setGlobalLoaderState,
       fetchOrgConexion,
       fetchIndConexion,
+      // fetchDropDownValues,
     } = this.props;
     setGlobalLoaderState(true);
     fetchOrgConexion(accessToken);
     fetchIndConexion(accessToken);
+    // fetchDropDownValues();
   }
 
   setModalOpenClose = value => {
@@ -281,6 +283,7 @@ const mapDispatchToProps = dispatch => ({
   setGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),
   setConexionData: data => dispatch(setConexionDataAction(data)),
   dispatchSetConexionId: id => dispatch(saveselectedConexionId(id)),
+  // fetchDropDownValues: ()=>
 });
 
 const withConnect = connect(

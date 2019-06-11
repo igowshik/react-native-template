@@ -69,14 +69,18 @@ class FullPageModal extends React.Component {
               </View>
             </View>
             <HorizDivider />
-            <KeyboardAwareScrollView
-              style={{ flex: 1 }}
-              contentContainerStyle={styles.scrollview}
-              scrollEnabled={scrollEnabled}
-              onContentSizeChange={this.onContentSizeChange}
-            >
-              {children}
-            </KeyboardAwareScrollView>
+            {Platform.OS === 'ios' ? (
+              <KeyboardAwareScrollView
+                style={{ flex: 1 }}
+                contentContainerStyle={styles.scrollview}
+                scrollEnabled={scrollEnabled}
+                onContentSizeChange={this.onContentSizeChange}
+              >
+                {children}
+              </KeyboardAwareScrollView>
+            ) : (
+              { children }
+            )}
           </View>
         </Modal>
       </View>
