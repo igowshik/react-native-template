@@ -1,27 +1,53 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, Text } from 'react-native';
+import { View, Text, ViewPropTypes } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 
 export const RFRadioButton = props => {
   const {
-    input,
+    // input,
     label,
     required,
     // meta: { error, touched },
-    status,
-    onChange,
+    // status,
+    // onChange,
+    onValueChange,
     value,
+    style,
     ...inputProps
   } = props;
 
   return (
-    <RadioButton
-      {...inputProps}
-      status={status}
+    <RadioButton.Group
+      onValueChange={onValueChange}
       value={value}
-      onPress={onChange}
-    />
+      {...inputProps}
+    >
+      <View
+        style={{
+          flexDirection: 'row',
+        }}
+      >
+        <RadioButton value={label} />
+        <Text style={style}>Public</Text>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+        }}
+      >
+        <RadioButton value={value} />
+        <Text style={style}>Private</Text>
+      </View>
+      <View
+        style={{
+          flexDirection: 'row',
+        }}
+      >
+        <RadioButton value={value} />
+        <Text style={style}>Shared</Text>
+      </View>
+    </RadioButton.Group>
   );
 };
 
@@ -33,4 +59,6 @@ RFRadioButton.propTypes = {
   status: PropTypes.string,
   onChange: PropTypes.func,
   value: PropTypes.string,
+  onValueChange: PropTypes.func,
+  style: ViewPropTypes.style,
 };

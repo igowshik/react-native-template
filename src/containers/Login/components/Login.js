@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Image, KeyboardAvoidingView } from 'react-native';
+import { View, Image, KeyboardAvoidingView, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { withNavigation } from 'react-navigation';
@@ -67,7 +67,7 @@ class Login extends Component {
             }}
             behavior="padding"
             enabled
-            keyboardVerticalOffset={100}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : -300}
           >
             <View style={styles.loginContainer}>
               <Grid>

@@ -33,7 +33,7 @@ const ConexionStack = createStackNavigator(
     SecondScreen: {
       screen: DetailScreen,
       navigationOptions: {
-        title: 'CONEXION', // set "" initially added "CONEXION" jy
+        title: Platform.OS === 'ios' ? '' : 'CONEXION', // set "" initially added "CONEXION" jy
         headerStyle: {
           backgroundColor: NAVHEADER,
         },

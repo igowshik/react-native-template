@@ -1,29 +1,21 @@
 import React from 'react';
-import { Form } from 'native-base';
-import PropTypes from 'prop-types';
-import { View, Text, StyleSheet } from 'react-native';
-import { Divider, RadioButton } from 'react-native-paper';
+import { View, StyleSheet } from 'react-native';
 // Absolute imports
-import {
-  TextInput,
-  NumberInput,
-  RadioInput,
-} from 'cnxapp/src/components/InputField';
+import { TextInput } from 'cnxapp/src/components/InputField';
 
-import Dropdown from '../../../components/Dropdown';
-import { HorizDivider } from '../../../components/Dividers';
+import Dropdown from '../../../../components/Dropdown';
 
 // Relative imports
-import { INDIVIDUAL } from '../constants';
+// import { INDIVIDUAL } from '../../constants';
 
-const data = [
-  {
-    value: 'Home',
-  },
-  {
-    value: 'Office',
-  },
-];
+// const data = [
+//   {
+//     value: 'Home',
+//   },
+//   {
+//     value: 'Office',
+//   },
+// ];
 const title = [
   { value: 'Dr.' },
   { value: 'Miss' },
@@ -40,9 +32,9 @@ const suffix = [
   { value: 'Sr.' },
 ];
 
-const ConexionHeaderForm = () => (
+const Details = () => (
   // <View style={{ marginBottom: 30 }}>
-  <View style={styles.row}>
+  <View>
     <View style={styles.placeRight}>
       <TextInput label="First Name" name="first_name" required />
       <TextInput label="Middle Name" name="middle_name" required />
@@ -132,4 +124,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { ConexionHeaderForm };
+export { Details };

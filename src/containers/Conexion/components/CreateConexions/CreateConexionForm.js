@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 // Absolute imports
 import { TextInput, NumberInput } from 'cnxapp/src/components/InputField';
 
-import Dropdown from '../../../components/Dropdown';
+import Dropdown from '../../../../components/Dropdown';
 
 // Relative imports
-import { INDIVIDUAL } from '../constants';
+import { INDIVIDUAL } from '../../constants';
 
 const data = [
   {
