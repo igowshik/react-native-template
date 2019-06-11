@@ -1,0 +1,16 @@
+{
+  "window.zoomLevel": 0,
+  "workbench.sideBar.location": "left",
+  "editor.minimap.enabled": false,
+  "editor.renderWhitespace": "none",
+  "editor.renderControlCharacters": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "eslint.autoFixOnSave": true,
+  "breadcrumbs.enabled": true,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "explorer.confirmDelete":false,
+  "editor.largeFileOptimizations": false,
+  "workbench.colorTheme": "One Dark Pro Vivid",
+  "explorer.confirmDragAndDrop": false,
+}
