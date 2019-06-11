@@ -6,7 +6,7 @@ import { Card, Avatar } from 'react-native-paper';
 // Absolute imports
 import LottieListLoader from 'cnxapp/src/components/Lotties/LottieListLoader';
 import ScrollView from 'cnxapp/src/components/ScrollView';
-import * as Colors from 'cnxapp/src/utils/colorsConstants';
+// import * as Colors from 'cnxapp/src/utils/colorsConstants';
 
 // Relative imports
 import { listViewStyle } from '../styles';
@@ -69,7 +69,7 @@ class ConexionList extends React.Component {
                 {...props}
                 size={50}
                 label={this.getIndAvatarText(conexion.DisplayName.trim())}
-                style={{ backgroundColor: Colors.SECONDARY }}
+                style={{ backgroundColor: '#A70594' }}
               />
             )}
           />
@@ -99,7 +99,7 @@ class ConexionList extends React.Component {
                 {...props}
                 size={50}
                 label={this.getOrgAvatarText(conexion.Name.trim())}
-                style={{ backgroundColor: Colors.SECONDARY }}
+                style={{ backgroundColor: '#A70594' }}
               />
             )}
           />

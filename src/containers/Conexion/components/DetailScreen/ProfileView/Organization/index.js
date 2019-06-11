@@ -7,7 +7,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { withNavigation } from 'react-navigation';
 import { Avatar, Surface, FAB } from 'react-native-paper';
-// import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 
 // Absolute imports
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
@@ -21,7 +21,6 @@ import Communication from './Communication';
 import Address from './Address';
 import Sharing from './Managers';
 
-const profile = require('cnxapp/src/assets/pastel/orgavatar.png');
 const profileBG = require('cnxapp/src/assets/images/newprofile.png');
 
 class OrganiztionConexion extends React.Component {
@@ -43,10 +42,17 @@ class OrganiztionConexion extends React.Component {
         >
           <ImageBackground source={profileBG} style={styles.imageBG}>
             <View style={styles.surface}>
-              <Avatar.Image
+              <Avatar.Icon
                 style={{ backgroundColor: '#fff' }}
                 size={120}
-                source={profile}
+                icon={() => (
+                  <FontAwesome5
+                    name="city"
+                    size={60}
+                    color={Colors.PRIMARY}
+                    light
+                  />
+                )}
               />
             </View>
             <View style={styles.headerView}>
@@ -89,7 +95,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     backgroundColor: 'transparent',
     margin: 10,
-    marginTop: 20,
+    marginTop: 10,
     marginLeft: 50,
   },
   overlap: {
@@ -112,7 +118,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignContent: 'center',
     marginLeft: 25,
-    marginTop: 13,
+    marginTop: 20,
   },
   headerText: {
     color: '#fff',

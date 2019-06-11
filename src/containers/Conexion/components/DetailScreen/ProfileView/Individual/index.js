@@ -7,7 +7,7 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { withNavigation } from 'react-navigation';
 import { Avatar, Surface, FAB } from 'react-native-paper';
-// import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 
 // Absolute imports
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
@@ -21,7 +21,6 @@ import Communication from './Communication';
 import Address from './Address';
 import Sharing from './Sharing';
 
-const profile = require('cnxapp/src/assets/pastel/indavatar.png');
 const profileBG = require('cnxapp/src/assets/images/newprofile.png');
 
 class IndividualConexion extends React.Component {
@@ -43,10 +42,17 @@ class IndividualConexion extends React.Component {
         >
           <ImageBackground source={profileBG} style={styles.imageBG}>
             <View style={styles.surface}>
-              <Avatar.Image
+              <Avatar.Icon
                 style={{ backgroundColor: '#fff' }}
                 size={120}
-                source={profile}
+                icon={() => (
+                  <FontAwesome5
+                    name="user"
+                    size={70}
+                    color={Colors.PRIMARY}
+                    light
+                  />
+                )}
               />
             </View>
             <View style={styles.headerView}>

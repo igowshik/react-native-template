@@ -2,7 +2,13 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
-import { Divider, Card, Paragraph, Button, Avatar } from 'react-native-paper';
+import {
+  Divider,
+  Card,
+  Paragraph,
+  IconButton,
+  Avatar,
+} from 'react-native-paper';
 import Lo from 'lodash';
 
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
@@ -49,10 +55,44 @@ const Address = props => {
                     <Paragraph>{add.DisplayAddress}</Paragraph>
                   </Card.Content>
                   <Card.Actions>
-                    <Button onPress={() => {}}>Edit</Button>
-                    <Button color={Colors.RED} onPress={() => {}}>
-                      Delete
-                    </Button>
+                    <IconButton
+                      icon={() => (
+                        <FontAwesome5
+                          name="pen-alt"
+                          color={Colors.PRIMARY}
+                          size={18}
+                          solid
+                        />
+                      )}
+                      size={25}
+                      onPress={() => {}}
+                    />
+                    <IconButton
+                      icon={() => (
+                        <FontAwesome5
+                          name="trash"
+                          color={Colors.SECONDARY}
+                          size={18}
+                          solid
+                        />
+                      )}
+                      color={Colors.SECONDARY}
+                      size={25}
+                      onPress={() => {}}
+                    />
+                    <IconButton
+                      icon={() => (
+                        <FontAwesome5
+                          name="map-marked-alt"
+                          color={Colors.GREEN}
+                          size={18}
+                          solid
+                        />
+                      )}
+                      color={Colors.GREEN}
+                      size={25}
+                      onPress={() => {}}
+                    />
                   </Card.Actions>
                 </Card>
               </View>
