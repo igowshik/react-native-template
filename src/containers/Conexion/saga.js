@@ -16,6 +16,7 @@ import {
   saveOrgConexions,
   saveConexionNotesAction,
   saveConexionDetails,
+  saveMetaData,
 } from './actions';
 import {
   GET_IND_CONEXIONS,
@@ -23,6 +24,8 @@ import {
   GET_CONEXION_NOTES,
   GENERAL_ERROR,
   GET_CONEXION_DETAILS,
+  FETCH_DD_METADATA,
+  METADATA_VARIABLES,
 } from './constants';
 import { selectToken, selectConexionId } from './selectors';
 
@@ -106,7 +109,7 @@ function* getConexionNotesAPI({ conexionId }) {
   }
 }
 
-function* getConexionDetails() {
+function* getConexionDetailsAPI() {
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
   const conexionId = yield select(selectConexionId());
@@ -133,9 +136,38 @@ function* getConexionDetails() {
   }
 }
 
+function* getConexionMetaDataAPI() {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const requestURL = `${
+    config.apiURL
+  }CodeRoleValues?roles=${METADATA_VARIABLES}`;
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(saveMetaData(response.data));
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+
 export default function* initConexionSaga() {
   yield takeLatest(GET_LIST_OF_ORG, getOrganizationConexionAPI);
   yield takeLatest(GET_IND_CONEXIONS, getIndividualConexionAPI);
   yield takeLatest(GET_CONEXION_NOTES, getConexionNotesAPI);
-  yield takeLatest(GET_CONEXION_DETAILS, getConexionDetails);
+  yield takeLatest(GET_CONEXION_DETAILS, getConexionDetailsAPI);
+  yield takeLatest(FETCH_DD_METADATA, getConexionMetaDataAPI);
 }

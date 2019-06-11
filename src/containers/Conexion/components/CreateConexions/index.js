@@ -25,22 +25,7 @@ class CreateConexions extends Component {
     setModalOpenClose(false);
   };
 
-  componentDidMount() {
-    const { untouch } = this.props;
-    const fields = [
-      'first_name',
-      'last_name',
-      'job_title',
-      'organization',
-      'telephone_number',
-      'business_email',
-      'business_telephone_number',
-      'org_name',
-      'org_business_telephone_number',
-      'org_business_homepage',
-    ];
-    untouch('createConexion', fields);
-  }
+  componentDidMount() {}
 
   onCreateConexion = values => {
     const { reset, handleCreateConexion, conexionType } = this.props;
@@ -95,7 +80,6 @@ CreateConexions.propTypes = {
   submitting: PropTypes.bool,
   invalid: PropTypes.bool,
   reset: PropTypes.func,
-  untouch: PropTypes.func,
   conexionType: PropTypes.string.isRequired,
 };
 

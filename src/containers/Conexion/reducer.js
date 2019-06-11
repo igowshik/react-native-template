@@ -6,6 +6,7 @@ import {
   SET_CONEXION_NOTES,
   SET_CONEXION_ID,
   SET_CONEXION_DETAILS,
+  SAVE_DD_METADATA,
 } from './constants';
 
 export const conexionInitialState = {
@@ -18,6 +19,7 @@ export const conexionInitialState = {
   conexionNotes: [],
   selectedConexion: '',
   conexionDetails: {},
+  metaData: {},
 };
 
 const conexionStore = (state = conexionInitialState, action) =>
@@ -46,6 +48,10 @@ const conexionStore = (state = conexionInitialState, action) =>
       }
       case SET_CONEXION_DETAILS: {
         draftState.conexionDetails = action.details;
+        break;
+      }
+      case SAVE_DD_METADATA: {
+        draftState.metaData = action.metaData;
         break;
       }
       default: {

@@ -9,7 +9,7 @@ import { TextInput } from 'cnxapp/src/components/InputField';
 // import { INDIVIDUAL } from '../../constants'
 
 //---------------------
-import { Details } from './Details';
+import Details from './Details';
 import { ShareType } from './ShareType';
 import { Communication } from './Commuinacation';
 // eslint-disable-next-line import/named

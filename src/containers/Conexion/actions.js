@@ -9,6 +9,8 @@ import {
   SET_CONEXION_ID,
   SET_CONEXION_DETAILS,
   GET_CONEXION_DETAILS,
+  FETCH_DD_METADATA,
+  SAVE_DD_METADATA,
 } from './constants';
 
 export function getIndConexions() {
@@ -56,4 +58,13 @@ export const getConexionDetails = () => ({
 export const saveConexionDetails = details => ({
   type: SET_CONEXION_DETAILS,
   details,
+});
+
+export const getMetaData = () => ({
+  type: FETCH_DD_METADATA,
+});
+
+export const saveMetaData = metaData => ({
+  type: SAVE_DD_METADATA,
+  metaData,
 });

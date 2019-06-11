@@ -11,6 +11,8 @@ export const GET_CONEXION_NOTES = '@Conexion/GET_CONEXION_NOTES';
 export const SET_CONEXION_ID = '@Conexion/SET_CONEXION_ID';
 export const GET_CONEXION_DETAILS = '@Conexion/GET_CONEXION_DETAILS';
 export const SET_CONEXION_DETAILS = '@Conexion/SET_CONEXION_DETAILS';
+export const FETCH_DD_METADATA = '@Conexion/FETCH_DD_METADATA';
+export const SAVE_DD_METADATA = '@Conexion/SAVE_DD_METADATA';
 
 // Local component constants
 export const INDIVIDUAL = 'Individual';
@@ -27,3 +29,5 @@ export const GENERAL_ERROR = 'Something just went wrong!';
 export const CREATOR = 'CTOR';
 export const SHARED = 'SHAR';
 export const MANGER = 'MGR';
+
+export const METADATA_VARIABLES = 'title,suffix,addess_type';

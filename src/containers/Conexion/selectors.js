@@ -75,6 +75,12 @@ const selectConexionDetails = () =>
     dataState => dataState.conexionDetails,
   );
 
+const selectConexionMetaData = () =>
+  createSelector(
+    conexionReducers,
+    dataState => dataState.metaData,
+  );
+
 export {
   selectIndConexion,
   selectOrgConexion,
@@ -86,4 +92,5 @@ export {
   selectToastData,
   selectConexionId,
   selectConexionDetails,
+  selectConexionMetaData,
 };

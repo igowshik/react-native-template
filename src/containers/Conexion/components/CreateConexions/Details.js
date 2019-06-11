@@ -1,29 +1,19 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { compose } from 'redux';
+import Lo from 'lodash';
+
 // Absolute imports
 import { TextInput } from 'cnxapp/src/components/InputField';
+import Dropdown from 'cnxapp/src/components/Dropdown';
 
-import Dropdown from '../../../../components/Dropdown';
+import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
 
-// Relative imports
-// import { INDIVIDUAL } from '../../constants';
+import { selectGlobalLoader, selectConexionMetaData } from '../../selectors';
 
-// const data = [
-//   {
-//     value: 'Home',
-//   },
-//   {
-//     value: 'Office',
-//   },
-// ];
-const title = [
-  { value: 'Dr.' },
-  { value: 'Miss' },
-  { value: 'Mr.' },
-  { value: 'Mrs.' },
-  { value: 'Ms.' },
-  { value: 'Prof.' },
-];
 const suffix = [
   { value: 'I' },
   { value: 'II' },
@@ -32,69 +22,92 @@ const suffix = [
   { value: 'Sr.' },
 ];
 
-const Details = () => (
-  // <View style={{ marginBottom: 30 }}>
-  <View>
-    <View style={styles.placeRight}>
-      <TextInput label="First Name" name="first_name" required />
-      <TextInput label="Middle Name" name="middle_name" required />
-    </View>
-    <View style={styles.placeRight}>
-      <TextInput label="Last Name" name="last_name" required />
-      <TextInput label="initial" name="initial" required />
-    </View>
-    <View style={styles.placeRight}>
-      <View style={{ flex: 1 }}>
-        <Dropdown label="Title" name="title" required data={title} />
-      </View>
-      <View style={{ flex: 1 }}>
-        <Dropdown label="Suffix" name="suffix" required data={suffix} />
-      </View>
-    </View>
-    <View style={styles.placeRight}>
-      <View style={{ flex: 1 }}>
-        <Dropdown
-          label="Select Oraganisation"
-          name="select_oraganisation"
-          required
-          data={title} // organisation data to be filled
-        />
-      </View>
-      {/* <View style={{ flex: 1 }}> */}
-      <TextInput label="Job Title" name="job_title" required />
-      {/* </View> */}
-    </View>
-    <View style={styles.placeRight}>
-      <View style={{ flex: 1, flexDirection: 'row' }}>
-        <View style={{ width: '20%' }}>
-          <Dropdown label="+91" name="country_code" required data={title} />
+class Details extends React.Component {
+  state = {
+    title: [],
+  };
+
+  componentDidMount() {
+    const { metaData } = this.props;
+    if (!Lo.isEmpty(metaData)) {
+      const mappedvalue = [];
+      metaData.title.forEach(data => {
+        mappedvalue.push({ label: data.Description, value: data.Value });
+      });
+      this.setState({ title: mappedvalue });
+    }
+  }
+
+  render() {
+    const { title } = this.state;
+    return (
+      <View>
+        <View style={styles.placeRight}>
+          <TextInput label="First Name" name="first_name" required />
+          <TextInput label="Middle Name" name="middle_name" required />
         </View>
-        <View style={(styles.container, { flex: 1, marginTop: 4 })}>
-          <TextInput label="Primary Mobile" name="primary_mobile" required />
+        <View style={styles.placeRight}>
+          <TextInput label="Last Name" name="last_name" required />
+          <TextInput label="initial" name="initial" required />
+        </View>
+        <View style={styles.placeRight}>
+          <View style={{ flex: 1 }}>
+            <Dropdown label="Title" name="title" required data={title} />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Dropdown label="Suffix" name="suffix" required data={suffix} />
+          </View>
+        </View>
+        <View style={styles.placeRight}>
+          <View style={{ flex: 1 }}>
+            <Dropdown
+              label="Select Oraganisation"
+              name="select_oraganisation"
+              required
+              data={title} // organisation data to be filled
+            />
+          </View>
+          {/* <View style={{ flex: 1 }}> */}
+          <TextInput label="Job Title" name="job_title" required />
+          {/* </View> */}
+        </View>
+        <View style={styles.placeRight}>
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ width: '20%' }}>
+              <Dropdown label="+91" name="country_code" required data={title} />
+            </View>
+            <View style={(styles.container, { flex: 1, marginTop: 4 })}>
+              <TextInput
+                label="Primary Mobile"
+                name="primary_mobile"
+                required
+              />
+            </View>
+          </View>
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ width: '20%' }}>
+              <Dropdown
+                label="+91"
+                name="country_code"
+                required
+                style={{ width: '10%' }}
+                data={title}
+              />
+            </View>
+            <View style={(styles.container, { flex: 1, marginTop: 4 })}>
+              <TextInput
+                label="Secondary Mobile"
+                name="secondary_mobile"
+                style={{ width: '90%' }}
+                required
+              />
+            </View>
+          </View>
         </View>
       </View>
-      <View style={{ flex: 1, flexDirection: 'row' }}>
-        <View style={{ width: '20%' }}>
-          <Dropdown
-            label="+91"
-            name="country_code"
-            required
-            style={{ width: '10%' }}
-            data={title}
-          />
-        </View>
-        <View style={(styles.container, { flex: 1, marginTop: 4 })}>
-          <TextInput
-            label="Secondary Mobile"
-            name="secondary_mobile"
-            style={{ width: '90%' }}
-            required
-          />
-        </View>
-      </View>
-    </View>
-  </View>
-);
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   row: {
@@ -124,4 +137,32 @@ const styles = StyleSheet.create({
   },
 });
 
-export { Details };
+Details.propTypes = {
+  metaData: PropTypes.object.isRequired,
+};
+
+/**
+ * @method: mapStateToProps()
+ * @description: Redux Map method to map all redux state into each individual state value
+ * @returns: jobState ans filterState in the State
+ */
+const mapStateToProps = createStructuredSelector({
+  loaderState: selectGlobalLoader(),
+  metaData: selectConexionMetaData(),
+});
+
+/**
+ * @method: mapDispatchToProps()
+ * @description: Map the Props of this class to the respective Redux dispatch functions
+ * @returns: Mapped functions
+ */
+const mapDispatchToProps = dispatch => ({
+  setGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),
+});
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default compose(withConnect)(Details);

@@ -31,6 +31,7 @@ import {
   getOrgConexions,
   setConexionDataAction,
   saveselectedConexionId,
+  getMetaData,
 } from '../actions';
 import { conexionStyles as styles } from '../styles';
 import { INDIVIDUAL, ORGANIZATION, ALL } from '../constants';
@@ -65,12 +66,12 @@ class Conexion extends React.Component {
       setGlobalLoaderState,
       fetchOrgConexion,
       fetchIndConexion,
-      // fetchDropDownValues,
+      fetchDropDownValues,
     } = this.props;
     setGlobalLoaderState(true);
     fetchOrgConexion(accessToken);
     fetchIndConexion(accessToken);
-    // fetchDropDownValues();
+    fetchDropDownValues();
   }
 
   setModalOpenClose = value => {
@@ -256,6 +257,7 @@ Conexion.propTypes = {
   toastVisible: PropTypes.bool.isRequired,
   toast: PropTypes.object.isRequired,
   dispatchSetConexionId: PropTypes.func.isRequired,
+  fetchDropDownValues: PropTypes.func.isRequired,
 };
 
 /**
@@ -283,7 +285,7 @@ const mapDispatchToProps = dispatch => ({
   setGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),
   setConexionData: data => dispatch(setConexionDataAction(data)),
   dispatchSetConexionId: id => dispatch(saveselectedConexionId(id)),
-  // fetchDropDownValues: ()=>
+  fetchDropDownValues: () => dispatch(getMetaData()),
 });
 
 const withConnect = connect(
