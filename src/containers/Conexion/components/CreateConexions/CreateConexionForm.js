@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form } from 'native-base';
+import { Form, View } from 'native-base';
 import PropTypes from 'prop-types';
 
 // Absolute imports
@@ -10,18 +10,19 @@ import Dropdown from '../../../../components/Dropdown';
 // Relative imports
 import { INDIVIDUAL } from '../../constants';
 
-const data = [
-  {
-    value: 'Home',
-  },
-  {
-    value: 'Office',
-  },
-];
+// const data = [
+//   {
+//     value: 'Office',
+//   },
+//   {
+//     value: 'Home',
+//   },
+// ];
 
 class CreateConexionForm extends React.Component {
   renderIndividualForm = () => (
-    <Form>
+    // <Form>
+    <View>
       <TextInput label="First Name" name="first_name" required />
       <TextInput label="Last Name" name="last_name" required />
       <TextInput label="Job Title" name="job_title" required />
@@ -34,18 +35,21 @@ class CreateConexionForm extends React.Component {
         required
       />
       <Dropdown label="Phone type" name="phone_type" required data={data} />
-    </Form>
+    </View>
+    // </Form>
   );
 
   renderOrgForm = () => (
-    <Form>
+    // <Form>
+    <View>
       <TextInput label="Name" name="org_name" required />
       <TextInput
         label="Business Telephone Number"
         name="org_business_telephone_numbers"
       />
       <TextInput label="Business Homepage" name="org_business_homepages" />
-    </Form>
+    </View>
+    // </Form>
   );
 
   render() {

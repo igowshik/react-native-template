@@ -79,7 +79,7 @@ class FullPageModal extends React.Component {
                 {children}
               </KeyboardAwareScrollView>
             ) : (
-              { children }
+              <View>{children}</View>
             )}
           </View>
         </Modal>

@@ -12,6 +12,7 @@ import { TextInput } from 'cnxapp/src/components/InputField';
 import Details from './Details';
 import { ShareType } from './ShareType';
 import { Communication } from './Commuinacation';
+import OrgDetails from '../CreateOrganisation/OrgDetails';
 // eslint-disable-next-line import/named
 // import ScrollView from '../../../components/ScrollView';
 
@@ -47,7 +48,8 @@ class CreateConexionForm1 extends React.Component {
   render() {
     const { viewType } = this.props;
     if (viewType === 'Individual') return this.renderIndividualForm();
-    return this.renderOrgForm();
+    // return this.renderOrgForm();
+    return <OrgDetails />;
   }
 }
 
