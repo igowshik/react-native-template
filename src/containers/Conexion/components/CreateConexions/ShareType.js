@@ -1,78 +1,50 @@
 import React from 'react';
-import { Divider } from 'react-native-paper';
-import { View, Text, StyleSheet, Platform } from 'react-native';
-import { RadioInput } from '../../../../components/InputField';
+import { View, StyleSheet } from 'react-native';
+import { Card, Headline, Divider } from 'react-native-paper';
+
+import * as colors from 'cnxapp/src/utils/colorsConstants';
+import RadioButtonGroup from 'cnxapp/src/components/RadioButtonGroup';
+
+import { shareTypes } from '../../constants';
 
 class ShareType extends React.Component {
-  state = {
-    value: '',
-  };
-
-  conexionShareForm1 = () => (
-    <View>
-      <Divider style={{ marginLeft: 10, marginRight: 20 }} />
-      <View style={{ flexDirection: 'row', margin: 10 }}>
-        <Text
-          style={{
-            marginRight: 30,
-            marginTop: 8,
-            fontSize: 20,
-            fontFamily:
-              Platform.OS === 'ios' ? 'Montserrat' : 'Montserrat-Regular',
-          }}
-        >
-          Sharing?
-        </Text>
-        {/* <RadioButton.Group
-          onValueChange={value => this.setState({ value })}
-          value={this.state.value}
-        > */}
-        <RadioInput
-          value="public"
-          label="public"
-          name="public"
-          status={this.state.value === 'public' ? 'checked' : 'unchecked'}
-          onPress={() => {
-            this.setState({ value: 'public' });
-          }}
-          style={styles.container}
-        />
-        <RadioInput
-          value="private"
-          label="private"
-          name="private"
-          status={this.state.value === 'private' ? 'checked' : 'unchecked'}
-          onPress={() => {
-            this.setState({ value: 'private' });
-          }}
-          style={styles.container}
-        />
-        <RadioInput
-          value="shared"
-          label="shared"
-          name="shared"
-          status={this.state.value === 'shared' ? 'checked' : 'unchecked'}
-          onPress={() => {
-            this.setState({ value: 'shared' });
-          }}
-          style={styles.container}
-        />
-        {/* </RadioButton.Group> */}
-      </View>
-      <Divider style={{ marginLeft: 10, marginRight: 20 }} />
+  conexionShareForm = () => (
+    <View style={styles.parentView}>
+      <Card elevation={4} style={styles.card}>
+        <Card.Content>
+          <View>
+            <Headline>Sharing</Headline>
+            <Divider />
+            <RadioButtonGroup
+              defaultValue="Public"
+              data={shareTypes}
+              name="shared_type"
+            />
+          </View>
+        </Card.Content>
+      </Card>
     </View>
   );
 
   render() {
-    return this.conexionShareForm1();
+    return this.conexionShareForm();
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
+  parentView: {
     margin: 10,
+  },
+  card: {
+    borderTopColor: colors.PURPLE,
+    borderTopWidth: 2,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
   },
 });
 

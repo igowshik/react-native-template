@@ -31,3 +31,9 @@ export const SHARED = 'SHAR';
 export const MANGER = 'MGR';
 
 export const METADATA_VARIABLES = 'title,suffix,addess_type';
+
+export const shareTypes = [
+  { value: 'Public', label: 'Public', key: 0 },
+  { value: 'Private', label: 'Private', key: 1 },
+  { value: 'Shared', label: 'Shared', key: 3 },
+];

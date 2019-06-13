@@ -89,7 +89,7 @@ class FullPageModal extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  parentView: { flex: 1 },
+  parentView: { flex: 1, backgroundColor: colors.BGCOLOR },
   icon: {
     color: '#fff',
   },

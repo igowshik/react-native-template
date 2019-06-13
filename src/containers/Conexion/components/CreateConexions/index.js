@@ -8,8 +8,7 @@ import { PrimaryButton } from 'cnxapp/src/components/Buttons/Primary';
 import ScrollView from 'cnxapp/src/components/ScrollView';
 
 // Relative imports
-// import CreateConexionForm from './CreateConexionForm';
-import CreateConexionForm1 from './CreateConexionForm1';
+import CreateConexionForm from './CreateConexionForm';
 // import CreateAddress from '../DetailScreen/ProfileView/CreateAddress';
 
 import { validate } from '../../validate';
@@ -62,7 +61,7 @@ class CreateConexions extends Component {
             />
           </View>
           <ScrollView>
-            <CreateConexionForm1 viewType={conexionType} />
+            <CreateConexionForm viewType={conexionType} />
             {/* <CreateAddress viewType={conexionType} /> */}
           </ScrollView>
         </FullPageModal>

@@ -5,11 +5,16 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import Lo from 'lodash';
+import { Card } from 'react-native-paper';
 
 // Absolute imports
 import { TextInput, NumberInput } from 'cnxapp/src/components/InputField';
 import Dropdown from 'cnxapp/src/components/Dropdown';
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
+import { Grid, Row, Col } from 'native-base';
+import * as colors from 'cnxapp/src/utils/colorsConstants';
+
+// Relative Imports
 import { selectGlobalLoader, selectConexionMetaData } from '../../selectors';
 
 class Details extends React.Component {
@@ -36,99 +41,83 @@ class Details extends React.Component {
   render() {
     const { title, suffix } = this.state;
     return (
-      <View>
-        <View style={styles.placeRight}>
-          <TextInput label="First Name" name="first_name" required />
-          <TextInput label="Middle Name" name="middle_name" required />
-        </View>
-        <View style={styles.placeRight}>
-          <TextInput label="Last Name" name="last_name" required />
-          <TextInput label="initial" name="initial" required />
-        </View>
-        <View style={styles.placeRight}>
-          <View style={{ flex: 1 }}>
-            <Dropdown label="Title" name="title" required data={title} />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Dropdown label="Suffix" name="suffix" required data={suffix} />
-          </View>
-        </View>
-        <View style={styles.placeRight}>
-          <View style={{ flex: 1 }}>
-            <Dropdown
-              label="Select Oraganisation"
-              name="select_oraganisation"
-              required
-              data={title} // organisation data to be filled
-            />
-          </View>
-          {/* <View style={{ flex: 1 }}> */}
-          <TextInput label="Job Title" name="job_title" required />
-          {/* </View> */}
-        </View>
-        <View style={styles.placeRight}>
-          <View style={{ flex: 1, flexDirection: 'row' }}>
-            <View style={{ width: '20%' }}>
-              <Dropdown label="+91" name="country_code" required data={title} />
-            </View>
-            <View style={(styles.container, { flex: 1, marginTop: 4 })}>
-              <NumberInput
-                label="Primary Mobile"
-                name="primary_mobile"
-                required
-              />
-            </View>
-          </View>
-          <View style={{ flex: 1, flexDirection: 'row' }}>
-            <View style={{ width: '20%' }}>
-              <Dropdown
-                label="+91"
-                name="country_code"
-                required
-                style={{ width: '10%' }}
-                data={title}
-              />
-            </View>
-            <View style={(styles.container, { flex: 1, marginTop: 4 })}>
-              <NumberInput
-                label="Secondary Mobile"
-                name="secondary_mobile"
-                style={{ width: '90%' }}
-                required
-              />
-            </View>
-          </View>
-        </View>
+      <View style={styles.parentView}>
+        <Card elevation={4} style={styles.card}>
+          <Card.Content>
+            <Grid>
+              <Row>
+                <Col>
+                  <TextInput label="First Name" name="first_name" required />
+                </Col>
+                <Col>
+                  <TextInput label="Middle Name" name="middle_name" required />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <TextInput label="Last Name" name="last_name" required />
+                </Col>
+                <Col>
+                  <TextInput label="initial" name="initial" required />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Dropdown label="Title" name="title" required data={title} />
+                </Col>
+                <Col>
+                  <Dropdown
+                    label="Suffix"
+                    name="suffix"
+                    required
+                    data={suffix}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Dropdown
+                    label="Select Oraganisation"
+                    name="select_oraganisation"
+                    required
+                    data={title} // organisation data to be filled
+                  />
+                </Col>
+                <Col>
+                  <TextInput label="Job Title" name="job_title" required />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <NumberInput
+                    label="Primary Mobile"
+                    name="primary_mobile"
+                    required
+                  />
+                </Col>
+                <Col>
+                  <NumberInput
+                    label="Secondary Mobile"
+                    name="secondary_mobile"
+                    required
+                  />
+                </Col>
+              </Row>
+            </Grid>
+          </Card.Content>
+        </Card>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  row: {
-    flex: 1,
+  parentView: {
+    margin: 10,
   },
-  placeRight: {
-    flex: 1,
-    marginBottom: 10,
-    flexDirection: 'row',
-  },
-  placeRightPhone: {
-    flex: 1,
-    marginBottom: 10,
-    flexDirection: 'row',
-    // width: '33%',
-  },
-  // dropdownPhone: { width: '33%' },
-  radioText: {
-    marginRight: 30,
-    marginTop: 8,
-    fontSize: 17,
-  },
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '90%',
+  card: {
+    borderTopColor: colors.PURPLE,
+    borderTopWidth: 2,
   },
 });
 
