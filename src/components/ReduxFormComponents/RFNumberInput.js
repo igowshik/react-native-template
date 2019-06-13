@@ -34,7 +34,7 @@ export const RFNumberInput = props => {
         onFocus={input.onFocus}
         value={input.value}
         label={label}
-        keyboardType="numeric"
+        keyboardType="phone-pad"
         error={hasError}
         style={{ width: '90%' }}
       />

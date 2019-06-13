@@ -10,42 +10,48 @@ import * as colors from 'cnxapp/src/utils/colorsConstants';
 // Relative imports
 import { CNXTextLight } from '../Texts';
 
-const RFDropdown = props => {
-  const {
-    input,
-    label,
-    required,
-    data,
-    meta: { error, touched },
-    ...inputProps
-  } = props;
-  let hasError = false;//eslint-disable-line
-  let errorField = null; //eslint-disable-line
+class RFDropdown extends React.Component {
+  state = {};
 
-  if (required && touched && error) {
-    hasError = true;
-    if (typeof error === 'string')
-      errorField = (
-        <CNXTextLight style={styles.errorText}>{` ${error}`}</CNXTextLight>
-      );
+  render() {
+    const {
+      input,
+      label,
+      required,
+      data,
+      meta: { error, touched },
+      ...inputProps
+    } = this.props;
+    let hasError = false;//eslint-disable-line
+    let errorField = null; //eslint-disable-line
+
+    if (required && touched && error) {
+      hasError = true;
+      if (typeof error === 'string')
+        errorField = (
+          <CNXTextLight style={styles.errorText}>{` ${error}`}</CNXTextLight>
+        );
+    }
+
+    return (
+      <View style={styles.parentView}>
+        <MaterialDropdown
+          {...inputProps}
+          itemTextStyle={styles.picker}
+          label={label}
+          style={styles.dropDown}
+          data={data}
+          labelTextStyle={styles.label}
+          titleTextStyle={styles.font}
+          labelFontSize={12}
+          value={input.value}
+          onChangeText={input.onChange}
+          selectedItemColor={colors.PRIMARY}
+        />
+      </View>
+    );
   }
-  return (
-    <View style={styles.parentView}>
-      <MaterialDropdown
-        {...inputProps}
-        itemTextStyle={styles.picker}
-        label={label}
-        style={styles.dropDown}
-        data={data}
-        labelTextStyle={styles.label}
-        titleTextStyle={styles.font}
-        labelFontSize={12}
-        value={input.value}
-        selectedItemColor={colors.PRIMARY}
-      />
-    </View>
-  );
-};
+}
 
 RFDropdown.propTypes = {
   input: PropTypes.object.isRequired,

@@ -171,16 +171,16 @@ class Conexion extends React.Component {
     //   org_business_telephone_number: '',
     //   org_business_homepage: '',
     // };
-    const indIntitalValue = {
-      first_name: '',
-      last_name: '',
-      job_title: '',
-      organization: '',
-      telephone_number: '',
-      business_email: '',
-      business_telephone_number: '',
-      phone_type: 'Home',
-    };
+    // const indIntitalValue = {
+    //   first_name: '',
+    //   last_name: '',
+    //   job_title: '',
+    //   organization: '',
+    //   telephone_number: '',
+    //   business_email: '',
+    //   business_telephone_number: '',
+    //   phone_type: 'Home',
+    // };
 
     return (
       <View>
@@ -202,7 +202,7 @@ class Conexion extends React.Component {
               handleCreateConexion={this.createConexion}
               setModalOpenClose={this.setModalOpenClose}
               setLoader={onSetLoaderValue}
-              initialValues={indIntitalValue}
+              // initialValues={indIntitalValue}
               conexionType={createConexionType}
             />
           </View>

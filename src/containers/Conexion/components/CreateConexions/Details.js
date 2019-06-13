@@ -7,39 +7,34 @@ import { compose } from 'redux';
 import Lo from 'lodash';
 
 // Absolute imports
-import { TextInput } from 'cnxapp/src/components/InputField';
+import { TextInput, NumberInput } from 'cnxapp/src/components/InputField';
 import Dropdown from 'cnxapp/src/components/Dropdown';
-
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
-
 import { selectGlobalLoader, selectConexionMetaData } from '../../selectors';
-
-const suffix = [
-  { value: 'I' },
-  { value: 'II' },
-  { value: 'III' },
-  { value: 'Jr.' },
-  { value: 'Sr.' },
-];
 
 class Details extends React.Component {
   state = {
     title: [],
+    suffix: [],
   };
 
   componentDidMount() {
     const { metaData } = this.props;
     if (!Lo.isEmpty(metaData)) {
-      const mappedvalue = [];
+      const mappedTitle = [];
+      const mappedSuffix = [];
       metaData.title.forEach(data => {
-        mappedvalue.push({ label: data.Description, value: data.Value });
+        mappedTitle.push({ label: data.Description, value: data.Value });
       });
-      this.setState({ title: mappedvalue });
+      metaData.suffix.forEach(data => {
+        mappedSuffix.push({ label: data.Description, value: data.Value });
+      });
+      this.setState({ title: mappedTitle, suffix: mappedSuffix });
     }
   }
 
   render() {
-    const { title } = this.state;
+    const { title, suffix } = this.state;
     return (
       <View>
         <View style={styles.placeRight}>
@@ -77,7 +72,7 @@ class Details extends React.Component {
               <Dropdown label="+91" name="country_code" required data={title} />
             </View>
             <View style={(styles.container, { flex: 1, marginTop: 4 })}>
-              <TextInput
+              <NumberInput
                 label="Primary Mobile"
                 name="primary_mobile"
                 required
@@ -95,7 +90,7 @@ class Details extends React.Component {
               />
             </View>
             <View style={(styles.container, { flex: 1, marginTop: 4 })}>
-              <TextInput
+              <NumberInput
                 label="Secondary Mobile"
                 name="secondary_mobile"
                 style={{ width: '90%' }}
