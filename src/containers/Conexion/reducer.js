@@ -7,6 +7,9 @@ import {
   SET_CONEXION_ID,
   SET_CONEXION_DETAILS,
   SAVE_DD_METADATA,
+  SET_SELECTED_CONEXION_TYPE,
+  SET_ADDRESS_MODAL,
+  SET_CREATE_ADDRESS_DATA,
 } from './constants';
 
 export const conexionInitialState = {
@@ -18,8 +21,11 @@ export const conexionInitialState = {
   },
   conexionNotes: [],
   selectedConexion: '',
+  selectedConexionType: '',
   conexionDetails: {},
   metaData: {},
+  addressModal: false,
+  createAddressData: {},
 };
 
 const conexionStore = (state = conexionInitialState, action) =>
@@ -52,6 +58,18 @@ const conexionStore = (state = conexionInitialState, action) =>
       }
       case SAVE_DD_METADATA: {
         draftState.metaData = action.metaData;
+        break;
+      }
+      case SET_SELECTED_CONEXION_TYPE: {
+        draftState.selectedConexionType = action.ctype;
+        break;
+      }
+      case SET_ADDRESS_MODAL: {
+        draftState.addressModal = action.addressModal;
+        break;
+      }
+      case SET_CREATE_ADDRESS_DATA: {
+        draftState.createAddressData = action.addressData;
         break;
       }
       default: {

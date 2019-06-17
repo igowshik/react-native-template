@@ -32,6 +32,7 @@ import {
   setConexionDataAction,
   saveselectedConexionId,
   getMetaData,
+  setSelectedConexionType,
 } from '../actions';
 import { conexionStyles as styles } from '../styles';
 import { INDIVIDUAL, ORGANIZATION, ALL } from '../constants';
@@ -58,6 +59,8 @@ class Conexion extends React.Component {
     const { indSelected, orgSelected } = this.state;
     this.setState({ indSelected: !indSelected });
     this.setState({ orgSelected: !orgSelected });
+    if (!indSelected) this.props.dispatchSetConexionType(INDIVIDUAL);
+    if (!orgSelected) this.props.dispatchSetConexionType(ORGANIZATION);
   };
 
   componentDidMount() {
@@ -172,14 +175,15 @@ class Conexion extends React.Component {
     //   org_business_homepage: '',
     // };
     // const indIntitalValue = {
-    //   first_name: '',
-    //   last_name: '',
+    //   first_name: 'Selvam',
+    //   last_name: 'Kumar',
     //   job_title: '',
     //   organization: '',
     //   telephone_number: '',
     //   business_email: '',
     //   business_telephone_number: '',
     //   phone_type: 'Home',
+    //   shared_type: 'Private',
     // };
 
     return (
@@ -258,6 +262,7 @@ Conexion.propTypes = {
   toast: PropTypes.object.isRequired,
   dispatchSetConexionId: PropTypes.func.isRequired,
   fetchDropDownValues: PropTypes.func.isRequired,
+  dispatchSetConexionType: PropTypes.func.isRequired,
 };
 
 /**
@@ -286,6 +291,7 @@ const mapDispatchToProps = dispatch => ({
   setConexionData: data => dispatch(setConexionDataAction(data)),
   dispatchSetConexionId: id => dispatch(saveselectedConexionId(id)),
   fetchDropDownValues: () => dispatch(getMetaData()),
+  dispatchSetConexionType: type => dispatch(setSelectedConexionType(type)),
 });
 
 const withConnect = connect(

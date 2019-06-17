@@ -33,7 +33,7 @@ export const RFNumberInput = props => {
         onBlur={input.onBlur}
         onFocus={input.onFocus}
         value={input.value}
-        label={label}
+        label={required ? `${label}*` : label}
         keyboardType="phone-pad"
         error={hasError}
         style={{ width: '93%' }}

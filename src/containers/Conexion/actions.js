@@ -11,6 +11,11 @@ import {
   GET_CONEXION_DETAILS,
   FETCH_DD_METADATA,
   SAVE_DD_METADATA,
+  DELETE_ADDRESS,
+  SET_SELECTED_CONEXION_TYPE,
+  SET_ADDRESS_MODAL,
+  SET_CREATE_ADDRESS_DATA,
+  CREATE_CONEXION_ADDRESS,
 } from './constants';
 
 export function getIndConexions() {
@@ -67,4 +72,28 @@ export const getMetaData = () => ({
 export const saveMetaData = metaData => ({
   type: SAVE_DD_METADATA,
   metaData,
+});
+
+export const setSelectedConexionType = ctype => ({
+  type: SET_SELECTED_CONEXION_TYPE,
+  ctype,
+});
+
+export const deleteAddress = addressId => ({
+  type: DELETE_ADDRESS,
+  addressId,
+});
+
+export const setAddressModalVisibility = addressModal => ({
+  type: SET_ADDRESS_MODAL,
+  addressModal,
+});
+
+export const setCreateAddressData = addressData => ({
+  type: SET_CREATE_ADDRESS_DATA,
+  addressData,
+});
+
+export const createConexionAddress = () => ({
+  type: CREATE_CONEXION_ADDRESS,
 });

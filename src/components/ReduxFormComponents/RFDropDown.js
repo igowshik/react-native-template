@@ -8,10 +8,21 @@ import * as fonts from 'cnxapp/src/utils/font-list';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 // Relative imports
-import { CNXTextLight } from '../Texts';
 
 class RFDropdown extends React.Component {
-  state = {};
+  state = {
+    hasError: false,
+  };
+
+  onFocusOut = () => {
+    const {
+      required,
+      meta: { error, touched },
+    } = this.props;
+    if (required && touched && error) {
+      this.setState({ hasError: true });
+    }
+  };
 
   render() {
     const {
@@ -22,15 +33,9 @@ class RFDropdown extends React.Component {
       meta: { error, touched },
       ...inputProps
     } = this.props;
-    let hasError = false;//eslint-disable-line
-    let errorField = null; //eslint-disable-line
 
     if (required && touched && error) {
-      hasError = true;
-      if (typeof error === 'string')
-        errorField = (
-          <CNXTextLight style={styles.errorText}>{` ${error}`}</CNXTextLight>
-        );
+      this.setState({ hasError: true });
     }
 
     return (
@@ -38,7 +43,7 @@ class RFDropdown extends React.Component {
         <MaterialDropdown
           {...inputProps}
           itemTextStyle={styles.picker}
-          label={label}
+          label={required ? `${label}*` : label}
           style={styles.dropDown}
           data={data}
           labelTextStyle={styles.label}
@@ -47,6 +52,10 @@ class RFDropdown extends React.Component {
           value={input.value}
           onChangeText={input.onChange}
           selectedItemColor={colors.PRIMARY}
+          onBlur={this.onFocusOut}
+          error={this.state.hasError ? 'required' : null}
+          textColor="rgba(0, 0, 0, 0.8)"
+          baseColor="rgba(0, 0, 0, 0.5)"
         />
       </View>
     );
@@ -81,10 +90,14 @@ const styles = StyleSheet.create({
     fontFamily: fonts.MONTSERRAT,
     fontWeight: '400',
     marginLeft: 10,
-    color: '#C0392B',
+    color: '#000',
   },
   font: {
     fontFamily: fonts.MONTSERRAT,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 13,
   },
 });
 

@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   card: {
-    borderTopColor: colors.PURPLE,
+    borderTopColor: colors.ORANGE,
     borderTopWidth: 2,
   },
 });

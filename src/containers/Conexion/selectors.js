@@ -81,6 +81,24 @@ const selectConexionMetaData = () =>
     dataState => dataState.metaData,
   );
 
+const selectConexionType = () =>
+  createSelector(
+    conexionReducers,
+    dataState => dataState.selectedConexionType,
+  );
+
+const selectAddressModalVisible = () =>
+  createSelector(
+    conexionReducers,
+    dataState => dataState.addressModal,
+  );
+
+const selectCreateAddressData = () =>
+  createSelector(
+    conexionReducers,
+    dataState => dataState.createAddressData,
+  );
+
 export {
   selectIndConexion,
   selectOrgConexion,
@@ -93,4 +111,7 @@ export {
   selectConexionId,
   selectConexionDetails,
   selectConexionMetaData,
+  selectConexionType,
+  selectAddressModalVisible,
+  selectCreateAddressData,
 };

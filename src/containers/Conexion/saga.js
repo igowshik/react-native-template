@@ -17,6 +17,8 @@ import {
   saveConexionNotesAction,
   saveConexionDetails,
   saveMetaData,
+  getConexionDetails,
+  setAddressModalVisibility,
 } from './actions';
 import {
   GET_IND_CONEXIONS,
@@ -26,8 +28,14 @@ import {
   GET_CONEXION_DETAILS,
   FETCH_DD_METADATA,
   METADATA_VARIABLES,
+  DELETE_ADDRESS,
+  CREATE_CONEXION_ADDRESS,
 } from './constants';
-import { selectToken, selectConexionId } from './selectors';
+import {
+  selectToken,
+  selectConexionId,
+  selectCreateAddressData,
+} from './selectors';
 
 function* getIndividualConexionAPI() {
   yield put(setRootGlobalLoader(true));
@@ -164,10 +172,81 @@ function* getConexionMetaDataAPI() {
   }
 }
 
+function* createConexionAddressAPI() {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const conexionId = yield select(selectConexionId());
+  const addressData = yield select(selectCreateAddressData());
+  const requestURL = `${config.apiURL}NewConexionAddress`;
+  const CREATE_ADDRESS = {
+    ConexionId: conexionId,
+    AddressType: addressData.address_type,
+    Line1Address: addressData.line_1_address,
+    City: addressData.city,
+    State: addressData.state,
+    PostalArea: addressData.postal_area,
+    PostalArea2: addressData.postal_area_2 ? addressData.postal_area_2 : null,
+    Country: addressData.country,
+  };
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(CREATE_ADDRESS),
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(setAddressModalVisibility(false));
+    yield put(getConexionDetails());
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+
+function* deleteAddressAPI({ addressId }) {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const requestURL = `${
+    config.apiURL
+  }DeleteConexionAddress?conexionAddressId=${addressId}`;
+  const options = {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(getConexionDetails());
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+
 export default function* initConexionSaga() {
   yield takeLatest(GET_LIST_OF_ORG, getOrganizationConexionAPI);
   yield takeLatest(GET_IND_CONEXIONS, getIndividualConexionAPI);
   yield takeLatest(GET_CONEXION_NOTES, getConexionNotesAPI);
   yield takeLatest(GET_CONEXION_DETAILS, getConexionDetailsAPI);
   yield takeLatest(FETCH_DD_METADATA, getConexionMetaDataAPI);
+  yield takeLatest(DELETE_ADDRESS, deleteAddressAPI);
+  yield takeLatest(CREATE_CONEXION_ADDRESS, createConexionAddressAPI);
 }

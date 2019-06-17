@@ -29,12 +29,12 @@ export const RFTextInput = props => {
     <View style={styles.item}>
       <TextInput
         {...inputProps}
-        label={label}
+        label={required ? `${label}*` : label}
         onChangeText={input.onChange}
         onBlur={input.onBlur}
         onFocus={input.onFocus}
         value={input.value}
-        style={{ width: '93%' }}
+        style={{ width: '92%' }}
         error={hasError}
       />
     </View>

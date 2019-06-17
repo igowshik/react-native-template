@@ -13,6 +13,12 @@ export const GET_CONEXION_DETAILS = '@Conexion/GET_CONEXION_DETAILS';
 export const SET_CONEXION_DETAILS = '@Conexion/SET_CONEXION_DETAILS';
 export const FETCH_DD_METADATA = '@Conexion/FETCH_DD_METADATA';
 export const SAVE_DD_METADATA = '@Conexion/SAVE_DD_METADATA';
+export const DELETE_ADDRESS = '@Conexion/DELETE_ADDRESS';
+export const SET_SELECTED_CONEXION_TYPE =
+  '@Conexion/SET_SELECTED_CONEXION_TYPE';
+export const SET_ADDRESS_MODAL = '@Conexion/SET_ADDRESS_MODAL';
+export const SET_CREATE_ADDRESS_DATA = '@Conexion/SET_CREATE_ADDRESS_DATA';
+export const CREATE_CONEXION_ADDRESS = '@Conexion/CREATE_CONEXION_ADDRESS';
 
 // Local component constants
 export const INDIVIDUAL = 'Individual';
@@ -30,7 +36,7 @@ export const CREATOR = 'CTOR';
 export const SHARED = 'SHAR';
 export const MANGER = 'MGR';
 
-export const METADATA_VARIABLES = 'title,suffix,addess_type';
+export const METADATA_VARIABLES = 'title,suffix,address_type,country_list';
 
 export const shareTypes = [
   { value: 'Public', label: 'Public', key: 0 },
