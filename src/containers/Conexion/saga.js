@@ -322,6 +322,50 @@ function* getUserDDValuesAPI() {
   }
 }
 
+function* createIndividualDetails() {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const newIndividual = yield select(selectIndividualDetails());
+  console.log('#%%^$#%$%%%%%%%%%%%%%%%%%%', newIndividual);
+  const requestURL = `${config.apiURL}CreateIndividualConexion`;
+  const createIndividual = {
+    Name: newIndividual.first_name,
+    title: newIndividual.title,
+    SharingType: newIndividual.shared_type,
+    ShortName: newIndividual.initial,
+    LastName: newIndividual.last_name,
+    JobTitle: newIndividual.job_title,
+    Organization: newIndividual.select_organisation,
+    Mobile1TelephoneNumber: newIndividual.primary_mobile,
+    BusinessEmailAddress: newIndividual.business_email,
+    BusinessTelephoneNumber: newIndividual.business_phone,
+    // Suffix: newIndividual.suffix,
+    Users: [28, 29],
+  };
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(createIndividual),
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(setIndividualModalVisibility(false));
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+
 export default function* initConexionSaga() {
   yield takeLatest(GET_LIST_OF_ORG, getOrganizationConexionAPI);
   yield takeLatest(GET_IND_CONEXIONS, getIndividualConexionAPI);
@@ -332,4 +376,5 @@ export default function* initConexionSaga() {
   yield takeLatest(CREATE_CONEXION_ADDRESS, createConexionAddressAPI);
   yield takeLatest(EDIT_CONEXION_ADDRESS, editConexionAddressAPI);
   yield takeLatest(GET_USER_DD_VALUE, getUserDDValuesAPI);
+  yield takeLatest(CREATE_INDIVIDUAL, createIndividualDetails);
 }

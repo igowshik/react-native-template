@@ -130,7 +130,6 @@ export {
   selectConexionType,
   selectAddressModalVisible,
   selectCreateAddressData,
-  //---
   selectIndividualModal,
   selectIndividualDetails,
   selectUserDDList,

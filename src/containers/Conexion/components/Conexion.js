@@ -58,7 +58,6 @@ class Conexion extends React.Component {
     this.setIndividualModalOpen = this.setIndividualModalOpen.bind(this);
   }
 
-  //-------------
   setIndividualModalOpen = () => this.props.dispatchIndividualModalState(true);
 
   _onSwitchIndOrgPress = () => {

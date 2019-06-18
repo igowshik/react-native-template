@@ -114,21 +114,11 @@ Details.propTypes = {
   metaData: PropTypes.object.isRequired,
 };
 
-/**
- * @method: mapStateToProps()
- * @description: Redux Map method to map all redux state into each individual state value
- * @returns: jobState ans filterState in the State
- */
 const mapStateToProps = createStructuredSelector({
   loaderState: selectGlobalLoader(),
   metaData: selectConexionMetaData(),
 });
 
-/**
- * @method: mapDispatchToProps()
- * @description: Map the Props of this class to the respective Redux dispatch functions
- * @returns: Mapped functions
- */
 const mapDispatchToProps = dispatch => ({
   setGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),
 });

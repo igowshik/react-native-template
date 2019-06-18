@@ -10,15 +10,12 @@ import ScrollView from 'cnxapp/src/components/ScrollView';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import {
-  // saveConexionDetails1,
   dispatchIndividualDetails,
   dispatchCreateIndividual,
 } from 'cnxapp/src/containers/Conexion/actions';
-// import { selectSaveConexionToReducers } from '../../selectors';
 
 // Relative imports
 import CreateConexionForm from './CreateConexionForm';
-// import CreateAddress from '../DetailScreen/ProfileView/CreateAddress';
 
 import { validate } from '../../validate';
 
@@ -36,18 +33,10 @@ class CreateConexions extends Component {
   componentDidMount() {}
 
   onCreateConexion = values => {
-    const { reset, handleCreateConexion, conexionType } = this.props;
     const valuesForm = JSON.stringify(values, null, 2);
     const objectForm = JSON.parse(valuesForm);
-    // handleCreateConexion(objectForm, conexionType);
-    // console.log(
-    //   '@$(*@$(*@($*@($U@($U@$(@&$@Y@#----------------------> ',
-    //   objectForm,
-    // );
     this.props.setIndividualsDetails(objectForm);
     this.props.createIndividual();
-    // this._closeModal();
-    // reset();
   };
 
   render() {
@@ -81,7 +70,6 @@ class CreateConexions extends Component {
               handleSubmit={handleSubmit}
               viewType={conexionType}
             />
-            {/* <CreateAddress viewType={conexionType} /> */}
           </ScrollView>
         </FullPageModal>
       </View>
@@ -91,13 +79,11 @@ class CreateConexions extends Component {
 
 CreateConexions.propTypes = {
   setModalOpenClose: PropTypes.func.isRequired,
-  handleCreateConexion: PropTypes.func,
   modalOpen: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,
   invalid: PropTypes.bool,
-  reset: PropTypes.func,
   conexionType: PropTypes.string.isRequired,
   setIndividualsDetails: PropTypes.func,
   createIndividual: PropTypes.func,
@@ -113,12 +99,7 @@ const redux1 = reduxForm({
   keepDirtyOnReinitialize: false,
 });
 
-// const mapStateToProps = () => ({
-//   createdIndividual: selectSaveConexionToReducers(),
-// });
-
 const mapDispatchToProps = dispatch => ({
-  // saveConexionDetailss: value => dispatch(saveConexionDetails1(value)),
   setIndividualsDetails: value => dispatch(dispatchIndividualDetails(value)),
   createIndividual: () => dispatch(dispatchCreateIndividual()),
 });

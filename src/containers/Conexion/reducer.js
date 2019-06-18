@@ -29,7 +29,6 @@ export const conexionInitialState = {
   metaData: {},
   addressModal: false,
   createAddressData: {},
-  //---
   conexionModal: false,
   individualDetails: {},
   userDropDown: [],
