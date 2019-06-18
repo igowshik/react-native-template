@@ -25,6 +25,7 @@ import {
   selectGlobalLoader,
   selectToastVisibility,
   selectToastData,
+  selectIndividualModal,
 } from '../selectors';
 import {
   getIndConexions,
@@ -43,7 +44,6 @@ class Conexion extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      conexionCreateOpen: false,
       height: Dimensions.get('window').height,
       indSelected: true,
       orgSelected: false,
@@ -83,7 +83,7 @@ class Conexion extends React.Component {
   }
 
   setModalOpenClose = value => {
-    this.setState({ conexionCreateOpen: value });
+    this.props.dispatchIndividualModalState(value);
   };
 
   handleConexionSelect = id => {
@@ -134,9 +134,9 @@ class Conexion extends React.Component {
 
   createConexionTrigger = (modalState, conexionType) => {
     this.setState({
-      conexionCreateOpen: modalState,
       createConexionType: conexionType,
     });
+    this.props.dispatchIndividualModalState(modalState);
   };
 
   searchConexions = searchText => {
@@ -166,18 +166,16 @@ class Conexion extends React.Component {
     const initialIndividualValues = {
       first_name: 'FInal',
       last_name: 'Finalcad',
-      initial: 'FInal',
-      title: 'Dr.',
+      initial: 'FINN',
+      title: 'DR',
       suffix: 'I',
-      select_oraganisation: 'Miss',
       job_title: 'job title',
       primary_mobile: '',
-      shared_type: 'Public',
+      shared_type: 'PUBL',
       business_phone: '579345',
       business_email: 'kfjskldjf@gmail.com',
     };
     const {
-      conexionCreateOpen,
       onSetLoaderValue,
       indSelected,
       orgSelected,
@@ -185,25 +183,7 @@ class Conexion extends React.Component {
       firstQuery,
     } = this.state;
 
-    const { toastVisible, toast, loaderState } = this.props;
-
-    // const orgIntitalValue = {
-    //   org_name: '',
-    //   org_business_telephone_number: '',
-    //   org_business_homepage: '',
-    // };
-    // const indIntitalValue = {
-    //   first_name: 'Selvam',
-    //   last_name: 'Kumar',
-    //   job_title: '',
-    //   organization: '',
-    //   telephone_number: '',
-    //   business_email: '',
-    //   business_telephone_number: '',
-    //   phone_type: 'Home',
-    //   shared_type: 'Private',
-    // };
-
+    const { toastVisible, toast, loaderState, conexionModal } = this.props;
     return (
       <View>
         <View>
@@ -220,13 +200,10 @@ class Conexion extends React.Component {
               onChange={this._onSwitchIndOrgPress}
             />
             <CreateConexions
-              modalOpen={conexionCreateOpen}
+              modalOpen={conexionModal}
               handleCreateConexion={this.createConexion}
               setModalOpenClose={this.setModalOpenClose}
-              // Modal close from saga
-              // modalCloseOpen={this.setIndividualModalOpen}
               setLoader={onSetLoaderValue}
-              // initialValues={indIntitalValue}
               conexionType={createConexionType}
               initialValues={initialIndividualValues}
             />
@@ -260,7 +237,6 @@ class Conexion extends React.Component {
         {this.props.isFocused ? (
           <TouchableRipple rippleColor="rgba(0, 0, 0, .3)">
             <FABUI handleConexionCreate={this.createConexionTrigger} />
-            {/* <FABUI handleConexionCreate={this.setIndividualModalOpen} /> */}
           </TouchableRipple>
         ) : null}
         <Snackbar toastVisible={toastVisible} toast={toast} />
@@ -286,6 +262,7 @@ Conexion.propTypes = {
   fetchDropDownValues: PropTypes.func.isRequired,
   dispatchSetConexionType: PropTypes.func.isRequired,
   dispatchIndividualModalState: PropTypes.func.isRequired,
+  conexionModal: PropTypes.bool.isRequired,
 };
 
 /**
@@ -300,6 +277,7 @@ const mapStateToProps = createStructuredSelector({
   orgConexions: selectOrgConexion(),
   toastVisible: selectToastVisibility(),
   toast: selectToastData(),
+  conexionModal: selectIndividualModal(),
 });
 
 /**
@@ -315,7 +293,6 @@ const mapDispatchToProps = dispatch => ({
   dispatchSetConexionId: id => dispatch(saveselectedConexionId(id)),
   fetchDropDownValues: () => dispatch(getMetaData()),
   dispatchSetConexionType: type => dispatch(setSelectedConexionType(type)),
-  //---------------
   dispatchIndividualModalState: visibility =>
     dispatch(setIndividualModalVisibility(visibility)),
 });

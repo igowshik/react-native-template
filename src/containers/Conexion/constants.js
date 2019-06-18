@@ -43,7 +43,7 @@ export const MANGER = 'MGR';
 export const METADATA_VARIABLES = 'title,suffix,address_type,country_list';
 
 export const shareTypes = [
-  { value: 'Public', label: 'Public', key: 0 },
-  { value: 'Private', label: 'Private', key: 1 },
-  { value: 'Shared', label: 'Shared', key: 3 },
+  { value: 'PUBL', label: 'Public', key: 0 },
+  { value: 'PRIV', label: 'Private', key: 1 },
+  { value: 'SHAR', label: 'Shared', key: 3 },
 ];

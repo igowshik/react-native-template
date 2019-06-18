@@ -50,7 +50,7 @@ class Details extends React.Component {
                   <TextInput label="First Name" name="first_name" required />
                 </Col>
                 <Col>
-                  <TextInput label="Middle Name" name="middle_name" required />
+                  <TextInput label="Middle Name" name="middle_name" />
                 </Col>
               </Row>
               <Row>
@@ -58,20 +58,15 @@ class Details extends React.Component {
                   <TextInput label="Last Name" name="last_name" required />
                 </Col>
                 <Col>
-                  <TextInput label="initial" name="initial" required />
+                  <TextInput label="initial" name="initial" />
                 </Col>
               </Row>
               <Row>
                 <Col>
-                  <Dropdown label="Title" name="title" required data={title} />
+                  <Dropdown label="Title" name="title" data={title} />
                 </Col>
                 <Col>
-                  <Dropdown
-                    label="Suffix"
-                    name="suffix"
-                    required
-                    data={suffix}
-                  />
+                  <Dropdown label="Suffix" name="suffix" data={suffix} />
                 </Col>
               </Row>
               <Row>
@@ -79,27 +74,21 @@ class Details extends React.Component {
                   <Dropdown
                     label="Select Oraganisation"
                     name="select_oraganisation"
-                    required
                     data={title} // organisation data to be filled
                   />
                 </Col>
                 <Col>
-                  <TextInput label="Job Title" name="job_title" required />
+                  <TextInput label="Job Title" name="job_title" />
                 </Col>
               </Row>
               <Row>
                 <Col>
-                  <NumberInput
-                    label="Primary Mobile"
-                    name="primary_mobile"
-                    required
-                  />
+                  <NumberInput label="Primary Mobile" name="primary_mobile" />
                 </Col>
                 <Col>
                   <NumberInput
                     label="Secondary Mobile"
                     name="secondary_mobile"
-                    required
                   />
                 </Col>
               </Row>

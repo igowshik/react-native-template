@@ -29,7 +29,7 @@ export const conexionInitialState = {
   addressModal: false,
   createAddressData: {},
   //---
-  individualModal: false,
+  conexionModal: false,
   individualDetails: {},
 };
 
@@ -79,7 +79,7 @@ const conexionStore = (state = conexionInitialState, action) =>
       }
       //---
       case SET_INDIVIDUAL_MODAL: {
-        draftState.individualModal = action.individualVisibility;
+        draftState.conexionModal = action.individualVisibility;
         break;
       }
       case SET_INDIVIDUAL_DETAILS: {

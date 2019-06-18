@@ -16,7 +16,7 @@ class ShareType extends React.Component {
             <Headline>Sharing</Headline>
             <Divider />
             <RadioButtonGroup
-              defaultValue="Public"
+              defaultValue="PUBL"
               data={shareTypes}
               name="shared_type"
             />

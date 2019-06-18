@@ -262,8 +262,6 @@ function* createIndividualDetails() {
     Mobile1TelephoneNumber: newIndividual.primary_mobile,
     BusinessEmailAddress: newIndividual.business_email,
     BusinessTelephoneNumber: newIndividual.business_phone,
-    // Suffix: newIndividual.suffix,
-    Users: [28, 29],
   };
   const options = {
     method: 'POST',

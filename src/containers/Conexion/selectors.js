@@ -103,10 +103,10 @@ const selectIndividualDetails = () =>
     conexionReducers,
     dataState => dataState.individualDetails,
   );
-const selectIndividualModal = () => 
+const selectIndividualModal = () =>
   createSelector(
     conexionReducers,
-    dataState => dataState.individualState,
+    dataState => dataState.conexionModal,
   );
 
 export {
