@@ -23,6 +23,8 @@ import {
   EDIT_CONEXION_ADDRESS,
   GET_USER_DD_VALUE,
   SAVE_USER_DD_VALUE,
+  GET_ORG_DD_VALUE,
+  SAVE_ORG_DD_VALUE,
 } from './constants';
 
 export function getIndConexions() {
@@ -128,4 +130,13 @@ export const getUserDDList = () => ({
 export const saveUswerDDList = userDDValues => ({
   type: SAVE_USER_DD_VALUE,
   userDDValues,
+});
+
+export const getOrgDDList = () => ({
+  type: GET_ORG_DD_VALUE,
+});
+
+export const saveOrgDDList = orgDDValues => ({
+  type: SAVE_ORG_DD_VALUE,
+  orgDDValues,
 });

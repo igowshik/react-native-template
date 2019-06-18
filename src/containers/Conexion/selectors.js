@@ -115,6 +115,12 @@ const selectUserDDList = () =>
     dataState => dataState.userDropDown,
   );
 
+const selectOrgDDList = () =>
+  createSelector(
+    conexionReducers,
+    dataState => dataState.orgDropDown,
+  );
+
 export {
   selectIndConexion,
   selectOrgConexion,
@@ -133,4 +139,5 @@ export {
   selectIndividualModal,
   selectIndividualDetails,
   selectUserDDList,
+  selectOrgDDList,
 };

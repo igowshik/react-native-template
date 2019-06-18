@@ -21,6 +21,8 @@ import {
   setAddressModalVisibility,
   setIndividualModalVisibility,
   saveUswerDDList,
+  saveOrgDDList,
+  getIndConexions,
 } from './actions';
 import {
   GET_IND_CONEXIONS,
@@ -35,6 +37,7 @@ import {
   CREATE_INDIVIDUAL,
   EDIT_CONEXION_ADDRESS,
   GET_USER_DD_VALUE,
+  GET_ORG_DD_VALUE,
 } from './constants';
 import {
   selectToken,
@@ -42,6 +45,7 @@ import {
   selectCreateAddressData,
   selectIndividualDetails,
 } from './selectors';
+import { individualConexionPayloadMapper } from '../../utils/mappers/ConexionMappers';
 
 function* getIndividualConexionAPI() {
   yield put(setRootGlobalLoader(true));
@@ -321,36 +325,53 @@ function* getUserDDValuesAPI() {
   }
 }
 
+function* getOrgDDValuesAPI() {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const requestURL = `${config.apiURL}OrganizationConexionDropdown`;
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(saveOrgDDList(response.data));
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+
 function* createIndividualDetails() {
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
   const newIndividual = yield select(selectIndividualDetails());
   const requestURL = `${config.apiURL}CreateIndividualConexion`;
-  const createIndividual = {
-    Name: newIndividual.first_name,
-    title: newIndividual.title,
-    SharingType: newIndividual.shared_type,
-    ShortName: newIndividual.initial,
-    LastName: newIndividual.last_name,
-    JobTitle: newIndividual.job_title,
-    Organization: newIndividual.select_organisation,
-    Mobile1TelephoneNumber: newIndividual.primary_mobile,
-    BusinessEmailAddress: newIndividual.business_email,
-    BusinessTelephoneNumber: newIndividual.business_phone,
-  };
+  const individualConexionPayload = individualConexionPayloadMapper(
+    newIndividual,
+  );
   const options = {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(createIndividual),
+    body: JSON.stringify(individualConexionPayload),
   };
   const response = yield call(request, requestURL, options);
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(setIndividualModalVisibility(false));
-    yield put(getConexionDetails());
+    yield put(getIndConexions());
   } else {
     yield put(setIndividualModalVisibility(false));
     yield put(
@@ -374,5 +395,6 @@ export default function* initConexionSaga() {
   yield takeLatest(CREATE_CONEXION_ADDRESS, createConexionAddressAPI);
   yield takeLatest(EDIT_CONEXION_ADDRESS, editConexionAddressAPI);
   yield takeLatest(GET_USER_DD_VALUE, getUserDDValuesAPI);
+  yield takeLatest(GET_ORG_DD_VALUE, getOrgDDValuesAPI);
   yield takeLatest(CREATE_INDIVIDUAL, createIndividualDetails);
 }

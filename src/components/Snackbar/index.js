@@ -17,7 +17,7 @@ class SnackbarCustom extends React.Component {
       switch (toast.toastType) {
         case INFO: {
           return (
-            <Text style={{ color: colors.BLUE }}>{toast.toastMessage}</Text>
+            <Text style={{ color: colors.WHITE }}>{toast.toastMessage}</Text>
           );
         }
         case ERROR: {
@@ -37,7 +37,7 @@ class SnackbarCustom extends React.Component {
         }
         default: {
           return (
-            <Text style={{ color: colors.BLUE }}>{toast.toastMessage}</Text>
+            <Text style={{ color: colors.WHITE }}>{toast.toastMessage}</Text>
           );
         }
       }
@@ -65,7 +65,7 @@ class SnackbarCustom extends React.Component {
         }}
         duration={Snackbar.DURATION_MEDIUM}
         style={{
-          backgroundColor: '#FBFDFF',
+          backgroundColor: '#34495E',
         }}
       >
         {this.getMessage()}
