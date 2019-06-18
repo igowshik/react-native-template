@@ -17,6 +17,8 @@ import {
   SET_CREATE_ADDRESS_DATA,
   CREATE_CONEXION_ADDRESS,
   EDIT_CONEXION_ADDRESS,
+  GET_USER_DD_VALUE,
+  SAVE_USER_DD_VALUE,
 } from './constants';
 
 export function getIndConexions() {
@@ -101,4 +103,13 @@ export const createConexionAddress = () => ({
 
 export const editConexionAddress = () => ({
   type: EDIT_CONEXION_ADDRESS,
+});
+
+export const getUserDDList = () => ({
+  type: GET_USER_DD_VALUE,
+});
+
+export const saveUswerDDList = userDDValues => ({
+  type: SAVE_USER_DD_VALUE,
+  userDDValues,
 });

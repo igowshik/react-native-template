@@ -19,6 +19,7 @@ import {
   saveMetaData,
   getConexionDetails,
   setAddressModalVisibility,
+  saveUswerDDList,
 } from './actions';
 import {
   GET_IND_CONEXIONS,
@@ -31,6 +32,7 @@ import {
   DELETE_ADDRESS,
   CREATE_CONEXION_ADDRESS,
   EDIT_CONEXION_ADDRESS,
+  GET_USER_DD_VALUE,
 } from './constants';
 import {
   selectToken,
@@ -282,6 +284,40 @@ function* deleteAddressAPI({ addressId }) {
   }
 }
 
+function* getUserDDValuesAPI() {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const requestURL = `${config.apiURL}UserDropdownValues`;
+  const ddList = [];
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    response.data.forEach(dd => {
+      ddList.push({
+        key: dd.value.toString(),
+        value: dd.value,
+        label: dd.label,
+      });
+    });
+    yield put(saveUswerDDList(ddList));
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+
 export default function* initConexionSaga() {
   yield takeLatest(GET_LIST_OF_ORG, getOrganizationConexionAPI);
   yield takeLatest(GET_IND_CONEXIONS, getIndividualConexionAPI);
@@ -291,4 +327,5 @@ export default function* initConexionSaga() {
   yield takeLatest(DELETE_ADDRESS, deleteAddressAPI);
   yield takeLatest(CREATE_CONEXION_ADDRESS, createConexionAddressAPI);
   yield takeLatest(EDIT_CONEXION_ADDRESS, editConexionAddressAPI);
+  yield takeLatest(GET_USER_DD_VALUE, getUserDDValuesAPI);
 }

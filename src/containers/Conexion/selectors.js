@@ -99,6 +99,12 @@ const selectCreateAddressData = () =>
     dataState => dataState.createAddressData,
   );
 
+const selectUserDDList = () =>
+  createSelector(
+    conexionReducers,
+    dataState => dataState.userDropDown,
+  );
+
 export {
   selectIndConexion,
   selectOrgConexion,
@@ -114,4 +120,5 @@ export {
   selectConexionType,
   selectAddressModalVisible,
   selectCreateAddressData,
+  selectUserDDList,
 };

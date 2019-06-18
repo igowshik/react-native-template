@@ -90,4 +90,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export { Communication };
+export default Communication;

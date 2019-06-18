@@ -10,6 +10,7 @@ import {
   SET_SELECTED_CONEXION_TYPE,
   SET_ADDRESS_MODAL,
   SET_CREATE_ADDRESS_DATA,
+  SAVE_USER_DD_VALUE,
 } from './constants';
 
 export const conexionInitialState = {
@@ -26,6 +27,7 @@ export const conexionInitialState = {
   metaData: {},
   addressModal: false,
   createAddressData: {},
+  userDropDown: [],
 };
 
 const conexionStore = (state = conexionInitialState, action) =>
@@ -70,6 +72,10 @@ const conexionStore = (state = conexionInitialState, action) =>
       }
       case SET_CREATE_ADDRESS_DATA: {
         draftState.createAddressData = action.addressData;
+        break;
+      }
+      case SAVE_USER_DD_VALUE: {
+        draftState.userDropDown = action.userDDValues;
         break;
       }
       default: {
