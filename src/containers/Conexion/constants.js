@@ -51,9 +51,9 @@ export const shareTypes = [
 ];
 
 export const shareTypeObj = {
-  PRIVATE: 'Private',
-  PUBLIC: 'Public',
-  SHARED: 'Shared',
+  PRIVATE: 'PRIV',
+  PUBLIC: 'PUBL',
+  SHARED: 'SHAR',
 };
 
 export const DELETE_ADDRESS_MESSAGE = 'Are you sure on deleting this address?';
