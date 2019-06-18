@@ -16,6 +16,7 @@ import {
   SET_ADDRESS_MODAL,
   SET_CREATE_ADDRESS_DATA,
   CREATE_CONEXION_ADDRESS,
+  EDIT_CONEXION_ADDRESS,
 } from './constants';
 
 export function getIndConexions() {
@@ -96,4 +97,8 @@ export const setCreateAddressData = addressData => ({
 
 export const createConexionAddress = () => ({
   type: CREATE_CONEXION_ADDRESS,
+});
+
+export const editConexionAddress = () => ({
+  type: EDIT_CONEXION_ADDRESS,
 });

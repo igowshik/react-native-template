@@ -21,6 +21,7 @@ import {
   setAddressModalVisibility,
   setCreateAddressData,
   createConexionAddress,
+  editConexionAddress,
 } from 'cnxapp/src/containers/Conexion/actions';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 
@@ -44,11 +45,16 @@ class CreateAddress extends Component {
     const {
       dispatchSaveCreateAddressData,
       dispatchCreateConexionAddress,
+      dispatchEditAddress,
+      editAddress,
+      addressId,
     } = this.props;
     const valuesForm = JSON.stringify(values, null, 2);
     const objectForm = JSON.parse(valuesForm);
-    dispatchSaveCreateAddressData(objectForm);
-    dispatchCreateConexionAddress();
+    if (editAddress) objectForm.addressId = addressId; // set address id if it is in edit mode
+    dispatchSaveCreateAddressData(objectForm); // Dispatch the address data
+    if (!editAddress) dispatchCreateConexionAddress();
+    else dispatchEditAddress();
   };
 
   render() {
@@ -113,6 +119,9 @@ CreateAddress.propTypes = {
   loaderState: PropTypes.bool.isRequired,
   dispatchSaveCreateAddressData: PropTypes.func.isRequired,
   dispatchCreateConexionAddress: PropTypes.func.isRequired,
+  addressId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  editAddress: PropTypes.bool,
+  dispatchEditAddress: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -141,6 +150,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setAddressModalVisibility(visibility)),
   dispatchSaveCreateAddressData: data => dispatch(setCreateAddressData(data)),
   dispatchCreateConexionAddress: () => dispatch(createConexionAddress()),
+  dispatchEditAddress: () => dispatch(editConexionAddress()),
 });
 
 const withConnect = connect(

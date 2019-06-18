@@ -16,6 +16,7 @@ import {
 } from 'react-native-paper';
 import Lo from 'lodash';
 
+// Absolute imports
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
 import {
@@ -26,16 +27,56 @@ import {
   deleteAddress,
   setAddressModalVisibility,
 } from 'cnxapp/src/containers/Conexion/actions';
+import Dialog from 'cnxapp/src/components/Dialog';
 
 import CreateAddressModal from '../CreateAddress';
+import { DELETE_ADDRESS_MESSAGE } from '../../../../constants';
 
 class Address extends React.Component {
-  state = {};
+  state = {
+    editAddress: false,
+    intialAddressValues: {},
+    ConexionAddressId: '',
+    dialogVisible: false,
+  };
 
   setModalOpen = () => this.props.dispatchModalState(true);
 
+  editAddressHandler = addressId => {
+    this.setState({ editAddress: true });
+    const { conexionDetails } = this.props;
+    const addressData = Lo.filter(conexionDetails.Addresses, {
+      ConexionAddressId: addressId,
+    });
+    const values = {
+      address_type: addressData[0].AddressType,
+      line_1_address: addressData[0].Line1Address,
+      city: addressData[0].City,
+      state: addressData[0].State,
+      country: addressData[0].Country,
+      postal_area: addressData[0].PostalArea,
+      postal_area_2: addressData[0].PostalArea2,
+    };
+    this.setState({
+      intialAddressValues: values,
+      ConexionAddressId: addressId,
+    });
+    this.props.dispatchModalState(true);
+  };
+
+  onDialogDismiss = () => this.setState({ dialogVisible: false });
+
+  onDialogConfirm = () => {
+    this.props.dispatchDeleteAddress(this.state.ConexionAddressId);
+    this.setState({ dialogVisible: false });
+  };
+
+  deleteAddressConfirmation = addressId => {
+    this.setState({ ConexionAddressId: addressId, dialogVisible: true });
+  };
+
   renderAddressCard = () => {
-    const { data, dispatchDeleteAddress } = this.props;
+    const { data } = this.props;
     if (data.Addresses.length > 0) {
       return data.Addresses.map(add => (
         <View style={{ margin: 10 }} key={add.ConexionAddressId}>
@@ -60,26 +101,28 @@ class Address extends React.Component {
                   <FontAwesome5
                     name="pen-alt"
                     color={Colors.PRIMARY}
-                    size={18}
+                    size={15}
                     solid
                   />
                 )}
                 size={25}
-                onPress={() => {}}
+                onPress={() => {
+                  this.editAddressHandler(add.ConexionAddressId);
+                }}
               />
               <IconButton
                 icon={() => (
                   <FontAwesome5
                     name="trash"
                     color={Colors.SECONDARY}
-                    size={18}
+                    size={15}
                     solid
                   />
                 )}
                 color={Colors.SECONDARY}
                 size={25}
                 onPress={() => {
-                  dispatchDeleteAddress(add.ConexionAddressId);
+                  this.deleteAddressConfirmation(add.ConexionAddressId);
                 }}
               />
               <IconButton
@@ -87,7 +130,7 @@ class Address extends React.Component {
                   <FontAwesome5
                     name="map-marked-alt"
                     color={Colors.GREEN}
-                    size={18}
+                    size={15}
                     solid
                   />
                 )}
@@ -106,15 +149,13 @@ class Address extends React.Component {
   };
 
   render() {
-    const intialAddressValues = {
-      address_type: 'WORK',
-      line_1_address: 'test',
-      city: 'Bangalore',
-      state: 'Karnataka',
-      country: 'IN',
-      postal_area: '560102',
-    };
     const { data } = this.props;
+    const {
+      intialAddressValues,
+      editAddress,
+      ConexionAddressId,
+      dialogVisible,
+    } = this.state;
     if (!Lo.isEmpty(data)) {
       return (
         <View style={styles.parentView}>
@@ -158,7 +199,18 @@ class Address extends React.Component {
             <Divider />
             <Card.Content>{this.renderAddressCard()}</Card.Content>
           </Card>
-          <CreateAddressModal initialValues={intialAddressValues} />
+          <CreateAddressModal
+            initialValues={intialAddressValues}
+            editAddress={editAddress}
+            addressId={ConexionAddressId}
+          />
+          <Dialog
+            visible={dialogVisible}
+            title="Delete!"
+            message={DELETE_ADDRESS_MESSAGE}
+            onDismiss={this.onDialogDismiss}
+            onConfirm={this.onDialogConfirm}
+          />
         </View>
       );
     }
@@ -170,6 +222,7 @@ Address.propTypes = {
   data: PropTypes.object,
   dispatchDeleteAddress: PropTypes.func.isRequired,
   dispatchModalState: PropTypes.func.isRequired,
+  conexionDetails: PropTypes.object.isRequired,
 };
 
 const styles = StyleSheet.create({

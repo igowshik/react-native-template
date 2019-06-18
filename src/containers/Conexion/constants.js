@@ -19,6 +19,7 @@ export const SET_SELECTED_CONEXION_TYPE =
 export const SET_ADDRESS_MODAL = '@Conexion/SET_ADDRESS_MODAL';
 export const SET_CREATE_ADDRESS_DATA = '@Conexion/SET_CREATE_ADDRESS_DATA';
 export const CREATE_CONEXION_ADDRESS = '@Conexion/CREATE_CONEXION_ADDRESS';
+export const EDIT_CONEXION_ADDRESS = '@Conexion/EDIT_CONEXION_ADDRESS';
 
 // Local component constants
 export const INDIVIDUAL = 'Individual';
@@ -43,3 +44,5 @@ export const shareTypes = [
   { value: 'Private', label: 'Private', key: 1 },
   { value: 'Shared', label: 'Shared', key: 3 },
 ];
+
+export const DELETE_ADDRESS_MESSAGE = 'Are you sure on deleting this address?';

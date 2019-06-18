@@ -30,6 +30,7 @@ import {
   METADATA_VARIABLES,
   DELETE_ADDRESS,
   CREATE_CONEXION_ADDRESS,
+  EDIT_CONEXION_ADDRESS,
 } from './constants';
 import {
   selectToken,
@@ -213,6 +214,46 @@ function* createConexionAddressAPI() {
   }
 }
 
+function* editConexionAddressAPI() {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const addressData = yield select(selectCreateAddressData());
+  const requestURL = `${config.apiURL}EditConexionAddress`;
+  const CREATE_ADDRESS = {
+    ConexionAddressId: addressData.addressId,
+    AddressType: addressData.address_type,
+    Line1Address: addressData.line_1_address,
+    City: addressData.city,
+    State: addressData.state,
+    PostalArea: addressData.postal_area,
+    PostalArea2: addressData.postal_area_2 ? addressData.postal_area_2 : null,
+    Country: addressData.country,
+  };
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(CREATE_ADDRESS),
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(setAddressModalVisibility(false));
+    yield put(getConexionDetails());
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+
 function* deleteAddressAPI({ addressId }) {
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
@@ -249,4 +290,5 @@ export default function* initConexionSaga() {
   yield takeLatest(FETCH_DD_METADATA, getConexionMetaDataAPI);
   yield takeLatest(DELETE_ADDRESS, deleteAddressAPI);
   yield takeLatest(CREATE_CONEXION_ADDRESS, createConexionAddressAPI);
+  yield takeLatest(EDIT_CONEXION_ADDRESS, editConexionAddressAPI);
 }
