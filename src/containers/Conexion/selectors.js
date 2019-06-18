@@ -98,6 +98,16 @@ const selectCreateAddressData = () =>
     conexionReducers,
     dataState => dataState.createAddressData,
   );
+const selectIndividualDetails = () =>
+  createSelector(
+    conexionReducers,
+    dataState => dataState.individualDetails,
+  );
+const selectIndividualModal = () => 
+  createSelector(
+    conexionReducers,
+    dataState => dataState.individualState,
+  );
 
 export {
   selectIndConexion,
@@ -114,4 +124,7 @@ export {
   selectConexionType,
   selectAddressModalVisible,
   selectCreateAddressData,
+  //---
+  selectIndividualModal,
+  selectIndividualDetails,
 };

@@ -29,6 +29,7 @@ class FABUI extends React.Component {
               icon: 'person',
               label: 'Individual',
               onPress: () => this.props.handleConexionCreate(true, INDIVIDUAL),
+              // onPress: () => this.props.handleConexionCreate(),
               style: {
                 backgroundColor: colors.SECONDARY,
                 color: '#000',
@@ -39,6 +40,8 @@ class FABUI extends React.Component {
               label: 'Organization',
               onPress: () =>
                 this.props.handleConexionCreate(true, ORGANIZATION),
+              //   this.props.handleConexionCreate(),
+              // onPress: this.props.handleConexionCreate,
               style: {
                 backgroundColor: colors.SECONDARY,
               },

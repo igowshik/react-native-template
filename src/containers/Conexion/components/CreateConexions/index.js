@@ -7,6 +7,15 @@ import FullPageModal from 'cnxapp/src/components/FullPageModal';
 import { PrimaryButton } from 'cnxapp/src/components/Buttons/Primary';
 import ScrollView from 'cnxapp/src/components/ScrollView';
 
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import {
+  // saveConexionDetails1,
+  dispatchIndividualDetails,
+  dispatchCreateIndividual,
+} from 'cnxapp/src/containers/Conexion/actions';
+// import { selectSaveConexionToReducers } from '../../selectors';
+
 // Relative imports
 import CreateConexionForm from './CreateConexionForm';
 // import CreateAddress from '../DetailScreen/ProfileView/CreateAddress';
@@ -30,9 +39,15 @@ class CreateConexions extends Component {
     const { reset, handleCreateConexion, conexionType } = this.props;
     const valuesForm = JSON.stringify(values, null, 2);
     const objectForm = JSON.parse(valuesForm);
-    handleCreateConexion(objectForm, conexionType);
-    this._closeModal();
-    reset();
+    // handleCreateConexion(objectForm, conexionType);
+    // console.log(
+    //   '@$(*@$(*@($*@($U@($U@$(@&$@Y@#----------------------> ',
+    //   objectForm,
+    // );
+    this.props.setIndividualsDetails(objectForm);
+    this.props.createIndividual();
+    // this._closeModal();
+    // reset();
   };
 
   render() {
@@ -58,10 +73,14 @@ class CreateConexions extends Component {
               buttonText="Done"
               icon="check-circle"
               disabled={pristine || submitting || invalid}
+              onPress={this.props.modalCloseOpen}
             />
           </View>
           <ScrollView>
-            <CreateConexionForm viewType={conexionType} />
+            <CreateConexionForm
+              handleSubmit={handleSubmit}
+              viewType={conexionType}
+            />
             {/* <CreateAddress viewType={conexionType} /> */}
           </ScrollView>
         </FullPageModal>
@@ -80,15 +99,37 @@ CreateConexions.propTypes = {
   invalid: PropTypes.bool,
   reset: PropTypes.func,
   conexionType: PropTypes.string.isRequired,
+  setIndividualsDetails: PropTypes.func,
+  createIndividual: PropTypes.func,
+  modalCloseOpen: PropTypes.func,
 };
 
-export default reduxForm({
+// export default reduxForm({
+const redux1 = reduxForm({
   form: 'createConexion',
   validate,
   enableReinitialize: true,
   destroyOnUnmount: true,
   keepDirtyOnReinitialize: false,
-})(CreateConexions);
+});
+
+// const mapStateToProps = () => ({
+//   createdIndividual: selectSaveConexionToReducers(),
+// });
+
+const mapDispatchToProps = dispatch => ({
+  // saveConexionDetailss: value => dispatch(saveConexionDetails1(value)),
+  setIndividualsDetails: value => dispatch(dispatchIndividualDetails(value)),
+  createIndividual: () => dispatch(dispatchCreateIndividual()),
+});
+const withConnect = connect(
+  null,
+  mapDispatchToProps,
+);
+export default compose(
+  withConnect,
+  redux1,
+)(CreateConexions);
 
 const styles = StyleSheet.create({
   headerContainer: {

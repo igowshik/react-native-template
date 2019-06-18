@@ -19,6 +19,10 @@ export const SET_SELECTED_CONEXION_TYPE =
 export const SET_ADDRESS_MODAL = '@Conexion/SET_ADDRESS_MODAL';
 export const SET_CREATE_ADDRESS_DATA = '@Conexion/SET_CREATE_ADDRESS_DATA';
 export const CREATE_CONEXION_ADDRESS = '@Conexion/CREATE_CONEXION_ADDRESS';
+//-------
+export const SET_INDIVIDUAL_MODAL = '@Conexion/SET_INDIVIDUAL_MODAL';
+export const SET_INDIVIDUAL_DETAILS = '@Conexion/SET_INDIVIDUAL_DETAILS';
+export const CREATE_INDIVIDUAL = '@Conexion/CREATE_INDIVIDUAL';
 
 // Local component constants
 export const INDIVIDUAL = 'Individual';

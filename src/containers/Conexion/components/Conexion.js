@@ -33,6 +33,7 @@ import {
   saveselectedConexionId,
   getMetaData,
   setSelectedConexionType,
+  setIndividualModalVisibility,
 } from '../actions';
 import { conexionStyles as styles } from '../styles';
 import { INDIVIDUAL, ORGANIZATION, ALL } from '../constants';
@@ -53,7 +54,11 @@ class Conexion extends React.Component {
     this.onLayout = this.onLayout.bind(this);
     this.getConexionTitle = this.getConexionTitle.bind(this);
     this.getConexionList = this.getConexionList.bind(this);
+    this.setIndividualModalOpen = this.setIndividualModalOpen.bind(this);
   }
+
+  //-------------
+  setIndividualModalOpen = () => this.props.dispatchIndividualModalState(true);
 
   _onSwitchIndOrgPress = () => {
     const { indSelected, orgSelected } = this.state;
@@ -158,6 +163,19 @@ class Conexion extends React.Component {
   };
 
   render() {
+    const initialIndividualValues = {
+      first_name: 'FInal',
+      last_name: 'Finalcad',
+      initial: 'FInal',
+      title: 'Dr.',
+      suffix: 'I',
+      select_oraganisation: 'Miss',
+      job_title: 'job title',
+      primary_mobile: '',
+      shared_type: 'Public',
+      business_phone: '579345',
+      business_email: 'kfjskldjf@gmail.com',
+    };
     const {
       conexionCreateOpen,
       onSetLoaderValue,
@@ -205,9 +223,12 @@ class Conexion extends React.Component {
               modalOpen={conexionCreateOpen}
               handleCreateConexion={this.createConexion}
               setModalOpenClose={this.setModalOpenClose}
+              // Modal close from saga
+              // modalCloseOpen={this.setIndividualModalOpen}
               setLoader={onSetLoaderValue}
               // initialValues={indIntitalValue}
               conexionType={createConexionType}
+              initialValues={initialIndividualValues}
             />
           </View>
           <View
@@ -239,6 +260,7 @@ class Conexion extends React.Component {
         {this.props.isFocused ? (
           <TouchableRipple rippleColor="rgba(0, 0, 0, .3)">
             <FABUI handleConexionCreate={this.createConexionTrigger} />
+            {/* <FABUI handleConexionCreate={this.setIndividualModalOpen} /> */}
           </TouchableRipple>
         ) : null}
         <Snackbar toastVisible={toastVisible} toast={toast} />
@@ -263,6 +285,7 @@ Conexion.propTypes = {
   dispatchSetConexionId: PropTypes.func.isRequired,
   fetchDropDownValues: PropTypes.func.isRequired,
   dispatchSetConexionType: PropTypes.func.isRequired,
+  dispatchIndividualModalState: PropTypes.func.isRequired,
 };
 
 /**
@@ -292,6 +315,9 @@ const mapDispatchToProps = dispatch => ({
   dispatchSetConexionId: id => dispatch(saveselectedConexionId(id)),
   fetchDropDownValues: () => dispatch(getMetaData()),
   dispatchSetConexionType: type => dispatch(setSelectedConexionType(type)),
+  //---------------
+  dispatchIndividualModalState: visibility =>
+    dispatch(setIndividualModalVisibility(visibility)),
 });
 
 const withConnect = connect(

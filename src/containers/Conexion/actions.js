@@ -16,6 +16,10 @@ import {
   SET_ADDRESS_MODAL,
   SET_CREATE_ADDRESS_DATA,
   CREATE_CONEXION_ADDRESS,
+  //---
+  SET_INDIVIDUAL_MODAL,
+  SET_INDIVIDUAL_DETAILS,
+  CREATE_INDIVIDUAL,
 } from './constants';
 
 export function getIndConexions() {
@@ -96,4 +100,17 @@ export const setCreateAddressData = addressData => ({
 
 export const createConexionAddress = () => ({
   type: CREATE_CONEXION_ADDRESS,
+});
+
+//---------------
+export const setIndividualModalVisibility = individualVisibility => ({
+  type: SET_INDIVIDUAL_MODAL,
+  individualVisibility,
+});
+export const dispatchIndividualDetails = individualDetails => ({
+  type: SET_INDIVIDUAL_DETAILS,
+  individualDetails,
+});
+export const dispatchCreateIndividual = () => ({
+  type: CREATE_INDIVIDUAL,
 });

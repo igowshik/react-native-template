@@ -10,6 +10,8 @@ import {
   SET_SELECTED_CONEXION_TYPE,
   SET_ADDRESS_MODAL,
   SET_CREATE_ADDRESS_DATA,
+  SET_INDIVIDUAL_MODAL,
+  SET_INDIVIDUAL_DETAILS,
 } from './constants';
 
 export const conexionInitialState = {
@@ -26,6 +28,9 @@ export const conexionInitialState = {
   metaData: {},
   addressModal: false,
   createAddressData: {},
+  //---
+  individualModal: false,
+  individualDetails: {},
 };
 
 const conexionStore = (state = conexionInitialState, action) =>
@@ -70,6 +75,15 @@ const conexionStore = (state = conexionInitialState, action) =>
       }
       case SET_CREATE_ADDRESS_DATA: {
         draftState.createAddressData = action.addressData;
+        break;
+      }
+      //---
+      case SET_INDIVIDUAL_MODAL: {
+        draftState.individualModal = action.individualVisibility;
+        break;
+      }
+      case SET_INDIVIDUAL_DETAILS: {
+        draftState.individualDetails = action.individualDetails;
         break;
       }
       default: {
