@@ -7,8 +7,8 @@ import { TextInput } from 'cnxapp/src/components/InputField';
 
 // Relative imports
 import Details from './Details';
-import { ShareType } from './ShareType';
-import { Communication } from './Commuinacation';
+import ShareType from './ShareType';
+import Communication from './Commuinacation';
 import OrgDetails from '../CreateOrganisation/OrgDetails';
 
 class CreateConexionForm extends React.Component {

@@ -12,6 +12,7 @@ import {
   SET_CREATE_ADDRESS_DATA,
   SET_INDIVIDUAL_MODAL,
   SET_INDIVIDUAL_DETAILS,
+  SAVE_USER_DD_VALUE,
 } from './constants';
 
 export const conexionInitialState = {
@@ -31,6 +32,7 @@ export const conexionInitialState = {
   //---
   conexionModal: false,
   individualDetails: {},
+  userDropDown: [],
 };
 
 const conexionStore = (state = conexionInitialState, action) =>
@@ -84,6 +86,10 @@ const conexionStore = (state = conexionInitialState, action) =>
       }
       case SET_INDIVIDUAL_DETAILS: {
         draftState.individualDetails = action.individualDetails;
+        break;
+      }
+      case SAVE_USER_DD_VALUE: {
+        draftState.userDropDown = action.userDDValues;
         break;
       }
       default: {

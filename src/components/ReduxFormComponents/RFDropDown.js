@@ -5,9 +5,6 @@ import PropTypes from 'prop-types';
 import { Dropdown as MaterialDropdown } from 'react-native-material-dropdown';
 
 import * as fonts from 'cnxapp/src/utils/font-list';
-import * as colors from 'cnxapp/src/utils/colorsConstants';
-
-// Relative imports
 
 class RFDropdown extends React.Component {
   state = {
@@ -51,7 +48,6 @@ class RFDropdown extends React.Component {
           labelFontSize={12}
           value={input.value}
           onChangeText={input.onChange}
-          selectedItemColor={colors.PRIMARY}
           onBlur={this.onFocusOut}
           error={this.state.hasError ? 'required' : null}
           textColor="rgba(0, 0, 0, 0.8)"
@@ -78,8 +74,8 @@ const styles = StyleSheet.create({
     fontFamily: fonts.MONTSERRAT,
   },
   parentView: {
-    width: '90%',
-    margin: 10,
+    flex: 1,
+    margin: 8,
     marginBottom: 0,
     marginTop: 0,
   },
@@ -90,7 +86,7 @@ const styles = StyleSheet.create({
     fontFamily: fonts.MONTSERRAT,
     fontWeight: '400',
     marginLeft: 10,
-    color: '#000',
+    color: 'rgba(0, 0, 0, 0.5)',
   },
   font: {
     fontFamily: fonts.MONTSERRAT,

@@ -36,7 +36,7 @@ export const RFNumberInput = props => {
         label={required ? `${label}*` : label}
         keyboardType="phone-pad"
         error={hasError}
-        style={{ width: '93%' }}
+        style={{ width: '100%' }}
       />
     </View>
   );
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     margin: 8,
   },
   field: {
-    width: '100%',
+    flex: 1,
     marginTop: 5,
     fontSize: 14,
   },

@@ -21,6 +21,7 @@ import {
   setAddressModalVisibility,
   //----
   setIndividualModalVisibility,
+  saveUswerDDList,
 } from './actions';
 import {
   GET_IND_CONEXIONS,
@@ -33,6 +34,8 @@ import {
   DELETE_ADDRESS,
   CREATE_CONEXION_ADDRESS,
   CREATE_INDIVIDUAL,
+  EDIT_CONEXION_ADDRESS,
+  GET_USER_DD_VALUE,
 } from './constants';
 import {
   selectToken,
@@ -217,6 +220,46 @@ function* createConexionAddressAPI() {
   }
 }
 
+function* editConexionAddressAPI() {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const addressData = yield select(selectCreateAddressData());
+  const requestURL = `${config.apiURL}EditConexionAddress`;
+  const CREATE_ADDRESS = {
+    ConexionAddressId: addressData.addressId,
+    AddressType: addressData.address_type,
+    Line1Address: addressData.line_1_address,
+    City: addressData.city,
+    State: addressData.state,
+    PostalArea: addressData.postal_area,
+    PostalArea2: addressData.postal_area_2 ? addressData.postal_area_2 : null,
+    Country: addressData.country,
+  };
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(CREATE_ADDRESS),
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(setAddressModalVisibility(false));
+    yield put(getConexionDetails());
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+
 function* deleteAddressAPI({ addressId }) {
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
@@ -245,36 +288,28 @@ function* deleteAddressAPI({ addressId }) {
   }
 }
 
-function* createIndividualDetails() {
+function* getUserDDValuesAPI() {
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
-  const newIndividual = yield select(selectIndividualDetails());
-  console.log('#%%^$#%$%%%%%%%%%%%%%%%%%%', newIndividual);
-  const requestURL = `${config.apiURL}CreateIndividualConexion`;
-  const createIndividual = {
-    Name: newIndividual.first_name,
-    title: newIndividual.title,
-    SharingType: newIndividual.shared_type,
-    ShortName: newIndividual.initial,
-    LastName: newIndividual.last_name,
-    JobTitle: newIndividual.job_title,
-    Organization: newIndividual.select_organisation,
-    Mobile1TelephoneNumber: newIndividual.primary_mobile,
-    BusinessEmailAddress: newIndividual.business_email,
-    BusinessTelephoneNumber: newIndividual.business_phone,
-  };
+  const requestURL = `${config.apiURL}UserDropdownValues`;
+  const ddList = [];
   const options = {
-    method: 'POST',
+    method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(createIndividual),
   };
   const response = yield call(request, requestURL, options);
   if (response.success) {
     yield put(setRootGlobalLoader(false));
-    yield put(setIndividualModalVisibility(false));
+    response.data.forEach(dd => {
+      ddList.push({
+        key: dd.value.toString(),
+        value: dd.value,
+        label: dd.label,
+      });
+    });
+    yield put(saveUswerDDList(ddList));
   } else {
     yield put(
       setToastMessage({
@@ -295,6 +330,6 @@ export default function* initConexionSaga() {
   yield takeLatest(FETCH_DD_METADATA, getConexionMetaDataAPI);
   yield takeLatest(DELETE_ADDRESS, deleteAddressAPI);
   yield takeLatest(CREATE_CONEXION_ADDRESS, createConexionAddressAPI);
-  //--
-  yield takeLatest(CREATE_INDIVIDUAL, createIndividualDetails);
+  yield takeLatest(EDIT_CONEXION_ADDRESS, editConexionAddressAPI);
+  yield takeLatest(GET_USER_DD_VALUE, getUserDDValuesAPI);
 }

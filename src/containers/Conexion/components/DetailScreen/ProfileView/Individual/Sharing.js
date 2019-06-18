@@ -54,9 +54,6 @@ const Sharing = props => {
                       solid
                     />
                   )}
-                  onClose={() => {
-                    console.log('Pressed');
-                  }}
                   key={user.UserId}
                   style={{ margin: 2 }}
                 >

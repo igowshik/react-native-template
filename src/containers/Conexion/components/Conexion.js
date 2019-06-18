@@ -35,6 +35,7 @@ import {
   getMetaData,
   setSelectedConexionType,
   setIndividualModalVisibility,
+  getUserDDList,
 } from '../actions';
 import { conexionStyles as styles } from '../styles';
 import { INDIVIDUAL, ORGANIZATION, ALL } from '../constants';
@@ -75,11 +76,13 @@ class Conexion extends React.Component {
       fetchOrgConexion,
       fetchIndConexion,
       fetchDropDownValues,
+      dispatchGetUserDDList,
     } = this.props;
     setGlobalLoaderState(true);
     fetchOrgConexion(accessToken);
     fetchIndConexion(accessToken);
     fetchDropDownValues();
+    dispatchGetUserDDList();
   }
 
   setModalOpenClose = value => {
@@ -263,6 +266,7 @@ Conexion.propTypes = {
   dispatchSetConexionType: PropTypes.func.isRequired,
   dispatchIndividualModalState: PropTypes.func.isRequired,
   conexionModal: PropTypes.bool.isRequired,
+  dispatchGetUserDDList: PropTypes.func.isRequired,
 };
 
 /**
@@ -295,6 +299,7 @@ const mapDispatchToProps = dispatch => ({
   dispatchSetConexionType: type => dispatch(setSelectedConexionType(type)),
   dispatchIndividualModalState: visibility =>
     dispatch(setIndividualModalVisibility(visibility)),
+  dispatchGetUserDDList: () => dispatch(getUserDDList()),
 });
 
 const withConnect = connect(

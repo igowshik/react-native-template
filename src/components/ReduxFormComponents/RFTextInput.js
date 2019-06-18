@@ -34,7 +34,7 @@ export const RFTextInput = props => {
         onBlur={input.onBlur}
         onFocus={input.onFocus}
         value={input.value}
-        style={{ width: '92%' }}
+        style={{ width: '100%' }}
         error={hasError}
       />
     </View>
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     marginTop: 0,
   },
   field: {
-    width: '100%',
+    flex: 1,
     marginTop: 5,
     fontSize: 14,
   },
