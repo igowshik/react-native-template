@@ -19,7 +19,6 @@ import {
   saveMetaData,
   getConexionDetails,
   setAddressModalVisibility,
-  //----
   setIndividualModalVisibility,
   saveUswerDDList,
 } from './actions';
@@ -326,7 +325,6 @@ function* createIndividualDetails() {
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
   const newIndividual = yield select(selectIndividualDetails());
-  console.log('#%%^$#%$%%%%%%%%%%%%%%%%%%', newIndividual);
   const requestURL = `${config.apiURL}CreateIndividualConexion`;
   const createIndividual = {
     Name: newIndividual.first_name,
@@ -339,8 +337,6 @@ function* createIndividualDetails() {
     Mobile1TelephoneNumber: newIndividual.primary_mobile,
     BusinessEmailAddress: newIndividual.business_email,
     BusinessTelephoneNumber: newIndividual.business_phone,
-    // Suffix: newIndividual.suffix,
-    Users: [28, 29],
   };
   const options = {
     method: 'POST',
@@ -354,7 +350,9 @@ function* createIndividualDetails() {
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(setIndividualModalVisibility(false));
+    yield put(getConexionDetails());
   } else {
+    yield put(setIndividualModalVisibility(false));
     yield put(
       setToastMessage({
         toastMessage: response.message ? response.message : GENERAL_ERROR,
