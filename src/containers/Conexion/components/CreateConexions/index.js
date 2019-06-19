@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { reduxForm } from 'redux-form';
+import { reduxForm, reset } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Button } from 'react-native-paper';
@@ -39,6 +39,7 @@ class CreateConexions extends Component {
     const objectForm = JSON.parse(valuesForm);
     this.props.setIndividualsDetails(objectForm);
     this.props.createIndividual();
+    this.props.dispatchFormReset('createConexion');
   };
 
   render() {
@@ -94,10 +95,11 @@ CreateConexions.propTypes = {
   conexionType: PropTypes.string.isRequired,
   setIndividualsDetails: PropTypes.func,
   createIndividual: PropTypes.func,
+  dispatchFormReset: PropTypes.func.isRequired,
 };
 
 // export default reduxForm({
-const redux1 = reduxForm({
+const redux = reduxForm({
   form: 'createConexion',
   validate,
   enableReinitialize: true,
@@ -108,6 +110,7 @@ const redux1 = reduxForm({
 const mapDispatchToProps = dispatch => ({
   setIndividualsDetails: value => dispatch(dispatchIndividualDetails(value)),
   createIndividual: () => dispatch(dispatchCreateIndividual()),
+  dispatchFormReset: formName => dispatch(reset(formName)),
 });
 const withConnect = connect(
   null,
@@ -115,7 +118,7 @@ const withConnect = connect(
 );
 export default compose(
   withConnect,
-  redux1,
+  redux,
 )(CreateConexions);
 
 const styles = StyleSheet.create({
