@@ -210,7 +210,7 @@ class Conexion extends React.Component {
               setModalOpenClose={this.setModalOpenClose}
               setLoader={onSetLoaderValue}
               conexionType={createConexionType}
-              initialValues={initialIndividualValues}
+              // initialValues={initialIndividualValues}
             />
           </View>
           <View

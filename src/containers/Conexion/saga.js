@@ -38,14 +38,17 @@ import {
   EDIT_CONEXION_ADDRESS,
   GET_USER_DD_VALUE,
   GET_ORG_DD_VALUE,
+  CREATE_ORGANISATION,
 } from './constants';
 import {
   selectToken,
   selectConexionId,
   selectCreateAddressData,
   selectIndividualDetails,
+  selectOrganisationDetails,
 } from './selectors';
 import { individualConexionPayloadMapper } from '../../utils/mappers/ConexionMappers';
+import { organisationPayloadMappers } from '../../utils/mappers/OrganisationMappers';
 
 function* getIndividualConexionAPI() {
   yield put(setRootGlobalLoader(true));
@@ -384,6 +387,39 @@ function* createIndividualDetails() {
     yield put(setToastVisibility(true));
   }
 }
+function* createOragnisationDetailsAPI() {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const newOrganisation = yield select(selectOrganisationDetails());
+
+  console.log('#%#$#$#%$^#%$^%$^#', newOrganisation);
+  const requestURL = `${config.apiURL}CreateOrganizationConexion`;
+  const organisatoinPayload = organisationPayloadMappers(newOrganisation);
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(organisatoinPayload),
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(setIndividualModalVisibility(false));
+    yield put(getIndConexions());
+  } else {
+    yield put(setIndividualModalVisibility(false));
+    yield put(
+      setToastMessage({
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
 
 export default function* initConexionSaga() {
   yield takeLatest(GET_LIST_OF_ORG, getOrganizationConexionAPI);
@@ -397,4 +433,5 @@ export default function* initConexionSaga() {
   yield takeLatest(GET_USER_DD_VALUE, getUserDDValuesAPI);
   yield takeLatest(GET_ORG_DD_VALUE, getOrgDDValuesAPI);
   yield takeLatest(CREATE_INDIVIDUAL, createIndividualDetails);
+  yield takeLatest(CREATE_ORGANISATION, createOragnisationDetailsAPI);
 }

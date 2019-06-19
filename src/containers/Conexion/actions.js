@@ -25,6 +25,8 @@ import {
   SAVE_USER_DD_VALUE,
   GET_ORG_DD_VALUE,
   SAVE_ORG_DD_VALUE,
+  SET_ORGANISATION_DETAILS,
+  CREATE_ORGANISATION,
 } from './constants';
 
 export function getIndConexions() {
@@ -139,4 +141,13 @@ export const getOrgDDList = () => ({
 export const saveOrgDDList = orgDDValues => ({
   type: SAVE_ORG_DD_VALUE,
   orgDDValues,
+});
+
+export const dispatchOrganisationDetails = orgDetails => ({
+  type: SET_ORGANISATION_DETAILS,
+  orgDetails,
+});
+
+export const dispatchCreateOrganisation = () => ({
+  type: CREATE_ORGANISATION,
 });

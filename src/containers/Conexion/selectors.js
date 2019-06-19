@@ -103,6 +103,11 @@ const selectIndividualDetails = () =>
     conexionReducers,
     dataState => dataState.individualDetails,
   );
+const selectOrganisationDetails = () =>
+  createSelector(
+    conexionReducers,
+    dataState => dataState.organisationDetails,
+  );
 const selectIndividualModal = () =>
   createSelector(
     conexionReducers,
@@ -140,4 +145,5 @@ export {
   selectIndividualDetails,
   selectUserDDList,
   selectOrgDDList,
+  selectOrganisationDetails,
 };

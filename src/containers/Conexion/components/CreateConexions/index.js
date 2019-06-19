@@ -13,8 +13,11 @@ import ScrollView from 'cnxapp/src/components/ScrollView';
 import {
   dispatchIndividualDetails,
   dispatchCreateIndividual,
+  dispatchOrganisationDetails,
+  dispatchCreateOrganisation,
 } from 'cnxapp/src/containers/Conexion/actions';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
+import { INDIVIDUAL } from '../../constants';
 
 // Relative imports
 import CreateConexionForm from './CreateConexionForm';
@@ -37,8 +40,13 @@ class CreateConexions extends Component {
   onCreateConexion = values => {
     const valuesForm = JSON.stringify(values, null, 2);
     const objectForm = JSON.parse(valuesForm);
-    this.props.setIndividualsDetails(objectForm);
-    this.props.createIndividual();
+    if (this.props.conexionType === INDIVIDUAL) {
+      this.props.setIndividualsDetails(objectForm);
+      this.props.createIndividual();
+    } else {
+      this.props.setOrganisationDetails(objectForm);
+      this.props.createOrganisation();
+    }
     this.props.dispatchFormReset('createConexion');
   };
 
@@ -102,6 +110,8 @@ CreateConexions.propTypes = {
   setIndividualsDetails: PropTypes.func,
   createIndividual: PropTypes.func,
   dispatchFormReset: PropTypes.func.isRequired,
+  setOrganisationDetails: PropTypes.func.isRequired,
+  createOrganisation: PropTypes.func,
 };
 
 // export default reduxForm({
@@ -115,7 +125,9 @@ const redux = reduxForm({
 
 const mapDispatchToProps = dispatch => ({
   setIndividualsDetails: value => dispatch(dispatchIndividualDetails(value)),
+  setOrganisationDetails: value => dispatch(dispatchOrganisationDetails(value)),
   createIndividual: () => dispatch(dispatchCreateIndividual()),
+  createOrganisation: () => dispatch(dispatchCreateOrganisation()),
   dispatchFormReset: formName => dispatch(reset(formName)),
 });
 const withConnect = connect(

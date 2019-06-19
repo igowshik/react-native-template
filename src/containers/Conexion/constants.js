@@ -27,6 +27,8 @@ export const GET_USER_DD_VALUE = '@Conexion/GET_USER_DD_VALUE';
 export const SAVE_USER_DD_VALUE = '@Conexion/SAVE_USER_DD_VALUE';
 export const GET_ORG_DD_VALUE = '@Conexion/GET_ORG_DD_VALUE';
 export const SAVE_ORG_DD_VALUE = '@Conexion/SAVE_ORG_DD_VALUE';
+export const SET_ORGANISATION_DETAILS = '@Conexion/SET_ORGANISATION_DETAILS';
+export const CREATE_ORGANISATION = '@Conexion/CREATE_ORGANISATION';
 
 // Local component constants
 export const INDIVIDUAL = 'Individual';

@@ -14,6 +14,7 @@ import {
   SET_INDIVIDUAL_DETAILS,
   SAVE_USER_DD_VALUE,
   SAVE_ORG_DD_VALUE,
+  SET_ORGANISATION_DETAILS,
 } from './constants';
 
 export const conexionInitialState = {
@@ -32,6 +33,7 @@ export const conexionInitialState = {
   createAddressData: {},
   conexionModal: false,
   individualDetails: {},
+  organisationDetails: {},
   userDropDown: [],
   orgDropDown: [],
 };
@@ -94,6 +96,10 @@ const conexionStore = (state = conexionInitialState, action) =>
       }
       case SAVE_ORG_DD_VALUE: {
         draftState.orgDropDown = action.orgDDValues;
+        break;
+      }
+      case SET_ORGANISATION_DETAILS: {
+        draftState.organisationDetails = action.orgDetails;
         break;
       }
       default: {
