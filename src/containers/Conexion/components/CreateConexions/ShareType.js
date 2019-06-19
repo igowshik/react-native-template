@@ -25,14 +25,14 @@ class ShareType extends React.Component {
             <RadioButtonGroup
               defaultValue={shareTypeObj.PUBLIC}
               data={shareTypes}
-              name="shared_type"
+              name="ind_shared_type"
             />
           </View>
-          {this.props.shared_type === shareTypeObj.SHARED ? (
+          {this.props.ind_shared_type === shareTypeObj.SHARED ? (
             <MultiSelect
-              label="Select user"
+              label="Select users"
               items={this.props.userDDList}
-              name="shared_users"
+              name="ind_shared_users"
               searchText="Search users"
             />
           ) : null}
@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
 });
 
 ShareType.propTypes = {
-  userDDList: PropTypes.array.isRequired,
-  shared_type: PropTypes.string,
+  userDDList: PropTypes.array,
+  ind_shared_type: PropTypes.string,
 };
 
 const selector = formValueSelector('createConexion');
@@ -79,6 +79,6 @@ const withConnect = connect(
 );
 
 export default compose(
-  connect(state => selector(state, 'shared_type', 'shared_users')),
+  connect(state => selector(state, 'ind_shared_type', 'ind_shared_users')),
   withConnect,
 )(ShareType);

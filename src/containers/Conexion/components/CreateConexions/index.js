@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { reduxForm } from 'redux-form';
-// Absolute imports
-import FullPageModal from 'cnxapp/src/components/FullPageModal';
-import { PrimaryButton } from 'cnxapp/src/components/Buttons/Primary';
-import ScrollView from 'cnxapp/src/components/ScrollView';
-
+import { reduxForm, reset } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { Button } from 'react-native-paper';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
+
+// Absolute imports
+import FullPageModal from 'cnxapp/src/components/FullPageModal';
+import ScrollView from 'cnxapp/src/components/ScrollView';
 import {
   dispatchIndividualDetails,
   dispatchCreateIndividual,
 } from 'cnxapp/src/containers/Conexion/actions';
+import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 // Relative imports
 import CreateConexionForm from './CreateConexionForm';
@@ -37,6 +39,7 @@ class CreateConexions extends Component {
     const objectForm = JSON.parse(valuesForm);
     this.props.setIndividualsDetails(objectForm);
     this.props.createIndividual();
+    this.props.dispatchFormReset('createConexion');
   };
 
   render() {
@@ -63,13 +66,18 @@ class CreateConexions extends Component {
           }
         >
           <View style={styles.headerContainer}>
-            <PrimaryButton
-              handleButtonClick={handleSubmit(this.onCreateConexion)}
-              buttonText="Done"
-              icon="check-circle"
+            <Button
+              raised
+              onPress={handleSubmit(this.onCreateConexion)}
               disabled={pristine || submitting || invalid}
-              onPress={this.props.modalCloseOpen}
-            />
+              mode="contained"
+              color={colors.PURPLE}
+              icon={() => (
+                <FontAwesome5 name="user-plus" color="#fff" size={18} light />
+              )}
+            >
+              Done
+            </Button>
           </View>
           <ScrollView>
             <CreateConexionForm
@@ -93,11 +101,11 @@ CreateConexions.propTypes = {
   conexionType: PropTypes.string.isRequired,
   setIndividualsDetails: PropTypes.func,
   createIndividual: PropTypes.func,
-  modalCloseOpen: PropTypes.func,
+  dispatchFormReset: PropTypes.func.isRequired,
 };
 
 // export default reduxForm({
-const redux1 = reduxForm({
+const redux = reduxForm({
   form: 'createConexion',
   validate,
   enableReinitialize: true,
@@ -108,6 +116,7 @@ const redux1 = reduxForm({
 const mapDispatchToProps = dispatch => ({
   setIndividualsDetails: value => dispatch(dispatchIndividualDetails(value)),
   createIndividual: () => dispatch(dispatchCreateIndividual()),
+  dispatchFormReset: formName => dispatch(reset(formName)),
 });
 const withConnect = connect(
   null,
@@ -115,7 +124,7 @@ const withConnect = connect(
 );
 export default compose(
   withConnect,
-  redux1,
+  redux,
 )(CreateConexions);
 
 const styles = StyleSheet.create({

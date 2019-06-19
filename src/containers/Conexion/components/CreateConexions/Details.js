@@ -15,7 +15,11 @@ import { Grid, Row, Col } from 'native-base';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 // Relative Imports
-import { selectGlobalLoader, selectConexionMetaData } from '../../selectors';
+import {
+  selectGlobalLoader,
+  selectConexionMetaData,
+  selectOrgDDList,
+} from '../../selectors';
 
 class Details extends React.Component {
   state = {
@@ -40,6 +44,7 @@ class Details extends React.Component {
 
   render() {
     const { title, suffix } = this.state;
+    const { organization } = this.props;
     return (
       <View style={styles.parentView}>
         <Card elevation={4} style={styles.card}>
@@ -47,48 +52,55 @@ class Details extends React.Component {
             <Grid>
               <Row>
                 <Col>
-                  <TextInput label="First Name" name="first_name" required />
+                  <TextInput
+                    label="First Name"
+                    name="ind_first_name"
+                    required
+                  />
                 </Col>
                 <Col>
-                  <TextInput label="Middle Name" name="middle_name" />
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <TextInput label="Last Name" name="last_name" required />
-                </Col>
-                <Col>
-                  <TextInput label="initial" name="initial" />
+                  <TextInput label="Middle Name" name="ind_middle_name" />
                 </Col>
               </Row>
               <Row>
                 <Col>
-                  <Dropdown label="Title" name="title" data={title} />
+                  <TextInput label="Last Name" name="ind_last_name" required />
                 </Col>
                 <Col>
-                  <Dropdown label="Suffix" name="suffix" data={suffix} />
+                  <TextInput label="initial" name="ind_initial" required />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Dropdown label="Title" name="ind_title" data={title} />
+                </Col>
+                <Col>
+                  <Dropdown label="Suffix" name="ind_suffix" data={suffix} />
                 </Col>
               </Row>
               <Row>
                 <Col>
                   <Dropdown
                     label="Select Oraganisation"
-                    name="select_oraganisation"
-                    data={title} // organisation data to be filled
+                    name="ind_select_oraganisation"
+                    data={organization}
                   />
                 </Col>
                 <Col>
-                  <TextInput label="Job Title" name="job_title" />
+                  <TextInput label="Job Title" name="ind_job_title" />
                 </Col>
               </Row>
               <Row>
                 <Col>
-                  <NumberInput label="Primary Mobile" name="primary_mobile" />
+                  <NumberInput
+                    label="Primary Mobile"
+                    name="ind_primary_mobile"
+                  />
                 </Col>
                 <Col>
                   <NumberInput
                     label="Secondary Mobile"
-                    name="secondary_mobile"
+                    name="ind_secondary_mobile"
                   />
                 </Col>
               </Row>
@@ -112,11 +124,13 @@ const styles = StyleSheet.create({
 
 Details.propTypes = {
   metaData: PropTypes.object.isRequired,
+  organization: PropTypes.array,
 };
 
 const mapStateToProps = createStructuredSelector({
   loaderState: selectGlobalLoader(),
   metaData: selectConexionMetaData(),
+  organization: selectOrgDDList(),
 });
 
 const mapDispatchToProps = dispatch => ({

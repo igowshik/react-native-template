@@ -36,6 +36,7 @@ import {
   setSelectedConexionType,
   setIndividualModalVisibility,
   getUserDDList,
+  getOrgDDList,
 } from '../actions';
 import { conexionStyles as styles } from '../styles';
 import { INDIVIDUAL, ORGANIZATION, ALL } from '../constants';
@@ -76,12 +77,14 @@ class Conexion extends React.Component {
       fetchIndConexion,
       fetchDropDownValues,
       dispatchGetUserDDList,
+      dispatchGetOrgDDList,
     } = this.props;
     setGlobalLoaderState(true);
     fetchOrgConexion(accessToken);
     fetchIndConexion(accessToken);
     fetchDropDownValues();
     dispatchGetUserDDList();
+    dispatchGetOrgDDList();
   }
 
   setModalOpenClose = value => {
@@ -166,16 +169,16 @@ class Conexion extends React.Component {
 
   render() {
     const initialIndividualValues = {
-      first_name: 'FInal',
-      last_name: 'Finalcad',
-      initial: 'FINN',
-      title: 'DR',
-      suffix: 'I',
-      job_title: 'job title',
-      primary_mobile: '',
-      shared_type: 'PUBL',
-      business_phone: '579345',
-      business_email: 'kfjskldjf@gmail.com',
+      ind_first_name: 'Test FN',
+      ind_last_name: 'Test last name',
+      ind_initial: 'FNLN',
+      ind_title: 'DR',
+      ind_suffix: 'I',
+      ind_job_title: 'Tester',
+      ind_primary_mobile: '123428732',
+      ind_shared_type: 'PUBL',
+      ind_business_phone: '9234231233',
+      ind_business_email: 'conexus@cnxsi.com',
     };
     const {
       onSetLoaderValue,
@@ -266,6 +269,7 @@ Conexion.propTypes = {
   dispatchIndividualModalState: PropTypes.func.isRequired,
   conexionModal: PropTypes.bool.isRequired,
   dispatchGetUserDDList: PropTypes.func.isRequired,
+  dispatchGetOrgDDList: PropTypes.func.isRequired,
 };
 
 /**
@@ -299,6 +303,7 @@ const mapDispatchToProps = dispatch => ({
   dispatchIndividualModalState: visibility =>
     dispatch(setIndividualModalVisibility(visibility)),
   dispatchGetUserDDList: () => dispatch(getUserDDList()),
+  dispatchGetOrgDDList: () => dispatch(getOrgDDList()),
 });
 
 const withConnect = connect(

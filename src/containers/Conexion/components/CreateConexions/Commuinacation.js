@@ -13,41 +13,50 @@ const Communication = () => (
         <Grid>
           <Row>
             <Col>
-              <NumberInput label="Business Phone" name="business_phone" />
+              <NumberInput label="Business Phone" name="ind_business_phone" />
             </Col>
             <Col>
-              <NumberInput label="Business Phone 2" name="business_phone_2" />
+              <NumberInput
+                label="Business Phone 2"
+                name="ind_business_phone_2"
+              />
             </Col>
             <Col>
-              <NumberInput label="Business Fax" name="business_fax" />
+              <NumberInput label="Business Fax" name="ind_business_fax" />
             </Col>
           </Row>
           <Row>
             <Col>
-              <TextInput label="Business Email" name="business_email" />
+              <TextInput label="Business Email" name="ind_business_email" />
             </Col>
             <Col>
-              <TextInput label="Business Home Page" name="business_home_page" />
+              <TextInput
+                label="Business Home Page"
+                name="ind_business_home_page"
+              />
             </Col>
           </Row>
           <Divider style={{ marginTop: 20, marginBottom: 10 }} />
           <Row>
             <Col>
-              <NumberInput label="Home Phone" name="home_phone" />
+              <NumberInput label="Home Phone" name="ind_home_phone" />
             </Col>
             <Col>
-              <NumberInput label="Home Phone 2" name="home_phone_2" />
+              <NumberInput label="Home Phone 2" name="ind_home_phone_2" />
             </Col>
             <Col>
-              <NumberInput label="Home Fax" name="hom_fax" />
+              <NumberInput label="Home Fax" name="ind_hom_fax" />
             </Col>
           </Row>
           <Row>
             <Col>
-              <TextInput label="Personal Email" name="personal_email" />
+              <TextInput label="Personal Email" name="ind_personal_email" />
             </Col>
             <Col>
-              <TextInput label="Personal Home Page" name="personal_home_page" />
+              <TextInput
+                label="Personal Home Page"
+                name="ind_personal_home_page"
+              />
             </Col>
           </Row>
         </Grid>

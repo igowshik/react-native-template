@@ -25,6 +25,8 @@ export const CREATE_INDIVIDUAL = '@Conexion/CREATE_INDIVIDUAL';
 export const EDIT_CONEXION_ADDRESS = '@Conexion/EDIT_CONEXION_ADDRESS';
 export const GET_USER_DD_VALUE = '@Conexion/GET_USER_DD_VALUE';
 export const SAVE_USER_DD_VALUE = '@Conexion/SAVE_USER_DD_VALUE';
+export const GET_ORG_DD_VALUE = '@Conexion/GET_ORG_DD_VALUE';
+export const SAVE_ORG_DD_VALUE = '@Conexion/SAVE_ORG_DD_VALUE';
 
 // Local component constants
 export const INDIVIDUAL = 'Individual';

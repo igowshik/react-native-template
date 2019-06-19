@@ -13,6 +13,7 @@ import {
   SET_INDIVIDUAL_MODAL,
   SET_INDIVIDUAL_DETAILS,
   SAVE_USER_DD_VALUE,
+  SAVE_ORG_DD_VALUE,
 } from './constants';
 
 export const conexionInitialState = {
@@ -32,6 +33,7 @@ export const conexionInitialState = {
   conexionModal: false,
   individualDetails: {},
   userDropDown: [],
+  orgDropDown: [],
 };
 
 const conexionStore = (state = conexionInitialState, action) =>
@@ -78,7 +80,6 @@ const conexionStore = (state = conexionInitialState, action) =>
         draftState.createAddressData = action.addressData;
         break;
       }
-      //---
       case SET_INDIVIDUAL_MODAL: {
         draftState.conexionModal = action.individualVisibility;
         break;
@@ -89,6 +90,10 @@ const conexionStore = (state = conexionInitialState, action) =>
       }
       case SAVE_USER_DD_VALUE: {
         draftState.userDropDown = action.userDDValues;
+        break;
+      }
+      case SAVE_ORG_DD_VALUE: {
+        draftState.orgDropDown = action.orgDDValues;
         break;
       }
       default: {
