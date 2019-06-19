@@ -25,6 +25,8 @@ import {
   SAVE_USER_DD_VALUE,
   GET_ORG_DD_VALUE,
   SAVE_ORG_DD_VALUE,
+  EDIT_IND_CONEXION,
+  EDIT_CNX_MODAL,
 } from './constants';
 
 export function getIndConexions() {
@@ -139,4 +141,13 @@ export const getOrgDDList = () => ({
 export const saveOrgDDList = orgDDValues => ({
   type: SAVE_ORG_DD_VALUE,
   orgDDValues,
+});
+
+export const editIndividualConexion = () => ({
+  type: EDIT_IND_CONEXION,
+});
+
+export const setEditCNXModalVisibilty = modalVisibile => ({
+  type: EDIT_CNX_MODAL,
+  modalVisibile,
 });

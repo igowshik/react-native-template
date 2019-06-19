@@ -68,7 +68,8 @@ ShareType.propTypes = {
   ind_shared_type: PropTypes.string,
 };
 
-const selector = formValueSelector('createConexion');
+const selectorCreate = formValueSelector('createConexion');
+const selectorEdit = formValueSelector('editConexion');
 
 const mapStateToProps = createStructuredSelector({
   userDDList: selectUserDDList(),
@@ -79,6 +80,9 @@ const withConnect = connect(
 );
 
 export default compose(
-  connect(state => selector(state, 'ind_shared_type', 'ind_shared_users')),
+  connect(state =>
+    selectorCreate(state, 'ind_shared_type', 'ind_shared_users'),
+  ),
+  connect(state => selectorEdit(state, 'ind_shared_type', 'ind_shared_users')),
   withConnect,
 )(ShareType);

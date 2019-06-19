@@ -30,7 +30,6 @@ import {
 import {
   getIndConexions,
   getOrgConexions,
-  setConexionDataAction,
   saveselectedConexionId,
   getMetaData,
   setSelectedConexionType,
@@ -101,14 +100,6 @@ class Conexion extends React.Component {
     });
   };
 
-  createConexion = (values, type) => {
-    const { setConexionData } = this.props;
-    setConexionData({
-      data: values,
-      type,
-    });
-  };
-
   getIntialProfile = () => {
     const { indConexions, orgConexions } = this.props;
     const { selected } = this.state;
@@ -168,20 +159,19 @@ class Conexion extends React.Component {
   };
 
   render() {
-    const initialIndividualValues = {
-      ind_first_name: 'Test FN',
-      ind_last_name: 'Test last name',
-      ind_initial: 'FNLN',
-      ind_title: 'DR',
-      ind_suffix: 'I',
-      ind_job_title: 'Tester',
-      ind_primary_mobile: '123428732',
-      ind_shared_type: 'PUBL',
-      ind_business_phone: '9234231233',
-      ind_business_email: 'conexus@cnxsi.com',
-    };
+    // const initialIndividualValues = {
+    //   ind_first_name: 'Test FN',
+    //   ind_last_name: 'Test last name',
+    //   ind_initial: 'FNLN',
+    //   ind_title: 'DR',
+    //   ind_suffix: 'I',
+    //   ind_job_title: 'Tester',
+    //   ind_primary_mobile: '123428732',
+    //   ind_shared_type: 'PUBL',
+    //   ind_business_phone: '9234231233',
+    //   ind_business_email: 'conexus@cnxsi.com',
+    // };
     const {
-      onSetLoaderValue,
       indSelected,
       orgSelected,
       createConexionType,
@@ -206,11 +196,8 @@ class Conexion extends React.Component {
             />
             <CreateConexions
               modalOpen={conexionModal}
-              handleCreateConexion={this.createConexion}
               setModalOpenClose={this.setModalOpenClose}
-              setLoader={onSetLoaderValue}
               conexionType={createConexionType}
-              initialValues={initialIndividualValues}
             />
           </View>
           <View
@@ -258,7 +245,6 @@ Conexion.propTypes = {
   loaderState: PropTypes.bool.isRequired,
   indConexions: PropTypes.array.isRequired,
   orgConexions: PropTypes.array.isRequired,
-  setConexionData: PropTypes.func.isRequired,
   navigation: PropTypes.any,
   isFocused: PropTypes.bool.isRequired,
   toastVisible: PropTypes.bool.isRequired,
@@ -296,7 +282,6 @@ const mapDispatchToProps = dispatch => ({
   fetchIndConexion: token => dispatch(getIndConexions(token)),
   fetchOrgConexion: token => dispatch(getOrgConexions(token)),
   setGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),
-  setConexionData: data => dispatch(setConexionDataAction(data)),
   dispatchSetConexionId: id => dispatch(saveselectedConexionId(id)),
   fetchDropDownValues: () => dispatch(getMetaData()),
   dispatchSetConexionType: type => dispatch(setSelectedConexionType(type)),

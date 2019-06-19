@@ -35,11 +35,16 @@ class CreateConexions extends Component {
   componentDidMount() {}
 
   onCreateConexion = values => {
+    const {
+      setIndividualsDetails,
+      createIndividual,
+      dispatchFormReset,
+    } = this.props;
     const valuesForm = JSON.stringify(values, null, 2);
     const objectForm = JSON.parse(valuesForm);
-    this.props.setIndividualsDetails(objectForm);
-    this.props.createIndividual();
-    this.props.dispatchFormReset('createConexion');
+    setIndividualsDetails(objectForm);
+    createIndividual();
+    dispatchFormReset('createConexion');
   };
 
   render() {
