@@ -22,6 +22,7 @@ export default class MultiSelector extends Component {
       buttonText,
       ...inputProps
     } = this.props;
+
     return (
       <View style={styles.parentView}>
         <MultiSelect

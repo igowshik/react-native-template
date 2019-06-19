@@ -13,6 +13,17 @@ const Communication = () => (
         <Grid>
           <Row>
             <Col>
+              <NumberInput label="Primary Mobile" name="ind_primary_mobile" />
+            </Col>
+            <Col>
+              <NumberInput
+                label="Secondary Mobile"
+                name="ind_secondary_mobile"
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
               <NumberInput label="Business Phone" name="ind_business_phone" />
             </Col>
             <Col>

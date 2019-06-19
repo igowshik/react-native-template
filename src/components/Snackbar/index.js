@@ -65,7 +65,7 @@ class SnackbarCustom extends React.Component {
         }}
         duration={Snackbar.DURATION_MEDIUM}
         style={{
-          backgroundColor: '#34495E',
+          backgroundColor: '#283747',
         }}
       >
         {this.getMessage()}

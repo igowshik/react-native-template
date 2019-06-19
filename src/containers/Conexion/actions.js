@@ -16,7 +16,6 @@ import {
   SET_ADDRESS_MODAL,
   SET_CREATE_ADDRESS_DATA,
   CREATE_CONEXION_ADDRESS,
-  //---
   SET_INDIVIDUAL_MODAL,
   SET_INDIVIDUAL_DETAILS,
   CREATE_INDIVIDUAL,
@@ -27,6 +26,8 @@ import {
   SAVE_ORG_DD_VALUE,
   SET_ORGANISATION_DETAILS,
   CREATE_ORGANISATION,
+  EDIT_IND_CONEXION,
+  EDIT_CNX_MODAL,
 } from './constants';
 
 export function getIndConexions() {
@@ -150,4 +151,13 @@ export const dispatchOrganisationDetails = orgDetails => ({
 
 export const dispatchCreateOrganisation = () => ({
   type: CREATE_ORGANISATION,
+});
+
+export const editIndividualConexion = () => ({
+  type: EDIT_IND_CONEXION,
+});
+
+export const setEditCNXModalVisibilty = modalVisibile => ({
+  type: EDIT_CNX_MODAL,
+  modalVisibile,
 });

@@ -15,6 +15,7 @@ import {
   SAVE_USER_DD_VALUE,
   SAVE_ORG_DD_VALUE,
   SET_ORGANISATION_DETAILS,
+  EDIT_CNX_MODAL,
 } from './constants';
 
 export const conexionInitialState = {
@@ -36,6 +37,7 @@ export const conexionInitialState = {
   organisationDetails: {},
   userDropDown: [],
   orgDropDown: [],
+  conexionEditModal: false,
 };
 
 const conexionStore = (state = conexionInitialState, action) =>
@@ -100,6 +102,10 @@ const conexionStore = (state = conexionInitialState, action) =>
       }
       case SET_ORGANISATION_DETAILS: {
         draftState.organisationDetails = action.orgDetails;
+        break;
+      }
+      case EDIT_CNX_MODAL: {
+        draftState.conexionEditModal = action.modalVisibile;
         break;
       }
       default: {

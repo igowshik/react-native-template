@@ -126,6 +126,12 @@ const selectOrgDDList = () =>
     dataState => dataState.orgDropDown,
   );
 
+const selectEditCNXModal = () =>
+  createSelector(
+    conexionReducers,
+    dataState => dataState.conexionEditModal,
+  );
+
 export {
   selectIndConexion,
   selectOrgConexion,
@@ -146,4 +152,5 @@ export {
   selectUserDDList,
   selectOrgDDList,
   selectOrganisationDetails,
+  selectEditCNXModal,
 };

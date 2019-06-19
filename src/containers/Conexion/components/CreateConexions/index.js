@@ -38,16 +38,21 @@ class CreateConexions extends Component {
   componentDidMount() {}
 
   onCreateConexion = values => {
+    const {
+      setIndividualsDetails,
+      createIndividual,
+      dispatchFormReset,
+    } = this.props;
     const valuesForm = JSON.stringify(values, null, 2);
     const objectForm = JSON.parse(valuesForm);
     if (this.props.conexionType === INDIVIDUAL) {
-      this.props.setIndividualsDetails(objectForm);
-      this.props.createIndividual();
+      setIndividualsDetails(objectForm);
+      createIndividual();
     } else {
       this.props.setOrganisationDetails(objectForm);
       this.props.createOrganisation();
     }
-    this.props.dispatchFormReset('createConexion');
+    dispatchFormReset('createConexion');
   };
 
   render() {
