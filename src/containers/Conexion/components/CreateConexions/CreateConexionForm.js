@@ -15,8 +15,8 @@ class CreateConexionForm extends React.Component {
   renderIndividualForm = () => (
     <View>
       <Details />
-      <ShareType />
       <Communication />
+      <ShareType />
     </View>
   );
 

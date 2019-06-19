@@ -8,7 +8,7 @@ import Lo from 'lodash';
 import { Card } from 'react-native-paper';
 
 // Absolute imports
-import { TextInput, NumberInput } from 'cnxapp/src/components/InputField';
+import { TextInput } from 'cnxapp/src/components/InputField';
 import Dropdown from 'cnxapp/src/components/Dropdown';
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
 import { Grid, Row, Col } from 'native-base';
@@ -81,27 +81,13 @@ class Details extends React.Component {
               <Row>
                 <Col>
                   <Dropdown
-                    label="Select Oraganisation"
+                    label="Select Organisation"
                     name="ind_select_oraganisation"
                     data={organization}
                   />
                 </Col>
                 <Col>
                   <TextInput label="Job Title" name="ind_job_title" />
-                </Col>
-              </Row>
-              <Row>
-                <Col>
-                  <NumberInput
-                    label="Primary Mobile"
-                    name="ind_primary_mobile"
-                  />
-                </Col>
-                <Col>
-                  <NumberInput
-                    label="Secondary Mobile"
-                    name="ind_secondary_mobile"
-                  />
                 </Col>
               </Row>
             </Grid>
