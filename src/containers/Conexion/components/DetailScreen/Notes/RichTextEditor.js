@@ -9,25 +9,38 @@ import {
   TextInput,
 } from 'react-native-paper';
 import { Text, H3 } from 'native-base';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
+import Lo from 'lodash';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 
-// import WebViewQuillEditor from 'cnxapp/src/components/QuillEditor/WebViewQuillEditor';
+import WebViewQuillEditor from 'cnxapp/src/components/QuillEditor/WebViewQuillEditor';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 class RichTextEditor extends React.Component {
   constructor() {
     super();
     this.state = {
-      // editorMessageDelta: '',
+      editorMessageDelta: '',
       checked: true,
       text: '',
     };
+    this.webQuillRef = React.createRef();
   }
 
   getEditorDelta = () => {
-    // this.webViewQuillEditor.getDelta();
-    console.log(this.webViewQuillEditor.getDelta());
+    console.log(this.webQuillRef.current.getDelta());
   };
+
+  componentDidMount() {
+    const { note } = this.props;
+    if (!Lo.isEmpty(note)) {
+      this.setState({
+        editorMessageDelta: note.Note,
+        text: note.Title,
+        checked: note.PrivateNote,
+      });
+    }
+  }
 
   render() {
     const { checked } = this.state;
@@ -67,7 +80,7 @@ class RichTextEditor extends React.Component {
                     <Text style={{ paddingTop: 15 }}>Private Note</Text>
                     <View pointerEvents="none" style={{ paddingTop: 15 }}>
                       <Checkbox
-                        color={colors.PRIMARY}
+                        color={colors.SECONDARY}
                         status={this.state.checked ? 'checked' : 'unchecked'}
                       />
                     </View>
@@ -75,11 +88,20 @@ class RichTextEditor extends React.Component {
                 </TouchableRipple>
                 <View style={{ paddingLeft: 20, paddingTop: 10 }}>
                   <Button
+                    raised
+                    color={colors.PURPLE}
+                    icon={() => (
+                      <FontAwesome5
+                        name="sticky-note"
+                        color="#FFF"
+                        size={18}
+                        light
+                      />
+                    )}
                     mode="contained"
-                    color={colors.PRIMARY}
-                    onPress={() => console.log('Pressed')}
+                    onPress={this.setModalOpen}
                   >
-                    Add note
+                    Add Note
                   </Button>
                 </View>
               </View>
@@ -87,14 +109,19 @@ class RichTextEditor extends React.Component {
           </Card>
         </View>
         <View style={styles.webView}>
-          {/* <WebViewQuillEditor
+          <WebViewQuillEditor
             contentToDisplay={this.state.editorMessageDelta}
-          /> */}
+            ref={this.webQuillRef}
+          />
         </View>
       </View>
     );
   }
 }
+
+RichTextEditor.propTypes = {
+  note: PropTypes.object,
+};
 
 const styles = StyleSheet.create({
   fab: {

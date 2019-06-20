@@ -7,10 +7,11 @@ import {
   Platform,
 } from 'react-native';
 import React, { Component } from 'react';
-import { Button, Card, Title } from 'react-native-paper';
+import { IconButton, Card, Title } from 'react-native-paper';
 import { Text } from 'native-base';
 import PropTypes from 'prop-types';
 import HTMLView from 'react-native-htmlview';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 
@@ -239,10 +240,9 @@ export default class CNXTimeline extends Component {
   }
 
   _renderDetail(rowData) {
-    const getNoteState = state => {
-      if (state === 0) return colors.GREEN;
-      if (state === 1) return colors.YELLOW;
-      return colors.RED;
+    const getNoteState = privateNote => {
+      if (privateNote) return colors.YELLOW;
+      return colors.GREEN;
     };
 
     const title = rowData.description ? (
@@ -262,19 +262,53 @@ export default class CNXTimeline extends Component {
                   {rowData.title}
                 </Text>
               </Title>
-              <Button color={getNoteState(rowData.state)} icon="star" />
+              <IconButton
+                icon={() => (
+                  <FontAwesome5
+                    name="star"
+                    color={getNoteState(rowData.privateNote)}
+                    size={15}
+                    solid
+                  />
+                )}
+                color={getNoteState(rowData.privateNote)}
+                size={25}
+                onPress={() => {}}
+              />
             </View>
             <View style={[styles.description, this.props.descriptionStyle]}>
               <HTMLView value={rowData.description} />
             </View>
           </Card.Content>
           <Card.Actions>
-            <Button color={colors.PRIMARY} icon="edit" onPress={() => {}}>
-              Edit
-            </Button>
-            <Button color={colors.SECONDARY} icon="delete" onPress={() => {}}>
-              Delete
-            </Button>
+            <IconButton
+              icon={() => (
+                <FontAwesome5
+                  name="pen-alt"
+                  color={colors.PRIMARY}
+                  size={15}
+                  solid
+                />
+              )}
+              color={colors.PRIMARY}
+              size={25}
+              onPress={() => {
+                this.props.onClickEdit(rowData.noteId);
+              }}
+            />
+            <IconButton
+              icon={() => (
+                <FontAwesome5
+                  name="trash"
+                  color={colors.SECONDARY}
+                  size={15}
+                  solid
+                />
+              )}
+              color={colors.SECONDARY}
+              size={25}
+              onPress={() => {}}
+            />
           </Card.Actions>
         </Card>
       </View>
@@ -437,6 +471,7 @@ CNXTimeline.propTypes = {
   circleSize: PropTypes.number,
   circleColor: PropTypes.string,
   renderFullLine: PropTypes.any,
+  onClickEdit: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
@@ -511,7 +546,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   card: {
-    borderTopColor: colors.DARK,
+    borderTopColor: '#85929E',
     borderTopWidth: 2,
   },
 });

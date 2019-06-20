@@ -65,15 +65,13 @@ class CreateConexions extends Component {
       conexionType,
     } = this.props;
 
-    console.log('##&$&#$&#$&#$', this.props.conexionType);
     return (
       <View>
         <FullPageModal
           visible={modalOpen}
           handleModalVisible={this._closeModal}
-          // modalHeaderText="Create Conexion"
           modalHeaderText={
-            conexionType === 'Individual'
+            conexionType === INDIVIDUAL
               ? 'Create Conexion'
               : 'Create Organisation'
           }
