@@ -265,7 +265,7 @@ export default class CNXTimeline extends Component {
               <IconButton
                 icon={() => (
                   <FontAwesome5
-                    name="star"
+                    name="circle"
                     color={getNoteState(rowData.privateNote)}
                     size={15}
                     solid
