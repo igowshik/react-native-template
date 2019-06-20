@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { Card, Avatar } from 'react-native-paper';
-
+import Lo from 'lodash';
 // Absolute imports
 import LottieListLoader from 'cnxapp/src/components/Lotties/LottieListLoader';
 import ScrollView from 'cnxapp/src/components/ScrollView';
@@ -37,11 +37,13 @@ class ConexionList extends React.Component {
     return sub;
   };
 
-  getIndAvatarText = name => {
-    const nameSplit = name.toUpperCase().split(' ');
-    const firstName = nameSplit[0].split('')[0];
-    const lastName = nameSplit[1].split('')[0];
-    return firstName + lastName;
+  getIndAvatarText = (firstName, lastName) => {
+    if (firstName && lastName) {
+      const fn = firstName.toUpperCase().split('')[0];
+      const ln = lastName.toUpperCase().split('')[0];
+      return fn + ln;
+    }
+    return '';
   };
 
   getOrgAvatarText = name => {
@@ -51,7 +53,7 @@ class ConexionList extends React.Component {
 
   renderIndList = () => {
     const { conexioListData, clickListItemHandler } = this.props;
-    if (conexioListData) {
+    if (!Lo.isEmpty(conexioListData)) {
       return conexioListData.map(conexion => (
         <Card
           key={conexion.ConexionId}
@@ -68,7 +70,7 @@ class ConexionList extends React.Component {
               <Avatar.Text
                 {...props}
                 size={50}
-                label={this.getIndAvatarText(conexion.DisplayName.trim())}
+                label={this.getIndAvatarText(conexion.Name, conexion.LastName)}
                 style={{ backgroundColor: '#A70594' }}
               />
             )}
