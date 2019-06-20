@@ -500,6 +500,5 @@ export default function* initConexionSaga() {
   yield takeLatest(GET_ORG_DD_VALUE, getOrgDDValuesAPI);
   yield takeLatest(CREATE_INDIVIDUAL, createIndividualDetailsAPI);
   yield takeLatest(CREATE_ORGANISATION, createOragnisationDetailsAPI);
-  yield takeLatest(CREATE_INDIVIDUAL, createIndividualDetailsAPI);
   yield takeLatest(EDIT_IND_CONEXION, editIndividualDetailsAPI);
 }

@@ -5,13 +5,18 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { withNavigation, withNavigationFocus } from 'react-navigation';
-import { TouchableRipple, Searchbar } from 'react-native-paper';
+import {
+  TouchableRipple,
+  Searchbar,
+  RadioButton,
+  Paragraph,
+} from 'react-native-paper';
 
 // Absolute imports
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
 import Header from 'cnxapp/src/components/Header';
 import { CNXH2, CNXH3 } from 'cnxapp/src/components/Typography';
-import Switch from 'cnxapp/src/components/Switch';
+// import Switch from 'cnxapp/src/components/Switch';
 import Snackbar from 'cnxapp/src/components/Snackbar';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 
@@ -61,12 +66,22 @@ class Conexion extends React.Component {
 
   setIndividualModalOpen = () => this.props.dispatchIndividualModalState(true);
 
-  _onSwitchIndOrgPress = () => {
-    const { indSelected, orgSelected } = this.state;
-    this.setState({ indSelected: !indSelected });
-    this.setState({ orgSelected: !orgSelected });
-    if (!indSelected) this.props.dispatchSetConexionType(INDIVIDUAL);
-    if (!orgSelected) this.props.dispatchSetConexionType(ORGANIZATION);
+  _onSwitchIndOrgPress = selected => {
+    if (selected === INDIVIDUAL) {
+      this.setState({
+        indSelected: true,
+        orgSelected: false,
+        createConexionType: selected,
+      });
+      this.props.dispatchSetConexionType(INDIVIDUAL);
+    } else if (selected === ORGANIZATION) {
+      this.setState({
+        indSelected: false,
+        orgSelected: true,
+        createConexionType: selected,
+      });
+      this.props.dispatchSetConexionType(ORGANIZATION);
+    }
   };
 
   componentDidMount() {
@@ -172,12 +187,7 @@ class Conexion extends React.Component {
       //   ind_business_phone: '9234231233',
       //   ind_business_email: 'conexus@cnxsi.com',
     };
-    const {
-      indSelected,
-      orgSelected,
-      createConexionType,
-      firstQuery,
-    } = this.state;
+    const { indSelected, createConexionType, firstQuery } = this.state;
 
     const { toastVisible, toast, loaderState, conexionModal } = this.props;
     return (
@@ -185,7 +195,7 @@ class Conexion extends React.Component {
         <View>
           <View style={styles.headerStyle}>
             <CNXH3 style={{ color: colors.DARK }}>Conexion type:</CNXH3>
-            <Switch
+            {/* <Switch
               label={INDIVIDUAL}
               selected={indSelected}
               onChange={this._onSwitchIndOrgPress}
@@ -194,7 +204,50 @@ class Conexion extends React.Component {
               label={ORGANIZATION}
               selected={orgSelected}
               onChange={this._onSwitchIndOrgPress}
-            />
+            /> */}
+            <View style={{ flex: 1, margin: 8, flexDirection: 'row' }}>
+              <RadioButton.Group
+                value={this.state.createConexionType}
+                onValueChange={this._onSwitchIndOrgPress}
+              >
+                <TouchableRipple
+                  onPress={() => {
+                    this._onSwitchIndOrgPress(INDIVIDUAL);
+                  }}
+                >
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      paddingVertical: 8,
+                      paddingHorizontal: 16,
+                    }}
+                  >
+                    <Paragraph>{INDIVIDUAL}</Paragraph>
+                    <RadioButton value={INDIVIDUAL} />
+                  </View>
+                </TouchableRipple>
+                <TouchableRipple
+                  onPress={() => {
+                    this._onSwitchIndOrgPress(ORGANIZATION);
+                  }}
+                >
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      paddingVertical: 8,
+                      paddingHorizontal: 16,
+                    }}
+                  >
+                    <Paragraph>{ORGANIZATION}</Paragraph>
+                    <RadioButton value={ORGANIZATION} />
+                  </View>
+                </TouchableRipple>
+              </RadioButton.Group>
+            </View>
             <CreateConexions
               modalOpen={conexionModal}
               setModalOpenClose={this.setModalOpenClose}
