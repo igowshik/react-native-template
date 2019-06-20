@@ -29,6 +29,8 @@ export const GET_ORG_DD_VALUE = '@Conexion/GET_ORG_DD_VALUE';
 export const SAVE_ORG_DD_VALUE = '@Conexion/SAVE_ORG_DD_VALUE';
 export const SET_ORGANISATION_DETAILS = '@Conexion/SET_ORGANISATION_DETAILS';
 export const CREATE_ORGANISATION = '@Conexion/CREATE_ORGANISATION';
+export const EDIT_IND_CONEXION = '@Conexion/EDIT_IND_CONEXION';
+export const EDIT_CNX_MODAL = '@Conexion/EDIT_CNX_MODAL';
 
 // Local component constants
 export const INDIVIDUAL = 'Individual';
@@ -40,7 +42,7 @@ export const conexionSelectListItems = [
   { label: 'Organization', value: ORGANIZATION, key: 'key2' },
 ];
 
-export const GENERAL_ERROR = 'Something just went wrong!';
+export const GENERAL_ERROR = 'Message from server: Something just went wrong!';
 
 export const CREATOR = 'CTOR';
 export const SHARED = 'SHAR';

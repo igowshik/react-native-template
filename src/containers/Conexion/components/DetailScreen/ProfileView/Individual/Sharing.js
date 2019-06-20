@@ -54,7 +54,7 @@ const Sharing = props => {
                       solid
                     />
                   )}
-                  key={user.UserId}
+                  key={user.ConexionUserId}
                   style={{ margin: 2 }}
                 >
                   {user.UserName}

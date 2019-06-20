@@ -23,6 +23,7 @@ import {
   saveUswerDDList,
   saveOrgDDList,
   getIndConexions,
+  setEditCNXModalVisibilty,
 } from './actions';
 import {
   GET_IND_CONEXIONS,
@@ -39,6 +40,7 @@ import {
   GET_USER_DD_VALUE,
   GET_ORG_DD_VALUE,
   CREATE_ORGANISATION,
+  EDIT_IND_CONEXION,
 } from './constants';
 import {
   selectToken,
@@ -354,7 +356,7 @@ function* getOrgDDValuesAPI() {
   }
 }
 
-function* createIndividualDetails() {
+function* createIndividualDetailsAPI() {
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
   const newIndividual = yield select(selectIndividualDetails());
@@ -419,6 +421,57 @@ function* createOragnisationDetailsAPI() {
   }
 }
 
+function* editIndividualDetailsAPI() {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const newIndividual = yield select(selectIndividualDetails());
+  const conexionId = yield select(selectConexionId());
+  const requestURL = `${config.apiURL}EditIndividualConexion`;
+  const individualConexionPayload = individualConexionPayloadMapper(
+    newIndividual,
+  );
+  individualConexionPayload.ConexionId = conexionId;
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(individualConexionPayload),
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(setEditCNXModalVisibilty(false));
+    yield put(getConexionDetails());
+    yield put(getIndConexions());
+  } else if (response.status === 422) {
+    yield put(setEditCNXModalVisibilty(false));
+    yield put(
+      setToastMessage({
+        toastMessage: response.response.Messages
+          ? `Message from server: ${response.response.Messages[0].ErrorMessage}`
+          : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  } else {
+    yield put(setEditCNXModalVisibilty(false));
+    yield put(
+      setToastMessage({
+        toastMessage: response.message
+          ? `Message from server: ${response.message}`
+          : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+
 export default function* initConexionSaga() {
   yield takeLatest(GET_LIST_OF_ORG, getOrganizationConexionAPI);
   yield takeLatest(GET_IND_CONEXIONS, getIndividualConexionAPI);
@@ -430,6 +483,8 @@ export default function* initConexionSaga() {
   yield takeLatest(EDIT_CONEXION_ADDRESS, editConexionAddressAPI);
   yield takeLatest(GET_USER_DD_VALUE, getUserDDValuesAPI);
   yield takeLatest(GET_ORG_DD_VALUE, getOrgDDValuesAPI);
-  yield takeLatest(CREATE_INDIVIDUAL, createIndividualDetails);
+  yield takeLatest(CREATE_INDIVIDUAL, createIndividualDetailsAPI);
   yield takeLatest(CREATE_ORGANISATION, createOragnisationDetailsAPI);
+  yield takeLatest(CREATE_INDIVIDUAL, createIndividualDetailsAPI);
+  yield takeLatest(EDIT_IND_CONEXION, editIndividualDetailsAPI);
 }

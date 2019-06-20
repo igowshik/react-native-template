@@ -9,7 +9,7 @@ export const individualConexionPayloadMapper = form => {
     MiddleName: null,
     Title: null,
     Suffix: null,
-    Organization: null,
+    ParentConexionId: null,
     JobTitle: null,
     Mobile1TelephoneNumber: null,
     Mobile2TelephoneNumber: null,
@@ -32,7 +32,7 @@ export const individualConexionPayloadMapper = form => {
   if (form.ind_title) payload.Title = form.ind_title;
   if (form.ind_suffix) payload.Suffix = form.ind_suffix;
   if (form.ind_select_oraganisation)
-    payload.Organization = form.ind_select_oraganisation;
+    payload.ParentConexionId = form.ind_select_oraganisation;
   if (form.ind_job_title) payload.JobTitle = form.ind_job_title;
   if (form.ind_primary_mobile)
     payload.Mobile1TelephoneNumber = form.ind_primary_mobile;

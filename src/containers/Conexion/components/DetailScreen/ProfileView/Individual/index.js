@@ -13,9 +13,16 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
 import { CNXH1 as H1 } from 'cnxapp/src/components/Typography';
 import ScrollView from 'cnxapp/src/components/ScrollView';
+import {
+  selectConexionDetails,
+  selectEditCNXModal,
+} from 'cnxapp/src/containers/Conexion/selectors';
+import { setEditCNXModalVisibilty } from 'cnxapp/src/containers/Conexion/actions';
+import { INDIVIDUAL } from 'cnxapp/src/containers/Conexion/constants';
+import EditConexion from 'cnxapp/src/containers/Conexion/components/EditConexion';
+import { editConexionMapper } from 'cnxapp/src/containers/Conexion/mappers';
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 
-import { selectConexionDetails } from '../../../../selectors';
 import { getTitleName, getOrgName, getEmail, getPhone } from '../util';
 import Communication from './Communication';
 import Address from './Address';
@@ -29,9 +36,15 @@ class IndividualConexion extends React.Component {
     this.surfaceRef = React.createRef();
   }
 
-  render() {
-    const { conexionDetails } = this.props;
+  setIndividualModalOpen = () => this.props.dispatchIndEditModalState(true);
 
+  setModalOpenClose = value => {
+    this.props.dispatchIndEditModalState(value);
+  };
+
+  render() {
+    const { conexionDetails, editModalVisible } = this.props;
+    const mappedValues = editConexionMapper(conexionDetails);
     return (
       <View style={{ flex: 1, backgroundColor: Colors.BGCOLOR }}>
         <LinearGradient
@@ -78,7 +91,17 @@ class IndividualConexion extends React.Component {
             <Sharing data={conexionDetails} />
           </ScrollView>
         </Surface>
-        <FAB style={styles.fab} icon="edit" onPress={() => {}} />
+        <FAB
+          style={styles.fab}
+          icon="edit"
+          onPress={this.setIndividualModalOpen}
+        />
+        <EditConexion
+          modalOpen={editModalVisible}
+          setModalOpenClose={this.setModalOpenClose}
+          conexionType={INDIVIDUAL}
+          initialValues={mappedValues}
+        />
       </View>
     );
   }
@@ -86,6 +109,8 @@ class IndividualConexion extends React.Component {
 
 IndividualConexion.propTypes = {
   conexionDetails: PropTypes.object.isRequired,
+  dispatchIndEditModalState: PropTypes.func.isRequired,
+  editModalVisible: PropTypes.bool.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -152,10 +177,13 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = createStructuredSelector({
   conexionDetails: selectConexionDetails(),
+  editModalVisible: selectEditCNXModal(),
 });
 
 const mapDispatchToProps = dispatch => ({
   dispatchSetGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),
+  dispatchIndEditModalState: visibility =>
+    dispatch(setEditCNXModalVisibilty(visibility)),
 });
 
 const withConnect = connect(
