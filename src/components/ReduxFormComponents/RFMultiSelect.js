@@ -51,7 +51,7 @@ export default class MultiSelector extends Component {
           styleTextDropdown={styles.label}
           searchInputStyle={styles.label}
           styleTextDropdownSelected={styles.label}
-          styleListContainer={{ height: 300, overflow: 'scroll' }}
+          styleListContainer={{ height: 200, overflow: 'scroll' }}
         />
       </View>
     );

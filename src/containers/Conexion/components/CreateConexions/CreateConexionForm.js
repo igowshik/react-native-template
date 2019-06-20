@@ -10,6 +10,7 @@ import Details from './Details';
 import ShareType from './ShareType';
 import Communication from './Commuinacation';
 import OrgDetails from '../CreateOrganisation/OrgDetails';
+import { INDIVIDUAL } from '../../constants';
 
 class CreateConexionForm extends React.Component {
   renderIndividualForm = () => (
@@ -20,26 +21,11 @@ class CreateConexionForm extends React.Component {
     </View>
   );
 
-  renderOrgForm = () => (
-    <Form>
-      <TextInput label="Name" name="org_name" required />
-      <TextInput
-        label="Business Telephone Number"
-        name="org_business_telephone_numbers"
-      />
-      <TextInput label="Business Homepage" name="org_business_homepages" />
-    </Form>
-  );
-
   render() {
     const { viewType } = this.props;
     return (
       <View>
-        {viewType === 'Individual' ? (
-          this.renderIndividualForm()
-        ) : (
-          <OrgDetails />
-        )}
+        {viewType === INDIVIDUAL ? this.renderIndividualForm() : <OrgDetails />}
       </View>
     );
   }

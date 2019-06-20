@@ -391,8 +391,6 @@ function* createOragnisationDetailsAPI() {
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
   const newOrganisation = yield select(selectOrganisationDetails());
-
-  console.log('#%#$#$#%$^#%$^%$^#', newOrganisation);
   const requestURL = `${config.apiURL}CreateOrganizationConexion`;
   const organisatoinPayload = organisationPayloadMappers(newOrganisation);
   const options = {
