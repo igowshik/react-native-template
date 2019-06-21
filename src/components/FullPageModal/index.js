@@ -35,10 +35,26 @@ class FullPageModal extends React.Component {
 
   closeModal = () => this.props.handleModalVisible(false);
 
-  render() {
-    const { visible, children, modalHeaderText } = this.props;
+  getScrollViewContent = () => {
     const scrollEnabled = this.state.screenHeight > height;
+    const { children } = this.props;
+    if (Platform.OS === 'ios') {
+      return (
+        <KeyboardAwareScrollView
+          style={{ flex: 1 }}
+          contentContainerStyle={styles.scrollview}
+          scrollEnabled={scrollEnabled}
+          onContentSizeChange={this.onContentSizeChange}
+        >
+          {children}
+        </KeyboardAwareScrollView>
+      );
+    }
+    return children;
+  };
 
+  render() {
+    const { visible, modalHeaderText } = this.props;
     return (
       <View
         style={{
@@ -69,18 +85,7 @@ class FullPageModal extends React.Component {
               </View>
             </View>
             <HorizDivider />
-            {Platform.OS === 'ios' ? (
-              <KeyboardAwareScrollView
-                style={{ flex: 1 }}
-                contentContainerStyle={styles.scrollview}
-                scrollEnabled={scrollEnabled}
-                onContentSizeChange={this.onContentSizeChange}
-              >
-                {children}
-              </KeyboardAwareScrollView>
-            ) : (
-              <View>{children}</View>
-            )}
+            {this.getScrollViewContent()}
           </View>
         </Modal>
       </View>

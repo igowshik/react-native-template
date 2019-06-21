@@ -102,7 +102,7 @@ class DetailScreen extends React.Component {
             }
           >
             <Searchbar
-              placeholder="Search conexions"
+              placeholder="Search notes"
               onChangeText={query => this.searchConexions(query)}
               value={firstQuery}
               style={Styles.searchbar}

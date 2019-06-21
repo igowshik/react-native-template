@@ -3,29 +3,29 @@ import { View, ActivityIndicator, StyleSheet, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 
 import { WebView } from 'react-native-webview';
+import config from 'cnxapp/src/config/config';
 
 /*eslint-disable*/
-const patchPostMessageFunction = function() {
-  const originalPostMessage = window.postMessage;
+const patchPostMessageFunction = function () {
+  const originalPostMessage = window.ReactNativeWebView.postMessage;
 
-  const patchedPostMessage = function(message, targetOrigin, transfer) {
+  const patchedPostMessage = function (message, targetOrigin, transfer) {
     originalPostMessage(message, targetOrigin, transfer);
   };
 
-  patchedPostMessage.toString = function() {
-    return String(Object.hasOwnProperty).replace(
-      'hasOwnProperty',
-      'postMessage',
-    );
-  };
+  // patchedPostMessage.toString = function() {
+  //   return String(Object.hasOwnProperty).replace(
+  //     'hasOwnProperty',
+  //     'postMessage',
+  //   );
+  // };
 
-  window.postMessage = patchedPostMessage;
+
+  window.ReactNativeWebView.postMessage = patchedPostMessage;
 };
 /* eslint-enable */
 
 const patchPostMessageJsCode = `(${String(patchPostMessageFunction)})();`;
-
-// const QuillHTML = require('../../web/QuillEditor/index.html');
 
 export default class WebViewQuillEditor extends React.Component {
   constructor() {
@@ -54,14 +54,14 @@ export default class WebViewQuillEditor extends React.Component {
 
   onWebViewLoaded = () => {
     const { contentToDisplay } = this.props;
-    this.sendMessage('Value', contentToDisplay);
+    this.sendMessage(contentToDisplay);
   };
 
   getDelta = () => this.state.value;
 
-  sendMessage = (type, payload) => {
-    if (this.webview) {
-      this.webview.postMessage(payload, '*');
+  sendMessage = payload => {
+    if (this.webview.postMessage) {
+      this.webview.postMessage(payload);
     }
   };
 
@@ -88,8 +88,9 @@ export default class WebViewQuillEditor extends React.Component {
       <WebView
         style={{ ...StyleSheet.absoluteFillObject }}
         ref={this.createWebViewRef}
-        // source={QuillHTML}
-        source={{ uri: 'http://localhost:3000/' }}
+        source={{
+          uri: config.quillEditor,
+        }}
         onLoadEnd={this.onWebViewLoaded}
         onMessage={this.handleMessage}
         startInLoadingState

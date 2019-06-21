@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { FAB } from 'react-native-paper';
-
 import FullPageModal from 'cnxapp/src/components/FullPageModal';
-
+import moment from 'moment';
+import Lo from 'lodash';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 import Timeline from './Timeline';
 import RichTextExample from './RichTextEditor';
@@ -17,6 +17,7 @@ export default class Notes extends Component {
     this.state = {
       data: [],
       modalOpen: false,
+      editNoteObject: {},
     };
   }
 
@@ -24,7 +25,7 @@ export default class Notes extends Component {
     const { conexionNotes } = this.props;
     const notesData = [
       {
-        time: '16-05-2019',
+        time: '',
         title: 'Notes',
         icon: notes,
         circleColor: 'transparent',
@@ -32,14 +33,21 @@ export default class Notes extends Component {
     ];
     conexionNotes.map(note =>
       notesData.push({
-        time: '03:00 PM',
-        title: `Note ${note.ConexionNoteId}`,
+        time: moment(note.LastUpdatedDate).format('DD-MM-YY HH:MM'),
+        title: `${note.Title}`,
         description: note.Note,
-        state: 0,
+        privateNote: note.PrivateNote,
+        noteId: note.ConexionNoteId,
       }),
     );
     this.setState({ data: notesData });
   }
+
+  handleNoteEdit = noteId => {
+    const { conexionNotes } = this.props;
+    const filterNote = Lo.filter(conexionNotes, { ConexionNoteId: noteId });
+    this.setState({ editNoteObject: filterNote[0], modalOpen: true });
+  };
 
   _closeModal = () => {
     this.setState({ modalOpen: false });
@@ -50,7 +58,7 @@ export default class Notes extends Component {
   };
 
   render() {
-    const { modalOpen } = this.state;
+    const { modalOpen, editNoteObject } = this.state;
 
     return (
       <View style={{ flex: 1 }}>
@@ -59,21 +67,21 @@ export default class Notes extends Component {
             style={styles.list}
             data={this.state.data}
             circleSize={20}
-            circleColor={colors.DARK}
+            circleColor={colors.ORANGE}
             lineColor="rgba(0,0,0,0.6)"
-            timeContainerStyle={{ minWidth: 100, marginTop: -5 }}
+            timeContainerStyle={{ minWidth: 150, marginTop: -5 }}
             timeStyle={{
               textAlign: 'center',
               color: colors.PURPLE,
               padding: 5,
               borderRadius: 13,
-              backgroundColor: 'transparent',
             }}
             descriptionStyle={{ color: 'black' }} // color was set 'gray'
             options={{
               style: { paddingTop: 5 },
             }}
             innerCircle="icon"
+            onClickEdit={this.handleNoteEdit}
           />
         </View>
         <FAB
@@ -87,7 +95,7 @@ export default class Notes extends Component {
           handleModalVisible={this._closeModal}
           modalHeaderText="New note"
         >
-          <RichTextExample />
+          <RichTextExample note={editNoteObject} />
         </FullPageModal>
       </View>
     );

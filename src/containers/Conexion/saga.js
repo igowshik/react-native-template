@@ -117,19 +117,19 @@ function* getConexionNotesAPI({ conexionId }) {
       Authorization: `Bearer ${accessToken}`,
     },
   };
-  const data = yield call(request, requestURL, options);
-  if (Array.isArray(data)) {
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
     yield put(setRootGlobalLoader(false));
-    yield put(saveConexionNotesAction(data));
+    yield put(saveConexionNotesAction(response.data));
   } else {
-    // yield put(
-    //   setToastMessage({
-    //     toastMessage: data.message,
-    //     toastType: ERROR,
-    //   }),
-    // );
+    yield put(
+      setToastMessage({
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
     yield put(setRootGlobalLoader(false));
-    // yield put(setToastVisibility(true));
+    yield put(setToastVisibility(true));
   }
 }
 
@@ -374,6 +374,7 @@ function* createIndividualDetailsAPI() {
     body: JSON.stringify(individualConexionPayload),
   };
   const response = yield call(request, requestURL, options);
+
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(setIndividualModalVisibility(false));
@@ -405,6 +406,7 @@ function* createOragnisationDetailsAPI() {
     body: JSON.stringify(organisatoinPayload),
   };
   const response = yield call(request, requestURL, options);
+
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(setIndividualModalVisibility(false));
@@ -486,6 +488,5 @@ export default function* initConexionSaga() {
   yield takeLatest(GET_ORG_DD_VALUE, getOrgDDValuesAPI);
   yield takeLatest(CREATE_INDIVIDUAL, createIndividualDetailsAPI);
   yield takeLatest(CREATE_ORGANISATION, createOragnisationDetailsAPI);
-  yield takeLatest(CREATE_INDIVIDUAL, createIndividualDetailsAPI);
   yield takeLatest(EDIT_IND_CONEXION, editIndividualDetailsAPI);
 }
