@@ -23,6 +23,7 @@ import {
   saveUswerDDList,
   saveOrgDDList,
   getIndConexions,
+  getOrgConexions,
   setEditCNXModalVisibilty,
 } from './actions';
 import {
@@ -407,7 +408,7 @@ function* createOragnisationDetailsAPI() {
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(setIndividualModalVisibility(false));
-    yield put(getIndConexions());
+    yield put(getOrgConexions());
   } else {
     yield put(setIndividualModalVisibility(false));
     yield put(
