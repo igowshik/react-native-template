@@ -28,6 +28,8 @@ import {
   CREATE_ORGANISATION,
   EDIT_IND_CONEXION,
   EDIT_CNX_MODAL,
+  GET_ORGANISATION_DETAILS,
+  EDIT_ORG_CONEXION,
 } from './constants';
 
 export function getIndConexions() {
@@ -70,6 +72,10 @@ export const saveselectedConexionId = id => ({
 
 export const getConexionDetails = () => ({
   type: GET_CONEXION_DETAILS,
+});
+
+export const getOrganisationDetails = () => ({
+  type: GET_ORGANISATION_DETAILS,
 });
 
 export const saveConexionDetails = details => ({
@@ -155,6 +161,10 @@ export const dispatchCreateOrganisation = () => ({
 
 export const editIndividualConexion = () => ({
   type: EDIT_IND_CONEXION,
+});
+
+export const editOrganisationConexion = () => ({
+  type: EDIT_ORG_CONEXION,
 });
 
 export const setEditCNXModalVisibilty = modalVisibile => ({

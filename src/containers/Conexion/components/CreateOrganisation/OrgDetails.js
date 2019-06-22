@@ -10,23 +10,8 @@ import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import MultiSelect from 'cnxapp/src/components/MultiSelect';
-import Dropdown from '../../../../components/Dropdown';
 import { selectUserDDList } from '../../selectors';
-// import ScrollView from '../../../../components/ScrollView';
 class OrgDetails extends React.Component {
-  state = {
-    managers: [],
-  };
-
-  // componentDidMount() {
-  //   const { userDDList } = this.props;
-  //   const mappedManagers = [];
-  //   userDDList.forEach(user => {
-  //     mappedManagers.push({ label: user.label, value: user.value });
-  //   });
-  //   this.setState({ managers: mappedManagers });
-  // }
-
   OrgDetails1 = () => (
     <View style={styles.parentView}>
       <Card elevation={4} style={styles.card}>
@@ -64,12 +49,6 @@ class OrgDetails extends React.Component {
               <TextInput label="Web Address" name="org_web_address" required />
             </Row>
             <Row>
-              {/* <Dropdown
-                label="Managers"
-                name="org_managers"
-                data={this.state.managers}
-                required
-              /> */}
               <MultiSelect
                 label="Select users"
                 items={this.props.userDDList}

@@ -1,6 +1,9 @@
+import { shareTypeObj } from 'cnxapp/src/containers/Conexion/constants';
+
 export const organisationPayloadMappers = form => {
   const payload = {
     Addresses: null,
+    SharingType: null,
     ConexionId: null,
     DefaultConexion: null,
     ShortName: null,
@@ -17,6 +20,7 @@ export const organisationPayloadMappers = form => {
     ConexionKey: null,
     DisplayName: null,
     Users: [],
+    LastName: null,
   };
   if (form.org_name) payload.Name = form.org_name;
   if (form.org_short_name) payload.ShortName = form.org_short_name;
@@ -28,5 +32,7 @@ export const organisationPayloadMappers = form => {
   if (form.org_web_address) payload.Addresses = form.org_web_address;
   if (form.org_shared_users && form.org_shared_users.length > 0)
     payload.Users = form.org_shared_users;
+  payload.SharingType = 'PUBL';
+  payload.LastName = '*';
   return payload;
 };

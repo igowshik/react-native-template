@@ -25,11 +25,47 @@ export const editConexionMapper = data => {
       ind_personal_home_page: data.PersonalHomePage,
       ind_shared_type: data.SharingType,
       ind_shared_users: [],
+      //-----------
+      org_web_address: data.Addresses,
+      org_shared_users: [],
+      org_short_name: data.ShortName,
+      org_name: data.Name,
+      org_primary_phone: data.BusinessTelephoneNumber,
+      org_secondary_phone: data.Business2TelephoneNumber,
+      org_business_fax: data.BusinessFaxNumber,
+      // org_shared_type: data.SharingType,
     };
     if (data.Users.length > 0) {
       data.Users.forEach(user => {
         if (!payload.ind_shared_users.includes(user.UserId.toString())) {
           payload.ind_shared_users.push(user.UserId.toString());
+        }
+        if (!payload.org_shared_users.includes(user.UserId.toString())) {
+          payload.org_shared_users.push(user.UserId.toString());
+        }
+      });
+    }
+    return payload;
+  }
+  return {};
+};
+
+export const editOrganisationMapper = data => {
+  if (!Lo.isEmpty(data)) {
+    const payload = {
+      // org_web_address: data.Addresses[0],
+      org_shared_users: [],
+      org_short_name: data.ShortName,
+      org_name: data.Name,
+      org_primary_phone: data.BusinessTelephoneNumber,
+      org_secondary_phone: data.Business2TelephoneNumber,
+      org_business_fax: data.BusinessFaxNumber,
+      // org_shared_type: '',
+    };
+    if (data.Users.length > 0) {
+      data.Users.forEach(user => {
+        if (!payload.org_shared_users.includes(user.UserId.toString())) {
+          payload.org_shared_users.push(user.UserId.toString());
         }
       });
     }

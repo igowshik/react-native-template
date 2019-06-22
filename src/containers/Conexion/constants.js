@@ -31,6 +31,8 @@ export const SET_ORGANISATION_DETAILS = '@Conexion/SET_ORGANISATION_DETAILS';
 export const CREATE_ORGANISATION = '@Conexion/CREATE_ORGANISATION';
 export const EDIT_IND_CONEXION = '@Conexion/EDIT_IND_CONEXION';
 export const EDIT_CNX_MODAL = '@Conexion/EDIT_CNX_MODAL';
+export const GET_ORGANISATION_DETAILS = '@Conexion/GET_ORGANISATION_DETAILS';
+export const EDIT_ORG_CONEXION = '@Conexion/EDIT_ORG_CONEXION';
 
 // Local component constants
 export const INDIVIDUAL = 'Individual';

@@ -25,6 +25,8 @@ import {
   getIndConexions,
   getOrgConexions,
   setEditCNXModalVisibilty,
+  dispatchOrganisationDetails,
+  getOrganisationDetails,
 } from './actions';
 import {
   GET_IND_CONEXIONS,
@@ -42,6 +44,8 @@ import {
   GET_ORG_DD_VALUE,
   CREATE_ORGANISATION,
   EDIT_IND_CONEXION,
+  EDIT_ORG_CONEXION,
+  GET_ORGANISATION_DETAILS,
 } from './constants';
 import {
   selectToken,
@@ -90,6 +94,7 @@ function* getOrganizationConexionAPI() {
     },
   };
   const response = yield call(request, requestURL, options);
+  // console.log('000000000000000000000000000:', response);
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(saveOrgConexions(response.data));
@@ -137,6 +142,7 @@ function* getConexionDetailsAPI() {
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
   const conexionId = yield select(selectConexionId());
+  // console.log('************************conexionId->', conexionId);
   const requestURL = `${config.apiURL}ConexionDetail?conexionId=${conexionId}`;
   const options = {
     method: 'GET',
@@ -145,6 +151,7 @@ function* getConexionDetailsAPI() {
     },
   };
   const response = yield call(request, requestURL, options);
+  console.log('get conexion details api ------>', response);
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(saveConexionDetails(response.data));
@@ -156,6 +163,38 @@ function* getConexionDetailsAPI() {
       }),
     );
     yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+//-------
+function* getOrganisationDetailsAPI() {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const conexionId = yield select(selectConexionId());
+  console.log('*############jyoti*onexionId->', conexionId);
+  const requestURL = `${
+    config.apiURL
+  }OrganizationConexionDetail?Conexionid=${conexionId}`;
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+  const response = yield call(request, requestURL, options);
+  console.log('get organisation details api ', response);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    console.log('get organisation details response data', response.data)
+    yield put(dispatchOrganisationDetails(response.data));
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(true));
     yield put(setToastVisibility(true));
   }
 }
@@ -395,6 +434,7 @@ function* createOragnisationDetailsAPI() {
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
   const newOrganisation = yield select(selectOrganisationDetails());
+  // console.log('***********----------->', newOrganisation);
   const requestURL = `${config.apiURL}CreateOrganizationConexion`;
   const organisatoinPayload = organisationPayloadMappers(newOrganisation);
   const options = {
@@ -474,6 +514,55 @@ function* editIndividualDetailsAPI() {
     yield put(setToastVisibility(true));
   }
 }
+function* editOrganisationDetailsAPI() {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const newOrganisation = yield select(selectOrganisationDetails());
+  console.log('edit organisation details api', newOrganisation);
+  const conexionId = yield select(selectConexionId());
+  const requestURL = `${config.apiURL}EditIndividualConexion`;
+  const organisationPayload = organisationPayloadMappers(newOrganisation);
+  organisationPayload.ConexionId = conexionId;
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(organisationPayload),
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(setEditCNXModalVisibilty(false));
+    yield put(getOrganisationDetails());
+    yield put(getOrgConexions());
+  } else if (response.status === 422) {
+    yield put(setEditCNXModalVisibilty(false));
+    yield put(
+      setToastMessage({
+        toastMessage: response.response.Messages
+          ? `Message from server: ${response.response.Messages[0].ErrorMessage}`
+          : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  } else {
+    yield put(setEditCNXModalVisibilty(false));
+    yield put(
+      setToastMessage({
+        toastMessage: response.message
+          ? `Message from server: ${response.message}`
+          : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
 
 export default function* initConexionSaga() {
   yield takeLatest(GET_LIST_OF_ORG, getOrganizationConexionAPI);
@@ -488,5 +577,7 @@ export default function* initConexionSaga() {
   yield takeLatest(GET_ORG_DD_VALUE, getOrgDDValuesAPI);
   yield takeLatest(CREATE_INDIVIDUAL, createIndividualDetailsAPI);
   yield takeLatest(CREATE_ORGANISATION, createOragnisationDetailsAPI);
+  yield takeLatest(GET_ORGANISATION_DETAILS, getOrganisationDetailsAPI);
   yield takeLatest(EDIT_IND_CONEXION, editIndividualDetailsAPI);
+  yield takeLatest(EDIT_ORG_CONEXION, editOrganisationDetailsAPI);
 }
