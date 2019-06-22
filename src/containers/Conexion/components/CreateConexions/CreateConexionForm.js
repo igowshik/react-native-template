@@ -1,9 +1,6 @@
 import React from 'react';
-import { Form } from 'native-base';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
-// Absolute imports
-import { TextInput } from 'cnxapp/src/components/InputField';
 
 // Relative imports
 import Details from './Details';

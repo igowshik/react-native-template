@@ -17,12 +17,11 @@ import {
   dispatchCreateOrganisation,
 } from 'cnxapp/src/containers/Conexion/actions';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
-import { INDIVIDUAL } from '../../constants';
 
 // Relative imports
 import CreateConexionForm from './CreateConexionForm';
-
-import { validate } from '../../validate';
+import { INDIVIDUAL } from '../../constants';
+import { validate } from '../../validators/IndividualValidator';
 
 class CreateConexions extends Component {
   constructor(props) {

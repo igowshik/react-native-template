@@ -7,8 +7,7 @@ import {
   Platform,
 } from 'react-native';
 import React, { Component } from 'react';
-import { IconButton, Card, Title } from 'react-native-paper';
-import { Text } from 'native-base';
+import { IconButton, Card, Text, Avatar, Paragraph } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import HTMLView from 'react-native-htmlview';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
@@ -257,11 +256,23 @@ export default class CNXTimeline extends Component {
                 alignContent: 'center',
               }}
             >
-              <Title>
-                <Text style={[styles.title, this.props.titleStyle]}>
-                  {rowData.title}
-                </Text>
-              </Title>
+              <View style={styles.headerView}>
+                <Avatar.Image
+                  style={styles.avatar}
+                  size={50}
+                  source={{
+                    uri:
+                      'https://img.icons8.com/cotton/2x/gender-neutral-user--v1.png',
+                  }}
+                  color={colors.WHITE}
+                />
+                <View style={{ flexDirection: 'column', marginLeft: 10 }}>
+                  <Text style={[styles.title, this.props.titleStyle]}>
+                    {rowData.title}
+                  </Text>
+                  <Paragraph>Updated By: {rowData.userName}</Paragraph>
+                </View>
+              </View>
               <IconButton
                 icon={() => (
                   <FontAwesome5
@@ -307,7 +318,9 @@ export default class CNXTimeline extends Component {
               )}
               color={colors.SECONDARY}
               size={25}
-              onPress={() => {}}
+              onPress={() => {
+                this.props.onClickDelete(rowData.noteId);
+              }}
             />
           </Card.Actions>
         </Card>
@@ -472,6 +485,7 @@ CNXTimeline.propTypes = {
   circleColor: PropTypes.string,
   renderFullLine: PropTypes.any,
   onClickEdit: PropTypes.func,
+  onClickDelete: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
@@ -549,4 +563,10 @@ const styles = StyleSheet.create({
     borderTopColor: '#85929E',
     borderTopWidth: 2,
   },
+  headerView: {
+    padding: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  avatar: { backgroundColor: 'transparent' },
 });

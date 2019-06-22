@@ -16,6 +16,7 @@ import {
   SAVE_ORG_DD_VALUE,
   SET_ORGANISATION_DETAILS,
   EDIT_CNX_MODAL,
+  SAVE_NOTE_DATE,
 } from './constants';
 
 export const conexionInitialState = {
@@ -38,6 +39,12 @@ export const conexionInitialState = {
   userDropDown: [],
   orgDropDown: [],
   conexionEditModal: false,
+  notesData: {
+    ConexionId: '',
+    Note: '',
+    PrivateNote: false,
+    Title: '',
+  },
 };
 
 const conexionStore = (state = conexionInitialState, action) =>
@@ -106,6 +113,10 @@ const conexionStore = (state = conexionInitialState, action) =>
       }
       case EDIT_CNX_MODAL: {
         draftState.conexionEditModal = action.modalVisibile;
+        break;
+      }
+      case SAVE_NOTE_DATE: {
+        draftState.notesData = action.noteData;
         break;
       }
       default: {

@@ -55,13 +55,13 @@ class DetailScreen extends React.Component {
       dispatchGetConexionDetails,
     } = this.props;
     const selectedValue = navigation.getParam('selectedValue', 'NO-SELECT');
-    const selectedId = navigation.getParam('selectedId', 'NO-ID');
+    // const selectedId = navigation.getParam('selectedId', 'NO-ID');
     this.setState({
       selected: selectedValue ? INDIVIDUAL : ORGANIZATION,
     });
 
     dispatchSetGlobalLoaderState(true);
-    dispatchGetConexionNotes(selectedId);
+    dispatchGetConexionNotes();
     dispatchGetConexionDetails();
   }
 
@@ -112,7 +112,7 @@ class DetailScreen extends React.Component {
                 <LottieListLoader />
               </View>
             ) : (
-              <Notes conexionNotes={this.props.conexionNotes} />
+              <Notes />
             )}
           </Tab>
         </Tabs>
@@ -125,7 +125,6 @@ class DetailScreen extends React.Component {
 DetailScreen.propTypes = {
   navigation: PropTypes.object,
   dispatchSetGlobalLoaderState: PropTypes.func.isRequired,
-  conexionNotes: PropTypes.array,
   dispatchGetConexionNotes: PropTypes.func,
   dispatchGetConexionDetails: PropTypes.func.isRequired,
   loaderState: PropTypes.bool.isRequired,
@@ -155,8 +154,7 @@ const mapStateToProps = createStructuredSelector({
  */
 const mapDispatchToProps = dispatch => ({
   dispatchSetGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),
-  dispatchGetConexionNotes: conexionId =>
-    dispatch(getConexionsNotesAction(conexionId)),
+  dispatchGetConexionNotes: () => dispatch(getConexionsNotesAction()),
   dispatchGetConexionDetails: () => dispatch(getConexionDetails()),
 });
 

@@ -31,6 +31,10 @@ export const SET_ORGANISATION_DETAILS = '@Conexion/SET_ORGANISATION_DETAILS';
 export const CREATE_ORGANISATION = '@Conexion/CREATE_ORGANISATION';
 export const EDIT_IND_CONEXION = '@Conexion/EDIT_IND_CONEXION';
 export const EDIT_CNX_MODAL = '@Conexion/EDIT_CNX_MODAL';
+export const SAVE_NOTE_DATE = '@Conexion/SAVE_NOTE_DATE';
+export const CREATE_CONEXION_NOTE = '@Conexion/CREATE_CONEXION_NOTE';
+export const EDIT_CONEXION_NOTE = '@Conexion/EDIT_CONEXION_NOTE';
+export const DELETE_CONEXION_NOTE = '@Conexion/DELETE_CONEXION_NOTE';
 
 // Local component constants
 export const INDIVIDUAL = 'Individual';
@@ -63,3 +67,4 @@ export const shareTypeObj = {
 };
 
 export const DELETE_ADDRESS_MESSAGE = 'Are you sure on deleting this address?';
+export const DELETE_NOTE_MESSAGE = 'Are you sure on deleting this note?';

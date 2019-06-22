@@ -7,44 +7,84 @@ import {
   Checkbox,
   Button,
   TextInput,
+  HelperText,
+  Title,
 } from 'react-native-paper';
-import { Text, H3 } from 'native-base';
+import { Text } from 'native-base';
 import PropTypes from 'prop-types';
 import Lo from 'lodash';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { compose } from 'redux';
 
 import WebViewQuillEditor from 'cnxapp/src/components/QuillEditor/WebViewQuillEditor';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
+import {
+  setNoteData,
+  createConexionNote,
+  editConexionNote,
+} from '../../../actions';
 
 class RichTextEditor extends React.Component {
   constructor() {
     super();
     this.state = {
       editorMessageDelta: '',
-      checked: true,
-      text: '',
+      privateNote: true,
+      titleText: null,
+      noteRequied: false,
     };
     this.webQuillRef = React.createRef();
   }
 
-  getEditorDelta = () => {
-    console.log(this.webQuillRef.current.getDelta());
+  handleNoteCreationandEdit = () => {
+    const {
+      dispatchSaveNoteData,
+      closeModal,
+      dispatchCreateNote,
+      isEditNote,
+      note,
+      dispatchEditNote,
+    } = this.props;
+    const { titleText, privateNote } = this.state;
+    const quillData = this.webQuillRef.current.getDelta();
+    const noteData = {
+      ConexionId: '',
+      Note: quillData.replace(/^"(.*)"$/, '$1'),
+      PrivateNote: privateNote,
+      Title: titleText,
+    };
+    if (quillData && !isEditNote) {
+      this.setState({ noteRequied: false });
+      dispatchSaveNoteData(noteData);
+      dispatchCreateNote();
+      closeModal(false);
+    } else if (quillData && isEditNote) {
+      this.setState({ noteRequied: false });
+      noteData.ConexionNoteId = note.ConexionNoteId;
+      dispatchSaveNoteData(noteData);
+      dispatchEditNote();
+      closeModal(false);
+    } else {
+      this.setState({ noteRequied: true });
+    }
   };
 
   componentDidMount() {
-    const { note } = this.props;
-    if (!Lo.isEmpty(note)) {
+    const { note, isEditNote } = this.props;
+    if (isEditNote && !Lo.isEmpty(note)) {
       this.setState({
         editorMessageDelta: note.Note,
-        text: note.Title,
-        checked: note.PrivateNote,
+        titleText: note.Title,
+        privateNote: note.PrivateNote,
       });
     }
   }
 
   render() {
-    const { checked } = this.state;
-
+    const { privateNote, titleText } = this.state;
+    const { isEditNote } = this.props;
     return (
       <View
         style={{
@@ -60,20 +100,25 @@ class RichTextEditor extends React.Component {
                 icon="description"
                 color={colors.WHITE}
               />
-              <H3 style={{ paddingLeft: 10 }}>Note details</H3>
+              <Title style={{ paddingLeft: 10 }}>NOTE DETAILS</Title>
             </View>
             <Card.Content>
               <View style={styles.form}>
-                <TextInput
-                  style={{ width: '50%' }}
-                  label="Title"
-                  value={this.state.text}
-                  onChangeText={text => this.setState({ text })}
-                  // mode="outlined"
-                />
+                <View style={{ width: '60%', flexDirection: 'column' }}>
+                  <TextInput
+                    style={{ width: '100%' }}
+                    label="Title"
+                    value={titleText}
+                    onChangeText={text => this.setState({ titleText: text })}
+                    error={titleText === ''}
+                  />
+                  <HelperText type="error" visible={titleText === ''}>
+                    Title is required
+                  </HelperText>
+                </View>
                 <TouchableRipple
                   onPress={() => {
-                    this.setState({ checked: !checked });
+                    this.setState({ privateNote: !privateNote });
                   }}
                 >
                   <View style={styles.row}>
@@ -81,7 +126,7 @@ class RichTextEditor extends React.Component {
                     <View pointerEvents="none" style={{ paddingTop: 15 }}>
                       <Checkbox
                         color={colors.SECONDARY}
-                        status={this.state.checked ? 'checked' : 'unchecked'}
+                        status={privateNote ? 'checked' : 'unchecked'}
                       />
                     </View>
                   </View>
@@ -99,9 +144,10 @@ class RichTextEditor extends React.Component {
                       />
                     )}
                     mode="contained"
-                    onPress={this.setModalOpen}
+                    onPress={this.handleNoteCreationandEdit}
+                    disabled={titleText === ''}
                   >
-                    Add Note
+                    {!isEditNote ? 'Add Note' : 'Update Note'}
                   </Button>
                 </View>
               </View>
@@ -109,6 +155,13 @@ class RichTextEditor extends React.Component {
           </Card>
         </View>
         <View style={styles.webView}>
+          <HelperText
+            type="error"
+            style={{ fontSize: 24 }}
+            visible={this.state.noteRequied}
+          >
+            Notes field is required
+          </HelperText>
           <WebViewQuillEditor
             contentToDisplay={this.state.editorMessageDelta}
             ref={this.webQuillRef}
@@ -121,6 +174,11 @@ class RichTextEditor extends React.Component {
 
 RichTextEditor.propTypes = {
   note: PropTypes.object,
+  isEditNote: PropTypes.bool.isRequired,
+  dispatchSaveNoteData: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  dispatchCreateNote: PropTypes.func.isRequired,
+  dispatchEditNote: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -147,7 +205,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  avatar: { backgroundColor: colors.SECONDARY },
+  avatar: { backgroundColor: colors.PURPLE },
   form: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -160,4 +218,27 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RichTextEditor;
+/**
+ * @method: mapStateToProps()
+ * @description: Redux Map method to map all redux state into each individual state value
+ * @returns: jobState ans filterState in the State
+ */
+const mapStateToProps = createStructuredSelector({});
+
+/**
+ * @method: mapDispatchToProps()
+ * @description: Map the Props of this class to the respective Redux dispatch functions
+ * @returns: Mapped functions
+ */
+const mapDispatchToProps = dispatch => ({
+  dispatchSaveNoteData: data => dispatch(setNoteData(data)),
+  dispatchCreateNote: () => dispatch(createConexionNote()),
+  dispatchEditNote: () => dispatch(editConexionNote()),
+});
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default compose(withConnect)(RichTextEditor);

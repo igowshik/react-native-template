@@ -28,6 +28,10 @@ import {
   CREATE_ORGANISATION,
   EDIT_IND_CONEXION,
   EDIT_CNX_MODAL,
+  SAVE_NOTE_DATE,
+  CREATE_CONEXION_NOTE,
+  EDIT_CONEXION_NOTE,
+  DELETE_CONEXION_NOTE,
 } from './constants';
 
 export function getIndConexions() {
@@ -53,9 +57,8 @@ export const setConexionDataAction = conexionData => ({
   conexionData,
 });
 
-export const getConexionsNotesAction = conexionId => ({
+export const getConexionsNotesAction = () => ({
   type: GET_CONEXION_NOTES,
-  conexionId,
 });
 
 export const saveConexionNotesAction = notesData => ({
@@ -160,4 +163,22 @@ export const editIndividualConexion = () => ({
 export const setEditCNXModalVisibilty = modalVisibile => ({
   type: EDIT_CNX_MODAL,
   modalVisibile,
+});
+
+export const setNoteData = noteData => ({
+  type: SAVE_NOTE_DATE,
+  noteData,
+});
+
+export const createConexionNote = () => ({
+  type: CREATE_CONEXION_NOTE,
+});
+
+export const editConexionNote = () => ({
+  type: EDIT_CONEXION_NOTE,
+});
+
+export const deleteConexionNote = noteId => ({
+  type: DELETE_CONEXION_NOTE,
+  noteId,
 });
