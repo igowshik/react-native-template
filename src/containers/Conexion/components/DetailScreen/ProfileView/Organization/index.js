@@ -16,7 +16,13 @@ import ScrollView from 'cnxapp/src/components/ScrollView';
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 
 import { selectConexionDetails } from '../../../../selectors';
-import { getEmail, getPhone, getHomePage } from '../util';
+import {
+  getEmail,
+  getPhone,
+  getHomePage,
+  getContact,
+  getCreatedBy,
+} from '../util';
 import Communication from './Communication';
 import Address from './Address';
 import Sharing from './Managers';
@@ -64,8 +70,13 @@ class OrganiztionConexion extends React.Component {
                 } (${conexionDetails.ShortName})`}
               </H1>
               {getHomePage(conexionDetails.BusinessHomePage)}
-              {getEmail(conexionDetails.BusinessEmailAddress)}
-              {getPhone(conexionDetails.BusinessTelephoneNumber)}
+              {/* {getEmail(conexionDetails.BusinessEmailAddress)}
+              {getPhone(conexionDetails.BusinessTelephoneNumber)} */}
+              {getContact(
+                conexionDetails.BusinessEmailAddress,
+                conexionDetails.BusinessTelephoneNumber,
+              )}
+              {getCreatedBy(conexionDetails.UpdatedBy)}
             </View>
           </ImageBackground>
         </LinearGradient>
