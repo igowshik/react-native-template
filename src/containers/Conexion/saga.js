@@ -94,7 +94,6 @@ function* getOrganizationConexionAPI() {
     },
   };
   const response = yield call(request, requestURL, options);
-  // console.log('000000000000000000000000000:', response);
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(saveOrgConexions(response.data));
@@ -142,7 +141,6 @@ function* getConexionDetailsAPI() {
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
   const conexionId = yield select(selectConexionId());
-  // console.log('************************conexionId->', conexionId);
   const requestURL = `${config.apiURL}ConexionDetail?conexionId=${conexionId}`;
   const options = {
     method: 'GET',
@@ -151,7 +149,6 @@ function* getConexionDetailsAPI() {
     },
   };
   const response = yield call(request, requestURL, options);
-  console.log('get conexion details api ------>', response);
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(saveConexionDetails(response.data));
@@ -166,12 +163,10 @@ function* getConexionDetailsAPI() {
     yield put(setToastVisibility(true));
   }
 }
-//-------
 function* getOrganisationDetailsAPI() {
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
   const conexionId = yield select(selectConexionId());
-  console.log('*############jyoti*onexionId->', conexionId);
   const requestURL = `${
     config.apiURL
   }OrganizationConexionDetail?Conexionid=${conexionId}`;
@@ -182,19 +177,16 @@ function* getOrganisationDetailsAPI() {
     },
   };
   const response = yield call(request, requestURL, options);
-  console.log('get organisation details api ', response);
   if (response.success) {
     yield put(setRootGlobalLoader(false));
-    console.log('get organisation details response data', response.data)
-    yield put(dispatchOrganisationDetails(response.data));
-  } else {
+    yield put(saveConexionDetails(response.data));
     yield put(
       setToastMessage({
         toastMessage: response.message ? response.message : GENERAL_ERROR,
         toastType: ERROR,
       }),
     );
-    yield put(setRootGlobalLoader(true));
+    yield put(setRootGlobalLoader(false));
     yield put(setToastVisibility(true));
   }
 }
@@ -434,7 +426,6 @@ function* createOragnisationDetailsAPI() {
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
   const newOrganisation = yield select(selectOrganisationDetails());
-  // console.log('***********----------->', newOrganisation);
   const requestURL = `${config.apiURL}CreateOrganizationConexion`;
   const organisatoinPayload = organisationPayloadMappers(newOrganisation);
   const options = {
@@ -518,9 +509,8 @@ function* editOrganisationDetailsAPI() {
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
   const newOrganisation = yield select(selectOrganisationDetails());
-  console.log('edit organisation details api', newOrganisation);
   const conexionId = yield select(selectConexionId());
-  const requestURL = `${config.apiURL}EditIndividualConexion`;
+  const requestURL = `${config.apiURL}EditOrganizationConexion`;
   const organisationPayload = organisationPayloadMappers(newOrganisation);
   organisationPayload.ConexionId = conexionId;
   const options = {

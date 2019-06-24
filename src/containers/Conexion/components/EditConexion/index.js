@@ -42,7 +42,6 @@ class CreateConexions extends Component {
     } = this.props;
     const valuesForm = JSON.stringify(values, null, 2);
     const objectForm = JSON.parse(valuesForm);
-    console.log('obeject value ds dsd ** dsd', objectForm);
     if (conexionType === INDIVIDUAL) {
       setIndividualsDetails(objectForm);
       dispatchEditIndividual();
