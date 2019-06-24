@@ -243,7 +243,6 @@ export default class CNXTimeline extends Component {
       if (privateNote) return colors.YELLOW;
       return colors.GREEN;
     };
-
     const title = rowData.description ? (
       <View style={{ paddingRight: 20 }}>
         <Card elevation={2} style={styles.card}>
@@ -261,8 +260,7 @@ export default class CNXTimeline extends Component {
                   style={styles.avatar}
                   size={50}
                   source={{
-                    uri:
-                      'https://img.icons8.com/cotton/2x/gender-neutral-user--v1.png',
+                    uri: rowData.icon,
                   }}
                   color={colors.WHITE}
                 />

@@ -46,10 +46,12 @@ class Notes extends Component {
         circleColor: 'transparent',
       },
     ];
+
     conexionNotes.map(note =>
       notesData.push({
         time: getFormatedDate(note.LastUpdatedDate),
         title: `${note.Title}`,
+        icon: note.UpdatedBy.Avatar,
         description: note.Note,
         privateNote: note.PrivateNote,
         noteId: note.ConexionNoteId,
