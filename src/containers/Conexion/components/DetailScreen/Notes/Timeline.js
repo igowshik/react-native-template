@@ -259,10 +259,8 @@ export default class CNXTimeline extends Component {
                 <Avatar.Image
                   style={styles.avatar}
                   size={50}
-                  source={{
-                    uri: rowData.icon,
-                  }}
                   color={colors.WHITE}
+                  source={{ uri: rowData.avatar }}
                 />
                 <View style={{ flexDirection: 'column', marginLeft: 10 }}>
                   <Text style={[styles.title, this.props.titleStyle]}>
