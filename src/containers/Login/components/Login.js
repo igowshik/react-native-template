@@ -85,7 +85,11 @@ class Login extends Component {
             </View>
           </KeyboardAvoidingView>
           <Snackbar toastVisible={toastVisible} toast={toast} />
-          <Loader showLoader={loaderState} loadingText="Signing in..." />
+          <Loader
+            showLoader={loaderState}
+            loaderTitle="Signing in"
+            loadingText="Loading..."
+          />
         </View>
       </BackgroundImage>
     );

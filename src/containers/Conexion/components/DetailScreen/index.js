@@ -19,7 +19,7 @@ import { View } from 'react-native';
 // Absolute imports
 import { HorizDivider } from 'cnxapp/src/components/Dividers';
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
-import LottieListLoader from 'cnxapp/src/components/Lotties/LottieListLoader';
+import Loader from 'cnxapp/src/components/Loader';
 import Snackbar from 'cnxapp/src/components/Snackbar';
 
 // import * as Colors from 'cnxapp/src/utils/colorsConstants';
@@ -87,7 +87,11 @@ class DetailScreen extends React.Component {
           >
             {loaderState ? (
               <View>
-                <LottieListLoader />
+                <Loader
+                  showLoader={loaderState}
+                  loaderTitle="Conexion"
+                  loadingText="Loading conexion details..."
+                />
               </View>
             ) : (
               <ProfileView selectedValue={selected} />
@@ -109,7 +113,11 @@ class DetailScreen extends React.Component {
             />
             {loaderState ? (
               <View>
-                <LottieListLoader />
+                <Loader
+                  showLoader={loaderState}
+                  loaderTitle="Conexion"
+                  loadingText="Loading notes..."
+                />
               </View>
             ) : (
               <Notes />

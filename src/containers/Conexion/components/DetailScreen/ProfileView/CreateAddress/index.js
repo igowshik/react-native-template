@@ -11,7 +11,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 // Absolute imports
 import FullPageModal from 'cnxapp/src/components/FullPageModal';
 import ScrollView from 'cnxapp/src/components/ScrollView';
-import LottieListLoader from 'cnxapp/src/components/Lotties/LottieListLoader';
+import Loader from 'cnxapp/src/components/Loader';
 import { validate } from 'cnxapp/src/containers/Conexion/validators/AddressValidator';
 import {
   selectAddressModalVisible,
@@ -97,7 +97,11 @@ class CreateAddress extends Component {
           <ScrollView>
             {loaderState ? (
               <View>
-                <LottieListLoader />
+                <Loader
+                  showLoader={loaderState}
+                  loaderTitle="Conexion"
+                  loadingText="Loading conexion address..."
+                />
               </View>
             ) : (
               <AddressForm />
