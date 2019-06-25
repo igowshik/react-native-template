@@ -150,7 +150,7 @@ class ConexionList extends React.Component {
 
 ConexionList.propTypes = {
   indSelected: PropTypes.bool.isRequired,
-  conexioListData: PropTypes.any,
+  conexioListData: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
   clickListItemHandler: PropTypes.func,
   loader: PropTypes.bool.isRequired,
 };
