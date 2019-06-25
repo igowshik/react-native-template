@@ -27,7 +27,7 @@ const defaultTimeTextColor = 'black';
 const defaultDotColor = 'white';
 const defaultInnerCircle = 'white';
 
-export default class CNXTimeline extends Component {
+export default class NotesView extends Component {
   constructor(props, context) {
     super(props, context);
 
@@ -156,7 +156,7 @@ export default class CNXTimeline extends Component {
       </View>
     );
   }
-/* eslint-disable */
+  /* eslint-disable */
   _renderEvent(rowData, sectionID, rowID) {
     const lineWidth = rowData.lineWidth
       ? rowData.lineWidth
@@ -194,19 +194,19 @@ export default class CNXTimeline extends Component {
         opStyle =
           rowID % 2 === 0
             ? {
-              borderColor: lineColor,
-              borderLeftWidth: lineWidth,
-              borderRightWidth: 0,
-              marginLeft: 20,
-              paddingLeft: 20,
-            }
+                borderColor: lineColor,
+                borderLeftWidth: lineWidth,
+                borderRightWidth: 0,
+                marginLeft: 20,
+                paddingLeft: 20,
+              }
             : {
-              borderColor: lineColor,
-              borderLeftWidth: 0,
-              borderRightWidth: lineWidth,
-              marginRight: 20,
-              paddingRight: 20,
-            };
+                borderColor: lineColor,
+                borderLeftWidth: 0,
+                borderRightWidth: lineWidth,
+                marginRight: 20,
+                paddingRight: 20,
+              };
         break;
       default:
         opStyle = null;
@@ -336,18 +336,18 @@ export default class CNXTimeline extends Component {
     const circleSize = rowData.circleSize
       ? rowData.circleSize
       : this.props.circleSize
-        ? this.props.circleSize
-        : defaultCircleSize;
+      ? this.props.circleSize
+      : defaultCircleSize;
     const circleColor = rowData.circleColor
       ? rowData.circleColor
       : this.props.circleColor
-        ? this.props.circleColor
-        : defaultCircleColor;
+      ? this.props.circleColor
+      : defaultCircleColor;
     const lineWidth = rowData.lineWidth
       ? rowData.lineWidth
       : this.props.lineWidth
-        ? this.props.lineWidth
-        : defaultLineWidth;
+      ? this.props.lineWidth
+      : defaultLineWidth;
     /* eslint-enable */
     let circleStyle = null;
 
@@ -395,7 +395,7 @@ export default class CNXTimeline extends Component {
         };
         innerCircle = (
           <Image
-            resizeMode = "contain"
+            resizeMode="contain"
             source={iconSource}
             style={[iconStyle, this.props.iconStyle]}
           />
@@ -409,8 +409,8 @@ export default class CNXTimeline extends Component {
           backgroundColor: rowData.dotColor
             ? rowData.dotColor
             : this.props.dotColor
-              ? this.props.dotColor
-              : defaultDotColor,
+            ? this.props.dotColor
+            : defaultDotColor,
         };
         innerCircle = <View style={[styles.dot, dotStyle]} />;
         break;
@@ -422,8 +422,8 @@ export default class CNXTimeline extends Component {
           backgroundColor: rowData.dotColor
             ? rowData.dotColor
             : this.props.dotColor
-              ? this.props.dotColor
-              : defaultDotColor,
+            ? this.props.dotColor
+            : defaultDotColor,
         };
         innerCircle = <View style={[styles.dot, dotDefaultStyle]} />;
         break;
@@ -442,10 +442,9 @@ export default class CNXTimeline extends Component {
     return <View style={[styles.separator, this.props.separatorStyle]} />;
   }
 }
-    /* eslint-enable */
+/* eslint-enable */
 
-
-CNXTimeline.defaultProps = {
+NotesView.defaultProps = {
   circleSize: defaultCircleSize,
   circleColor: defaultCircleColor,
   lineWidth: defaultLineWidth,
@@ -456,7 +455,7 @@ CNXTimeline.defaultProps = {
   showTime: true,
 };
 
-CNXTimeline.propTypes = {
+NotesView.propTypes = {
   separator: PropTypes.bool,
   separatorStyle: PropTypes.object,
   circleStyle: PropTypes.object,

@@ -123,6 +123,32 @@ class DetailScreen extends React.Component {
               <Notes />
             )}
           </Tab>
+          <Tab
+            heading={
+              <TabHeading>
+                <FontAwesome5 name="history" color="#fff" size={20} light />
+                <Text style={Styles.textColor}>Timeline</Text>
+              </TabHeading>
+            }
+          >
+            <Searchbar
+              placeholder="Search timeline"
+              onChangeText={query => this.searchConexions(query)}
+              value={firstQuery}
+              style={Styles.searchbar}
+            />
+            {loaderState ? (
+              <View>
+                <Loader
+                  showLoader={loaderState}
+                  loaderTitle="Conexion"
+                  loadingText="Loading timeline..."
+                />
+              </View>
+            ) : (
+              <Notes />
+            )}
+          </Tab>
         </Tabs>
         <Snackbar toastVisible={toastVisible} toast={toast} />
       </Container>

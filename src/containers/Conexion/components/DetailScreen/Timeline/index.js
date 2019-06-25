@@ -15,14 +15,14 @@ import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
 import Dialog from 'cnxapp/src/components/Dialog';
 import { DELETE_NOTE_MESSAGE } from 'cnxapp/src/containers/Conexion/constants';
 
-import NotesView from './NotesView';
+import Timeline from './Timeline';
 import RichTextExample from './RichTextEditor';
 import { selectConexionNotesData } from '../../../selectors';
 import { deleteConexionNote } from '../../../actions';
 
 const notes = require('cnxapp/src/assets/pastel/notes.png');
 
-class Notes extends Component {
+class Timeline extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -94,7 +94,7 @@ class Notes extends Component {
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
-          <NotesView
+          <Timeline
             style={styles.list}
             data={this.getNotsData()}
             circleSize={20}
