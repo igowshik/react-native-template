@@ -256,8 +256,7 @@ export default class TimelineView extends Component {
                   style={styles.avatar}
                   size={50}
                   source={{
-                    uri:
-                      'https://img.icons8.com/cotton/2x/gender-neutral-user--v1.png',
+                    uri: '${rowData.avatar}',
                   }}
                   color={colors.WHITE}
                 />
@@ -270,7 +269,7 @@ export default class TimelineView extends Component {
               </View>
             </View>
             <View style={[styles.description, this.props.descriptionStyle]}>
-              <HTMLView value={rowData.description} />
+              <HTMLView value={rowData.title} />
             </View>
           </Card.Content>
         </Card>

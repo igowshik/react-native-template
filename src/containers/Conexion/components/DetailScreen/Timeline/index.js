@@ -36,10 +36,11 @@ class Timeline extends Component {
       timelineData.push({
         time: getFormatedDate(entry.CreatedDate),
         title: `${entry.Description}`,
-        Entity: entry.Entity,
-        EntityLink: entry.EntityLink,
-        ConexionTimelineId: entry.ConexionTimelineId,
-        userName: 'Selvam K',
+        entity: entry.Entity,
+        entityLink: entry.EntityLink,
+        conexionTimelineId: entry.ConexionTimelineId,
+        userName: entry.CreatedBy.Name,
+        avatar: entry.CreatedBy.Avatar,
       }),
     );
     return timelineData;
@@ -67,8 +68,6 @@ class Timeline extends Component {
               style: { paddingTop: 5 },
             }}
             innerCircle="icon"
-            onClickEdit={this.handleNoteEdit}
-            onClickDelete={this.handleNoteDelete}
           />
         </View>
       </View>
