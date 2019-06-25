@@ -132,6 +132,12 @@ const selectEditCNXModal = () =>
     dataState => dataState.conexionEditModal,
   );
 
+const selectCreateConexionNoteData = () =>
+  createSelector(
+    conexionReducers,
+    dataState => dataState.notesData,
+  );
+
 export {
   selectIndConexion,
   selectOrgConexion,
@@ -153,4 +159,5 @@ export {
   selectOrgDDList,
   selectOrganisationDetails,
   selectEditCNXModal,
+  selectCreateConexionNoteData,
 };

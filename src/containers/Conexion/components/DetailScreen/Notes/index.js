@@ -2,26 +2,41 @@ import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { FAB } from 'react-native-paper';
-import FullPageModal from 'cnxapp/src/components/FullPageModal';
-import moment from 'moment';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { compose } from 'redux';
 import Lo from 'lodash';
+
+// Absolute Imports
 import * as colors from 'cnxapp/src/utils/colorsConstants';
+import { getFormatedDate } from 'cnxapp/src/utils/DateFormatter';
+import FullPageModal from 'cnxapp/src/components/FullPageModal';
+import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
+import Dialog from 'cnxapp/src/components/Dialog';
+import { DELETE_NOTE_MESSAGE } from 'cnxapp/src/containers/Conexion/constants';
+
 import Timeline from './Timeline';
 import RichTextExample from './RichTextEditor';
+import { selectConexionNotesData } from '../../../selectors';
+import { deleteConexionNote } from '../../../actions';
 
 const notes = require('cnxapp/src/assets/pastel/notes.png');
 
-export default class Notes extends Component {
+class Notes extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [],
       modalOpen: false,
       editNoteObject: {},
+      isEditNote: false,
+      noteId: null,
+      dialogVisible: false,
     };
   }
 
-  componentDidMount() {
+  componentDidMount() {}
+
+  getNotsData = () => {
     const { conexionNotes } = this.props;
     const notesData = [
       {
@@ -33,43 +48,59 @@ export default class Notes extends Component {
     ];
     conexionNotes.map(note =>
       notesData.push({
-        time: moment(note.LastUpdatedDate).format('DD-MM-YY HH:MM'),
+        time: getFormatedDate(note.LastUpdatedDate),
         title: `${note.Title}`,
         description: note.Note,
         privateNote: note.PrivateNote,
         noteId: note.ConexionNoteId,
+        userName: 'Selvam K',
       }),
     );
-    this.setState({ data: notesData });
-  }
+    return notesData;
+  };
 
   handleNoteEdit = noteId => {
     const { conexionNotes } = this.props;
     const filterNote = Lo.filter(conexionNotes, { ConexionNoteId: noteId });
-    this.setState({ editNoteObject: filterNote[0], modalOpen: true });
+    this.setState({
+      editNoteObject: filterNote[0],
+      modalOpen: true,
+      isEditNote: true,
+    });
+  };
+
+  handleNoteDelete = id => {
+    this.setState({ noteId: id, dialogVisible: true });
+  };
+
+  onDialogDismiss = () => this.setState({ dialogVisible: false });
+
+  onDialogConfirm = () => {
+    this.props.dispatchDeleteNote(this.state.noteId);
+    this.setState({ dialogVisible: false });
   };
 
   _closeModal = () => {
-    this.setState({ modalOpen: false });
+    this.setState({ modalOpen: false, isEditNote: false, editNoteObject: {} });
   };
 
   _openModal = () => {
-    this.setState({ modalOpen: true });
+    this.setState({ modalOpen: true, isEditNote: false, editNoteObject: {} });
   };
 
   render() {
-    const { modalOpen, editNoteObject } = this.state;
+    const { modalOpen, editNoteObject, isEditNote, dialogVisible } = this.state;
 
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
           <Timeline
             style={styles.list}
-            data={this.state.data}
+            data={this.getNotsData()}
             circleSize={20}
             circleColor={colors.ORANGE}
             lineColor="rgba(0,0,0,0.6)"
-            timeContainerStyle={{ minWidth: 150, marginTop: -5 }}
+            timeContainerStyle={{ minWidth: 170, marginTop: -5 }}
             timeStyle={{
               textAlign: 'center',
               color: colors.PURPLE,
@@ -82,6 +113,14 @@ export default class Notes extends Component {
             }}
             innerCircle="icon"
             onClickEdit={this.handleNoteEdit}
+            onClickDelete={this.handleNoteDelete}
+          />
+          <Dialog
+            visible={dialogVisible}
+            title="Delete!"
+            message={DELETE_NOTE_MESSAGE}
+            onDismiss={this.onDialogDismiss}
+            onConfirm={this.onDialogConfirm}
           />
         </View>
         <FAB
@@ -95,7 +134,11 @@ export default class Notes extends Component {
           handleModalVisible={this._closeModal}
           modalHeaderText="New note"
         >
-          <RichTextExample note={editNoteObject} />
+          <RichTextExample
+            note={editNoteObject}
+            isEditNote={isEditNote}
+            closeModal={this._closeModal}
+          />
         </FullPageModal>
       </View>
     );
@@ -104,6 +147,7 @@ export default class Notes extends Component {
 
 Notes.propTypes = {
   conexionNotes: PropTypes.array,
+  dispatchDeleteNote: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -125,3 +169,19 @@ const styles = StyleSheet.create({
     backgroundColor: colors.PRIMARY,
   },
 });
+
+const mapStateToProps = createStructuredSelector({
+  conexionNotes: selectConexionNotesData(),
+});
+
+const mapDispatchToProps = dispatch => ({
+  dispatchSetGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),
+  dispatchDeleteNote: id => dispatch(deleteConexionNote(id)),
+});
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default compose(withConnect)(Notes);

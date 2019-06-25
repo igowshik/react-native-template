@@ -28,9 +28,9 @@ import {
   setAddressModalVisibility,
 } from 'cnxapp/src/containers/Conexion/actions';
 import Dialog from 'cnxapp/src/components/Dialog';
+import { DELETE_ADDRESS_MESSAGE } from 'cnxapp/src/containers/Conexion/constants';
 
 import CreateAddressModal from '../CreateAddress';
-import { DELETE_ADDRESS_MESSAGE } from '../../../../constants';
 
 class Address extends React.Component {
   state = {

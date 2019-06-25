@@ -27,6 +27,7 @@ import {
   setEditCNXModalVisibilty,
   dispatchOrganisationDetails,
   getOrganisationDetails,
+  getConexionsNotesAction,
 } from './actions';
 import {
   GET_IND_CONEXIONS,
@@ -46,6 +47,9 @@ import {
   EDIT_IND_CONEXION,
   EDIT_ORG_CONEXION,
   GET_ORGANISATION_DETAILS,
+  CREATE_CONEXION_NOTE,
+  EDIT_CONEXION_NOTE,
+  DELETE_CONEXION_NOTE,
 } from './constants';
 import {
   selectToken,
@@ -53,9 +57,12 @@ import {
   selectCreateAddressData,
   selectIndividualDetails,
   selectOrganisationDetails,
+  selectCreateConexionNoteData,
 } from './selectors';
-import { individualConexionPayloadMapper } from '../../utils/mappers/ConexionMappers';
-import { organisationPayloadMappers } from '../../utils/mappers/OrganisationMappers';
+import {
+  individualConexionPayloadMapper,
+  organisationPayloadMappers,
+} from './mappers';
 
 function* getIndividualConexionAPI() {
   yield put(setRootGlobalLoader(true));
@@ -109,9 +116,10 @@ function* getOrganizationConexionAPI() {
   }
 }
 
-function* getConexionNotesAPI({ conexionId }) {
+function* getConexionNotesAPI() {
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
+  const conexionId = yield select(selectConexionId());
   const requestURL = `${
     config.apiURL
   }GetConexionNotes?conexionId=${conexionId}`;
@@ -554,6 +562,101 @@ function* editOrganisationDetailsAPI() {
   }
 }
 
+function* createNotesAPI() {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const conexionId = yield select(selectConexionId());
+  const notesData = yield select(selectCreateConexionNoteData());
+  const requestURL = `${config.apiURL}NewConexionNote`;
+  notesData.ConexionId = conexionId;
+
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(notesData),
+  };
+  const response = yield call(request, requestURL, options);
+
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(getConexionsNotesAction());
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+
+function* editConexionNotesAPI() {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const notesData = yield select(selectCreateConexionNoteData());
+  const requestURL = `${config.apiURL}EditConexionNote`;
+
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(notesData),
+  };
+  const response = yield call(request, requestURL, options);
+
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(getConexionsNotesAction());
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+
+function* deleteConexionNotesAPI({ noteId }) {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const requestURL = `${
+    config.apiURL
+  }DeleteConexionNote?conexionNoteId=${noteId}`;
+
+  const options = {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+  };
+  const response = yield call(request, requestURL, options);
+
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(getConexionsNotesAction());
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+
 export default function* initConexionSaga() {
   yield takeLatest(GET_LIST_OF_ORG, getOrganizationConexionAPI);
   yield takeLatest(GET_IND_CONEXIONS, getIndividualConexionAPI);
@@ -570,4 +673,7 @@ export default function* initConexionSaga() {
   yield takeLatest(GET_ORGANISATION_DETAILS, getOrganisationDetailsAPI);
   yield takeLatest(EDIT_IND_CONEXION, editIndividualDetailsAPI);
   yield takeLatest(EDIT_ORG_CONEXION, editOrganisationDetailsAPI);
+  yield takeLatest(CREATE_CONEXION_NOTE, createNotesAPI);
+  yield takeLatest(EDIT_CONEXION_NOTE, editConexionNotesAPI);
+  yield takeLatest(DELETE_CONEXION_NOTE, deleteConexionNotesAPI);
 }

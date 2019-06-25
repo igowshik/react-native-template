@@ -19,7 +19,7 @@ import { View } from 'react-native';
 // Absolute imports
 import { HorizDivider } from 'cnxapp/src/components/Dividers';
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
-import LottieListLoader from 'cnxapp/src/components/Lotties/LottieListLoader';
+import Loader from 'cnxapp/src/components/Loader';
 import Snackbar from 'cnxapp/src/components/Snackbar';
 
 // import * as Colors from 'cnxapp/src/utils/colorsConstants';
@@ -55,13 +55,13 @@ class DetailScreen extends React.Component {
       dispatchGetConexionDetails,
     } = this.props;
     const selectedValue = navigation.getParam('selectedValue', 'NO-SELECT');
-    const selectedId = navigation.getParam('selectedId', 'NO-ID');
+    // const selectedId = navigation.getParam('selectedId', 'NO-ID');
     this.setState({
       selected: selectedValue ? INDIVIDUAL : ORGANIZATION,
     });
 
     dispatchSetGlobalLoaderState(true);
-    dispatchGetConexionNotes(selectedId);
+    dispatchGetConexionNotes();
     dispatchGetConexionDetails();
   }
 
@@ -87,7 +87,11 @@ class DetailScreen extends React.Component {
           >
             {loaderState ? (
               <View>
-                <LottieListLoader />
+                <Loader
+                  showLoader={loaderState}
+                  loaderTitle="Conexion"
+                  loadingText="Loading conexion details..."
+                />
               </View>
             ) : (
               <ProfileView selectedValue={selected} />
@@ -109,10 +113,14 @@ class DetailScreen extends React.Component {
             />
             {loaderState ? (
               <View>
-                <LottieListLoader />
+                <Loader
+                  showLoader={loaderState}
+                  loaderTitle="Conexion"
+                  loadingText="Loading notes..."
+                />
               </View>
             ) : (
-              <Notes conexionNotes={this.props.conexionNotes} />
+              <Notes />
             )}
           </Tab>
         </Tabs>
@@ -125,7 +133,6 @@ class DetailScreen extends React.Component {
 DetailScreen.propTypes = {
   navigation: PropTypes.object,
   dispatchSetGlobalLoaderState: PropTypes.func.isRequired,
-  conexionNotes: PropTypes.array,
   dispatchGetConexionNotes: PropTypes.func,
   dispatchGetConexionDetails: PropTypes.func.isRequired,
   loaderState: PropTypes.bool.isRequired,
@@ -155,8 +162,7 @@ const mapStateToProps = createStructuredSelector({
  */
 const mapDispatchToProps = dispatch => ({
   dispatchSetGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),
-  dispatchGetConexionNotes: conexionId =>
-    dispatch(getConexionsNotesAction(conexionId)),
+  dispatchGetConexionNotes: () => dispatch(getConexionsNotesAction()),
   dispatchGetConexionDetails: () => dispatch(getConexionDetails()),
 });
 
