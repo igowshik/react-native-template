@@ -162,14 +162,16 @@ class Conexion extends React.Component {
             .trim()
             .includes(searchText.toLowerCase()),
         );
-        this.setState({ conexionList: filterData });
+        if (filterData.length === 0) this.setState({ conexionList: false });
+        else this.setState({ conexionList: filterData });
       } else if (orgSelected) {
         const filterData = orgConexions.filter(report =>
           report.Name.toLowerCase()
             .trim()
             .includes(searchText.toLowerCase()),
         );
-        this.setState({ conexionList: filterData });
+        if (filterData.length === 0) this.setState({ conexionList: false });
+        else this.setState({ conexionList: filterData });
       }
     } else this.setState({ conexionList: [] });
   };
