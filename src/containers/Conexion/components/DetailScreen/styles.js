@@ -13,10 +13,31 @@ export const Styles = StyleSheet.create({
   textColor: {
     color: '#fff',
   },
-  searchbar: {
-    // margin: 2,
+  searchBarContainer: {
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    justifyContent: 'center',
     marginBottom: 2,
     borderWidth: 0.5,
     borderColor: 'rgba(0,0,0,0.3)',
+    height: 50,
+  },
+  searchbar: {
+    // margin: 2,
+    flex: 1,
+    height: 50,
+  },
+  datePickerContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    justifyContent: 'center',
+    padding: 5,
+    height: 50,
+  },
+  dateField: {
+    flex: 1,
+    alignSelf: 'flex-start',
+    fontSize: 22,
   },
 });

@@ -14,13 +14,15 @@ import { withNavigation } from 'react-navigation';
 import { Container, Tab, Tabs, TabHeading, Text } from 'native-base';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { Searchbar } from 'react-native-paper';
-import { View } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
+import moment from 'moment';
 
 // Absolute imports
 import { HorizDivider } from 'cnxapp/src/components/Dividers';
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
 import Loader from 'cnxapp/src/components/Loader';
 import Snackbar from 'cnxapp/src/components/Snackbar';
+import DateTimePicker from 'cnxapp/src/components/DateTimePicker';
 
 // import * as Colors from 'cnxapp/src/utils/colorsConstants';
 
@@ -45,6 +47,10 @@ class DetailScreen extends React.Component {
   state = {
     selected: INDIVIDUAL,
     firstQuery: '',
+    fromDateVisible: false,
+    toDateVisible: false,
+    fromDate: null,
+    toDate: null,
   };
 
   componentDidMount() {
@@ -69,9 +75,35 @@ class DetailScreen extends React.Component {
     this.setState({ firstQuery: searchText });
   };
 
+  showFromDatePicker = () => this.setState({ fromDateVisible: true });
+
+  showToDatePicker = () => this.setState({ toDateVisible: true });
+
+  handleDatePicked = date => {
+    const { fromDateVisible, toDateVisible } = this.state;
+    if (fromDateVisible) this.setState({ fromDate: date });
+    if (toDateVisible) this.setState({ toDate: date });
+    this.hideDateTimePicker();
+  };
+
+  hideDateTimePicker = () => {
+    const { fromDateVisible, toDateVisible } = this.state;
+    if (fromDateVisible) this.setState({ fromDateVisible: false });
+    if (toDateVisible) this.setState({ toDateVisible: false });
+  };
+
+  getSelectedDate = () => {
+    const { fromDateVisible, toDateVisible, fromDate, toDate } = this.state;
+    if (fromDateVisible) return fromDate;
+    if (toDateVisible) return toDate;
+    return new Date();
+  };
+
   render() {
-    const { selected, firstQuery } = this.state;
+    const { selected, firstQuery, fromDate, toDate } = this.state;
     const { loaderState, toastVisible, toast } = this.props;
+    const fromDateString = fromDate ? moment(fromDate).format('LLLL') : 'All';
+    const toDateString = toDate ? moment(toDate).format('LLLL') : 'All';
     return (
       <Container>
         {/* <Dashboard /> */}
@@ -105,12 +137,39 @@ class DetailScreen extends React.Component {
               </TabHeading>
             }
           >
-            <Searchbar
-              placeholder="Search notes"
-              onChangeText={query => this.searchConexions(query)}
-              value={firstQuery}
-              style={Styles.searchbar}
-            />
+            <View style={Styles.searchBarContainer}>
+              <Searchbar
+                placeholder="Search notes"
+                onChangeText={query => this.searchConexions(query)}
+                value={firstQuery}
+                style={Styles.searchbar}
+              />
+              <View style={Styles.datePickerContainer}>
+                <TouchableOpacity
+                  onPress={this.showFromDatePicker}
+                  style={Styles.dateField}
+                >
+                  <Text style={{ fontWeight: 'bold' }}>From: </Text>
+                  <Text>{fromDateString}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={this.showToDatePicker}
+                  style={Styles.dateField}
+                >
+                  <Text style={{ fontWeight: 'bold' }}>To: </Text>
+                  <Text>{toDateString}</Text>
+                </TouchableOpacity>
+                <DateTimePicker
+                  value={this.getSelectedDate()}
+                  mode="datetime"
+                  visible={
+                    this.state.fromDateVisible || this.state.toDateVisible
+                  }
+                  onDateSelect={this.handleDatePicked}
+                  onCancel={this.hideDateTimePicker}
+                />
+              </View>
+            </View>
             {loaderState ? (
               <View>
                 <Loader
