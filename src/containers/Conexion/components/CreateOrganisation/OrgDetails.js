@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 // Absolute imports
 import { TextInput, NumberInput } from 'cnxapp/src/components/InputField';
@@ -16,7 +16,6 @@ class OrgDetails extends React.Component {
     <View style={styles.parentView}>
       <Card elevation={4} style={styles.card}>
         <Card.Content>
-          {/* <ScrollView contentContainerStyle={{ flex: 1 }}> */}
           <Grid>
             <Row>
               <TextInput label="Name" name="org_name" required />

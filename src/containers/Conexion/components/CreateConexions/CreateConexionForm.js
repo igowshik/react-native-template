@@ -20,10 +20,10 @@ class CreateConexionForm extends React.Component {
 
   render() {
     const { viewType } = this.props;
-    return (
-      <View>
-        {viewType === INDIVIDUAL ? this.renderIndividualForm() : <OrgDetails />}
-      </View>
+    return viewType === INDIVIDUAL ? (
+      this.renderIndividualForm()
+    ) : (
+      <OrgDetails />
     );
   }
 }
