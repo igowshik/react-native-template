@@ -37,9 +37,16 @@ import {
   selectToastVisibility,
   selectToastData,
 } from '../../selectors';
-import { getConexionsNotesAction, getConexionDetails } from '../../actions';
+
+import {
+  getConexionsNotesAction,
+  getConexionsTimelineAction,
+  getConexionDetails,
+} from '../../actions';
+
 import ProfileView from './ProfileView';
 import Notes from './Notes';
+import Timeline from './Timeline';
 
 class DetailScreen extends React.Component {
   state = {
@@ -52,6 +59,7 @@ class DetailScreen extends React.Component {
       navigation,
       dispatchSetGlobalLoaderState,
       dispatchGetConexionNotes,
+      dispatchGetConexionTimeline,
       dispatchGetConexionDetails,
     } = this.props;
     const selectedValue = navigation.getParam('selectedValue', 'NO-SELECT');
@@ -62,6 +70,7 @@ class DetailScreen extends React.Component {
 
     dispatchSetGlobalLoaderState(true);
     dispatchGetConexionNotes();
+    dispatchGetConexionTimeline();
     dispatchGetConexionDetails();
   }
 
@@ -146,7 +155,7 @@ class DetailScreen extends React.Component {
                 />
               </View>
             ) : (
-              <Notes />
+              <Timeline />
             )}
           </Tab>
         </Tabs>
@@ -160,6 +169,7 @@ DetailScreen.propTypes = {
   navigation: PropTypes.object,
   dispatchSetGlobalLoaderState: PropTypes.func.isRequired,
   dispatchGetConexionNotes: PropTypes.func,
+  dispatchGetConexionTimeline: PropTypes.func,
   dispatchGetConexionDetails: PropTypes.func.isRequired,
   loaderState: PropTypes.bool.isRequired,
   toastVisible: PropTypes.bool.isRequired,
@@ -189,6 +199,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
   dispatchSetGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),
   dispatchGetConexionNotes: () => dispatch(getConexionsNotesAction()),
+  dispatchGetConexionTimeline: () => dispatch(getConexionsTimelineAction()),
   dispatchGetConexionDetails: () => dispatch(getConexionDetails()),
 });
 

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
-import { FAB } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -10,35 +9,22 @@ import Lo from 'lodash';
 // Absolute Imports
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 import { getFormatedDate } from 'cnxapp/src/utils/DateFormatter';
-import FullPageModal from 'cnxapp/src/components/FullPageModal';
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
-import Dialog from 'cnxapp/src/components/Dialog';
-import { DELETE_NOTE_MESSAGE } from 'cnxapp/src/containers/Conexion/constants';
-
-import Timeline from './Timeline';
-import RichTextExample from './RichTextEditor';
-import { selectConexionNotesData } from '../../../selectors';
-import { deleteConexionNote } from '../../../actions';
-
+import TimelineView from './TimelineView';
+import { selectConexionTimelineData } from '../../../selectors';
 const notes = require('cnxapp/src/assets/pastel/notes.png');
 
 class Timeline extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      modalOpen: false,
-      editNoteObject: {},
-      isEditNote: false,
-      noteId: null,
-      dialogVisible: false,
-    };
+    this.state = {};
   }
 
   componentDidMount() {}
 
-  getNotsData = () => {
-    const { conexionNotes } = this.props;
-    const notesData = [
+  getTimelineData = () => {
+    const { timelineEntries } = this.props;
+    const timelineData = [
       {
         time: '',
         title: 'Notes',
@@ -46,57 +32,26 @@ class Timeline extends Component {
         circleColor: 'transparent',
       },
     ];
-    conexionNotes.map(note =>
-      notesData.push({
-        time: getFormatedDate(note.LastUpdatedDate),
-        title: `${note.Title}`,
-        description: note.Note,
-        privateNote: note.PrivateNote,
-        noteId: note.ConexionNoteId,
+    timelineEntries.map(entry =>
+      timelineData.push({
+        time: getFormatedDate(entry.CreatedDate),
+        title: `${entry.Description}`,
+        Entity: entry.Entity,
+        EntityLink: entry.EntityLink,
+        ConexionTimelineId: entry.ConexionTimelineId,
         userName: 'Selvam K',
       }),
     );
-    return notesData;
-  };
-
-  handleNoteEdit = noteId => {
-    const { conexionNotes } = this.props;
-    const filterNote = Lo.filter(conexionNotes, { ConexionNoteId: noteId });
-    this.setState({
-      editNoteObject: filterNote[0],
-      modalOpen: true,
-      isEditNote: true,
-    });
-  };
-
-  handleNoteDelete = id => {
-    this.setState({ noteId: id, dialogVisible: true });
-  };
-
-  onDialogDismiss = () => this.setState({ dialogVisible: false });
-
-  onDialogConfirm = () => {
-    this.props.dispatchDeleteNote(this.state.noteId);
-    this.setState({ dialogVisible: false });
-  };
-
-  _closeModal = () => {
-    this.setState({ modalOpen: false, isEditNote: false, editNoteObject: {} });
-  };
-
-  _openModal = () => {
-    this.setState({ modalOpen: true, isEditNote: false, editNoteObject: {} });
+    return timelineData;
   };
 
   render() {
-    const { modalOpen, editNoteObject, isEditNote, dialogVisible } = this.state;
-
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
-          <Timeline
+          <TimelineView
             style={styles.list}
-            data={this.getNotsData()}
+            data={this.getTimelineData()}
             circleSize={20}
             circleColor={colors.ORANGE}
             lineColor="rgba(0,0,0,0.6)"
@@ -115,39 +70,14 @@ class Timeline extends Component {
             onClickEdit={this.handleNoteEdit}
             onClickDelete={this.handleNoteDelete}
           />
-          <Dialog
-            visible={dialogVisible}
-            title="Delete!"
-            message={DELETE_NOTE_MESSAGE}
-            onDismiss={this.onDialogDismiss}
-            onConfirm={this.onDialogConfirm}
-          />
         </View>
-        <FAB
-          style={styles.fab}
-          icon="add"
-          color="white"
-          onPress={this._openModal}
-        />
-        <FullPageModal
-          visible={modalOpen}
-          handleModalVisible={this._closeModal}
-          modalHeaderText="New note"
-        >
-          <RichTextExample
-            note={editNoteObject}
-            isEditNote={isEditNote}
-            closeModal={this._closeModal}
-          />
-        </FullPageModal>
       </View>
     );
   }
 }
 
-Notes.propTypes = {
-  conexionNotes: PropTypes.array,
-  dispatchDeleteNote: PropTypes.func.isRequired,
+Timeline.propTypes = {
+  timelineEntries: PropTypes.array,
 };
 
 const styles = StyleSheet.create({
@@ -171,12 +101,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = createStructuredSelector({
-  conexionNotes: selectConexionNotesData(),
+  timelineEntries: selectConexionTimelineData(),
 });
 
 const mapDispatchToProps = dispatch => ({
   dispatchSetGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),
-  dispatchDeleteNote: id => dispatch(deleteConexionNote(id)),
 });
 
 const withConnect = connect(
@@ -184,4 +113,4 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(Notes);
+export default compose(withConnect)(Timeline);

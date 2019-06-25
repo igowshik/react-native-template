@@ -6,6 +6,8 @@ import {
   SET_CREATE_CONEXION_DATE,
   SET_CONEXION_NOTES,
   GET_CONEXION_NOTES,
+  SET_CONEXION_TIMELINE,
+  GET_CONEXION_TIMELINE,
   SET_CONEXION_ID,
   SET_CONEXION_DETAILS,
   GET_CONEXION_DETAILS,
@@ -55,6 +57,15 @@ export const saveOrgConexions = orgConexions => ({
 export const setConexionDataAction = conexionData => ({
   type: SET_CREATE_CONEXION_DATE,
   conexionData,
+});
+
+export const getConexionsTimelineAction = () => ({
+  type: GET_CONEXION_TIMELINE,
+});
+
+export const saveConexionTimelineAction = timelineData => ({
+  type: SET_CONEXION_TIMELINE,
+  timelineData,
 });
 
 export const getConexionsNotesAction = () => ({

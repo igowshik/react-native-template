@@ -25,11 +25,13 @@ import {
   getIndConexions,
   setEditCNXModalVisibilty,
   getConexionsNotesAction,
+  saveConexionTimelineAction,
 } from './actions';
 import {
   GET_IND_CONEXIONS,
   GET_LIST_OF_ORG,
   GET_CONEXION_NOTES,
+  GET_CONEXION_TIMELINE,
   GENERAL_ERROR,
   GET_CONEXION_DETAILS,
   FETCH_DD_METADATA,
@@ -128,6 +130,35 @@ function* getConexionNotesAPI() {
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(saveConexionNotesAction(response.data));
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+
+function* getConexionTimelineAPI() {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const conexionId = yield select(selectConexionId());
+  const requestURL = `${
+    config.apiURL
+  }GetConexionTimeline?conexionId=${conexionId}`;
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(saveConexionTimelineAction(response.data));
   } else {
     yield put(
       setToastMessage({
@@ -594,6 +625,7 @@ export default function* initConexionSaga() {
   yield takeLatest(GET_LIST_OF_ORG, getOrganizationConexionAPI);
   yield takeLatest(GET_IND_CONEXIONS, getIndividualConexionAPI);
   yield takeLatest(GET_CONEXION_NOTES, getConexionNotesAPI);
+  yield takeLatest(GET_CONEXION_TIMELINE, getConexionTimelineAPI);
   yield takeLatest(GET_CONEXION_DETAILS, getConexionDetailsAPI);
   yield takeLatest(FETCH_DD_METADATA, getConexionMetaDataAPI);
   yield takeLatest(DELETE_ADDRESS, deleteAddressAPI);
