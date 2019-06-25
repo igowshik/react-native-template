@@ -25,7 +25,7 @@ import {
   getIndConexions,
   getOrgConexions,
   setEditCNXModalVisibilty,
-  dispatchOrganisationDetails,
+  // dispatchOrganisationDetails,
   getOrganisationDetails,
   getConexionsNotesAction,
 } from './actions';

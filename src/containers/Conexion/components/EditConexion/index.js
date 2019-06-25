@@ -24,6 +24,7 @@ import * as colors from 'cnxapp/src/utils/colorsConstants';
 import CreateConexionForm from '../CreateConexions/CreateConexionForm';
 
 import { validate } from '../../validators/IndividualValidator';
+import { INDIVIDUAL } from '../../constants';
 
 class CreateConexions extends Component {
   _closeModal = () => {
