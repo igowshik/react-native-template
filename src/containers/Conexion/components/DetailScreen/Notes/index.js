@@ -36,7 +36,7 @@ class Notes extends Component {
 
   componentDidMount() {}
 
-  getNotsData = () => {
+  getNotesData = () => {
     const { conexionNotes } = this.props;
     const notesData = [
       {
@@ -96,7 +96,7 @@ class Notes extends Component {
         <View style={styles.container}>
           <NotesView
             style={styles.list}
-            data={this.getNotsData()}
+            data={this.getNotesData()}
             circleSize={20}
             circleColor={colors.ORANGE}
             lineColor="rgba(0,0,0,0.6)"

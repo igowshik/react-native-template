@@ -34,14 +34,15 @@ import {
   selectOrgConexion,
   selectGlobalLoader,
   selectConexionNotesData,
+  selectConexionTimelineData,
   selectToastVisibility,
   selectToastData,
 } from '../../selectors';
 
 import {
+  getConexionDetails,
   getConexionsNotesAction,
   getConexionsTimelineAction,
-  getConexionDetails,
 } from '../../actions';
 
 import ProfileView from './ProfileView';
@@ -58,9 +59,9 @@ class DetailScreen extends React.Component {
     const {
       navigation,
       dispatchSetGlobalLoaderState,
+      dispatchGetConexionDetails,
       dispatchGetConexionNotes,
       dispatchGetConexionTimeline,
-      dispatchGetConexionDetails,
     } = this.props;
     const selectedValue = navigation.getParam('selectedValue', 'NO-SELECT');
     // const selectedId = navigation.getParam('selectedId', 'NO-ID');
@@ -69,9 +70,9 @@ class DetailScreen extends React.Component {
     });
 
     dispatchSetGlobalLoaderState(true);
+    dispatchGetConexionDetails();
     dispatchGetConexionNotes();
     dispatchGetConexionTimeline();
-    dispatchGetConexionDetails();
   }
 
   searchConexions = searchText => {
@@ -99,7 +100,7 @@ class DetailScreen extends React.Component {
                 <Loader
                   showLoader={loaderState}
                   loaderTitle="Conexion"
-                  loadingText="Loading conexion details..."
+                  loadingText="Loading Conexion details..."
                 />
               </View>
             ) : (
@@ -125,7 +126,7 @@ class DetailScreen extends React.Component {
                 <Loader
                   showLoader={loaderState}
                   loaderTitle="Conexion"
-                  loadingText="Loading notes..."
+                  loadingText="Loading Conexion Notes..."
                 />
               </View>
             ) : (
@@ -151,7 +152,7 @@ class DetailScreen extends React.Component {
                 <Loader
                   showLoader={loaderState}
                   loaderTitle="Conexion"
-                  loadingText="Loading timeline..."
+                  loadingText="Loading Conexion Timeline..."
                 />
               </View>
             ) : (
@@ -187,6 +188,7 @@ const mapStateToProps = createStructuredSelector({
   indConexions: selectIndConexion(),
   orgConexions: selectOrgConexion(),
   conexionNotes: selectConexionNotesData(),
+  timelineEntries: selectConexionTimelineData(),
   toastVisible: selectToastVisibility(),
   toast: selectToastData(),
 });
