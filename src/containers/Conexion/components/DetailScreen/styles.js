@@ -17,6 +17,7 @@ export const Styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'stretch',
     justifyContent: 'center',
+    marginTop: 10,
     marginBottom: 2,
     borderWidth: 0.5,
     borderColor: 'rgba(0,0,0,0.3)',
@@ -37,7 +38,9 @@ export const Styles = StyleSheet.create({
   },
   dateField: {
     flex: 1,
+    flexDirection: 'row',
     alignSelf: 'flex-start',
     fontSize: 22,
+    paddingTop: 10
   },
 });

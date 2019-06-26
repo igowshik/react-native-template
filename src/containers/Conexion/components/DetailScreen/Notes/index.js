@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import Lo from 'lodash';
+import moment from 'moment';
 
 // Absolute Imports
 import * as colors from 'cnxapp/src/utils/colorsConstants';
@@ -31,14 +32,56 @@ class Notes extends Component {
       isEditNote: false,
       noteId: null,
       dialogVisible: false,
+      notesList: [],
+      localSearch: '',
+      localRangeFrom: {},
+      localRangeTo: {},
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.getNotsData();
+    this.setState({ localSearch: this.props.searchString });
+  }
+
+  componentDidUpdate() {
+    const { localSearch, localRangeFrom, localRangeTo } = this.state;
+    const { searchString, dateRangeFrom, dateRangeTo } = this.props;
+
+    if (
+      localSearch !== searchString ||
+      localRangeFrom !== dateRangeFrom ||
+      localRangeTo !== dateRangeTo
+    ) {
+      this.searchNotes(searchString, dateRangeFrom, dateRangeTo);
+    }
+  }
 
   getNotsData = () => {
     const { conexionNotes } = this.props;
-    const notesData = [
+    const { notesList } = this.state;
+    notesList.push({
+      time: '',
+      title: 'Notes',
+      icon: notes,
+      circleColor: 'transparent',
+    });
+    conexionNotes.map(note =>
+      notesList.push({
+        time: getFormatedDate(note.LastUpdatedDate),
+        title: `${note.Title}`,
+        description: note.Note,
+        privateNote: note.PrivateNote,
+        noteId: note.ConexionNoteId,
+        userName: note.UpdatedBy.Name,
+      }),
+    );
+    this.setState(notesList);
+  };
+
+  searchNotes = (searchString, fromDate, toDate) => {
+    const { conexionNotes } = this.props;
+    const filterData = [
       {
         time: '',
         title: 'Notes',
@@ -46,17 +89,41 @@ class Notes extends Component {
         circleColor: 'transparent',
       },
     ];
-    conexionNotes.map(note =>
-      notesData.push({
-        time: getFormatedDate(note.LastUpdatedDate),
-        title: `${note.Title}`,
-        description: note.Note,
-        privateNote: note.PrivateNote,
-        noteId: note.ConexionNoteId,
-        userName: 'Selvam K',
-      }),
-    );
-    return notesData;
+    let localCollection = conexionNotes;
+    if (fromDate && toDate) {
+      localCollection = localCollection.filter(note =>
+        moment(note.LastUpdatedDate).isBetween(
+          fromDate,
+          new Date(toDate).setHours(24, 0, 0, 0),
+        ),
+      );
+    }
+    localCollection
+      .filter(
+        note =>
+          note.Title.toLowerCase()
+            .trim()
+            .includes(searchString.toLowerCase().trim()) ||
+          note.Note.toLowerCase()
+            .trim()
+            .includes(searchString.toLowerCase().trim()),
+      )
+      .map(note =>
+        filterData.push({
+          time: getFormatedDate(note.LastUpdatedDate),
+          title: `${note.Title}`,
+          description: note.Note,
+          privateNote: note.PrivateNote,
+          noteId: note.ConexionNoteId,
+          userName: note.UpdatedBy.Name,
+        }),
+      );
+    this.setState({
+      notesList: filterData,
+      localSearch: searchString,
+      localRangeFrom: fromDate,
+      localRangeTo: toDate,
+    });
   };
 
   handleNoteEdit = noteId => {
@@ -89,14 +156,20 @@ class Notes extends Component {
   };
 
   render() {
-    const { modalOpen, editNoteObject, isEditNote, dialogVisible } = this.state;
+    const {
+      modalOpen,
+      editNoteObject,
+      isEditNote,
+      dialogVisible,
+      notesList,
+    } = this.state;
 
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
           <Timeline
             style={styles.list}
-            data={this.getNotsData()}
+            data={notesList}
             circleSize={20}
             circleColor={colors.ORANGE}
             lineColor="rgba(0,0,0,0.6)"
@@ -148,6 +221,9 @@ class Notes extends Component {
 Notes.propTypes = {
   conexionNotes: PropTypes.array,
   dispatchDeleteNote: PropTypes.func.isRequired,
+  searchString: PropTypes.string.isRequired,
+  dateRangeFrom: PropTypes.string.isRequired,
+  dateRangeTo: PropTypes.string.isRequired,
 };
 
 const styles = StyleSheet.create({

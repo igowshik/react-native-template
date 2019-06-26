@@ -15,7 +15,7 @@ import { Container, Tab, Tabs, TabHeading, Text } from 'native-base';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { Searchbar } from 'react-native-paper';
 import { View, TouchableOpacity } from 'react-native';
-import moment from 'moment';
+import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 // Absolute imports
 import { HorizDivider } from 'cnxapp/src/components/Dividers';
@@ -23,8 +23,7 @@ import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
 import Loader from 'cnxapp/src/components/Loader';
 import Snackbar from 'cnxapp/src/components/Snackbar';
 import DateTimePicker from 'cnxapp/src/components/DateTimePicker';
-
-// import * as Colors from 'cnxapp/src/utils/colorsConstants';
+import { getDateByFormat, getDateBefore } from 'cnxapp/src/utils/DateFormatter';
 
 // Relative imports
 import { Styles } from './styles';
@@ -64,6 +63,8 @@ class DetailScreen extends React.Component {
     // const selectedId = navigation.getParam('selectedId', 'NO-ID');
     this.setState({
       selected: selectedValue ? INDIVIDUAL : ORGANIZATION,
+      fromDate: getDateBefore(30),
+      toDate: new Date(new Date().setHours(0, 0, 0, 0)),
     });
 
     dispatchSetGlobalLoaderState(true);
@@ -102,8 +103,6 @@ class DetailScreen extends React.Component {
   render() {
     const { selected, firstQuery, fromDate, toDate } = this.state;
     const { loaderState, toastVisible, toast } = this.props;
-    const fromDateString = fromDate ? moment(fromDate).format('LLLL') : 'All';
-    const toDateString = toDate ? moment(toDate).format('LLLL') : 'All';
     return (
       <Container>
         {/* <Dashboard /> */}
@@ -150,18 +149,22 @@ class DetailScreen extends React.Component {
                   style={Styles.dateField}
                 >
                   <Text style={{ fontWeight: 'bold' }}>From: </Text>
-                  <Text>{fromDateString}</Text>
+                  <Text style={{ color: colors.primaryColorSet[0] }}>
+                    {getDateByFormat(fromDate, 'L')}
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={this.showToDatePicker}
                   style={Styles.dateField}
                 >
                   <Text style={{ fontWeight: 'bold' }}>To: </Text>
-                  <Text>{toDateString}</Text>
+                  <Text style={{ color: colors.primaryColorSet[0] }}>
+                    {getDateByFormat(toDate, 'L')}
+                  </Text>
                 </TouchableOpacity>
                 <DateTimePicker
                   value={this.getSelectedDate()}
-                  mode="datetime"
+                  mode="date"
                   visible={
                     this.state.fromDateVisible || this.state.toDateVisible
                   }
@@ -179,7 +182,11 @@ class DetailScreen extends React.Component {
                 />
               </View>
             ) : (
-              <Notes />
+              <Notes
+                searchString={firstQuery}
+                dateRangeFrom={getDateByFormat(fromDate, 'L')}
+                dateRangeTo={getDateByFormat(toDate, 'L')}
+              />
             )}
           </Tab>
         </Tabs>
