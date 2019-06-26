@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Platform } from 'react-native';
 import {
   TouchableRipple,
   Avatar,
@@ -91,7 +91,11 @@ class RichTextEditor extends React.Component {
           ...StyleSheet.absoluteFillObject,
         }}
       >
-        <View style={{ padding: 10 }}>
+        <View
+          style={
+            ({ padding: 10 }, Platform.OS === 'ios' ? '' : { marginTop: 60 })
+          }
+        >
           <Card elevation={2} style={styles.card}>
             <View style={styles.headerView}>
               <Avatar.Icon

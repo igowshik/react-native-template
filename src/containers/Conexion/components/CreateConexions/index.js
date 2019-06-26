@@ -41,6 +41,8 @@ class CreateConexions extends Component {
       setIndividualsDetails,
       createIndividual,
       dispatchFormReset,
+      setOrganisationDetails,
+      createOrganisation,
     } = this.props;
     const valuesForm = JSON.stringify(values, null, 2);
     const objectForm = JSON.parse(valuesForm);
@@ -48,9 +50,10 @@ class CreateConexions extends Component {
       setIndividualsDetails(objectForm);
       createIndividual();
     } else {
-      this.props.setOrganisationDetails(objectForm);
-      this.props.createOrganisation();
+      setOrganisationDetails(objectForm);
+      createOrganisation();
     }
+    this._closeModal();
     dispatchFormReset('createConexion');
   };
 

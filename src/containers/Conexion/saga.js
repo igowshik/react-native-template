@@ -65,7 +65,6 @@ import {
   individualConexionPayloadMapper,
   organisationPayloadMappers,
 } from './mappers';
-
 function* getIndividualConexionAPI() {
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
@@ -191,6 +190,7 @@ function* getConexionDetailsAPI() {
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(saveConexionDetails(response.data));
+    // yield put(dispatchOrganisationDetails());
   } else {
     yield put(
       setToastMessage({

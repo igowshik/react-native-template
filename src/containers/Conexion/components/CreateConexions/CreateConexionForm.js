@@ -6,7 +6,7 @@ import { View } from 'react-native';
 import Details from './Details';
 import ShareType from './ShareType';
 import Communication from './Commuinacation';
-import OrgDetails from '../CreateOrganisation/OrgDetails';
+import OrganisationForm from '../CreateOrganisation';
 import { INDIVIDUAL } from '../../constants';
 
 class CreateConexionForm extends React.Component {
@@ -23,7 +23,7 @@ class CreateConexionForm extends React.Component {
     return viewType === INDIVIDUAL ? (
       this.renderIndividualForm()
     ) : (
-      <OrgDetails />
+      <OrganisationForm />
     );
   }
 }

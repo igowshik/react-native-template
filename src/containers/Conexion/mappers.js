@@ -28,7 +28,7 @@ export const editConexionMapper = data => {
       ind_shared_type: data.SharingType,
       ind_shared_users: [],
       //-----------
-      org_web_address: data.Addresses,
+      // org_web_address: data.Addresses,
       org_shared_users: [],
       org_short_name: data.ShortName,
       org_name: data.Name,
@@ -42,9 +42,9 @@ export const editConexionMapper = data => {
         if (!payload.ind_shared_users.includes(user.UserId.toString())) {
           payload.ind_shared_users.push(user.UserId.toString());
         }
-        if (!payload.org_shared_users.includes(user.UserId.toString())) {
-          payload.org_shared_users.push(user.UserId.toString());
-        }
+        // if (!payload.org_shared_users.includes(user.UserId.toString())) {
+        //   payload.org_shared_users.push(user.UserId.toString());
+        // }
       });
     }
     return payload;
@@ -55,7 +55,7 @@ export const editConexionMapper = data => {
 export const editOrganisationMapper = data => {
   if (!Lo.isEmpty(data)) {
     const payload = {
-      // org_web_address: data.Addresses[0],
+      org_web_address: data.BusinessHomePage,
       org_shared_users: [],
       org_short_name: data.ShortName,
       org_name: data.Name,
@@ -168,7 +168,7 @@ export const organisationPayloadMappers = form => {
   if (form.org_secondary_phone)
     payload.Business2TelephoneNumber = form.org_secondary_phone;
   if (form.org_business_fax) payload.BusinessFaxNumber = form.org_business_fax;
-  if (form.org_web_address) payload.Addresses = form.org_web_address;
+  if (form.org_web_address) payload.BusinessHomePage = form.org_web_address;
   if (form.org_shared_users && form.org_shared_users.length > 0)
     payload.Users = form.org_shared_users;
   return payload;

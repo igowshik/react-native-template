@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import MultiSelect from 'cnxapp/src/components/MultiSelect';
 import { selectUserDDList } from '../../selectors';
-class OrgDetails extends React.Component {
+class OrganisationForm extends React.Component {
   OrgDetails1 = () => (
     <View style={styles.parentView}>
       <Card elevation={4} style={styles.card}>
@@ -47,7 +47,7 @@ class OrgDetails extends React.Component {
             <Row>
               <TextInput label="Web Address" name="org_web_address" required />
             </Row>
-            <Row>
+            <Row style={{ marginTop: 10 }}>
               <MultiSelect
                 label="Select users"
                 items={this.props.userDDList}
@@ -67,7 +67,7 @@ class OrgDetails extends React.Component {
   }
 }
 
-OrgDetails.propTypes = {
+OrganisationForm.propTypes = {
   userDDList: PropTypes.array,
 };
 const mapStateToProps = createStructuredSelector({
@@ -105,4 +105,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default compose(withConnect)(OrgDetails);
+export default compose(withConnect)(OrganisationForm);
