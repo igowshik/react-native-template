@@ -8,15 +8,26 @@ import { compose } from 'redux';
 import { withNavigation } from 'react-navigation';
 import { Avatar, Surface, FAB } from 'react-native-paper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
-
 // Absolute imports
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
 import { CNXH1 as H1 } from 'cnxapp/src/components/Typography';
 import ScrollView from 'cnxapp/src/components/ScrollView';
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 
-import { selectConexionDetails } from '../../../../selectors';
-import { getEmail, getPhone, getHomePage } from '../util';
+import EditConexion from 'cnxapp/src/containers/Conexion/components/EditConexion';
+import { ORGANIZATION } from 'cnxapp/src/containers/Conexion/constants';
+import {
+  // editConexionMapper,
+  editOrganisationMapper,
+} from 'cnxapp/src/containers/Conexion/mappers';
+import { setEditCNXModalVisibilty } from 'cnxapp/src/containers/Conexion/actions';
+import { getHomePage, getContact, getCreatedBy } from '../util';
+import {
+  selectConexionDetails,
+  // selectOrganisationDetails,
+  selectEditCNXModal,
+} from '../../../../selectors';
+
 import Communication from './Communication';
 import Address from './Address';
 import Sharing from './Managers';
@@ -29,9 +40,15 @@ class OrganiztionConexion extends React.Component {
     this.surfaceRef = React.createRef();
   }
 
-  render() {
-    const { conexionDetails } = this.props;
+  setOrganisationModalOpen = () => this.props.dispatchOrgEditModalState(true);
 
+  setModalOpenClose = value => {
+    this.props.dispatchOrgEditModalState(value);
+  };
+
+  render() {
+    const { conexionDetails, editModalVisible } = this.props;
+    const mappedValues = editOrganisationMapper(conexionDetails);
     return (
       <View style={{ flex: 1, backgroundColor: Colors.BGCOLOR }}>
         <LinearGradient
@@ -64,8 +81,13 @@ class OrganiztionConexion extends React.Component {
                 } (${conexionDetails.ShortName})`}
               </H1>
               {getHomePage(conexionDetails.BusinessHomePage)}
-              {getEmail(conexionDetails.BusinessEmailAddress)}
-              {getPhone(conexionDetails.BusinessTelephoneNumber)}
+              {/* {getEmail(conexionDetails.BusinessEmailAddress)}
+              {getPhone(conexionDetails.BusinessTelephoneNumber)} */}
+              {getContact(
+                conexionDetails.BusinessEmailAddress,
+                conexionDetails.BusinessTelephoneNumber,
+              )}
+              {getCreatedBy(conexionDetails.UpdatedBy)}
             </View>
           </ImageBackground>
         </LinearGradient>
@@ -76,7 +98,17 @@ class OrganiztionConexion extends React.Component {
             <Sharing data={conexionDetails} />
           </ScrollView>
         </Surface>
-        <FAB style={styles.fab} icon="edit" onPress={() => {}} />
+        <FAB
+          style={styles.fab}
+          icon="edit"
+          onPress={this.setOrganisationModalOpen}
+        />
+        <EditConexion
+          modalOpen={editModalVisible}
+          setModalOpenClose={this.setModalOpenClose}
+          conexionType={ORGANIZATION}
+          initialValues={mappedValues}
+        />
       </View>
     );
   }
@@ -84,6 +116,8 @@ class OrganiztionConexion extends React.Component {
 
 OrganiztionConexion.propTypes = {
   conexionDetails: PropTypes.object.isRequired,
+  editModalVisible: PropTypes.bool.isRequired,
+  dispatchOrgEditModalState: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -149,11 +183,15 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = createStructuredSelector({
+  // conexionDetails: selectOrganisationDetails(),
   conexionDetails: selectConexionDetails(),
+  editModalVisible: selectEditCNXModal(),
 });
 
 const mapDispatchToProps = dispatch => ({
   dispatchSetGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),
+  dispatchOrgEditModalState: visibility =>
+    dispatch(setEditCNXModalVisibilty(visibility)),
 });
 
 const withConnect = connect(

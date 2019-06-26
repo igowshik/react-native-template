@@ -23,13 +23,18 @@ import {
   saveUswerDDList,
   saveOrgDDList,
   getIndConexions,
+  getOrgConexions,
   setEditCNXModalVisibilty,
+  // dispatchOrganisationDetails,
+  getOrganisationDetails,
   getConexionsNotesAction,
+  saveConexionTimelineAction,
 } from './actions';
 import {
   GET_IND_CONEXIONS,
   GET_LIST_OF_ORG,
   GET_CONEXION_NOTES,
+  GET_CONEXION_TIMELINE,
   GENERAL_ERROR,
   GET_CONEXION_DETAILS,
   FETCH_DD_METADATA,
@@ -42,6 +47,8 @@ import {
   GET_ORG_DD_VALUE,
   CREATE_ORGANISATION,
   EDIT_IND_CONEXION,
+  EDIT_ORG_CONEXION,
+  GET_ORGANISATION_DETAILS,
   CREATE_CONEXION_NOTE,
   EDIT_CONEXION_NOTE,
   DELETE_CONEXION_NOTE,
@@ -140,6 +147,35 @@ function* getConexionNotesAPI() {
   }
 }
 
+function* getConexionTimelineAPI() {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const conexionId = yield select(selectConexionId());
+  const requestURL = `${
+    config.apiURL
+  }GetConexionTimeline?conexionId=${conexionId}`;
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(saveConexionTimelineAction(response.data));
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+
 function* getConexionDetailsAPI() {
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
@@ -156,6 +192,33 @@ function* getConexionDetailsAPI() {
     yield put(setRootGlobalLoader(false));
     yield put(saveConexionDetails(response.data));
   } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+function* getOrganisationDetailsAPI() {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const conexionId = yield select(selectConexionId());
+  const requestURL = `${
+    config.apiURL
+  }OrganizationConexionDetail?Conexionid=${conexionId}`;
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(saveConexionDetails(response.data));
     yield put(
       setToastMessage({
         toastMessage: response.message ? response.message : GENERAL_ERROR,
@@ -402,7 +465,6 @@ function* createOragnisationDetailsAPI() {
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
   const newOrganisation = yield select(selectOrganisationDetails());
-
   const requestURL = `${config.apiURL}CreateOrganizationConexion`;
   const organisatoinPayload = organisationPayloadMappers(newOrganisation);
   const options = {
@@ -418,19 +480,7 @@ function* createOragnisationDetailsAPI() {
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(setIndividualModalVisibility(false));
-    yield put(getIndConexions());
-  } else if (response.status === 422) {
-    yield put(setEditCNXModalVisibilty(false));
-    yield put(
-      setToastMessage({
-        toastMessage: response.response.Messages
-          ? `Message from server: ${response.response.Messages[0].ErrorMessage}`
-          : GENERAL_ERROR,
-        toastType: ERROR,
-      }),
-    );
-    yield put(setRootGlobalLoader(false));
-    yield put(setToastVisibility(true));
+    yield put(getOrgConexions());
   } else {
     yield put(setIndividualModalVisibility(false));
     yield put(
@@ -468,6 +518,54 @@ function* editIndividualDetailsAPI() {
     yield put(setEditCNXModalVisibilty(false));
     yield put(getConexionDetails());
     yield put(getIndConexions());
+  } else if (response.status === 422) {
+    yield put(setEditCNXModalVisibilty(false));
+    yield put(
+      setToastMessage({
+        toastMessage: response.response.Messages
+          ? `Message from server: ${response.response.Messages[0].ErrorMessage}`
+          : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  } else {
+    yield put(setEditCNXModalVisibilty(false));
+    yield put(
+      setToastMessage({
+        toastMessage: response.message
+          ? `Message from server: ${response.message}`
+          : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+function* editOrganisationDetailsAPI() {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const newOrganisation = yield select(selectOrganisationDetails());
+  const conexionId = yield select(selectConexionId());
+  const requestURL = `${config.apiURL}EditOrganizationConexion`;
+  const organisationPayload = organisationPayloadMappers(newOrganisation);
+  organisationPayload.ConexionId = conexionId;
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(organisationPayload),
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(setEditCNXModalVisibilty(false));
+    yield put(getOrganisationDetails());
+    yield put(getOrgConexions());
   } else if (response.status === 422) {
     yield put(setEditCNXModalVisibilty(false));
     yield put(
@@ -594,6 +692,7 @@ export default function* initConexionSaga() {
   yield takeLatest(GET_LIST_OF_ORG, getOrganizationConexionAPI);
   yield takeLatest(GET_IND_CONEXIONS, getIndividualConexionAPI);
   yield takeLatest(GET_CONEXION_NOTES, getConexionNotesAPI);
+  yield takeLatest(GET_CONEXION_TIMELINE, getConexionTimelineAPI);
   yield takeLatest(GET_CONEXION_DETAILS, getConexionDetailsAPI);
   yield takeLatest(FETCH_DD_METADATA, getConexionMetaDataAPI);
   yield takeLatest(DELETE_ADDRESS, deleteAddressAPI);
@@ -603,7 +702,9 @@ export default function* initConexionSaga() {
   yield takeLatest(GET_ORG_DD_VALUE, getOrgDDValuesAPI);
   yield takeLatest(CREATE_INDIVIDUAL, createIndividualDetailsAPI);
   yield takeLatest(CREATE_ORGANISATION, createOragnisationDetailsAPI);
+  yield takeLatest(GET_ORGANISATION_DETAILS, getOrganisationDetailsAPI);
   yield takeLatest(EDIT_IND_CONEXION, editIndividualDetailsAPI);
+  yield takeLatest(EDIT_ORG_CONEXION, editOrganisationDetailsAPI);
   yield takeLatest(CREATE_CONEXION_NOTE, createNotesAPI);
   yield takeLatest(EDIT_CONEXION_NOTE, editConexionNotesAPI);
   yield takeLatest(DELETE_CONEXION_NOTE, deleteConexionNotesAPI);

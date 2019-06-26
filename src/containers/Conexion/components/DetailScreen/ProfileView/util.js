@@ -1,7 +1,7 @@
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 import Lo from 'lodash';
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { CNXH3 as H3 } from 'cnxapp/src/components/Typography';
 import { CREATOR, MANGER } from '../../../constants';
 
@@ -33,6 +33,20 @@ export const getPhone = phone => {
   return null;
 };
 
+export const getContact = (email, phone) => {
+  let contactBuffer = '';
+  if (email) contactBuffer += email;
+  if (contactBuffer !== '') contactBuffer += `, `;
+  if (phone) contactBuffer += `${phone}`;
+  return <H3 style={styles.headerText}>{contactBuffer}</H3>;
+};
+
+export const getCreatedBy = createdBy => {
+  if (createdBy)
+    return <Text style={styles.createdBy}>created by {createdBy}</Text>;
+  return null;
+};
+
 export const getShareUser = role => {
   if (role === CREATOR) return Colors.ORANGE;
   if (role === MANGER) return Colors.GREEN;
@@ -48,5 +62,11 @@ const styles = StyleSheet.create({
   headerText: {
     color: '#fff',
     margin: 5,
+  },
+  createdBy: {
+    color: '#fff',
+    margin: 5,
+    fontSize: 18,
+    fontStyle: 'italic',
   },
 });

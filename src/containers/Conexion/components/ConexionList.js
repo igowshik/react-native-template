@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { Card, Avatar } from 'react-native-paper';
 import Lo from 'lodash';
 // Absolute imports
@@ -114,6 +114,21 @@ class ConexionList extends React.Component {
 
   getRenderPart = () => {
     const { indSelected } = this.props;
+    const { conexioListData } = this.props;
+    if (conexioListData === false) {
+      return (
+        <Text
+          style={{
+            textAlign: 'center',
+            fontWeight: 'bold',
+            fontSize: 18,
+            paddingTop: 10,
+          }}
+        >
+          No data to display
+        </Text>
+      );
+    }
     if (indSelected) return this.renderIndList();
     return this.renderOrgList();
   };
@@ -140,7 +155,7 @@ class ConexionList extends React.Component {
 
 ConexionList.propTypes = {
   indSelected: PropTypes.bool.isRequired,
-  conexioListData: PropTypes.array,
+  conexioListData: PropTypes.oneOfType([PropTypes.array, PropTypes.bool]),
   clickListItemHandler: PropTypes.func,
   loader: PropTypes.bool.isRequired,
 };

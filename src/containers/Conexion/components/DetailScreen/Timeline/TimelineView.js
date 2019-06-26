@@ -7,7 +7,7 @@ import {
   Platform,
 } from 'react-native';
 import React, { Component } from 'react';
-import { IconButton, Card, Text, Avatar, Paragraph } from 'react-native-paper';
+import { Card, Text, Avatar, Paragraph } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import HTMLView from 'react-native-htmlview';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
@@ -27,7 +27,7 @@ const defaultTimeTextColor = 'black';
 const defaultDotColor = 'white';
 const defaultInnerCircle = 'white';
 
-export default class CNXTimeline extends Component {
+export default class TimelineView extends Component {
   constructor(props, context) {
     super(props, context);
 
@@ -156,7 +156,7 @@ export default class CNXTimeline extends Component {
       </View>
     );
   }
-/* eslint-disable */
+  /* eslint-disable */
   _renderEvent(rowData, sectionID, rowID) {
     const lineWidth = rowData.lineWidth
       ? rowData.lineWidth
@@ -194,19 +194,19 @@ export default class CNXTimeline extends Component {
         opStyle =
           rowID % 2 === 0
             ? {
-              borderColor: lineColor,
-              borderLeftWidth: lineWidth,
-              borderRightWidth: 0,
-              marginLeft: 20,
-              paddingLeft: 20,
-            }
+                borderColor: lineColor,
+                borderLeftWidth: lineWidth,
+                borderRightWidth: 0,
+                marginLeft: 20,
+                paddingLeft: 20,
+              }
             : {
-              borderColor: lineColor,
-              borderLeftWidth: 0,
-              borderRightWidth: lineWidth,
-              marginRight: 20,
-              paddingRight: 20,
-            };
+                borderColor: lineColor,
+                borderLeftWidth: 0,
+                borderRightWidth: lineWidth,
+                marginRight: 20,
+                paddingRight: 20,
+              };
         break;
       default:
         opStyle = null;
@@ -239,11 +239,6 @@ export default class CNXTimeline extends Component {
   }
 
   _renderDetail(rowData) {
-    const getNoteState = privateNote => {
-      if (privateNote) return colors.YELLOW;
-      return colors.GREEN;
-    };
-
     const title = rowData.description ? (
       <View style={{ paddingRight: 20 }}>
         <Card elevation={2} style={styles.card}>
@@ -261,8 +256,7 @@ export default class CNXTimeline extends Component {
                   style={styles.avatar}
                   size={50}
                   source={{
-                    uri:
-                      'https://img.icons8.com/cotton/2x/gender-neutral-user--v1.png',
+                    uri: '${rowData.avatar}',
                   }}
                   color={colors.WHITE}
                 />
@@ -273,56 +267,11 @@ export default class CNXTimeline extends Component {
                   <Paragraph>Updated By: {rowData.userName}</Paragraph>
                 </View>
               </View>
-              <IconButton
-                icon={() => (
-                  <FontAwesome5
-                    name="circle"
-                    color={getNoteState(rowData.privateNote)}
-                    size={15}
-                    solid
-                  />
-                )}
-                color={getNoteState(rowData.privateNote)}
-                size={25}
-                onPress={() => {}}
-              />
             </View>
             <View style={[styles.description, this.props.descriptionStyle]}>
-              <HTMLView value={rowData.description} />
+              <HTMLView value={rowData.title} />
             </View>
           </Card.Content>
-          <Card.Actions>
-            <IconButton
-              icon={() => (
-                <FontAwesome5
-                  name="pen-alt"
-                  color={colors.PRIMARY}
-                  size={15}
-                  solid
-                />
-              )}
-              color={colors.PRIMARY}
-              size={25}
-              onPress={() => {
-                this.props.onClickEdit(rowData.noteId);
-              }}
-            />
-            <IconButton
-              icon={() => (
-                <FontAwesome5
-                  name="trash"
-                  color={colors.SECONDARY}
-                  size={15}
-                  solid
-                />
-              )}
-              color={colors.SECONDARY}
-              size={25}
-              onPress={() => {
-                this.props.onClickDelete(rowData.noteId);
-              }}
-            />
-          </Card.Actions>
         </Card>
       </View>
     ) : (
@@ -336,18 +285,18 @@ export default class CNXTimeline extends Component {
     const circleSize = rowData.circleSize
       ? rowData.circleSize
       : this.props.circleSize
-        ? this.props.circleSize
-        : defaultCircleSize;
+      ? this.props.circleSize
+      : defaultCircleSize;
     const circleColor = rowData.circleColor
       ? rowData.circleColor
       : this.props.circleColor
-        ? this.props.circleColor
-        : defaultCircleColor;
+      ? this.props.circleColor
+      : defaultCircleColor;
     const lineWidth = rowData.lineWidth
       ? rowData.lineWidth
       : this.props.lineWidth
-        ? this.props.lineWidth
-        : defaultLineWidth;
+      ? this.props.lineWidth
+      : defaultLineWidth;
     /* eslint-enable */
     let circleStyle = null;
 
@@ -395,7 +344,7 @@ export default class CNXTimeline extends Component {
         };
         innerCircle = (
           <Image
-            resizeMode = "contain"
+            resizeMode="contain"
             source={iconSource}
             style={[iconStyle, this.props.iconStyle]}
           />
@@ -409,8 +358,8 @@ export default class CNXTimeline extends Component {
           backgroundColor: rowData.dotColor
             ? rowData.dotColor
             : this.props.dotColor
-              ? this.props.dotColor
-              : defaultDotColor,
+            ? this.props.dotColor
+            : defaultDotColor,
         };
         innerCircle = <View style={[styles.dot, dotStyle]} />;
         break;
@@ -422,8 +371,8 @@ export default class CNXTimeline extends Component {
           backgroundColor: rowData.dotColor
             ? rowData.dotColor
             : this.props.dotColor
-              ? this.props.dotColor
-              : defaultDotColor,
+            ? this.props.dotColor
+            : defaultDotColor,
         };
         innerCircle = <View style={[styles.dot, dotDefaultStyle]} />;
         break;
@@ -442,10 +391,9 @@ export default class CNXTimeline extends Component {
     return <View style={[styles.separator, this.props.separatorStyle]} />;
   }
 }
-    /* eslint-enable */
+/* eslint-enable */
 
-
-CNXTimeline.defaultProps = {
+TimelineView.defaultProps = {
   circleSize: defaultCircleSize,
   circleColor: defaultCircleColor,
   lineWidth: defaultLineWidth,
@@ -456,7 +404,7 @@ CNXTimeline.defaultProps = {
   showTime: true,
 };
 
-CNXTimeline.propTypes = {
+TimelineView.propTypes = {
   separator: PropTypes.bool,
   separatorStyle: PropTypes.object,
   circleStyle: PropTypes.object,

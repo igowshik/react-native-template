@@ -1,114 +1,84 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
 // Absolute imports
 import { TextInput, NumberInput } from 'cnxapp/src/components/InputField';
 import { Card } from 'react-native-paper';
 import { Grid, Row } from 'native-base';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
-import Dropdown from '../../../../components/Dropdown';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import MultiSelect from 'cnxapp/src/components/MultiSelect';
+import { selectUserDDList } from '../../selectors';
+class OrgDetails extends React.Component {
+  OrgDetails1 = () => (
+    <View style={styles.parentView}>
+      <Card elevation={4} style={styles.card}>
+        <Card.Content>
+          <Grid>
+            <Row>
+              <TextInput label="Name" name="org_name" required />
+            </Row>
+            <Row>
+              <TextInput label="Short Name" name="org_short_name" required />
+            </Row>
+            <Row>
+              <NumberInput
+                label="Primary Phone Number"
+                name="org_primary_phone"
+                required
+              />
+            </Row>
+            <Row>
+              <NumberInput
+                label="Secondary Phone Number"
+                name="org_secondary_phone"
+                required
+              />
+            </Row>
+            <Row>
+              <NumberInput
+                label="Business Fax"
+                name="org_business_fax"
+                required
+              />
+            </Row>
+            <Row>
+              <TextInput label="Web Address" name="org_web_address" required />
+            </Row>
+            <Row>
+              <MultiSelect
+                label="Select users"
+                items={this.props.userDDList}
+                name="org_shared_users"
+                searchText="Search users"
+              />
+            </Row>
+          </Grid>
+          {/* </ScrollView> */}
+        </Card.Content>
+      </Card>
+    </View>
+  );
 
-const title = [
-  { value: 'Dr.' },
-  { value: 'Miss' },
-  { value: 'Mr.' },
-  { value: 'Mrs.' },
-  { value: 'Ms.' },
-  { value: 'Prof.' },
-];
-const OrgDetails = () => (
-  <View style={styles.parentView}>
-    <Card elevation={4} style={styles.card}>
-      <Card.Content>
-        <Grid>
-          <Row>
-            <TextInput label="Name" name="org_name" required />
-          </Row>
-          <Row>
-            <TextInput label="Short Name" name="org_short_name" required />
-          </Row>
-          <Row>
-            <NumberInput
-              label="Primary Phone Number"
-              name="org_primary_phone"
-              required
-            />
-          </Row>
-          <Row>
-            <NumberInput
-              label="Secondary Phone Number"
-              name="org_secondary_phone"
-              required
-            />
-          </Row>
-          <Row>
-            <NumberInput
-              label="Business Fax"
-              name="org_business_fax"
-              required
-            />
-          </Row>
-          <Row>
-            <TextInput label="Web Address" name="org_web_address" required />
-          </Row>
-          <Row>
-            <Dropdown
-              label="Managers"
-              name="org_managers"
-              data={title}
-              required
-            />
-          </Row>
-        </Grid>
-      </Card.Content>
-    </Card>
-  </View>
+  render() {
+    return this.OrgDetails1();
+  }
+}
 
-  // <View style={{ marginLeft: 200 }}>
-  //   <View style={{ width: '60%' }}>
-  //     <TextInput label="Name" name="org_name" required />
-  //     <TextInput label="Short Name" name="short_name" required />
-  //     {/* <View style={styles.placeRight}> */}
-  //     <View style={{ flex: 1, flexDirection: 'row' }}>
-  //       <View style={{ width: 100 }}>
-  //         <Dropdown label="+91" name="country_code" required data={title} />
-  //       </View>
-  //       <View style={(styles.container, { flex: 1 })}>
-  //         <NumberInput label="Primary Mobile" name="primary_mobile" required />
-  //       </View>
-  //     </View>
-  //     <View style={{ flex: 1, flexDirection: 'row' }}>
-  //       <View style={{ width: 100 }}>
-  //         <Dropdown label="+91" name="country_code" required data={title} />
-  //       </View>
-  //       <View style={(styles.container, { flex: 1 })}>
-  //         <NumberInput
-  //           label="Secondary Mobile"
-  //           name="secondary_mobile"
-  //           style={{ width: '80%' }}
-  //           required
-  //         />
-  //       </View>
-  //     </View>
-  //     <View style={{ flex: 1, flexDirection: 'row' }}>
-  //       <View style={{ width: 100 }}>
-  //         <Dropdown label="+91" name="country_code" required data={title} />
-  //       </View>
-  //       <View style={(styles.container, { flex: 1 })}>
-  //         <NumberInput
-  //           label="Business Fax"
-  //           name="business_fax"
-  //           style={{ width: '70%', marginBottom: 20 }}
-  //           required
-  //         />
-  //       </View>
-  //     </View>
-  //     {/* </View> */}
+OrgDetails.propTypes = {
+  userDDList: PropTypes.array,
+};
+const mapStateToProps = createStructuredSelector({
+  userDDList: selectUserDDList(),
+});
 
-  //     <TextInput label="Web Address" name="web_address" />
-  //     <Dropdown label="Managers" name="managers" required data={title} />
-  //   </View>
-  // </View>
+const withConnect = connect(
+  mapStateToProps,
+  {},
 );
+
 const styles = StyleSheet.create({
   placeRight: {
     flex: 1,
@@ -134,4 +104,5 @@ const styles = StyleSheet.create({
     borderTopWidth: 2,
   },
 });
-export default OrgDetails;
+
+export default compose(withConnect)(OrgDetails);
