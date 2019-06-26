@@ -4,6 +4,7 @@ import {
   SET_ORG_CONEXIONS,
   SET_CREATE_CONEXION_DATE,
   SET_CONEXION_NOTES,
+  SET_CONEXION_TIMELINE,
   SET_CONEXION_ID,
   SET_CONEXION_DETAILS,
   SAVE_DD_METADATA,
@@ -27,6 +28,7 @@ export const conexionInitialState = {
     types: '',
   },
   conexionNotes: [],
+  timelineEntries: [],
   selectedConexion: '',
   selectedConexionType: '',
   conexionDetails: {},
@@ -65,6 +67,10 @@ const conexionStore = (state = conexionInitialState, action) =>
       }
       case SET_CONEXION_NOTES: {
         draftState.conexionNotes = action.notesData;
+        break;
+      }
+      case SET_CONEXION_TIMELINE: {
+        draftState.timelineEntries = action.timelineData;
         break;
       }
       case SET_CONEXION_ID: {
