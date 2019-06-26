@@ -283,12 +283,12 @@ class Conexion extends React.Component {
             />
           </View>
         </View>
+        <Snackbar toastVisible={toastVisible} toast={toast} />
         {this.props.isFocused ? (
           <TouchableRipple rippleColor="rgba(0, 0, 0, .3)">
             <FABUI handleConexionCreate={this.createConexionTrigger} />
           </TouchableRipple>
         ) : null}
-        <Snackbar toastVisible={toastVisible} toast={toast} />
       </View>
     );
   }

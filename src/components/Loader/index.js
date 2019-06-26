@@ -1,32 +1,36 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { ActivityIndicator, Platform, View } from 'react-native';
+import { Paragraph, Portal, Dialog } from 'react-native-paper';
 import PropTypes from 'prop-types';
+import * as colors from 'cnxapp/src/utils/colorsConstants';
 
-// Absolute imports
-import * as Colors from 'cnxapp/src/utils/colorsConstants';
+const isIOS = Platform.OS === 'ios';
 
-import LottieLoader from './Loader';
 const Loader = props => {
-  const { showLoader, loadingText, loaderStyle } = props;
+  const { showLoader, loadingText, loaderTitle } = props;
   return (
-    <LottieLoader
-      visible={showLoader}
-      textContent={loadingText || 'Loading...'}
-      textStyle={loaderStyle || styles.spinnerTextStyle}
-    />
+    <Portal>
+      <Dialog visible={showLoader}>
+        <Dialog.Title>{loaderTitle || 'Progress'}</Dialog.Title>
+        <Dialog.Content>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <ActivityIndicator
+              color={colors.PRIMARY}
+              size={isIOS ? 'large' : 48}
+              style={{ marginRight: 16 }}
+            />
+            <Paragraph>{loadingText || 'Loading...'}</Paragraph>
+          </View>
+        </Dialog.Content>
+      </Dialog>
+    </Portal>
   );
 };
-
-const styles = StyleSheet.create({
-  spinnerTextStyle: {
-    color: Colors.primary,
-  },
-});
 
 Loader.propTypes = {
   showLoader: PropTypes.bool.isRequired,
   loadingText: PropTypes.string,
-  loaderStyle: PropTypes.object,
+  loaderTitle: PropTypes.string,
 };
 
 export default Loader;

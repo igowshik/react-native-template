@@ -15,7 +15,7 @@ import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
 import Dialog from 'cnxapp/src/components/Dialog';
 import { DELETE_NOTE_MESSAGE } from 'cnxapp/src/containers/Conexion/constants';
 
-import Timeline from './Timeline';
+import NotesView from './NotesView';
 import RichTextExample from './RichTextEditor';
 import { selectConexionNotesData } from '../../../selectors';
 import { deleteConexionNote } from '../../../actions';
@@ -36,7 +36,7 @@ class Notes extends Component {
 
   componentDidMount() {}
 
-  getNotsData = () => {
+  getNotesData = () => {
     const { conexionNotes } = this.props;
     const notesData = [
       {
@@ -96,9 +96,9 @@ class Notes extends Component {
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
-          <Timeline
+          <NotesView
             style={styles.list}
-            data={this.getNotsData()}
+            data={this.getNotesData()}
             circleSize={20}
             circleColor={colors.ORANGE}
             lineColor="rgba(0,0,0,0.6)"

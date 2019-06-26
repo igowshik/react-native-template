@@ -19,7 +19,7 @@ import { View } from 'react-native';
 // Absolute imports
 import { HorizDivider } from 'cnxapp/src/components/Dividers';
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
-import LottieListLoader from 'cnxapp/src/components/Lotties/LottieListLoader';
+import Loader from 'cnxapp/src/components/Loader';
 import Snackbar from 'cnxapp/src/components/Snackbar';
 
 // import * as Colors from 'cnxapp/src/utils/colorsConstants';
@@ -34,12 +34,20 @@ import {
   selectOrgConexion,
   selectGlobalLoader,
   selectConexionNotesData,
+  selectConexionTimelineData,
   selectToastVisibility,
   selectToastData,
 } from '../../selectors';
-import { getConexionsNotesAction, getConexionDetails } from '../../actions';
+
+import {
+  getConexionDetails,
+  getConexionsNotesAction,
+  getConexionsTimelineAction,
+} from '../../actions';
+
 import ProfileView from './ProfileView';
 import Notes from './Notes';
+import Timeline from './Timeline';
 
 class DetailScreen extends React.Component {
   state = {
@@ -51,8 +59,9 @@ class DetailScreen extends React.Component {
     const {
       navigation,
       dispatchSetGlobalLoaderState,
-      dispatchGetConexionNotes,
       dispatchGetConexionDetails,
+      dispatchGetConexionNotes,
+      dispatchGetConexionTimeline,
     } = this.props;
     const selectedValue = navigation.getParam('selectedValue', 'NO-SELECT');
     // const selectedId = navigation.getParam('selectedId', 'NO-ID');
@@ -61,8 +70,9 @@ class DetailScreen extends React.Component {
     });
 
     dispatchSetGlobalLoaderState(true);
-    dispatchGetConexionNotes();
     dispatchGetConexionDetails();
+    dispatchGetConexionNotes();
+    dispatchGetConexionTimeline();
   }
 
   searchConexions = searchText => {
@@ -87,7 +97,11 @@ class DetailScreen extends React.Component {
           >
             {loaderState ? (
               <View>
-                <LottieListLoader />
+                <Loader
+                  showLoader={loaderState}
+                  loaderTitle="Conexion"
+                  loadingText="Loading Conexion details..."
+                />
               </View>
             ) : (
               <ProfileView selectedValue={selected} />
@@ -109,10 +123,40 @@ class DetailScreen extends React.Component {
             />
             {loaderState ? (
               <View>
-                <LottieListLoader />
+                <Loader
+                  showLoader={loaderState}
+                  loaderTitle="Conexion"
+                  loadingText="Loading Conexion Notes..."
+                />
               </View>
             ) : (
               <Notes />
+            )}
+          </Tab>
+          <Tab
+            heading={
+              <TabHeading>
+                <FontAwesome5 name="history" color="#fff" size={20} light />
+                <Text style={Styles.textColor}>Timeline</Text>
+              </TabHeading>
+            }
+          >
+            <Searchbar
+              placeholder="Search timeline"
+              onChangeText={query => this.searchConexions(query)}
+              value={firstQuery}
+              style={Styles.searchbar}
+            />
+            {loaderState ? (
+              <View>
+                <Loader
+                  showLoader={loaderState}
+                  loaderTitle="Conexion"
+                  loadingText="Loading Conexion Timeline..."
+                />
+              </View>
+            ) : (
+              <Timeline />
             )}
           </Tab>
         </Tabs>
@@ -126,6 +170,7 @@ DetailScreen.propTypes = {
   navigation: PropTypes.object,
   dispatchSetGlobalLoaderState: PropTypes.func.isRequired,
   dispatchGetConexionNotes: PropTypes.func,
+  dispatchGetConexionTimeline: PropTypes.func,
   dispatchGetConexionDetails: PropTypes.func.isRequired,
   loaderState: PropTypes.bool.isRequired,
   toastVisible: PropTypes.bool.isRequired,
@@ -143,6 +188,7 @@ const mapStateToProps = createStructuredSelector({
   indConexions: selectIndConexion(),
   orgConexions: selectOrgConexion(),
   conexionNotes: selectConexionNotesData(),
+  timelineEntries: selectConexionTimelineData(),
   toastVisible: selectToastVisibility(),
   toast: selectToastData(),
 });
@@ -155,6 +201,7 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
   dispatchSetGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),
   dispatchGetConexionNotes: () => dispatch(getConexionsNotesAction()),
+  dispatchGetConexionTimeline: () => dispatch(getConexionsTimelineAction()),
   dispatchGetConexionDetails: () => dispatch(getConexionDetails()),
 });
 

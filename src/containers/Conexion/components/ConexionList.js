@@ -4,7 +4,8 @@ import { View, Text } from 'react-native';
 import { Card, Avatar } from 'react-native-paper';
 import Lo from 'lodash';
 // Absolute imports
-import LottieListLoader from 'cnxapp/src/components/Lotties/LottieListLoader';
+import Loader from 'cnxapp/src/components/Loader';
+
 import ScrollView from 'cnxapp/src/components/ScrollView';
 // import * as Colors from 'cnxapp/src/utils/colorsConstants';
 
@@ -138,7 +139,11 @@ class ConexionList extends React.Component {
       <ScrollView>
         {loader ? (
           <View>
-            <LottieListLoader />
+            <Loader
+              showLoader={loader}
+              loaderTitle="Conexion"
+              loadingText="Loading conexion list..."
+            />
           </View>
         ) : (
           this.getRenderPart()
