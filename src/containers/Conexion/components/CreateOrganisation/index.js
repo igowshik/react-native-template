@@ -21,28 +21,22 @@ class OrganisationForm extends React.Component {
               <TextInput label="Name" name="org_name" required />
             </Row>
             <Row>
-              <TextInput label="Short Name" name="org_short_name" required />
+              <TextInput label="Short Name" name="org_short_name" />
             </Row>
             <Row>
               <NumberInput
                 label="Primary Phone Number"
                 name="org_primary_phone"
-                required
               />
             </Row>
             <Row>
               <NumberInput
                 label="Secondary Phone Number"
                 name="org_secondary_phone"
-                required
               />
             </Row>
             <Row>
-              <NumberInput
-                label="Business Fax"
-                name="org_business_fax"
-                required
-              />
+              <NumberInput label="Business Fax" name="org_business_fax" />
             </Row>
             <Row>
               <TextInput label="Web Address" name="org_web_address" required />
