@@ -149,6 +149,7 @@ class Conexion extends React.Component {
       createConexionType: conexionType,
     });
     this.props.dispatchIndividualModalState(modalState);
+    if (conexionType === 'Organization') {
       this._onSwitchIndOrgPress(ORGANIZATION);
     } else {
       this._onSwitchIndOrgPress(INDIVIDUAL);
