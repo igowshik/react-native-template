@@ -145,15 +145,8 @@ class Conexion extends React.Component {
   };
 
   createConexionTrigger = (modalState, conexionType) => {
-    this.setState({
-      createConexionType: conexionType,
-    });
+    this._onSwitchIndOrgPress(conexionType);
     this.props.dispatchIndividualModalState(modalState);
-    if (conexionType === 'Organization') {
-      this._onSwitchIndOrgPress(ORGANIZATION);
-    } else {
-      this._onSwitchIndOrgPress(INDIVIDUAL);
-    }
   };
 
   searchConexions = searchText => {
