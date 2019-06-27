@@ -6,6 +6,8 @@ import {
   SET_CREATE_CONEXION_DATE,
   SET_CONEXION_NOTES,
   GET_CONEXION_NOTES,
+  SET_CONEXION_TIMELINE,
+  GET_CONEXION_TIMELINE,
   SET_CONEXION_ID,
   SET_CONEXION_DETAILS,
   GET_CONEXION_DETAILS,
@@ -28,6 +30,8 @@ import {
   CREATE_ORGANISATION,
   EDIT_IND_CONEXION,
   EDIT_CNX_MODAL,
+  GET_ORGANISATION_DETAILS,
+  EDIT_ORG_CONEXION,
   SAVE_NOTE_DATE,
   CREATE_CONEXION_NOTE,
   EDIT_CONEXION_NOTE,
@@ -58,6 +62,15 @@ export const setConexionDataAction = conexionData => ({
   conexionData,
 });
 
+export const getConexionsTimelineAction = () => ({
+  type: GET_CONEXION_TIMELINE,
+});
+
+export const saveConexionTimelineAction = timelineData => ({
+  type: SET_CONEXION_TIMELINE,
+  timelineData,
+});
+
 export const getConexionsNotesAction = () => ({
   type: GET_CONEXION_NOTES,
 });
@@ -74,6 +87,10 @@ export const saveselectedConexionId = id => ({
 
 export const getConexionDetails = () => ({
   type: GET_CONEXION_DETAILS,
+});
+
+export const getOrganisationDetails = () => ({
+  type: GET_ORGANISATION_DETAILS,
 });
 
 export const saveConexionDetails = details => ({
@@ -159,6 +176,10 @@ export const dispatchCreateOrganisation = () => ({
 
 export const editIndividualConexion = () => ({
   type: EDIT_IND_CONEXION,
+});
+
+export const editOrganisationConexion = () => ({
+  type: EDIT_ORG_CONEXION,
 });
 
 export const setEditCNXModalVisibilty = modalVisibile => ({

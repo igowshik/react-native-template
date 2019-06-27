@@ -65,38 +65,36 @@ class CreateConexions extends Component {
     } = this.props;
 
     return (
-      <View>
-        <FullPageModal
-          visible={modalOpen}
-          handleModalVisible={this._closeModal}
-          modalHeaderText={
-            conexionType === INDIVIDUAL
-              ? 'Create Conexion'
-              : 'Create Organisation'
-          }
-        >
-          <View style={styles.headerContainer}>
-            <Button
-              raised
-              onPress={handleSubmit(this.onCreateConexion)}
-              disabled={pristine || submitting || invalid}
-              mode="contained"
-              color={colors.PURPLE}
-              icon={() => (
-                <FontAwesome5 name="user-plus" color="#fff" size={18} light />
-              )}
-            >
-              Done
-            </Button>
-          </View>
-          <ScrollView>
-            <CreateConexionForm
-              handleSubmit={handleSubmit}
-              viewType={conexionType}
-            />
-          </ScrollView>
-        </FullPageModal>
-      </View>
+      <FullPageModal
+        visible={modalOpen}
+        handleModalVisible={this._closeModal}
+        modalHeaderText={
+          conexionType === INDIVIDUAL
+            ? 'Create Conexion'
+            : 'Create Organisation'
+        }
+      >
+        <View style={styles.headerContainer}>
+          <Button
+            raised
+            onPress={handleSubmit(this.onCreateConexion)}
+            disabled={pristine || submitting || invalid}
+            mode="contained"
+            color={colors.PURPLE}
+            icon={() => (
+              <FontAwesome5 name="user-plus" color="#fff" size={18} light />
+            )}
+          >
+            Done
+          </Button>
+        </View>
+        <ScrollView>
+          <CreateConexionForm
+            handleSubmit={handleSubmit}
+            viewType={conexionType}
+          />
+        </ScrollView>
+      </FullPageModal>
     );
   }
 }

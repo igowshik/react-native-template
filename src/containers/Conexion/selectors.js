@@ -63,6 +63,12 @@ const selectConexionNotesData = () =>
     dataState => dataState.conexionNotes,
   );
 
+const selectConexionTimelineData = () =>
+  createSelector(
+    conexionReducers,
+    dataState => dataState.timelineEntries,
+  );
+
 const selectConexionId = () =>
   createSelector(
     conexionReducers,
@@ -167,4 +173,5 @@ export {
   selectEditCNXModal,
   selectCreateConexionNoteData,
   selectConexionNoteFilter,
+  selectConexionTimelineData,
 };
