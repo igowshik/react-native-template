@@ -145,9 +145,7 @@ class Conexion extends React.Component {
   };
 
   createConexionTrigger = (modalState, conexionType) => {
-    this.setState({
-      createConexionType: conexionType,
-    });
+    this._onSwitchIndOrgPress(conexionType);
     this.props.dispatchIndividualModalState(modalState);
   };
 
@@ -178,16 +176,7 @@ class Conexion extends React.Component {
 
   render() {
     const initialIndividualValues = {
-      //   ind_first_name: 'Test FN',
-      //   ind_last_name: 'Test last name',
-      //   ind_initial: 'FNLN',
-      //   ind_title: 'DR',
-      //   ind_suffix: 'I',
-      //   ind_job_title: 'Tester',
-      //   ind_primary_mobile: '123428732',
       ind_shared_type: 'PUBL',
-      //   ind_business_phone: '9234231233',
-      //   ind_business_email: 'conexus@cnxsi.com',
     };
     const { indSelected, createConexionType, firstQuery } = this.state;
 
@@ -197,16 +186,6 @@ class Conexion extends React.Component {
         <View>
           <View style={styles.headerStyle}>
             <CNXH3 style={{ color: colors.DARK }}>Conexion type:</CNXH3>
-            {/* <Switch
-              label={INDIVIDUAL}
-              selected={indSelected}
-              onChange={this._onSwitchIndOrgPress}
-            />
-            <Switch
-              label={ORGANIZATION}
-              selected={orgSelected}
-              onChange={this._onSwitchIndOrgPress}
-            /> */}
             <View style={{ flex: 1, margin: 8, flexDirection: 'row' }}>
               <RadioButton.Group
                 value={this.state.createConexionType}

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text } from 'react-native';
-import { Card, Avatar } from 'react-native-paper';
+import { View } from 'react-native';
+import { Card, Avatar, Text } from 'react-native-paper';
 import Lo from 'lodash';
 // Absolute imports
 import Loader from 'cnxapp/src/components/Loader';
@@ -120,7 +120,6 @@ class ConexionList extends React.Component {
         <Text
           style={{
             textAlign: 'center',
-            fontWeight: 'bold',
             fontSize: 18,
             paddingTop: 10,
           }}

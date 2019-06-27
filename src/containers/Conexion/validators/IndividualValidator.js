@@ -4,12 +4,11 @@ const { Number, Email } = regexValidators;
 
 export const validate = values => {
   const errors = {};
-  if (!values.first_name) errors.first_name = true;
-  if (!values.last_name) errors.last_name = true;
-  if (!values.job_title) errors.job_title = true;
-  if (!values.organization) errors.organization = true;
-  if (!values.telephone_number || !Number.test(values.telephone_number))
-    errors.telephone_number = true;
+  if (!values.ind_first_name) errors.ind_first_name = true;
+  if (!values.ind_last_name) errors.ind_last_name = true;
+  if (!values.ind_initial) errors.ind_initial = true;
+  if (!values.ind_primary_mobile || !Number.test(values.ind_primary_mobile))
+    errors.ind_primary_mobile = true;
   if (!values.business_email || !Email.test(values.business_email))
     errors.business_email = true;
   if (

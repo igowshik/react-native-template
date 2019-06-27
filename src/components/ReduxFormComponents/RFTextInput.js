@@ -2,28 +2,20 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 import { PRIMARY } from 'cnxapp/src/utils/colorsConstants';
-import { TextInput } from 'react-native-paper';
-
-// Relative imports
-import { CNXTextLight } from '../Texts';
+import { TextInput, HelperText } from 'react-native-paper';
 
 export const RFTextInput = props => {
   const {
     input,
     label,
     required,
+    helperText,
     meta: { error, touched },
     ...inputProps
   } = props;
   let hasError = false;
-  let errorField = null; //eslint-disable-line
-
   if (required && touched && error) {
     hasError = true;
-    if (typeof error === 'string')
-      errorField = (
-        <CNXTextLight style={styles.errorText}>{` ${error}`}</CNXTextLight>
-      );
   }
   return (
     <View style={styles.item}>
@@ -37,6 +29,9 @@ export const RFTextInput = props => {
         style={{ width: '100%' }}
         error={hasError}
       />
+      <HelperText type="error" visible={hasError}>
+        {helperText || 'this field is required'}
+      </HelperText>
     </View>
   );
 };
@@ -46,6 +41,7 @@ RFTextInput.propTypes = {
   meta: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
   required: PropTypes.bool,
+  helperText: PropTypes.string,
 };
 
 const styles = StyleSheet.create({
