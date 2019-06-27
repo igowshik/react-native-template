@@ -21,9 +21,6 @@
       "platform": "ios",
       "sourceMaps": true,
       "outDir": "${workspaceRoot}/.vscode/.react",
-      "runArguments": [
-        "--simulator=\"iPad Air 2\""
-      ]
     }
   ]
 }

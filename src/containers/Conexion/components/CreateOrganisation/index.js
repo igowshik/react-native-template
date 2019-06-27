@@ -1,18 +1,21 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-// Absolute imports
-import { TextInput, NumberInput } from 'cnxapp/src/components/InputField';
 import { Card } from 'react-native-paper';
 import { Grid, Row } from 'native-base';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+
+// Absolute imports
+import { TextInput, NumberInput } from 'cnxapp/src/components/InputField';
 import MultiSelect from 'cnxapp/src/components/MultiSelect';
+
 import { selectUserDDList } from '../../selectors';
+
 class OrganisationForm extends React.Component {
-  OrgDetails1 = () => (
+  OrgDetailsRender = () => (
     <View style={styles.parentView}>
       <Card elevation={4} style={styles.card}>
         <Card.Content>
@@ -39,7 +42,7 @@ class OrganisationForm extends React.Component {
               <NumberInput label="Business Fax" name="org_business_fax" />
             </Row>
             <Row>
-              <TextInput label="Web Address" name="org_web_address" required />
+              <TextInput label="Web Address" name="org_web_address" />
             </Row>
             <Row style={{ marginTop: 10 }}>
               <MultiSelect
@@ -50,14 +53,13 @@ class OrganisationForm extends React.Component {
               />
             </Row>
           </Grid>
-          {/* </ScrollView> */}
         </Card.Content>
       </Card>
     </View>
   );
 
   render() {
-    return this.OrgDetails1();
+    return this.OrgDetailsRender();
   }
 }
 
@@ -74,22 +76,6 @@ const withConnect = connect(
 );
 
 const styles = StyleSheet.create({
-  placeRight: {
-    flex: 1,
-    marginBottom: 10,
-    flexDirection: 'row',
-  },
-  placeRightPhone: {
-    flex: 1,
-    marginBottom: 10,
-    flexDirection: 'row',
-    // width: '33%',
-  },
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '90%',
-  },
   parentView: {
     margin: 10,
   },

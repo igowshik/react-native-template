@@ -3,12 +3,10 @@ import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { Divider, Card, Chip } from 'react-native-paper';
-
 import Lo from 'lodash';
 
-// import * as Colors from 'cnxapp/src/utils/colorsConstants';
 import { getShareUser } from '../util';
-
+let i = 1;
 const Managers = props => {
   const { data } = props;
   if (!Lo.isEmpty(data)) {
@@ -49,7 +47,7 @@ const Managers = props => {
                       solid
                     />
                   )}
-                  key={user.UserId}
+                  key={`${user.UserId}${i++}`} //eslint-disable-line
                   style={{ margin: 2 }}
                 >
                   {user.UserName}

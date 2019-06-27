@@ -219,6 +219,7 @@ function* getOrganisationDetailsAPI() {
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(saveConexionDetails(response.data));
+  } else {
     yield put(
       setToastMessage({
         toastMessage: response.message ? response.message : GENERAL_ERROR,
@@ -561,6 +562,7 @@ function* editOrganisationDetailsAPI() {
     body: JSON.stringify(organisationPayload),
   };
   const response = yield call(request, requestURL, options);
+
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(setEditCNXModalVisibilty(false));
