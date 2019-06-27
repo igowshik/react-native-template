@@ -40,9 +40,11 @@ import {
   getConexionsNotesAction,
   getConexionDetails,
   setNoteFilter,
+  getConexionsTimelineAction,
 } from '../../actions';
 import ProfileView from './ProfileView';
 import Notes from './Notes';
+import Timeline from './Timeline';
 
 class DetailScreen extends React.Component {
   constructor(props) {
@@ -59,6 +61,7 @@ class DetailScreen extends React.Component {
       dispatchGetConexionNotes,
       dispatchGetConexionDetails,
       dispatchSetConexionNoteFilter,
+      dispatchGetConexionTimeline,
     } = this.props;
     const selectedValue = navigation.getParam('selectedValue', 'NO-SELECT');
     // const selectedId = navigation.getParam('selectedId', 'NO-ID');
@@ -74,6 +77,7 @@ class DetailScreen extends React.Component {
     });
     dispatchGetConexionNotes();
     dispatchGetConexionDetails();
+    dispatchGetConexionTimeline();
   }
 
   render() {
@@ -124,6 +128,26 @@ class DetailScreen extends React.Component {
               <Notes />
             )}
           </Tab>
+          <Tab
+            heading={
+              <TabHeading>
+                <FontAwesome5 name="history" color="#fff" size={20} light />
+                <Text style={Styles.textColor}>Timeline</Text>
+              </TabHeading>
+            }
+          >
+            {loaderState ? (
+              <View>
+                <Loader
+                  showLoader={loaderState}
+                  loaderTitle="Conexion"
+                  loadingText="Loading Conexion Timeline..."
+                />
+              </View>
+            ) : (
+              <Timeline />
+            )}
+          </Tab>
         </Tabs>
         <Snackbar toastVisible={toastVisible} toast={toast} />
       </Container>
@@ -140,6 +164,7 @@ DetailScreen.propTypes = {
   toastVisible: PropTypes.bool.isRequired,
   toast: PropTypes.object.isRequired,
   dispatchSetConexionNoteFilter: PropTypes.func.isRequired,
+  dispatchGetConexionTimeline: PropTypes.func.isRequired,
 };
 
 /**
@@ -167,6 +192,7 @@ const mapDispatchToProps = dispatch => ({
   dispatchGetConexionDetails: () => dispatch(getConexionDetails()),
   dispatchSetConexionNoteFilter: noteFilter =>
     dispatch(setNoteFilter(noteFilter)),
+  dispatchGetConexionTimeline: () => dispatch(getConexionsTimelineAction()),
 });
 
 const withConnect = connect(
