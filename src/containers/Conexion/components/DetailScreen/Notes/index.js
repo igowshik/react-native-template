@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import Lo from 'lodash';
-import moment from 'moment';
 
 // Absolute Imports
 import * as colors from 'cnxapp/src/utils/colorsConstants';
@@ -34,8 +33,6 @@ class Notes extends Component {
       dialogVisible: false,
       notesList: [],
       localSearch: '',
-      localRangeFrom: {},
-      localRangeTo: {},
     };
   }
 
@@ -45,29 +42,25 @@ class Notes extends Component {
   }
 
   componentDidUpdate() {
-    const { localSearch, localRangeFrom, localRangeTo } = this.state;
-    const { searchString, dateRangeFrom, dateRangeTo } = this.props;
+    const { localSearch } = this.state;
+    const { searchString } = this.props;
 
-    if (
-      localSearch !== searchString ||
-      localRangeFrom !== dateRangeFrom ||
-      localRangeTo !== dateRangeTo
-    ) {
-      this.searchNotes(searchString, dateRangeFrom, dateRangeTo);
+    if (localSearch !== searchString) {
+      this.searchNotes(searchString);
     }
   }
 
   getNotsData = () => {
     const { conexionNotes } = this.props;
-    const { notesList } = this.state;
-    notesList.push({
+    const _notes = [];
+    _notes.push({
       time: '',
       title: 'Notes',
       icon: notes,
       circleColor: 'transparent',
     });
     conexionNotes.map(note =>
-      notesList.push({
+      _notes.push({
         time: getFormatedDate(note.LastUpdatedDate),
         title: `${note.Title}`,
         description: note.Note,
@@ -76,10 +69,10 @@ class Notes extends Component {
         userName: note.UpdatedBy.Name,
       }),
     );
-    this.setState(notesList);
+    this.setState({ notesList: _notes });
   };
 
-  searchNotes = (searchString, fromDate, toDate) => {
+  searchNotes = searchString => {
     const { conexionNotes } = this.props;
     const filterData = [
       {
@@ -89,16 +82,7 @@ class Notes extends Component {
         circleColor: 'transparent',
       },
     ];
-    let localCollection = conexionNotes;
-    if (fromDate && toDate) {
-      localCollection = localCollection.filter(note =>
-        moment(note.LastUpdatedDate).isBetween(
-          fromDate,
-          new Date(toDate).setHours(24, 0, 0, 0),
-        ),
-      );
-    }
-    localCollection
+    conexionNotes
       .filter(
         note =>
           note.Title.toLowerCase()
@@ -121,8 +105,6 @@ class Notes extends Component {
     this.setState({
       notesList: filterData,
       localSearch: searchString,
-      localRangeFrom: fromDate,
-      localRangeTo: toDate,
     });
   };
 
@@ -155,6 +137,11 @@ class Notes extends Component {
     this.setState({ modalOpen: true, isEditNote: false, editNoteObject: {} });
   };
 
+  _clearNoteList = () => {
+    console.log('Clear state');
+    this.setState({ notesList: [] });
+  };
+
   render() {
     const {
       modalOpen,
@@ -163,7 +150,7 @@ class Notes extends Component {
       dialogVisible,
       notesList,
     } = this.state;
-
+    console.log(this.props.conexionNotes);
     return (
       <View style={{ flex: 1 }}>
         <View style={styles.container}>
@@ -222,8 +209,6 @@ Notes.propTypes = {
   conexionNotes: PropTypes.array,
   dispatchDeleteNote: PropTypes.func.isRequired,
   searchString: PropTypes.string.isRequired,
-  dateRangeFrom: PropTypes.string.isRequired,
-  dateRangeTo: PropTypes.string.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -246,9 +231,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = createStructuredSelector({
-  conexionNotes: selectConexionNotesData(),
-});
+const mapStateToProps = createStructuredSelector({});
 
 const mapDispatchToProps = dispatch => ({
   dispatchSetGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),

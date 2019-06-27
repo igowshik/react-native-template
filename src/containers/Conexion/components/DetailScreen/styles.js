@@ -12,6 +12,7 @@ export const Styles = StyleSheet.create({
   },
   textColor: {
     color: '#fff',
+    paddingLeft: 5,
   },
   searchBarContainer: {
     flexDirection: 'row',
@@ -41,6 +42,7 @@ export const Styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'flex-start',
     fontSize: 22,
-    paddingTop: 10
+    paddingTop: 10,
+    alignContent: 'center',
   },
 });

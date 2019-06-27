@@ -11,9 +11,9 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { withNavigation } from 'react-navigation';
-import { Container, Tab, Tabs, TabHeading, Text } from 'native-base';
+import { Container, Tab, Tabs, TabHeading } from 'native-base';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
-import { Searchbar } from 'react-native-paper';
+import { Searchbar, Text } from 'react-native-paper';
 import { View, TouchableOpacity } from 'react-native';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 
@@ -37,20 +37,26 @@ import {
   selectConexionNotesData,
   selectToastVisibility,
   selectToastData,
+  selectConexionNoteFilter,
 } from '../../selectors';
-import { getConexionsNotesAction, getConexionDetails } from '../../actions';
+import {
+  getConexionsNotesAction,
+  getConexionDetails,
+  setNoteFilter,
+} from '../../actions';
 import ProfileView from './ProfileView';
 import Notes from './Notes';
 
 class DetailScreen extends React.Component {
-  state = {
-    selected: INDIVIDUAL,
-    firstQuery: '',
-    fromDateVisible: false,
-    toDateVisible: false,
-    fromDate: null,
-    toDate: null,
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      selected: INDIVIDUAL,
+      firstQuery: '',
+      fromDateVisible: false,
+      toDateVisible: false,
+    };
+  }
 
   componentDidMount() {
     const {
@@ -58,16 +64,20 @@ class DetailScreen extends React.Component {
       dispatchSetGlobalLoaderState,
       dispatchGetConexionNotes,
       dispatchGetConexionDetails,
+      dispatchSetConexionNoteFilter,
     } = this.props;
     const selectedValue = navigation.getParam('selectedValue', 'NO-SELECT');
     // const selectedId = navigation.getParam('selectedId', 'NO-ID');
     this.setState({
       selected: selectedValue ? INDIVIDUAL : ORGANIZATION,
-      fromDate: getDateBefore(30),
-      toDate: new Date(new Date().setHours(0, 0, 0, 0)),
     });
 
     dispatchSetGlobalLoaderState(true);
+    dispatchSetConexionNoteFilter({
+      ConexionId: '',
+      StartDate: getDateByFormat(getDateBefore(30), 'L'),
+      EndDate: getDateByFormat(new Date(new Date().setHours(24, 0, 0, 0)), 'L'),
+    });
     dispatchGetConexionNotes();
     dispatchGetConexionDetails();
   }
@@ -82,8 +92,19 @@ class DetailScreen extends React.Component {
 
   handleDatePicked = date => {
     const { fromDateVisible, toDateVisible } = this.state;
-    if (fromDateVisible) this.setState({ fromDate: date });
-    if (toDateVisible) this.setState({ toDate: date });
+    const { dispatchSetConexionNoteFilter, noteFilters } = this.props;
+    if (fromDateVisible) {
+      dispatchSetConexionNoteFilter({
+        ...noteFilters,
+        StartDate: getDateByFormat(date, 'L'),
+      });
+    }
+    if (toDateVisible) {
+      dispatchSetConexionNoteFilter({
+        ...noteFilters,
+        EndDate: getDateByFormat(date, 'L'),
+      });
+    }
     this.hideDateTimePicker();
   };
 
@@ -94,15 +115,22 @@ class DetailScreen extends React.Component {
   };
 
   getSelectedDate = () => {
-    const { fromDateVisible, toDateVisible, fromDate, toDate } = this.state;
-    if (fromDateVisible) return fromDate;
-    if (toDateVisible) return toDate;
+    const { fromDateVisible, toDateVisible } = this.state;
+    const { noteFilters } = this.props;
+    if (fromDateVisible) return new Date(noteFilters.StartDate);
+    if (toDateVisible) return new Date(noteFilters.EndDate);
     return new Date();
   };
 
+  applyDateFilter = () => {
+    const { dispatchGetConexionNotes } = this.props;
+    this.noteRef.current._clearNoteList();
+    dispatchGetConexionNotes();
+  };
+
   render() {
-    const { selected, firstQuery, fromDate, toDate } = this.state;
-    const { loaderState, toastVisible, toast } = this.props;
+    const { selected, firstQuery } = this.state;
+    const { loaderState, toastVisible, toast, noteFilters } = this.props;
     return (
       <Container>
         {/* <Dashboard /> */}
@@ -148,19 +176,58 @@ class DetailScreen extends React.Component {
                   onPress={this.showFromDatePicker}
                   style={Styles.dateField}
                 >
-                  <Text style={{ fontWeight: 'bold' }}>From: </Text>
+                  <FontAwesome5
+                    name="calendar-alt"
+                    color="#696969"
+                    size={22}
+                    style={{ paddingLeft: 5 }}
+                    brand
+                  />
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      paddingLeft: 5,
+                    }}
+                  >
+                    From:{' '}
+                  </Text>
                   <Text style={{ color: colors.primaryColorSet[0] }}>
-                    {getDateByFormat(fromDate, 'L')}
+                    {getDateByFormat(noteFilters.StartDate, 'L')}
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={this.showToDatePicker}
                   style={Styles.dateField}
                 >
-                  <Text style={{ fontWeight: 'bold' }}>To: </Text>
-                  <Text style={{ color: colors.primaryColorSet[0] }}>
-                    {getDateByFormat(toDate, 'L')}
+                  <FontAwesome5
+                    name="calendar-alt"
+                    color="#696969"
+                    size={22}
+                    brand
+                  />
+                  <Text
+                    style={{
+                      fontWeight: 'bold',
+                      paddingLeft: 5,
+                    }}
+                  >
+                    To:{' '}
                   </Text>
+                  <Text style={{ color: colors.primaryColorSet[0] }}>
+                    {getDateByFormat(noteFilters.EndDate, 'L')}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={this.applyDateFilter}
+                  style={{ alignSelf: 'center' }}
+                >
+                  <FontAwesome5
+                    name="filter"
+                    color="#2D2D2D"
+                    size={28}
+                    brand
+                    style={{ paddingRight: 15 }}
+                  />
                 </TouchableOpacity>
                 <DateTimePicker
                   value={this.getSelectedDate()}
@@ -184,8 +251,7 @@ class DetailScreen extends React.Component {
             ) : (
               <Notes
                 searchString={firstQuery}
-                dateRangeFrom={getDateByFormat(fromDate, 'L')}
-                dateRangeTo={getDateByFormat(toDate, 'L')}
+                conexionNotes={this.props.conexionNotes}
               />
             )}
           </Tab>
@@ -204,6 +270,9 @@ DetailScreen.propTypes = {
   loaderState: PropTypes.bool.isRequired,
   toastVisible: PropTypes.bool.isRequired,
   toast: PropTypes.object.isRequired,
+  dispatchSetConexionNoteFilter: PropTypes.func.isRequired,
+  noteFilters: PropTypes.object.isRequired,
+  conexionNotes: PropTypes.array,
 };
 
 /**
@@ -219,6 +288,7 @@ const mapStateToProps = createStructuredSelector({
   conexionNotes: selectConexionNotesData(),
   toastVisible: selectToastVisibility(),
   toast: selectToastData(),
+  noteFilters: selectConexionNoteFilter(),
 });
 
 /**
@@ -230,6 +300,8 @@ const mapDispatchToProps = dispatch => ({
   dispatchSetGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),
   dispatchGetConexionNotes: () => dispatch(getConexionsNotesAction()),
   dispatchGetConexionDetails: () => dispatch(getConexionDetails()),
+  dispatchSetConexionNoteFilter: noteFilter =>
+    dispatch(setNoteFilter(noteFilter)),
 });
 
 const withConnect = connect(

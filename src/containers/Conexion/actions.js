@@ -32,6 +32,7 @@ import {
   CREATE_CONEXION_NOTE,
   EDIT_CONEXION_NOTE,
   DELETE_CONEXION_NOTE,
+  SAVE_NOTE_FILTER,
 } from './constants';
 
 export function getIndConexions() {
@@ -181,4 +182,9 @@ export const editConexionNote = () => ({
 export const deleteConexionNote = noteId => ({
   type: DELETE_CONEXION_NOTE,
   noteId,
+});
+
+export const setNoteFilter = noteFilter => ({
+  type: SAVE_NOTE_FILTER,
+  noteFilter,
 });
