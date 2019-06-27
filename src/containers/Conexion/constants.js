@@ -39,6 +39,7 @@ export const SAVE_NOTE_DATE = '@Conexion/SAVE_NOTE_DATE';
 export const CREATE_CONEXION_NOTE = '@Conexion/CREATE_CONEXION_NOTE';
 export const EDIT_CONEXION_NOTE = '@Conexion/EDIT_CONEXION_NOTE';
 export const DELETE_CONEXION_NOTE = '@Conexion/DELETE_CONEXION_NOTE';
+export const SAVE_NOTE_FILTER = '@Conexion/SAVE_NOTE_FILTER';
 
 // Local component constants
 export const INDIVIDUAL = 'Individual';

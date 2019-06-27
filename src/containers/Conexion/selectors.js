@@ -144,6 +144,12 @@ const selectCreateConexionNoteData = () =>
     dataState => dataState.notesData,
   );
 
+const selectConexionNoteFilter = () =>
+  createSelector(
+    conexionReducers,
+    dataState => dataState.noteFilter,
+  );
+
 export {
   selectIndConexion,
   selectOrgConexion,
@@ -166,5 +172,6 @@ export {
   selectOrganisationDetails,
   selectEditCNXModal,
   selectCreateConexionNoteData,
+  selectConexionNoteFilter,
   selectConexionTimelineData,
 };
