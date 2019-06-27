@@ -149,6 +149,10 @@ class Conexion extends React.Component {
       createConexionType: conexionType,
     });
     this.props.dispatchIndividualModalState(modalState);
+      this._onSwitchIndOrgPress(ORGANIZATION);
+    } else {
+      this._onSwitchIndOrgPress(INDIVIDUAL);
+    }
   };
 
   searchConexions = searchText => {
