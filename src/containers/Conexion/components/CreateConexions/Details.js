@@ -56,6 +56,7 @@ class Details extends React.Component {
                     label="First Name"
                     name="ind_first_name"
                     required
+                    helperText="First name is required"
                   />
                 </Col>
                 <Col>
@@ -64,10 +65,20 @@ class Details extends React.Component {
               </Row>
               <Row>
                 <Col>
-                  <TextInput label="Last Name" name="ind_last_name" required />
+                  <TextInput
+                    label="Last Name"
+                    name="ind_last_name"
+                    required
+                    helperText="Last name is required"
+                  />
                 </Col>
                 <Col>
-                  <TextInput label="initial" name="ind_initial" required />
+                  <TextInput
+                    label="initial"
+                    name="ind_initial"
+                    required
+                    helperText="Intial is required"
+                  />
                 </Col>
               </Row>
               <Row>

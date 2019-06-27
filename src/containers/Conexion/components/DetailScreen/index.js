@@ -11,9 +11,9 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { withNavigation } from 'react-navigation';
-import { Container, Tab, Tabs, TabHeading, Text } from 'native-base';
+import { Container, Tab, Tabs, TabHeading } from 'native-base';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
-import { Searchbar } from 'react-native-paper';
+import { Text } from 'react-native-paper';
 import { View } from 'react-native';
 
 // Absolute imports
@@ -21,8 +21,7 @@ import { HorizDivider } from 'cnxapp/src/components/Dividers';
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
 import Loader from 'cnxapp/src/components/Loader';
 import Snackbar from 'cnxapp/src/components/Snackbar';
-
-// import * as Colors from 'cnxapp/src/utils/colorsConstants';
+import { getDateByFormat, getDateBefore } from 'cnxapp/src/utils/DateFormatter';
 
 // Relative imports
 import { Styles } from './styles';
@@ -33,34 +32,35 @@ import {
   selectIndConexion,
   selectOrgConexion,
   selectGlobalLoader,
-  selectConexionNotesData,
-  selectConexionTimelineData,
   selectToastVisibility,
   selectToastData,
 } from '../../selectors';
 
 import {
-  getConexionDetails,
   getConexionsNotesAction,
+  getConexionDetails,
+  setNoteFilter,
   getConexionsTimelineAction,
 } from '../../actions';
-
 import ProfileView from './ProfileView';
 import Notes from './Notes';
 import Timeline from './Timeline';
 
 class DetailScreen extends React.Component {
-  state = {
-    selected: INDIVIDUAL,
-    firstQuery: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      selected: INDIVIDUAL,
+    };
+  }
 
   componentDidMount() {
     const {
       navigation,
       dispatchSetGlobalLoaderState,
-      dispatchGetConexionDetails,
       dispatchGetConexionNotes,
+      dispatchGetConexionDetails,
+      dispatchSetConexionNoteFilter,
       dispatchGetConexionTimeline,
     } = this.props;
     const selectedValue = navigation.getParam('selectedValue', 'NO-SELECT');
@@ -70,17 +70,18 @@ class DetailScreen extends React.Component {
     });
 
     dispatchSetGlobalLoaderState(true);
-    dispatchGetConexionDetails();
+    dispatchSetConexionNoteFilter({
+      ConexionId: '',
+      StartDate: getDateByFormat(getDateBefore(30), 'L'),
+      EndDate: getDateByFormat(new Date(new Date().setHours(24, 0, 0, 0)), 'L'),
+    });
     dispatchGetConexionNotes();
+    dispatchGetConexionDetails();
     dispatchGetConexionTimeline();
   }
 
-  searchConexions = searchText => {
-    this.setState({ firstQuery: searchText });
-  };
-
   render() {
-    const { selected, firstQuery } = this.state;
+    const { selected } = this.state;
     const { loaderState, toastVisible, toast } = this.props;
     return (
       <Container>
@@ -100,7 +101,7 @@ class DetailScreen extends React.Component {
                 <Loader
                   showLoader={loaderState}
                   loaderTitle="Conexion"
-                  loadingText="Loading Conexion details..."
+                  loadingText="Loading conexion details..."
                 />
               </View>
             ) : (
@@ -115,18 +116,12 @@ class DetailScreen extends React.Component {
               </TabHeading>
             }
           >
-            <Searchbar
-              placeholder="Search notes"
-              onChangeText={query => this.searchConexions(query)}
-              value={firstQuery}
-              style={Styles.searchbar}
-            />
             {loaderState ? (
               <View>
                 <Loader
                   showLoader={loaderState}
                   loaderTitle="Conexion"
-                  loadingText="Loading Conexion Notes..."
+                  loadingText="Loading notes..."
                 />
               </View>
             ) : (
@@ -141,12 +136,6 @@ class DetailScreen extends React.Component {
               </TabHeading>
             }
           >
-            <Searchbar
-              placeholder="Search timeline"
-              onChangeText={query => this.searchConexions(query)}
-              value={firstQuery}
-              style={Styles.searchbar}
-            />
             {loaderState ? (
               <View>
                 <Loader
@@ -170,11 +159,12 @@ DetailScreen.propTypes = {
   navigation: PropTypes.object,
   dispatchSetGlobalLoaderState: PropTypes.func.isRequired,
   dispatchGetConexionNotes: PropTypes.func,
-  dispatchGetConexionTimeline: PropTypes.func,
   dispatchGetConexionDetails: PropTypes.func.isRequired,
   loaderState: PropTypes.bool.isRequired,
   toastVisible: PropTypes.bool.isRequired,
   toast: PropTypes.object.isRequired,
+  dispatchSetConexionNoteFilter: PropTypes.func.isRequired,
+  dispatchGetConexionTimeline: PropTypes.func.isRequired,
 };
 
 /**
@@ -187,8 +177,6 @@ const mapStateToProps = createStructuredSelector({
   loaderState: selectGlobalLoader(),
   indConexions: selectIndConexion(),
   orgConexions: selectOrgConexion(),
-  conexionNotes: selectConexionNotesData(),
-  timelineEntries: selectConexionTimelineData(),
   toastVisible: selectToastVisibility(),
   toast: selectToastData(),
 });
@@ -201,8 +189,10 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
   dispatchSetGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),
   dispatchGetConexionNotes: () => dispatch(getConexionsNotesAction()),
-  dispatchGetConexionTimeline: () => dispatch(getConexionsTimelineAction()),
   dispatchGetConexionDetails: () => dispatch(getConexionDetails()),
+  dispatchSetConexionNoteFilter: noteFilter =>
+    dispatch(setNoteFilter(noteFilter)),
+  dispatchGetConexionTimeline: () => dispatch(getConexionsTimelineAction()),
 });
 
 const withConnect = connect(

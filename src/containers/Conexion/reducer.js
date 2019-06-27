@@ -18,6 +18,7 @@ import {
   SET_ORGANISATION_DETAILS,
   EDIT_CNX_MODAL,
   SAVE_NOTE_DATE,
+  SAVE_NOTE_FILTER,
 } from './constants';
 
 export const conexionInitialState = {
@@ -46,6 +47,11 @@ export const conexionInitialState = {
     Note: '',
     PrivateNote: false,
     Title: '',
+  },
+  noteFilter: {
+    ConexionId: '',
+    StartDate: new Date(),
+    EndDate: new Date(),
   },
 };
 
@@ -123,6 +129,10 @@ const conexionStore = (state = conexionInitialState, action) =>
       }
       case SAVE_NOTE_DATE: {
         draftState.notesData = action.noteData;
+        break;
+      }
+      case SAVE_NOTE_FILTER: {
+        draftState.noteFilter = action.noteFilter;
         break;
       }
       default: {
