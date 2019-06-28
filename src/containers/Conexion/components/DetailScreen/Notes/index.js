@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
-import { FAB, Searchbar, Text } from 'react-native-paper';
+import {
+  FAB,
+  Searchbar,
+  Text,
+  IconButton,
+  TouchableRipple,
+  Title,
+  Surface,
+} from 'react-native-paper';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import Lo from 'lodash';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
+import { Row, Col } from 'native-base';
 
 // Absolute Imports
 import * as colors from 'cnxapp/src/utils/colorsConstants';
@@ -194,80 +203,82 @@ class Notes extends Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <View style={styles.searchBarContainer}>
-          <Searchbar
-            placeholder="Search notes"
-            onChangeText={query => this.searchConexions(query)}
-            value={searchText}
-            style={styles.searchbar}
-          />
-          <View style={styles.datePickerContainer}>
-            <TouchableOpacity
-              onPress={this.showFromDatePicker}
-              style={styles.dateField}
-            >
-              <FontAwesome5
-                name="calendar-alt"
-                color="#696969"
-                size={22}
-                style={{ paddingLeft: 5 }}
-                brand
+        <Surface style={{ elevation: 4 }}>
+          <Row style={{ height: 'auto' }}>
+            <Col>
+              <TouchableRipple onPress={this.showFromDatePicker}>
+                <View style={styles.dateView}>
+                  <IconButton
+                    icon={() => (
+                      <FontAwesome5
+                        name="calendar-plus"
+                        color={colors.SECONDARY}
+                        size={20}
+                        light
+                      />
+                    )}
+                    color={colors.SECONDARY}
+                    mode="outlined"
+                    onPress={this.showFromDatePicker}
+                  />
+                  <Title>From: </Title>
+                  <Text style={styles.dateText}>
+                    {` ${getDateByFormat(noteFilters.StartDate, 'L')}`}
+                  </Text>
+                </View>
+              </TouchableRipple>
+            </Col>
+            <Col>
+              <TouchableRipple onPress={this.showFromDatePicker}>
+                <View style={styles.dateView}>
+                  <IconButton
+                    icon={() => (
+                      <FontAwesome5
+                        name="calendar-plus"
+                        color={colors.SECONDARY}
+                        size={20}
+                        light
+                      />
+                    )}
+                    color={colors.SECONDARY}
+                    mode="outlined"
+                    onPress={this.showFromDatePicker}
+                  />
+                  <Title>To: </Title>
+                  <Text style={styles.dateText}>{` ${getDateByFormat(
+                    noteFilters.EndDate,
+                    'L',
+                  )}`}</Text>
+                </View>
+              </TouchableRipple>
+            </Col>
+            <Col style={styles.filterView}>
+              <IconButton
+                icon={() => (
+                  <FontAwesome5
+                    color={colors.PURPLE}
+                    name="filter"
+                    size={20}
+                    solid
+                  />
+                )}
+                mode="outlined"
+                color={colors.PURPLE}
+                onPress={this.applyDateFilter}
               />
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  paddingLeft: 5,
-                }}
-              >
-                From:{' '}
-              </Text>
-              <Text style={{ color: colors.primaryColorSet[0] }}>
-                {getDateByFormat(noteFilters.StartDate, 'L')}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={this.showToDatePicker}
-              style={styles.dateField}
-            >
-              <FontAwesome5
-                name="calendar-alt"
-                color="#696969"
-                size={22}
-                brand
+            </Col>
+          </Row>
+          <Row style={{ height: 'auto' }}>
+            <Col>
+              <Searchbar
+                placeholder="Search notes"
+                onChangeText={query => this.searchConexions(query)}
+                value={searchText}
+                style={styles.searchbar}
               />
-              <Text
-                style={{
-                  fontWeight: 'bold',
-                  paddingLeft: 5,
-                }}
-              >
-                To:{' '}
-              </Text>
-              <Text style={{ color: colors.primaryColorSet[0] }}>
-                {getDateByFormat(noteFilters.EndDate, 'L')}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={this.applyDateFilter}
-              style={{ alignSelf: 'center' }}
-            >
-              <FontAwesome5
-                name="filter"
-                color="#2D2D2D"
-                size={28}
-                brand
-                style={{ paddingRight: 15 }}
-              />
-            </TouchableOpacity>
-            <DateTimePicker
-              value={this.getSelectedDate()}
-              mode="date"
-              visible={this.state.fromDateVisible || this.state.toDateVisible}
-              onDateSelect={this.handleDatePicked}
-              onCancel={this.hideDateTimePicker}
-            />
-          </View>
-        </View>
+            </Col>
+          </Row>
+        </Surface>
         <View style={styles.container}>
           <NotesView
             style={styles.list}
@@ -296,6 +307,13 @@ class Notes extends Component {
             message={DELETE_NOTE_MESSAGE}
             onDismiss={this.onDialogDismiss}
             onConfirm={this.onDialogConfirm}
+          />
+          <DateTimePicker
+            value={this.getSelectedDate()}
+            mode="date"
+            visible={this.state.fromDateVisible || this.state.toDateVisible}
+            onDateSelect={this.handleDatePicked}
+            onCancel={this.hideDateTimePicker}
           />
         </View>
         <FAB
@@ -346,36 +364,23 @@ const styles = StyleSheet.create({
     bottom: 0,
     backgroundColor: colors.PRIMARY,
   },
-  searchBarContainer: {
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    justifyContent: 'center',
-    marginTop: 10,
-    marginBottom: 2,
-    borderWidth: 0.5,
-    borderColor: 'rgba(0,0,0,0.3)',
-    height: 50,
-  },
   searchbar: {
-    // margin: 2,
-    flex: 1,
-    height: 50,
+    marginBottom: 2,
   },
-  datePickerContainer: {
-    flex: 1,
+  dateView: {
     flexDirection: 'row',
-    alignItems: 'stretch',
     justifyContent: 'center',
-    padding: 5,
-    height: 50,
+    alignItems: 'center',
   },
-  dateField: {
-    flex: 1,
+  filterView: {
     flexDirection: 'row',
-    alignSelf: 'flex-start',
-    fontSize: 22,
-    paddingTop: 10,
-    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // marginLeft: 10,
+  },
+  dateText: {
+    color: colors.PRIMARY,
+    margin: 3,
   },
 });
 
