@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import Lo from 'lodash';
 
 // Absolute Imports
 import * as colors from 'cnxapp/src/utils/colorsConstants';

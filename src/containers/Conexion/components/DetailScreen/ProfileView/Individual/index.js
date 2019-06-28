@@ -23,14 +23,7 @@ import EditConexion from 'cnxapp/src/containers/Conexion/components/EditConexion
 import { editConexionMapper } from 'cnxapp/src/containers/Conexion/mappers';
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 
-import {
-  getTitleName,
-  getOrgName,
-  getEmail,
-  getPhone,
-  getContact,
-  getCreatedBy,
-} from '../util';
+import { getTitleName, getOrgName, getContact, getCreatedBy } from '../util';
 import Communication from './Communication';
 import Address from './Address';
 import Sharing from './Sharing';

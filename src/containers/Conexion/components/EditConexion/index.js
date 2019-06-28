@@ -68,7 +68,9 @@ class CreateConexions extends Component {
         <FullPageModal
           visible={modalOpen}
           handleModalVisible={this._closeModal}
-          modalHeaderText={conexionType === INDIVIDUAL ?"Edit Conexion": "Edit Organisaiton"}
+          modalHeaderText={
+            conexionType === INDIVIDUAL ? 'Edit Conexion' : 'Edit Organisaiton'
+          }
         >
           <View style={styles.headerContainer}>
             <Button

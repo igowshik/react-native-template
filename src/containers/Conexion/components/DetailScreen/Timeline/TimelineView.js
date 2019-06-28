@@ -10,7 +10,6 @@ import React, { Component } from 'react';
 import { Card, Text, Avatar, Paragraph } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import HTMLView from 'react-native-htmlview';
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 
@@ -256,7 +255,7 @@ export default class TimelineView extends Component {
                   style={styles.avatar}
                   size={50}
                   source={{
-                    uri: '${rowData.avatar}',
+                    uri: `${rowData.avatar}`,
                   }}
                   color={colors.WHITE}
                 />
