@@ -1,20 +1,18 @@
 import moment from 'moment';
 
 export const getFormatedDate = date =>
-  moment
-    .utc(date)
+  moment(date, 'L')
+    .utc()
     .local()
     .format('L LT');
 
 export const getDateByFormat = (date, format) =>
-  moment
-    .utc(date)
+  moment(date, format)
+    .utc()
     .local()
     .format(format);
 
 export const getDateBefore = days =>
-  new Date(
-    moment()
-      .subtract(days, 'days')
-      .calendar(),
-  );
+  moment()
+    .subtract(days, 'days')
+    .calendar();

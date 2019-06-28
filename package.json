@@ -5,8 +5,7 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "lint": "npm run lint:js && npm run lint:css",
-    "lint:css": "stylelint './app/**/*.js'",
+    "lint": "npm run lint:js",
     "lint:eslint": "eslint --ignore-path .gitignore --ignore-pattern internals/scripts",
     "lint:eslint:fix": "eslint --ignore-path .gitignore --ignore-pattern internals/scripts --fix",
     "lint:js": "npm run lint:eslint -- . ",
@@ -14,7 +13,8 @@
     "prettify": "prettier --write",
     "start-ios": "react-native run-ios --simulator='iPad Air 2'",
     "start-android": "react-native run-android",
-    "start-debugger": "open 'rndebugger://set-debugger-loc?host=localhost&port=8081'"
+    "start-debugger": "open 'rndebugger://set-debugger-loc?host=localhost&port=8081'",
+    "eslint": "./pre-commit-eslint.sh"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.4.2",
@@ -58,6 +58,7 @@
     "reselect": "^4.0.0",
     "whatwg-fetch": "^3.0.0"
   },
+  "pre-commit": ["eslint"],
   "jest": {
     "preset": "react-native"
   },
