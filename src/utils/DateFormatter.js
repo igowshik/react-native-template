@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 export const getFormatedDate = date =>
-  moment(date, 'L')
+  moment(new Date(date), 'L')
     .utc()
     .local()
     .format('L LT');

@@ -9,6 +9,7 @@ import {
   TouchableRipple,
   Title,
   Surface,
+  Divider,
 } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -176,7 +177,7 @@ class Notes extends Component {
       conexionNotes.map(note =>
         _notes.push({
           time: getFormatedDate(note.LastUpdatedDate),
-          title: `${note.Title}`,
+          title: note.Title,
           avatar: note.UpdatedBy.Avatar,
           description: note.Note,
           privateNote: note.PrivateNote,
@@ -229,7 +230,7 @@ class Notes extends Component {
               </TouchableRipple>
             </Col>
             <Col>
-              <TouchableRipple onPress={this.showFromDatePicker}>
+              <TouchableRipple onPress={this.showToDatePicker}>
                 <View style={styles.dateView}>
                   <IconButton
                     icon={() => (
@@ -242,7 +243,7 @@ class Notes extends Component {
                     )}
                     color={colors.SECONDARY}
                     mode="outlined"
-                    onPress={this.showFromDatePicker}
+                    onPress={this.showToDatePicker}
                   />
                   <Title>To: </Title>
                   <Text style={styles.dateText}>{` ${getDateByFormat(
@@ -268,6 +269,7 @@ class Notes extends Component {
               />
             </Col>
           </Row>
+          <Divider />
           <Row style={{ height: 'auto' }}>
             <Col>
               <Searchbar
