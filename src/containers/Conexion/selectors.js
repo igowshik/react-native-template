@@ -66,7 +66,7 @@ const selectConexionNotesData = () =>
 const selectConexionTimelineData = () =>
   createSelector(
     conexionReducers,
-    dataState => dataState.timelineEntries,
+    dataState => dataState.conexionTimeline,
   );
 
 const selectConexionId = () =>
@@ -150,6 +150,12 @@ const selectConexionNoteFilter = () =>
     dataState => dataState.noteFilter,
   );
 
+const selectConexionTimelineFilter = () =>
+  createSelector(
+    conexionReducers,
+    dataState => dataState.timelineFilter,
+  );
+
 export {
   selectIndConexion,
   selectOrgConexion,
@@ -174,4 +180,5 @@ export {
   selectCreateConexionNoteData,
   selectConexionNoteFilter,
   selectConexionTimelineData,
+  selectConexionTimelineFilter,
 };
