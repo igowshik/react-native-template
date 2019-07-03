@@ -13,8 +13,8 @@ import * as Colors from 'cnxapp/src/utils/colorsConstants';
 // Relative imports
 import AuthLoadingScreen from '../components/AuthLoadingScreen';
 import OtherScreen from '../containers/Home/OtherScreen';
-import Expense from '../containers/Expense';
 import Login from '../containers/Login';
+
 import {
   HOME,
   EXPENSE,
@@ -31,6 +31,7 @@ import {
 // Stack imports
 import ConexionStack from './routes/ConexionStack';
 import HomeStack from './routes/HomeStack';
+import ExpenseStack from './routes/ExpenseStack';
 
 const getTabBarIcon = (navigation, focused, tintColor) => {
   const { routeName } = navigation.state;
@@ -74,13 +75,13 @@ const AppStack = createMaterialBottomTabNavigator(
   {
     HOME: HomeStack,
     CONEXION: ConexionStack,
-    CHAT: ConexionStack,
-    EXPENSE: { screen: Expense },
+    EXPENSE: ExpenseStack,
     TIMESHEET: { screen: OtherScreen },
     CASE: { screen: OtherScreen },
     TRACKER: { screen: OtherScreen },
     CONTACT: { screen: OtherScreen },
     REPORTS: { screen: OtherScreen },
+    CHAT: { screen: OtherScreen },
     MORE: { screen: OtherScreen },
   },
   {
@@ -94,7 +95,7 @@ const AppStack = createMaterialBottomTabNavigator(
       },
       showIcon: false,
     },
-    initialRouteName: CONEXION,
+    initialRouteName: EXPENSE,
     activeColor: '#004DFF',
     inactiveColor: Colors.DARK,
     barStyle: { backgroundColor: '#FDFDFF' },

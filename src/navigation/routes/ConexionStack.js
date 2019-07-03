@@ -26,8 +26,6 @@ const ConexionStack = createStackNavigator(
           flexGrow: 1,
           textAlign: 'center',
         },
-
-        // Platform.OS === 'ios' ? ios : android,
       },
     },
     SecondScreen: {
@@ -55,20 +53,5 @@ const ConexionStack = createStackNavigator(
     },
   },
 );
-
-const ios = {
-  color: '#000',
-  fontFamily: 'Montserrat',
-  fontWeight: '400',
-  fontSize: 25,
-};
-const android = {
-  color: '#000',
-  fontFamily: 'Montserrat-Regular',
-  fontWeight: '400',
-  fontSize: 25,
-  flexGrow: 1,
-  textAlign: 'center',
-};
 
 export default ConexionStack;
