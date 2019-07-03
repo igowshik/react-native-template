@@ -81,8 +81,6 @@ class OrganiztionConexion extends React.Component {
                 } (${conexionDetails.ShortName})`}
               </H1>
               {getHomePage(conexionDetails.BusinessHomePage)}
-              {/* {getEmail(conexionDetails.BusinessEmailAddress)}
-              {getPhone(conexionDetails.BusinessTelephoneNumber)} */}
               {getContact(
                 conexionDetails.BusinessEmailAddress,
                 conexionDetails.BusinessTelephoneNumber,
@@ -135,7 +133,7 @@ const styles = StyleSheet.create({
   overlap: {
     marginTop: -15,
     flex: 1,
-    marginBottom: 10,
+    // marginBottom: 10,
     flexDirection: 'row',
     borderRadius: 10,
     borderBottomLeftRadius: 0,

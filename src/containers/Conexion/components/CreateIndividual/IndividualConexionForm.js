@@ -9,7 +9,7 @@ import Communication from './Commuinacation';
 import OrganisationForm from '../CreateOrganisation';
 import { INDIVIDUAL } from '../../constants';
 
-class CreateConexionForm extends React.Component {
+class IndividualConexionForm extends React.Component {
   renderIndividualForm = () => (
     <View>
       <Details />
@@ -28,8 +28,8 @@ class CreateConexionForm extends React.Component {
   }
 }
 
-CreateConexionForm.propTypes = {
+IndividualConexionForm.propTypes = {
   viewType: PropTypes.string.isRequired,
 };
 
-export default CreateConexionForm;
+export default IndividualConexionForm;

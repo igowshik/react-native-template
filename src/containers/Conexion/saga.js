@@ -103,6 +103,7 @@ function* getOrganizationConexionAPI() {
     },
   };
   const response = yield call(request, requestURL, options);
+
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(saveOrgConexions(response.data));
@@ -485,11 +486,25 @@ function* createOragnisationDetailsAPI() {
     yield put(setRootGlobalLoader(false));
     yield put(setIndividualModalVisibility(false));
     yield put(getOrgConexions());
+  } else if (response.status === 422) {
+    yield put(setIndividualModalVisibility(false));
+    yield put(
+      setToastMessage({
+        toastMessage: response.response.Messages
+          ? `Message from server: ${response.response.Messages[0].ErrorMessage}`
+          : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
   } else {
     yield put(setIndividualModalVisibility(false));
     yield put(
       setToastMessage({
-        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastMessage: response.message
+          ? `Message from server: ${response.message}`
+          : GENERAL_ERROR,
         toastType: ERROR,
       }),
     );

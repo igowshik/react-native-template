@@ -19,11 +19,11 @@ import {
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 // Relative imports
-import CreateConexionForm from './CreateConexionForm';
+import IndividualConexionForm from './IndividualConexionForm';
 import { INDIVIDUAL } from '../../constants';
 import { validate } from '../../validators/IndividualValidator';
 
-class CreateConexions extends Component {
+class CreateIndividual extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -73,7 +73,7 @@ class CreateConexions extends Component {
         handleModalVisible={this._closeModal}
         modalHeaderText={
           conexionType === INDIVIDUAL
-            ? 'Create Conexion'
+            ? 'Create Individual'
             : 'Create Organisation'
         }
       >
@@ -92,7 +92,7 @@ class CreateConexions extends Component {
           </Button>
         </View>
         <ScrollView>
-          <CreateConexionForm
+          <IndividualConexionForm
             handleSubmit={handleSubmit}
             viewType={conexionType}
           />
@@ -102,7 +102,7 @@ class CreateConexions extends Component {
   }
 }
 
-CreateConexions.propTypes = {
+CreateIndividual.propTypes = {
   setModalOpenClose: PropTypes.func.isRequired,
   modalOpen: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
@@ -140,7 +140,7 @@ const withConnect = connect(
 export default compose(
   withConnect,
   redux,
-)(CreateConexions);
+)(CreateIndividual);
 
 const styles = StyleSheet.create({
   headerContainer: {

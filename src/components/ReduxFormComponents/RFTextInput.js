@@ -29,9 +29,11 @@ export const RFTextInput = props => {
         style={{ width: '100%' }}
         error={hasError}
       />
-      <HelperText type="error" visible={hasError}>
-        {helperText || 'this field is required'}
-      </HelperText>
+      {required ? (
+        <HelperText type="error" visible={hasError}>
+          {helperText || 'this field is required'}
+        </HelperText>
+      ) : null}
     </View>
   );
 };

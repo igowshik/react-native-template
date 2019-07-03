@@ -17,6 +17,7 @@ export const validate = values => {
   )
     errors.business_telephone_number = true;
   if (!values.org_name) errors.org_name = true;
+  if (!values.org_short_name) errors.org_short_name = true;
 
   return errors;
 };

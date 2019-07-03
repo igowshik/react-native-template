@@ -7,7 +7,6 @@ import {
   Text,
   IconButton,
   TouchableRipple,
-  Title,
   Surface,
   Divider,
 } from 'react-native-paper';
@@ -222,7 +221,7 @@ class Notes extends Component {
                     mode="outlined"
                     onPress={this.showFromDatePicker}
                   />
-                  <Title>From: </Title>
+                  <Text>From: </Text>
                   <Text style={styles.dateText}>
                     {` ${getDateByFormat(noteFilters.StartDate, 'L')}`}
                   </Text>
@@ -245,7 +244,7 @@ class Notes extends Component {
                     mode="outlined"
                     onPress={this.showToDatePicker}
                   />
-                  <Title>To: </Title>
+                  <Text>To: </Text>
                   <Text style={styles.dateText}>{` ${getDateByFormat(
                     noteFilters.EndDate,
                     'L',

@@ -22,7 +22,7 @@ import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 // Relative imports
 import ConexionList from './ConexionList';
-import CreateConexions from './CreateConexions';
+import CreateIndividual from './CreateIndividual';
 import {
   selectToken,
   selectIndConexion,
@@ -43,7 +43,7 @@ import {
   getUserDDList,
   getOrgDDList,
 } from '../actions';
-import { conexionStyles as styles } from '../styles';
+import { conexionStyles as styles, conexionStyles } from '../styles';
 import { INDIVIDUAL, ORGANIZATION, ALL } from '../constants';
 import FABUI from './UIComponents/FAB';
 
@@ -196,15 +196,7 @@ class Conexion extends React.Component {
                     this._onSwitchIndOrgPress(INDIVIDUAL);
                   }}
                 >
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      paddingVertical: 8,
-                      paddingHorizontal: 16,
-                    }}
-                  >
+                  <View style={conexionStyles.filter}>
                     <Paragraph>{INDIVIDUAL}</Paragraph>
                     <RadioButton value={INDIVIDUAL} />
                   </View>
@@ -214,22 +206,14 @@ class Conexion extends React.Component {
                     this._onSwitchIndOrgPress(ORGANIZATION);
                   }}
                 >
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      paddingVertical: 8,
-                      paddingHorizontal: 16,
-                    }}
-                  >
+                  <View style={conexionStyles.filter}>
                     <Paragraph>{ORGANIZATION}</Paragraph>
                     <RadioButton value={ORGANIZATION} />
                   </View>
                 </TouchableRipple>
               </RadioButton.Group>
             </View>
-            <CreateConexions
+            <CreateIndividual
               modalOpen={conexionModal}
               setModalOpenClose={this.setModalOpenClose}
               conexionType={createConexionType}
