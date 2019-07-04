@@ -46,7 +46,7 @@ export default class DateTimePickerTester extends Component {
               icon="done"
               mode="contained"
               onPress={this.showDateTimePicker}
-              color="#5856d6"
+              color="#000"
             >
               {'Select date'}
             </Button>
