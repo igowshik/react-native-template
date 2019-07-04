@@ -9,7 +9,7 @@ export const IntialState = {
   },
 };
 
-const expenseRootStore = (state = IntialState, action) =>
+const expensePrimaryScreenStore = (state = IntialState, action) =>
   produce(state, draft => {
     const draftState = draft;
     switch (action.type) {
@@ -23,4 +23,4 @@ const expenseRootStore = (state = IntialState, action) =>
     }
   });
 
-export default expenseRootStore;
+export default expensePrimaryScreenStore;

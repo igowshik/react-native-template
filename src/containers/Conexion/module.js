@@ -5,7 +5,7 @@ import conexionSaga from './saga';
 export function getConexionModule() {
   return {
     // Unique id of the module
-    id: 'conexionStore',
+    id: 'conexionStore-3e5e3581-9f7a-4b28-b449-b156853b3efd',
     // Maps the Store key to the reducer
     reducerMap: {
       conexionStore: conexionReducer,

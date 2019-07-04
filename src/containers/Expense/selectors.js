@@ -4,13 +4,13 @@ import { createSelector } from 'reselect';
 import { rootInitialState } from 'cnxapp/src/app/rootReducer';
 
 // Relative imports
-import { expenseIntialState } from './reducer';
+import { IntialState } from './reducer';
 
 const rootReducers = state =>
   state.rootStore ? state.rootStore : rootInitialState;
 
 const expenseReducers = state =>
-  state.conexionStore ? state.conexionStore : expenseIntialState;
+  state.expenseRootStore ? state.expenseRootStore : IntialState;
 
 // Root state selectors
 const selectToken = () =>
