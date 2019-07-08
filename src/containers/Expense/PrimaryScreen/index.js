@@ -1,31 +1,9 @@
 import React, { Component } from 'react';
 import { View, StatusBar } from 'react-native';
-import { Avatar, Button, Card, Paragraph } from 'react-native-paper';
-import moment from 'moment';
+import { Avatar, Card } from 'react-native-paper';
 
-import DateTimePicker from '../../../components/DateTimePicker';
-
-export default class DateTimePickerTester extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isDateTimePickerVisible: false,
-      selectedDate: null,
-    };
-  }
-
-  showDateTimePicker = () => {
-    this.setState({ isDateTimePickerVisible: true });
-  };
-
-  hideDateTimePicker = () => {
-    this.setState({ isDateTimePickerVisible: false });
-  };
-
-  handleDatePicked = date => {
-    this.setState({ selectedDate: moment(date).format('LLLL') });
-    this.hideDateTimePicker();
-  };
+export default class Expense extends Component {
+  state = {};
 
   render() {
     return (
@@ -33,32 +11,10 @@ export default class DateTimePickerTester extends Component {
         <StatusBar hidden />
         <Card elevation={4}>
           <Card.Title
-            title="DateTime Picker"
-            left={props => <Avatar.Icon {...props} icon="date-range" />}
+            title="Expense work In progress"
+            left={props => <Avatar.Icon {...props} icon="attach-money" />}
           />
-          <Card.Content>
-            <Paragraph>
-              {this.state.selectedDate || 'Select date to view here'}
-            </Paragraph>
-          </Card.Content>
-          <Card.Actions>
-            <Button
-              icon="done"
-              mode="contained"
-              onPress={this.showDateTimePicker}
-              color="#000"
-            >
-              {'Select date'}
-            </Button>
-          </Card.Actions>
         </Card>
-        <DateTimePicker
-          value={new Date()}
-          mode="datetime"
-          visible={this.state.isDateTimePickerVisible}
-          onDateSelect={this.handleDatePicked}
-          onCancel={this.hideDateTimePicker}
-        />
       </View>
     );
   }
