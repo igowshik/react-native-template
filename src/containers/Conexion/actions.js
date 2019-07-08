@@ -37,6 +37,7 @@ import {
   EDIT_CONEXION_NOTE,
   DELETE_CONEXION_NOTE,
   SAVE_NOTE_FILTER,
+  SAVE_TIMELINE_FILTER,
 } from './constants';
 
 export function getIndConexions() {
@@ -62,7 +63,7 @@ export const setConexionDataAction = conexionData => ({
   conexionData,
 });
 
-export const getConexionsTimelineAction = () => ({
+export const getConexionTimelineAction = () => ({
   type: GET_CONEXION_TIMELINE,
 });
 
@@ -208,4 +209,9 @@ export const deleteConexionNote = noteId => ({
 export const setNoteFilter = noteFilter => ({
   type: SAVE_NOTE_FILTER,
   noteFilter,
+});
+
+export const setTimelineFilter = timelineFilter => ({
+  type: SAVE_TIMELINE_FILTER,
+  timelineFilter,
 });
