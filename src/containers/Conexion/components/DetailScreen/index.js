@@ -40,7 +40,8 @@ import {
   getConexionsNotesAction,
   getConexionDetails,
   setNoteFilter,
-  getConexionsTimelineAction,
+  getConexionTimelineAction,
+  setTimelineFilter,
 } from '../../actions';
 import ProfileView from './ProfileView';
 import Notes from './Notes';
@@ -62,6 +63,7 @@ class DetailScreen extends React.Component {
       dispatchGetConexionDetails,
       dispatchSetConexionNoteFilter,
       dispatchGetConexionTimeline,
+      dispatchSetConexionTimelineFilter,
     } = this.props;
     const selectedValue = navigation.getParam('selectedValue', 'NO-SELECT');
     // const selectedId = navigation.getParam('selectedId', 'NO-ID');
@@ -77,6 +79,11 @@ class DetailScreen extends React.Component {
     });
     dispatchGetConexionNotes();
     dispatchGetConexionDetails();
+    dispatchSetConexionTimelineFilter({
+      ConexionId: '',
+      StartDate: getDateByFormat(getDateBefore(30), 'L'),
+      EndDate: getDateByFormat(new Date(new Date().setHours(24, 0, 0, 0)), 'L'),
+    });
     dispatchGetConexionTimeline();
   }
 
@@ -165,6 +172,7 @@ DetailScreen.propTypes = {
   toast: PropTypes.object.isRequired,
   dispatchSetConexionNoteFilter: PropTypes.func.isRequired,
   dispatchGetConexionTimeline: PropTypes.func.isRequired,
+  dispatchSetConexionTimelineFilter: PropTypes.func.isRequired,
 };
 
 /**
@@ -192,7 +200,9 @@ const mapDispatchToProps = dispatch => ({
   dispatchGetConexionDetails: () => dispatch(getConexionDetails()),
   dispatchSetConexionNoteFilter: noteFilter =>
     dispatch(setNoteFilter(noteFilter)),
-  dispatchGetConexionTimeline: () => dispatch(getConexionsTimelineAction()),
+  dispatchGetConexionTimeline: () => dispatch(getConexionTimelineAction()),
+  dispatchSetConexionTimelineFilter: timelineFilter =>
+    dispatch(setTimelineFilter(timelineFilter)),
 });
 
 const withConnect = connect(
