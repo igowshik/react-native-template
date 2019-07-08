@@ -147,7 +147,7 @@ class Timeline extends Component {
 
   render() {
     const { searchText } = this.state;
-    const { timelineFilters } = this.props;
+    const { timelineFilters, conexionTimeline } = this.props;
 
     return (
       <View style={{ flex: 1 }}>
@@ -229,25 +229,37 @@ class Timeline extends Component {
           </Row>
         </Surface>
         <View style={styles.container}>
-          <TimelineView
-            style={styles.list}
-            data={this.getRenderingTimeline()}
-            circleSize={20}
-            circleColor={colors.ORANGE}
-            lineColor="rgba(0,0,0,0.6)"
-            timeContainerStyle={{ minWidth: 170, marginTop: -5 }}
-            timeStyle={{
-              textAlign: 'center',
-              color: colors.PURPLE,
-              padding: 5,
-              borderRadius: 13,
-            }}
-            descriptionStyle={{ color: 'black' }} // color was set 'gray'
-            options={{
-              style: { paddingTop: 5 },
-            }}
-            innerCircle="icon"
-          />
+          {Lo.isEmpty(conexionTimeline) ? (
+            <View style={styles.noDataContainer}>
+              <FontAwesome5
+                name="exclamation-triangle"
+                color={colors.GREY}
+                size={35}
+                light
+              />
+              <Text style={styles.noDataText}>No Data</Text>
+            </View>
+          ) : (
+            <TimelineView
+              style={styles.list}
+              data={this.getRenderingTimeline()}
+              circleSize={20}
+              circleColor={colors.ORANGE}
+              lineColor="rgba(0,0,0,0.6)"
+              timeContainerStyle={{ minWidth: 170, marginTop: -5 }}
+              timeStyle={{
+                textAlign: 'center',
+                color: colors.PURPLE,
+                padding: 5,
+                borderRadius: 13,
+              }}
+              descriptionStyle={{ color: 'black' }} // color was set 'gray'
+              options={{
+                style: { paddingTop: 5 },
+              }}
+              innerCircle="icon"
+            />
+          )}
           <DateTimePicker
             value={this.getSelectedDate()}
             mode="date"
@@ -303,6 +315,13 @@ const styles = StyleSheet.create({
   dateText: {
     color: colors.PRIMARY,
     margin: 3,
+  },
+  noDataText: { fontSize: 20, color: colors.GREY },
+  noDataContainer: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
 });
 
