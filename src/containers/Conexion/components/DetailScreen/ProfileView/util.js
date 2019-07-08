@@ -36,14 +36,16 @@ export const getPhone = phone => {
 export const getContact = (email, phone) => {
   let contactBuffer = '';
   if (email) contactBuffer += email;
-  if (contactBuffer !== '') contactBuffer += `, `;
-  if (phone) contactBuffer += `${phone}`;
+  if (phone) {
+    if (contactBuffer !== '') contactBuffer += `, `;
+    contactBuffer += `${phone}`;
+  }
   return <H3 style={styles.headerText}>{contactBuffer}</H3>;
 };
 
 export const getCreatedBy = createdBy => {
   if (createdBy)
-    return <Text style={styles.createdBy}>created by {createdBy}</Text>;
+    return <Text style={styles.createdBy}>created by {createdBy.Name}</Text>;
   return null;
 };
 
