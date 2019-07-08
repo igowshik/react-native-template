@@ -1,10 +1,9 @@
-import { SET_IND_CONEXIONS, GET_IND_CONEXIONS } from './constants';
+import { GET_EXPENSE_ITEMS, SET_EXPENSE_ITEMS } from './constants';
 
-export function getIndConexions() {
-  return { type: GET_IND_CONEXIONS };
+export function getExpenseItems() {
+  return { type: GET_EXPENSE_ITEMS };
 }
-
-export const saveIndConexions = indConexions => ({
-  type: SET_IND_CONEXIONS,
-  indConexions,
+export const saveExpenseItems = expenseItems => ({
+  type: SET_EXPENSE_ITEMS,
+  expenseItems,
 });

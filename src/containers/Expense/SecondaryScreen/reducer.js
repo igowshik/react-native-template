@@ -1,8 +1,8 @@
 import produce from 'immer';
-import { SET_IND_CONEXIONS } from './constants';
+import { SET_EXPENSE_ITEMS } from './constants';
 
 export const IntialState = {
-  individualConexions: [],
+  expenseItems: [],
   createConexion: {
     data: {},
     types: '',
@@ -13,8 +13,8 @@ const expenseSecondaryScreenStore = (state = IntialState, action) =>
   produce(state, draft => {
     const draftState = draft;
     switch (action.type) {
-      case SET_IND_CONEXIONS: {
-        draftState.individualConexions = action.indConexions;
+      case SET_EXPENSE_ITEMS: {
+        draftState.expenseItems = action.expenseItems;
         break;
       }
       default: {
