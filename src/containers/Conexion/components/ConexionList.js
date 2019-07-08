@@ -16,12 +16,14 @@ class ConexionList extends React.Component {
   getIndSubDetails = conexion => {
     let sub = '';
     if (conexion.Organization) {
-      sub += `${conexion.Organization.Name.trim()}, `;
+      sub += `${conexion.Organization.Name.trim()}`;
     }
     if (conexion.BusinessEmailAddress) {
-      sub += `${conexion.BusinessEmailAddress.trim()}, `;
+      if (sub) sub += `, `;
+      sub += `${conexion.BusinessEmailAddress.trim()}`;
     }
     if (conexion.BusinessTelephoneNumber) {
+      if (sub) sub += `, `;
       sub += `${conexion.BusinessTelephoneNumber.trim()}`;
     }
     return sub;

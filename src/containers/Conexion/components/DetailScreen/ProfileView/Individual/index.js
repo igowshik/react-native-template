@@ -85,7 +85,7 @@ class IndividualConexion extends React.Component {
                 conexionDetails.BusinessEmailAddress,
                 conexionDetails.BusinessTelephoneNumber,
               )}
-              {getCreatedBy(conexionDetails.UpdatedBy)}
+              {getCreatedBy(conexionDetails.CreatedBy)}
             </View>
           </ImageBackground>
         </LinearGradient>
