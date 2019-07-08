@@ -27,6 +27,7 @@ class CreateIndividual extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.onCreateConexion = this.onCreateConexion.bind(this);
   }
 
   _closeModal = () => {
@@ -61,7 +62,7 @@ class CreateIndividual extends Component {
     const {
       modalOpen,
       handleSubmit,
-      invalid,
+      // invalid,
       pristine,
       submitting,
       conexionType,
@@ -81,7 +82,7 @@ class CreateIndividual extends Component {
           <Button
             raised
             onPress={handleSubmit(this.onCreateConexion)}
-            disabled={pristine || submitting || invalid}
+            disabled={pristine || submitting}
             mode="contained"
             color={colors.PURPLE}
             icon={() => (
@@ -108,7 +109,6 @@ CreateIndividual.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,
-  invalid: PropTypes.bool,
   conexionType: PropTypes.string.isRequired,
   setIndividualsDetails: PropTypes.func,
   createIndividual: PropTypes.func,
