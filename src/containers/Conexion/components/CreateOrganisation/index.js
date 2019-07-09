@@ -24,7 +24,7 @@ class OrganisationForm extends React.Component {
               <TextInput label="Name" name="org_name" required />
             </Row>
             <Row>
-              <TextInput label="Short Name" name="org_short_name" />
+              <TextInput label="Short Name" name="org_short_name" required />
             </Row>
             <Row>
               <NumberInput
@@ -44,7 +44,7 @@ class OrganisationForm extends React.Component {
             <Row>
               <TextInput label="Web Address" name="org_web_address" />
             </Row>
-            <Row style={{ marginTop: 10 }}>
+            <Row style={{ marginTop: 20 }}>
               <MultiSelect
                 label="Select users"
                 items={this.props.userDDList}

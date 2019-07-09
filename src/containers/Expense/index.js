@@ -1,65 +1,15 @@
-import React, { Component } from 'react';
-import { View, StatusBar } from 'react-native';
-import { Avatar, Button, Card, Paragraph } from 'react-native-paper';
-import moment from 'moment';
+import React from 'react';
+import { DynamicModuleLoader } from 'redux-dynamic-modules';
+import { withNavigation } from 'react-navigation';
+import PrimaryScreen from './PrimaryScreen';
 
-import DateTimePicker from '../../components/DateTimePicker';
+// Relative Imports
+import { getExpenseModule } from './module';
 
-export default class DateTimePickerTester extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isDateTimePickerVisible: false,
-      selectedDate: null,
-    };
-  }
+const ExpenseScreen = () => (
+  <DynamicModuleLoader modules={[getExpenseModule()]}>
+    <PrimaryScreen />
+  </DynamicModuleLoader>
+);
 
-  showDateTimePicker = () => {
-    this.setState({ isDateTimePickerVisible: true });
-  };
-
-  hideDateTimePicker = () => {
-    this.setState({ isDateTimePickerVisible: false });
-  };
-
-  handleDatePicked = date => {
-    this.setState({ selectedDate: moment(date).format('LLLL') });
-    this.hideDateTimePicker();
-  };
-
-  render() {
-    return (
-      <View style={{ flex: 1, margin: 30 }}>
-        <StatusBar hidden />
-        <Card elevation={4}>
-          <Card.Title
-            title="DateTime Picker"
-            left={props => <Avatar.Icon {...props} icon="date-range" />}
-          />
-          <Card.Content>
-            <Paragraph>
-              {this.state.selectedDate || 'Select date to view here'}
-            </Paragraph>
-          </Card.Content>
-          <Card.Actions>
-            <Button
-              icon="done"
-              mode="contained"
-              onPress={this.showDateTimePicker}
-              color="#5856d6"
-            >
-              {'Select date'}
-            </Button>
-          </Card.Actions>
-        </Card>
-        <DateTimePicker
-          value={new Date()}
-          mode="datetime"
-          visible={this.state.isDateTimePickerVisible}
-          onDateSelect={this.handleDatePicked}
-          onCancel={this.hideDateTimePicker}
-        />
-      </View>
-    );
-  }
-}
+export default withNavigation(ExpenseScreen);

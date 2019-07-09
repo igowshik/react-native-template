@@ -85,6 +85,13 @@ export const conexionStyles = StyleSheet.create({
     borderWidth: 0.5,
     borderColor: 'rgba(0,0,0,0.3)',
   },
+  filter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+  },
 });
 
 export const profileViewStyles = StyleSheet.create({

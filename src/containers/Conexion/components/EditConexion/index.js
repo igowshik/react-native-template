@@ -21,12 +21,12 @@ import {
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 // Relative imports
-import CreateConexionForm from '../CreateConexions/CreateConexionForm';
+import CreateIndividualForm from '../CreateIndividual/IndividualConexionForm';
 
 import { validate } from '../../validators/IndividualValidator';
 import { INDIVIDUAL } from '../../constants';
 
-class CreateConexions extends Component {
+class EditConexion extends Component {
   _closeModal = () => {
     const { setModalOpenClose } = this.props;
     setModalOpenClose(false);
@@ -57,7 +57,6 @@ class CreateConexions extends Component {
     const {
       modalOpen,
       handleSubmit,
-      invalid,
       pristine,
       submitting,
       conexionType,
@@ -69,14 +68,16 @@ class CreateConexions extends Component {
           visible={modalOpen}
           handleModalVisible={this._closeModal}
           modalHeaderText={
-            conexionType === INDIVIDUAL ? 'Edit Conexion' : 'Edit Organisaiton'
+            conexionType === INDIVIDUAL
+              ? 'Edit Individual Conexion'
+              : 'Edit Organisaiton Conexion'
           }
         >
           <View style={styles.headerContainer}>
             <Button
               raised
               onPress={handleSubmit(this.onCreateConexion)}
-              disabled={pristine || submitting || invalid}
+              disabled={pristine || submitting}
               mode="contained"
               color={colors.PURPLE}
               icon={() => (
@@ -87,7 +88,7 @@ class CreateConexions extends Component {
             </Button>
           </View>
           <ScrollView>
-            <CreateConexionForm viewType={conexionType} />
+            <CreateIndividualForm viewType={conexionType} />
           </ScrollView>
         </FullPageModal>
       </View>
@@ -95,13 +96,12 @@ class CreateConexions extends Component {
   }
 }
 
-CreateConexions.propTypes = {
+EditConexion.propTypes = {
   setModalOpenClose: PropTypes.func.isRequired,
   modalOpen: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,
-  invalid: PropTypes.bool,
   conexionType: PropTypes.string.isRequired,
   setIndividualsDetails: PropTypes.func,
   dispatchEditIndividual: PropTypes.func.isRequired,
@@ -134,7 +134,7 @@ const withConnect = connect(
 export default compose(
   withConnect,
   redux,
-)(CreateConexions);
+)(EditConexion);
 
 const styles = StyleSheet.create({
   headerContainer: {

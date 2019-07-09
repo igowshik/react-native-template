@@ -7,8 +7,8 @@ import { PrimaryButtonGradient } from 'cnxapp/src/components/Buttons/Primary';
 
 class LoginForm extends Component {
   state = {
-    userName: 'john@cnxsi.com',
-    password: 'Conexus123$',
+    userName: '',
+    password: '',
   };
   // state = {
   //   userName: '',
