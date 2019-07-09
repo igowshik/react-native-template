@@ -57,7 +57,6 @@ class EditConexion extends Component {
     const {
       modalOpen,
       handleSubmit,
-      invalid,
       pristine,
       submitting,
       conexionType,
@@ -78,7 +77,7 @@ class EditConexion extends Component {
             <Button
               raised
               onPress={handleSubmit(this.onCreateConexion)}
-              disabled={pristine || submitting || invalid}
+              disabled={pristine || submitting}
               mode="contained"
               color={colors.PURPLE}
               icon={() => (
@@ -103,7 +102,6 @@ EditConexion.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,
-  invalid: PropTypes.bool,
   conexionType: PropTypes.string.isRequired,
   setIndividualsDetails: PropTypes.func,
   dispatchEditIndividual: PropTypes.func.isRequired,

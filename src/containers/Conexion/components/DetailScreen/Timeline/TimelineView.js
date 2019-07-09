@@ -9,7 +9,6 @@ import {
 import React, { Component } from 'react';
 import { Card, Text, Avatar, Paragraph } from 'react-native-paper';
 import PropTypes from 'prop-types';
-import HTMLView from 'react-native-htmlview';
 
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 
@@ -238,7 +237,9 @@ export default class TimelineView extends Component {
   }
 
   _renderDetail(rowData) {
-    const title = rowData.description ? (
+    const title = rowData.icon ? (
+      <Text style={[styles.title, this.props.titleStyle]}>{rowData.title}</Text>
+    ) : (
       <View style={{ paddingRight: 20 }}>
         <Card elevation={2} style={styles.card}>
           <Card.Content>
@@ -261,20 +262,15 @@ export default class TimelineView extends Component {
                 />
                 <View style={{ flexDirection: 'column', marginLeft: 10 }}>
                   <Text style={[styles.title, this.props.titleStyle]}>
-                    {rowData.title}
+                    {rowData.userName}
                   </Text>
-                  <Paragraph>Updated By: {rowData.userName}</Paragraph>
+                  <Paragraph>{rowData.title}</Paragraph>
                 </View>
               </View>
-            </View>
-            <View style={[styles.description, this.props.descriptionStyle]}>
-              <HTMLView value={rowData.title} />
             </View>
           </Card.Content>
         </Card>
       </View>
-    ) : (
-      <Text style={[styles.title, this.props.titleStyle]}>{rowData.title}</Text>
     );
     return <View style={styles.container}>{title}</View>;
   }

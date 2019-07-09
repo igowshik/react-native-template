@@ -26,7 +26,7 @@ class AuthLoadingScreen extends React.Component {
   render() {
     return (
       <View>
-        <Loader showLoader loaderTitle="BOAST gives users superpowers!!" />
+        <Loader showLoader loaderTitle="just makes work easier" />
         <StatusBar barStyle="default" />
       </View>
     );

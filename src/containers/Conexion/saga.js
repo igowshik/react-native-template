@@ -61,6 +61,7 @@ import {
   selectOrganisationDetails,
   selectCreateConexionNoteData,
   selectConexionNoteFilter,
+  selectConexionTimelineFilter,
 } from './selectors';
 import {
   individualConexionPayloadMapper,
@@ -154,14 +155,16 @@ function* getConexionTimelineAPI() {
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
   const conexionId = yield select(selectConexionId());
-  const requestURL = `${
-    config.apiURL
-  }GetConexionTimeline?conexionId=${conexionId}`;
+  const payLoad = yield select(selectConexionTimelineFilter());
+  payLoad.ConexionId = conexionId;
+  const requestURL = `${config.apiURL}ConexionTimeline`;
   const options = {
-    method: 'GET',
+    method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
     },
+    body: JSON.stringify(payLoad),
   };
   const response = yield call(request, requestURL, options);
   if (response.success) {
