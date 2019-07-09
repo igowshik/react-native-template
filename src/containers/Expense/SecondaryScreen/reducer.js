@@ -3,10 +3,10 @@ import { SET_EXPENSE_ITEMS } from './constants';
 
 export const IntialState = {
   expenseItems: [],
-  createConexion: {
-    data: {},
-    types: '',
-  },
+  // createConexion: {
+  //   data: {},
+  //   types: '',
+  // },
 };
 
 const expenseSecondaryScreenStore = (state = IntialState, action) =>

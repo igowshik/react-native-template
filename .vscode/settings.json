@@ -13,4 +13,6 @@
   "editor.largeFileOptimizations": false,
   "workbench.colorTheme": "One Dark Pro Vivid",
   "explorer.confirmDragAndDrop": false,
+  "workbench.tree.indent": 20,
+  "workbench.tree.renderIndentGuides": "always",
 }

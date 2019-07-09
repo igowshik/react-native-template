@@ -37,10 +37,10 @@ const selectToastData = () =>
     dataState => dataState.toast,
   );
 
-const selectIndConexion = () =>
+const selectExpenseId = () =>
   createSelector(
     expenseReducers,
-    dataState => dataState.individualConexions,
+    dataState => dataState.selectedConexion,
   );
 
 export {
@@ -48,5 +48,5 @@ export {
   selectGlobalLoader,
   selectToastVisibility,
   selectToastData,
-  selectIndConexion,
+  selectExpenseId,
 };
