@@ -5,7 +5,6 @@
 	};
 	objectVersion = 48;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -743,6 +742,7 @@
 				A74AD2026D124FDA8CBD8F23 /* libRNVectorIcons-tvOS.a */,
 				24E4B0C093C3427E8C1F2638 /* libRNCWebView.a */,
 				CE81853D77CE4C709E69406F /* libRNCAsyncStorage.a */,
+				E5568026386E4A2ABBE9E58F /* libRNShare.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
