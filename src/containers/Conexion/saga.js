@@ -29,6 +29,7 @@ import {
   getOrganisationDetails,
   getConexionsNotesAction,
   saveConexionTimelineAction,
+  getConexionTimelineAction,
 } from './actions';
 import {
   GET_IND_CONEXIONS,
@@ -138,6 +139,7 @@ function* getConexionNotesAPI() {
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(saveConexionNotesAction(response.data));
+    yield put(getConexionTimelineAction());
   } else {
     yield put(
       setToastMessage({
@@ -166,6 +168,7 @@ function* getConexionTimelineAPI() {
     body: JSON.stringify(payLoad),
   };
   const response = yield call(request, requestURL, options);
+
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(saveConexionTimelineAction(response.data));
