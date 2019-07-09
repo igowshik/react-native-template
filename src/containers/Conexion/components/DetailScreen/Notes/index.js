@@ -284,7 +284,7 @@ class Notes extends Component {
           {Lo.isEmpty(conexionNotes) ? (
             <View style={styles.noDataContainer}>
               <FontAwesome5
-                name="exclamation-triangle"
+                name="info-circle"
                 color={colors.GREY}
                 size={35}
                 light

@@ -232,7 +232,7 @@ class Timeline extends Component {
           {Lo.isEmpty(conexionTimeline) ? (
             <View style={styles.noDataContainer}>
               <FontAwesome5
-                name="exclamation-triangle"
+                name="info-circle"
                 color={colors.GREY}
                 size={35}
                 light
