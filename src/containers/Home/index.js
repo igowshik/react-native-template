@@ -5,20 +5,10 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withNavigation } from 'react-navigation';
 import AsyncStorage from '@react-native-community/async-storage';
-import { Button, Card } from 'react-native-paper';
 
-// import DashboardMainScreen from '../Dashboard';
-import ActionSheet from '../../components/ActionSheet';
+import DashboardMainScreen from '../Dashboard';
 
 class HomeScreen extends React.Component {
-  state = {
-    visible: false,
-  };
-
-  _showModal = () => this.setState({ visible: true });
-
-  _hideModal = () => this.setState({ visible: false });
-
   _signOutAsync = async () => {
     const { navigation } = this.props;
     await AsyncStorage.clear();
@@ -28,32 +18,7 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        {/* <DashboardMainScreen /> */}
-        <Button style={{ marginTop: 80 }} onPress={this._showModal}>
-          Show
-        </Button>
-        <ActionSheet visible={this.state.visible} hideSheet={this._hideModal}>
-          {/* <View style={{ flexDirection: 'row', width: 'auto' }}> */}
-          <Card style={{ width: 200, height: 100 }}>
-            <Card.Title title="Card Title" subtitle="Card Subtitle" />
-          </Card>
-          <Card style={{ width: 200, height: 100 }}>
-            <Card.Title title="Card Title" subtitle="Card Subtitle" />
-          </Card>
-          <Card style={{ width: 200, height: 100 }}>
-            <Card.Title title="Card Title" subtitle="Card Subtitle" />
-          </Card>
-          <Card style={{ width: 200, height: 100 }}>
-            <Card.Title title="Card Title" subtitle="Card Subtitle" />
-          </Card>
-          <Card style={{ width: 200, height: 100 }}>
-            <Card.Title title="Card Title" subtitle="Card Subtitle" />
-          </Card>
-          <Card style={{ width: 200, height: 100 }}>
-            <Card.Title title="Card Title" subtitle="Card Subtitle" />
-          </Card>
-          {/* </View> */}
-        </ActionSheet>
+        <DashboardMainScreen />
       </View>
     );
   }

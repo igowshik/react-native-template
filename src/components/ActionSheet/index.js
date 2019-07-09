@@ -39,8 +39,8 @@ export default class ActionSheet extends Component {
                 this.scrollViewRef = ref;
               }}
               horizontal={horizontal || false}
-              // onScroll={this.handleOnScroll}
-              // scrollEventThrottle={16}
+              onScroll={this.handleOnScroll}
+              scrollEventThrottle={16}
             >
               {children}
             </ScrollView>
