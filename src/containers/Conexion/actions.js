@@ -210,7 +210,6 @@ export const setNoteFilter = noteFilter => ({
   type: SAVE_NOTE_FILTER,
   noteFilter,
 });
-
 export const setTimelineFilter = timelineFilter => ({
   type: SAVE_TIMELINE_FILTER,
   timelineFilter,

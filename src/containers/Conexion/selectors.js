@@ -149,7 +149,6 @@ const selectConexionNoteFilter = () =>
     conexionReducers,
     dataState => dataState.noteFilter,
   );
-
 const selectConexionTimelineFilter = () =>
   createSelector(
     conexionReducers,

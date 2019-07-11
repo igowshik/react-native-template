@@ -19,7 +19,7 @@ import {
 } from 'cnxapp/src/containers/Conexion/selectors';
 import { setEditCNXModalVisibilty } from 'cnxapp/src/containers/Conexion/actions';
 import { INDIVIDUAL } from 'cnxapp/src/containers/Conexion/constants';
-import EditConexion from 'cnxapp/src/containers/Conexion/components/EditConexion';
+import EditConexion from 'cnxapp/src/containers/Conexion/SecondaryScreen/EditConexion';
 import { editConexionMapper } from 'cnxapp/src/containers/Conexion/mappers';
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 

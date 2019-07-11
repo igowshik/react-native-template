@@ -14,7 +14,7 @@ import { CNXH1 as H1 } from 'cnxapp/src/components/Typography';
 import ScrollView from 'cnxapp/src/components/ScrollView';
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 
-import EditConexion from 'cnxapp/src/containers/Conexion/components/EditConexion';
+import EditConexion from 'cnxapp/src/containers/Conexion/SecondaryScreen/EditConexion';
 import { ORGANIZATION } from 'cnxapp/src/containers/Conexion/constants';
 import {
   // editConexionMapper,

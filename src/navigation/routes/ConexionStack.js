@@ -1,7 +1,7 @@
 import { createStackNavigator } from 'react-navigation';
 
 import ConexionScreen from 'cnxapp/src/containers/Conexion';
-import DetailScreen from 'cnxapp/src/containers/Conexion/components/DetailScreen';
+import DetailScreen from 'cnxapp/src/containers/Conexion/SecondaryScreen/DetailScreen';
 
 import { NAVHEADER, BLUE } from 'cnxapp/src/utils/colorsConstants';
 

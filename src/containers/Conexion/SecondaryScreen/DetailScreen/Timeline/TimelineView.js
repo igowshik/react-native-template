@@ -507,7 +507,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 2,
   },
   headerView: {
-    padding: 20,
     flexDirection: 'row',
     alignItems: 'center',
   },
