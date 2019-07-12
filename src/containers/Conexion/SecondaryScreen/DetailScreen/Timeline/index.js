@@ -140,15 +140,9 @@ class Timeline extends Component {
           avatar: entry.CreatedBy.Avatar,
         }),
       );
-
-      console.log(`timeline if ${JSON.stringify(_timeline)}`);
       return _timeline;
     }
     timelineList.map(t => _timeline.push(t));
-    console.log(`timeline list ${JSON.stringify(timelineList)}`);
-
-    console.log(`timeline ${JSON.stringify(_timeline)}`);
-
     return _timeline;
   };
 
