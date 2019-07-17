@@ -1,6 +1,6 @@
 import { createStackNavigator, withNavigation } from 'react-navigation';
 // Absolute imports
-import HomeScreen from 'cnxapp/src/containers/Home';
+import HomeScreen from 'cnxapp/src/containers/Dashboard';
 import { NAVHEADER } from 'cnxapp/src/utils/colorsConstants';
 
 import { Platform } from 'react-native';

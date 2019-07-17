@@ -6,7 +6,7 @@ import { compose } from 'redux';
 import { withNavigation } from 'react-navigation';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import DashboardMainScreen from '../Dashboard';
+import DashboardMainScreen from '../Dashboard/PrimaryScreen';
 
 class HomeScreen extends React.Component {
   _signOutAsync = async () => {
