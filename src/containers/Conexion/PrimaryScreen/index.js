@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Dimensions } from 'react-native';
+import { View, Dimensions, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -8,23 +8,27 @@ import { withNavigation, withNavigationFocus } from 'react-navigation';
 import {
   TouchableRipple,
   Searchbar,
-  RadioButton,
-  Paragraph,
+  Divider,
+  Menu,
+  IconButton,
+  Headline,
+  Text,
 } from 'react-native-paper';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
+import { Col, Row } from 'react-native-easy-grid';
 
 // Absolute imports
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
 import Header from 'cnxapp/src/components/Header';
-import { CNXH2, CNXH3 } from 'cnxapp/src/components/Typography';
-// import Switch from 'cnxapp/src/components/Switch';
 import Snackbar from 'cnxapp/src/components/Snackbar';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
+import Loader from 'cnxapp/src/components/Loader';
 
 // Relative imports
-import ConexionList from './ConexionList';
+import ConexionList from './ConxionList';
 import CreateIndividual from './CreateIndividual';
 import {
-  selectToken,
+  // selectToken,
   selectIndConexion,
   selectOrgConexion,
   selectGlobalLoader,
@@ -32,7 +36,6 @@ import {
   selectToastData,
   selectIndividualModal,
 } from '../selectors';
-
 import {
   getIndConexions,
   getOrgConexions,
@@ -43,11 +46,11 @@ import {
   getUserDDList,
   getOrgDDList,
 } from '../actions';
-import { conexionStyles as styles, conexionStyles } from '../styles';
+import { conexionStyles as styles } from '../styles';
 import { INDIVIDUAL, ORGANIZATION, ALL } from '../constants';
 import FABUI from './UIComponents/FAB';
 
-class Conexion extends React.Component {
+class PrimaryScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -57,6 +60,7 @@ class Conexion extends React.Component {
       createConexionType: INDIVIDUAL,
       firstQuery: '',
       conexionList: [],
+      visible: false,
     };
     this.onLayout = this.onLayout.bind(this);
     this.getConexionTitle = this.getConexionTitle.bind(this);
@@ -82,11 +86,16 @@ class Conexion extends React.Component {
       });
       this.props.dispatchSetConexionType(ORGANIZATION);
     }
+    this.setState({ visible: false });
   };
 
   componentDidMount() {
+    const intialPage = {
+      pageSize: 20,
+      pageNumber: 1,
+    };
     const {
-      accessToken,
+      // accessToken,
       setGlobalLoaderState,
       fetchOrgConexion,
       fetchIndConexion,
@@ -95,8 +104,8 @@ class Conexion extends React.Component {
       dispatchGetOrgDDList,
     } = this.props;
     setGlobalLoaderState(true);
-    fetchOrgConexion(accessToken);
-    fetchIndConexion(accessToken);
+    fetchOrgConexion(intialPage);
+    fetchIndConexion(intialPage);
     fetchDropDownValues();
     dispatchGetUserDDList();
     dispatchGetOrgDDList();
@@ -125,7 +134,7 @@ class Conexion extends React.Component {
 
   onLayout() {
     this.setState({
-      height: Dimensions.get('window').height - 180,
+      height: Dimensions.get('window').height - 120,
     });
   }
 
@@ -174,6 +183,10 @@ class Conexion extends React.Component {
     } else this.setState({ conexionList: [] });
   };
 
+  _openMenu = () => this.setState({ visible: true });
+
+  _closeMenu = () => this.setState({ visible: false });
+
   render() {
     const initialIndividualValues = {
       ind_shared_type: 'PUBL',
@@ -183,36 +196,9 @@ class Conexion extends React.Component {
     const { toastVisible, toast, loaderState, conexionModal } = this.props;
     return (
       <View>
+        <StatusBar hidden={false} />
         <View>
           <View style={styles.headerStyle}>
-            <CNXH3 style={{ color: colors.DARK }}>Conexion type:</CNXH3>
-            <View style={{ flex: 1, margin: 8, flexDirection: 'row' }}>
-              <RadioButton.Group
-                value={this.state.createConexionType}
-                onValueChange={this._onSwitchIndOrgPress}
-              >
-                <TouchableRipple
-                  onPress={() => {
-                    this._onSwitchIndOrgPress(INDIVIDUAL);
-                  }}
-                >
-                  <View style={conexionStyles.filter}>
-                    <Paragraph>{INDIVIDUAL}</Paragraph>
-                    <RadioButton value={INDIVIDUAL} />
-                  </View>
-                </TouchableRipple>
-                <TouchableRipple
-                  onPress={() => {
-                    this._onSwitchIndOrgPress(ORGANIZATION);
-                  }}
-                >
-                  <View style={conexionStyles.filter}>
-                    <Paragraph>{ORGANIZATION}</Paragraph>
-                    <RadioButton value={ORGANIZATION} />
-                  </View>
-                </TouchableRipple>
-              </RadioButton.Group>
-            </View>
             <CreateIndividual
               modalOpen={conexionModal}
               setModalOpenClose={this.setModalOpenClose}
@@ -227,10 +213,109 @@ class Conexion extends React.Component {
               backgroundColor: colors.BGCOLOR,
             }}
           >
-            <Header>
-              <CNXH2 style={{ color: '#fff' }}>
-                {`${this.getConexionTitle()} Conexions`}
-              </CNXH2>
+            <Header
+              gradientColors={[
+                'rgba(255,88,88,1) 75%',
+                'rgba(255,79,165,1) 100%',
+              ]}
+            >
+              <Row>
+                <Col
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Headline
+                    style={{ color: '#fff' }}
+                  >{`${this.getConexionTitle()} Conexions`}</Headline>
+                </Col>
+                <Col
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Menu
+                    visible={this.state.visible}
+                    onDismiss={this._closeMenu}
+                    anchor={
+                      <IconButton
+                        icon="more-vert"
+                        color="#fff"
+                        size={30}
+                        onPress={this._openMenu}
+                      />
+                    }
+                  >
+                    <Menu.Item
+                      icon={() => (
+                        <FontAwesome5
+                          style={{
+                            color:
+                              createConexionType === INDIVIDUAL
+                                ? colors.PRIMARY
+                                : '#000',
+                          }}
+                          name="users"
+                          size={20}
+                          solid={createConexionType === INDIVIDUAL}
+                          light={!createConexionType === INDIVIDUAL}
+                        />
+                      )}
+                      onPress={() => {
+                        this._onSwitchIndOrgPress(INDIVIDUAL);
+                      }}
+                      title={
+                        <Text
+                          style={{
+                            color:
+                              createConexionType === INDIVIDUAL
+                                ? colors.PRIMARY
+                                : '#000',
+                          }}
+                        >
+                          {INDIVIDUAL}
+                        </Text>
+                      }
+                    />
+                    <Divider />
+                    <Menu.Item
+                      icon={() => (
+                        <FontAwesome5
+                          style={{
+                            color:
+                              createConexionType === ORGANIZATION
+                                ? colors.PRIMARY
+                                : '#000',
+                          }}
+                          name="building"
+                          size={20}
+                          solid={createConexionType === ORGANIZATION}
+                          light={!createConexionType === ORGANIZATION}
+                        />
+                      )}
+                      onPress={() => {
+                        this._onSwitchIndOrgPress(ORGANIZATION);
+                      }}
+                      title={
+                        <Text
+                          style={{
+                            color:
+                              createConexionType === ORGANIZATION
+                                ? colors.PRIMARY
+                                : '#000',
+                          }}
+                        >
+                          {ORGANIZATION}
+                        </Text>
+                      }
+                    />
+                  </Menu>
+                </Col>
+              </Row>
             </Header>
             <Searchbar
               placeholder="Search conexions"
@@ -240,9 +325,15 @@ class Conexion extends React.Component {
             />
             <ConexionList
               conexioListData={this.getConexionList()}
+              onPressItem={this.handleConexionSelect}
               indSelected={indSelected}
-              clickListItemHandler={this.handleConexionSelect}
               loader={loaderState}
+              searchText={firstQuery}
+            />
+            <Loader
+              showLoader={loaderState}
+              loaderTitle="Conexion"
+              loadingText="Loading conexion list..."
             />
           </View>
         </View>
@@ -257,8 +348,8 @@ class Conexion extends React.Component {
   }
 }
 
-Conexion.propTypes = {
-  accessToken: PropTypes.string.isRequired,
+PrimaryScreen.propTypes = {
+  // accessToken: PropTypes.string.isRequired,
   fetchIndConexion: PropTypes.func.isRequired,
   fetchOrgConexion: PropTypes.func.isRequired,
   setGlobalLoaderState: PropTypes.func.isRequired,
@@ -284,7 +375,7 @@ Conexion.propTypes = {
  * @returns: jobState ans filterState in the State
  */
 const mapStateToProps = createStructuredSelector({
-  accessToken: selectToken(),
+  // accessToken: selectToken(),
   loaderState: selectGlobalLoader(),
   indConexions: selectIndConexion(),
   orgConexions: selectOrgConexion(),
@@ -299,8 +390,8 @@ const mapStateToProps = createStructuredSelector({
  * @returns: Mapped functions
  */
 const mapDispatchToProps = dispatch => ({
-  fetchIndConexion: token => dispatch(getIndConexions(token)),
-  fetchOrgConexion: token => dispatch(getOrgConexions(token)),
+  fetchIndConexion: intialPage => dispatch(getIndConexions(intialPage)),
+  fetchOrgConexion: initialPage => dispatch(getOrgConexions(initialPage)),
   setGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),
   dispatchSetConexionId: id => dispatch(saveselectedConexionId(id)),
   fetchDropDownValues: () => dispatch(getMetaData()),
@@ -320,4 +411,4 @@ export default compose(
   withNavigation,
   withNavigationFocus,
   withConnect,
-)(Conexion);
+)(PrimaryScreen);

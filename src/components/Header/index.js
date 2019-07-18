@@ -1,30 +1,29 @@
+import React, { PureComponent } from 'react';
 import { StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import React from 'react';
 import PropTypes from 'prop-types';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 const primaryColorSet = [colors.HEADER, colors.HEADER, colors.HEADER];
 
-const Header = props => {
-  const { children } = props;
-  return (
-    <LinearGradient
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 0 }}
-      colors={primaryColorSet}
-    >
-      <View style={styles.headerViewStyle}>
-        <View style={styles.innerView}>{children}</View>
-      </View>
-    </LinearGradient>
-  );
-};
+class Header extends PureComponent {
+  render() {
+    const { children, gradientColors } = this.props;
+    return (
+      <LinearGradient
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        colors={gradientColors || primaryColorSet}
+      >
+        <View style={styles.headerViewStyle}>{children}</View>
+      </LinearGradient>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   headerViewStyle: {
     height: 50,
-    justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
     color: '#000',
@@ -39,6 +38,7 @@ const styles = StyleSheet.create({
 
 Header.propTypes = {
   children: PropTypes.any,
+  gradientColors: PropTypes.array,
 };
 
 export default Header;

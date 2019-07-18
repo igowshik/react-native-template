@@ -5,11 +5,25 @@ import { Util } from 'cnxapp/src/utils';
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 
 export const conexionStyles = StyleSheet.create({
-  headerStyle: {
-    display: 'flex',
-    flexDirection: 'row',
-    margin: 10,
+  surface: {
+    padding: 8,
+    marginRight: 8,
+    height: 60,
+    width: 60,
     alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 4,
+    borderRadius: 30,
+  },
+  linearCircle: {
+    height: 60,
+    width: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 30,
+  },
+  headerStyle: {
+    flexDirection: 'row',
   },
   iconRoundBackground: {
     borderWidth: 1,
@@ -89,8 +103,8 @@ export const conexionStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
+    // paddingVertical: 8,
+    // paddingHorizontal: 16,
   },
 });
 
@@ -147,6 +161,7 @@ export const listViewStyle = StyleSheet.create({
     marginTop: 2,
     marginRight: 1,
     marginLeft: 1,
+    height: 70,
   },
 });
 

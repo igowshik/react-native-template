@@ -40,17 +40,19 @@ import {
   SAVE_TIMELINE_FILTER,
 } from './constants';
 
-export function getIndConexions() {
-  return { type: GET_IND_CONEXIONS };
-}
+export const getIndConexions = intialPage => ({
+  type: GET_IND_CONEXIONS,
+  intialPage,
+});
 
 export const saveIndConexions = indConexions => ({
   type: SET_IND_CONEXIONS,
   indConexions,
 });
 
-export const getOrgConexions = () => ({
+export const getOrgConexions = initialPage => ({
   type: GET_LIST_OF_ORG,
+  initialPage,
 });
 
 export const saveOrgConexions = orgConexions => ({
