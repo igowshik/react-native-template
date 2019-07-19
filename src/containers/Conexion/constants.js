@@ -41,6 +41,7 @@ export const EDIT_CONEXION_NOTE = '@Conexion/EDIT_CONEXION_NOTE';
 export const DELETE_CONEXION_NOTE = '@Conexion/DELETE_CONEXION_NOTE';
 export const SAVE_NOTE_FILTER = '@Conexion/SAVE_NOTE_FILTER';
 export const SAVE_TIMELINE_FILTER = '@Conexion/SAVE_TIMELINE_FILTER';
+export const SAVE_LOADER_TEXT_VALUE = '@Conexion/SAVE_LOADER_TEXT_VALUE';
 
 // Local component constants
 export const INDIVIDUAL = 'Individual';
@@ -74,3 +75,7 @@ export const shareTypeObj = {
 
 export const DELETE_ADDRESS_MESSAGE = 'Are you sure on deleting this address?';
 export const DELETE_NOTE_MESSAGE = 'Are you sure on deleting this note?';
+
+export const PROFILE = 'Profile';
+export const NOTES = 'Notes';
+export const TIMELINE = 'Timeline';

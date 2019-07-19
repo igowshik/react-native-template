@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { View } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -7,12 +7,7 @@ import { INDIVIDUAL, ORGANIZATION } from '../../../constants';
 import Individual from './Individual';
 import Organization from './Organization';
 
-class ProfileView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
+class ProfileView extends PureComponent {
   getProfileViewContent = () => {
     const { selectedValue } = this.props;
     if (selectedValue === INDIVIDUAL) {

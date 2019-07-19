@@ -117,7 +117,7 @@ class Timeline extends Component {
   };
 
   getRenderingTimeline = () => {
-    const { timelineList } = this.state;
+    const { timelineList, searchText } = this.state;
     const { conexionTimeline } = this.props;
     const _timeline = [
       {
@@ -127,7 +127,8 @@ class Timeline extends Component {
         circleColor: 'transparent',
       },
     ];
-    if (Lo.isEmpty(timelineList)) {
+
+    if (!searchText && Lo.isEmpty(timelineList)) {
       conexionTimeline.map(entry =>
         _timeline.push({
           time: getFormatedDate(entry.CreatedDate),
@@ -145,9 +146,50 @@ class Timeline extends Component {
     return _timeline;
   };
 
+  renderTimeline = () => {
+    const { conexionTimeline } = this.props;
+    if (
+      this.getRenderingTimeline().length === 1 ||
+      Lo.isEmpty(conexionTimeline)
+    )
+      return (
+        <View style={styles.noDataContainer}>
+          <FontAwesome5
+            name="info-circle"
+            color={colors.GREY}
+            size={35}
+            light
+          />
+          <Text style={styles.noDataText}>No Data</Text>
+        </View>
+      );
+
+    return (
+      <TimelineView
+        style={styles.list}
+        data={this.getRenderingTimeline()}
+        circleSize={20}
+        circleColor="#7CB342" // {colors.ORANGE}
+        lineColor="rgba(0,0,0,0.6)"
+        timeContainerStyle={{ minWidth: 170, marginTop: -5 }}
+        timeStyle={{
+          textAlign: 'center',
+          color: colors.PURPLE,
+          padding: 5,
+          borderRadius: 13,
+        }}
+        descriptionStyle={{ color: 'black' }} // color was set 'gray'
+        options={{
+          style: { paddingTop: 5 },
+        }}
+        innerCircle="icon"
+      />
+    );
+  };
+
   render() {
     const { searchText } = this.state;
-    const { timelineFilters, conexionTimeline } = this.props;
+    const { timelineFilters } = this.props;
 
     return (
       <View style={{ flex: 1 }}>
@@ -229,37 +271,7 @@ class Timeline extends Component {
           </Row>
         </Surface>
         <View style={styles.container}>
-          {Lo.isEmpty(conexionTimeline) ? (
-            <View style={styles.noDataContainer}>
-              <FontAwesome5
-                name="exclamation-triangle"
-                color={colors.GREY}
-                size={35}
-                light
-              />
-              <Text style={styles.noDataText}>No Data</Text>
-            </View>
-          ) : (
-            <TimelineView
-              style={styles.list}
-              data={this.getRenderingTimeline()}
-              circleSize={20}
-              circleColor={colors.ORANGE}
-              lineColor="rgba(0,0,0,0.6)"
-              timeContainerStyle={{ minWidth: 170, marginTop: -5 }}
-              timeStyle={{
-                textAlign: 'center',
-                color: colors.PURPLE,
-                padding: 5,
-                borderRadius: 13,
-              }}
-              descriptionStyle={{ color: 'black' }} // color was set 'gray'
-              options={{
-                style: { paddingTop: 5 },
-              }}
-              innerCircle="icon"
-            />
-          )}
+          {this.renderTimeline()}
           <DateTimePicker
             value={this.getSelectedDate()}
             mode="date"

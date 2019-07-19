@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
+import { View, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withNavigation } from 'react-navigation';
@@ -9,8 +9,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import DashboardMainScreen from '../Dashboard';
 
 class HomeScreen extends React.Component {
-  state = {};
-
   _signOutAsync = async () => {
     const { navigation } = this.props;
     await AsyncStorage.clear();
@@ -19,7 +17,8 @@ class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.mainViewMargin}>
+      <View style={{ flex: 1 }}>
+        <StatusBar hidden={false} barStyle="default" />
         <DashboardMainScreen />
       </View>
     );
@@ -29,10 +28,6 @@ class HomeScreen extends React.Component {
 HomeScreen.propTypes = {
   navigation: PropTypes.any,
 };
-
-const styles = StyleSheet.create({
-  mainViewMargin: {},
-});
 
 /**
  * @method: mapStateToProps()

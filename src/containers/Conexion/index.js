@@ -1,7 +1,7 @@
 import React from 'react';
 import { DynamicModuleLoader } from 'redux-dynamic-modules';
 import { withNavigation } from 'react-navigation';
-import Conexion from './components/Conexion';
+import Conexion from './PrimaryScreen';
 
 // Relative Imports
 import { getConexionModule } from './module';

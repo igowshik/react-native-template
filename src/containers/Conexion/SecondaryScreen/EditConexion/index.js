@@ -21,12 +21,12 @@ import {
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 // Relative imports
-import CreateIndividualForm from '../CreateIndividual/IndividualConexionForm';
+import IndividualConexionForm from 'cnxapp/src/containers/Conexion/PrimaryScreen/CreateIndividual/IndividualConexionForm';
 
 import { validate } from '../../validators/IndividualValidator';
 import { INDIVIDUAL } from '../../constants';
 
-class EditConexion extends Component {
+class CreateConexions extends Component {
   _closeModal = () => {
     const { setModalOpenClose } = this.props;
     setModalOpenClose(false);
@@ -68,9 +68,7 @@ class EditConexion extends Component {
           visible={modalOpen}
           handleModalVisible={this._closeModal}
           modalHeaderText={
-            conexionType === INDIVIDUAL
-              ? 'Edit Individual Conexion'
-              : 'Edit Organisaiton Conexion'
+            conexionType === INDIVIDUAL ? 'Edit Conexion' : 'Edit Organisaiton'
           }
         >
           <View style={styles.headerContainer}>
@@ -88,7 +86,7 @@ class EditConexion extends Component {
             </Button>
           </View>
           <ScrollView>
-            <CreateIndividualForm viewType={conexionType} />
+            <IndividualConexionForm viewType={conexionType} />
           </ScrollView>
         </FullPageModal>
       </View>
@@ -96,7 +94,7 @@ class EditConexion extends Component {
   }
 }
 
-EditConexion.propTypes = {
+CreateConexions.propTypes = {
   setModalOpenClose: PropTypes.func.isRequired,
   modalOpen: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
@@ -134,7 +132,7 @@ const withConnect = connect(
 export default compose(
   withConnect,
   redux,
-)(EditConexion);
+)(CreateConexions);
 
 const styles = StyleSheet.create({
   headerContainer: {

@@ -161,7 +161,7 @@ class Notes extends Component {
   };
 
   getRenderingNoteList = () => {
-    const { notesList } = this.state;
+    const { notesList, searchText } = this.state;
     const { conexionNotes } = this.props;
     const _notes = [
       {
@@ -172,7 +172,7 @@ class Notes extends Component {
       },
     ];
 
-    if (Lo.isEmpty(notesList)) {
+    if (!searchText && Lo.isEmpty(notesList)) {
       conexionNotes.map(note =>
         _notes.push({
           time: getFormatedDate(note.LastUpdatedDate),
@@ -190,6 +190,46 @@ class Notes extends Component {
     return _notes;
   };
 
+  renderNotes = () => {
+    const { conexionNotes } = this.props;
+    if (this.getRenderingNoteList().length === 1 || Lo.isEmpty(conexionNotes))
+      return (
+        <View style={styles.noDataContainer}>
+          <FontAwesome5
+            name="info-circle"
+            color={colors.GREY}
+            size={35}
+            light
+          />
+          <Text style={styles.noDataText}>No Data</Text>
+        </View>
+      );
+
+    return (
+      <NotesView
+        style={styles.list}
+        data={this.getRenderingNoteList()}
+        circleSize={20}
+        circleColor={colors.ORANGE}
+        lineColor="rgba(0,0,0,0.6)"
+        timeContainerStyle={{ minWidth: 170, marginTop: -5 }}
+        timeStyle={{
+          textAlign: 'center',
+          color: colors.PURPLE,
+          padding: 5,
+          borderRadius: 13,
+        }}
+        descriptionStyle={{ color: 'black' }} // color was set 'gray'
+        options={{
+          style: { paddingTop: 5 },
+        }}
+        innerCircle="icon"
+        onClickEdit={this.handleNoteEdit}
+        onClickDelete={this.handleNoteDelete}
+      />
+    );
+  };
+
   render() {
     const {
       modalOpen,
@@ -199,7 +239,7 @@ class Notes extends Component {
       searchText,
     } = this.state;
 
-    const { noteFilters, conexionNotes } = this.props;
+    const { noteFilters } = this.props;
 
     return (
       <View style={{ flex: 1 }}>
@@ -281,39 +321,7 @@ class Notes extends Component {
           </Row>
         </Surface>
         <View style={styles.container}>
-          {Lo.isEmpty(conexionNotes) ? (
-            <View style={styles.noDataContainer}>
-              <FontAwesome5
-                name="exclamation-triangle"
-                color={colors.GREY}
-                size={35}
-                light
-              />
-              <Text style={styles.noDataText}>No Data</Text>
-            </View>
-          ) : (
-            <NotesView
-              style={styles.list}
-              data={this.getRenderingNoteList()}
-              circleSize={20}
-              circleColor={colors.ORANGE}
-              lineColor="rgba(0,0,0,0.6)"
-              timeContainerStyle={{ minWidth: 170, marginTop: -5 }}
-              timeStyle={{
-                textAlign: 'center',
-                color: colors.PURPLE,
-                padding: 5,
-                borderRadius: 13,
-              }}
-              descriptionStyle={{ color: 'black' }} // color was set 'gray'
-              options={{
-                style: { paddingTop: 5 },
-              }}
-              innerCircle="icon"
-              onClickEdit={this.handleNoteEdit}
-              onClickDelete={this.handleNoteDelete}
-            />
-          )}
+          {this.renderNotes()}
           <Dialog
             visible={dialogVisible}
             title="Delete!"

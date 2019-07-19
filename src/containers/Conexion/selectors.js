@@ -156,6 +156,12 @@ const selectConexionTimelineFilter = () =>
     dataState => dataState.timelineFilter,
   );
 
+const selectLoaderObject = () =>
+  createSelector(
+    conexionReducers,
+    dataState => dataState.loaderValue,
+  );
+
 export {
   selectIndConexion,
   selectOrgConexion,
@@ -181,4 +187,5 @@ export {
   selectConexionNoteFilter,
   selectConexionTimelineData,
   selectConexionTimelineFilter,
+  selectLoaderObject,
 };

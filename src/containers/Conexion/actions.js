@@ -38,19 +38,22 @@ import {
   DELETE_CONEXION_NOTE,
   SAVE_NOTE_FILTER,
   SAVE_TIMELINE_FILTER,
+  SAVE_LOADER_TEXT_VALUE,
 } from './constants';
 
-export function getIndConexions() {
-  return { type: GET_IND_CONEXIONS };
-}
+export const getIndConexions = intialPage => ({
+  type: GET_IND_CONEXIONS,
+  intialPage,
+});
 
 export const saveIndConexions = indConexions => ({
   type: SET_IND_CONEXIONS,
   indConexions,
 });
 
-export const getOrgConexions = () => ({
+export const getOrgConexions = initialPage => ({
   type: GET_LIST_OF_ORG,
+  initialPage,
 });
 
 export const saveOrgConexions = orgConexions => ({
@@ -214,4 +217,9 @@ export const setNoteFilter = noteFilter => ({
 export const setTimelineFilter = timelineFilter => ({
   type: SAVE_TIMELINE_FILTER,
   timelineFilter,
+});
+
+export const setLoaderObject = loaderObj => ({
+  type: SAVE_LOADER_TEXT_VALUE,
+  loaderObj,
 });

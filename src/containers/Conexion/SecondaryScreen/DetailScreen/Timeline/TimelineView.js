@@ -69,6 +69,7 @@ export default class TimelineView extends Component {
           renderRow={this._renderRow}
           automaticallyAdjustContentInsets={false}
           enableEmptySections
+          removeClippedSubviews={false}
           {...this.props.options}
         />
       </View>
@@ -507,7 +508,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 2,
   },
   headerView: {
-    padding: 20,
     flexDirection: 'row',
     alignItems: 'center',
   },
