@@ -41,8 +41,18 @@ const selectChannelList = () =>
         'channel list by selector ',
         dataState.channelsList.MyChannels,
       );
-      return dataState.channelsList;
+      return dataState.myChannelsList;
     },
+  );
+const selectOtherChannelList = () =>
+  createSelector(
+    dashboardReducers,
+    dataState => dataState.otherChannelsList,
+  );
+const selectGetInteractions = () =>
+  createSelector(
+    dashboardReducers,
+    dataState => dataState.getInteractions,
   );
 export {
   selectToken,
@@ -50,4 +60,6 @@ export {
   selectToastVisibility,
   selectToastData,
   selectChannelList,
+  selectOtherChannelList,
+  selectGetInteractions,
 };

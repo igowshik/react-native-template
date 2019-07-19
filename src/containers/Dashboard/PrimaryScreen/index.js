@@ -4,9 +4,22 @@ import { Header, Left, Right, Button } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { Card } from 'react-native-paper';
+import PropTypes from 'prop-types';
+import { createStructuredSelector } from 'reselect';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 import FullPageModal from 'cnxapp/src/components/FullPageModal';
 import { CNXH4, CNXH3, CNXH2 } from 'cnxapp/src/components/Typography';
+
+import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
+import { getMyChannelList } from '../actions';
+import {
+  selectGlobalLoader,
+  selectChannelList,
+  selectOtherChannelList,
+  selectGetInteractions,
+} from '../selectors';
 
 // import ReportQuickView from './components/ReportQuickView';
 import AnalyticsOverview from './AnalyticsOverview';
@@ -18,6 +31,11 @@ class PrimaryScreen extends React.Component {
     modalVisible: false,
   };
 
+  componentDidMount() {
+    const { fetchChannelList } = this.props;
+    fetchChannelList();
+  }
+
   modalVisibilityChange = value => {
     this.setState({ modalVisible: value });
   };
@@ -25,6 +43,7 @@ class PrimaryScreen extends React.Component {
   showModal = () => this.setState({ modalVisible: true });
 
   render() {
+    const { myChannelList, otherChannelList, getInteractions } = this.props;
     return (
       <View style={{ height: '100%' }}>
         <ScrollView style={{ padding: 20, paddingBottom: 0 }}>
@@ -75,7 +94,11 @@ class PrimaryScreen extends React.Component {
             <Header style={styles.header}>
               <CNXH2 style={{ color: 'black' }}>Events view</CNXH2>
             </Header>
-            <EventsQuickView />
+            <EventsQuickView
+              myChannelList={myChannelList}
+              otherChannelList={otherChannelList}
+              getInteractions={getInteractions}
+            />
           </View>
           <View style={{ paddingBottom: 40, paddingTop: 10 }}>
             {/* <Header style={styles.header}>
@@ -124,4 +147,27 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PrimaryScreen;
+PrimaryScreen.propTypes = {
+  myChannelList: PropTypes.array.isRequired,
+  otherChannelList: PropTypes.array.isRequired,
+  getInteractions: PropTypes.array.isRequired,
+  fetchChannelList: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = createStructuredSelector({
+  loadState: selectGlobalLoader(),
+  myChannelList: selectChannelList(),
+  otherChannelList: selectOtherChannelList(),
+  getInteractions: selectGetInteractions(),
+});
+
+const mapDispatchToProps = dispatch => ({
+  setGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),
+  fetchChannelList: () => dispatch(getMyChannelList()),
+});
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default compose(withConnect)(PrimaryScreen);

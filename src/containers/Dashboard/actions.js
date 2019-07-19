@@ -1,10 +1,28 @@
-import { SET_CHANNEL_LIST, GET_CHANNEL_LIST } from './constants';
+import {
+  SET_MY_CHANNEL_LIST,
+  GET_MY_CHANNEL_LIST,
+  GET_SHARED_CHANNEL_LIST,
+  SET_SHARED_CHANNEL_LIST,
+  SET_INTERACTIONS,
+} from './constants';
 
-export const saveChannelList = channelList => ({
-  type: SET_CHANNEL_LIST,
+export const saveMyChannelList = channelList => ({
+  type: SET_MY_CHANNEL_LIST,
   channelList,
 });
 
-export const getChannelList = () => ({
-  type: GET_CHANNEL_LIST,
+export const getMyChannelList = () => ({
+  type: GET_MY_CHANNEL_LIST,
+});
+
+export const getSharedChannelList = () => ({
+  type: GET_SHARED_CHANNEL_LIST,
+});
+export const saveSharedChannelList = sharedChannelList => ({
+  type: SET_SHARED_CHANNEL_LIST,
+  sharedChannelList,
+});
+export const saveGetinteractions = getInteractions => ({
+  type: SET_INTERACTIONS,
+  getInteractions,
 });
