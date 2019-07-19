@@ -1,32 +1,29 @@
-/**
- * Details Screen main js file
- * Added by Selvam K
- */
-// Native imports
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 // Package imports
+import { View, Dimensions } from 'react-native';
+import { Title } from 'react-native-paper';
+import { TabView, TabBar } from 'react-native-tab-view';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { withNavigation } from 'react-navigation';
-import { Container, Tab, Tabs, TabHeading } from 'native-base';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
-import { Text } from 'react-native-paper';
-import { View } from 'react-native';
 
 // Absolute imports
-import { HorizDivider } from 'cnxapp/src/components/Dividers';
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
-import Loader from 'cnxapp/src/components/Loader';
 import Snackbar from 'cnxapp/src/components/Snackbar';
 import { getDateByFormat, getDateBefore } from 'cnxapp/src/utils/DateFormatter';
+import * as colors from 'cnxapp/src/utils/colorsConstants';
 
-// Relative imports
-import { Styles } from './styles';
-// import Dashboard from './Dashboard';
-import { INDIVIDUAL, ORGANIZATION } from '../../constants';
+import {
+  INDIVIDUAL,
+  ORGANIZATION,
+  PROFILE,
+  NOTES,
+  TIMELINE,
+} from '../../constants';
 import {
   selectToken,
   selectIndConexion,
@@ -47,37 +44,41 @@ import ProfileView from './ProfileView';
 import Notes from './Notes';
 import Timeline from './Timeline';
 
-class DetailScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selected: INDIVIDUAL,
-    };
-  }
+class DetailScreen extends Component {
+  state = {
+    selected: INDIVIDUAL,
+    /* eslint-disable */
+      index: 0,
+      routes: [
+        {
+          key: PROFILE,
+          title: PROFILE,
+        },
+        {
+          key: NOTES,
+          title: NOTES,
+        },
+        {
+          key: TIMELINE,
+          title: TIMELINE,
+        },
+      ],
+      /* eslint-enable */
+  };
 
   componentDidMount() {
     const {
       navigation,
-      dispatchSetGlobalLoaderState,
-      dispatchGetConexionNotes,
       dispatchGetConexionDetails,
+      dispatchGetConexionNotes,
       dispatchSetConexionNoteFilter,
       dispatchGetConexionTimeline,
       dispatchSetConexionTimelineFilter,
     } = this.props;
     const selectedValue = navigation.getParam('selectedValue', 'NO-SELECT');
-    // const selectedId = navigation.getParam('selectedId', 'NO-ID');
     this.setState({
       selected: selectedValue ? INDIVIDUAL : ORGANIZATION,
     });
-
-    dispatchSetGlobalLoaderState(true);
-    dispatchSetConexionNoteFilter({
-      ConexionId: '',
-      StartDate: getDateByFormat(getDateBefore(30), 'L'),
-      EndDate: getDateByFormat(new Date(new Date().setHours(24, 0, 0, 0)), 'L'),
-    });
-    dispatchGetConexionNotes();
     dispatchGetConexionDetails();
     dispatchSetConexionTimelineFilter({
       ConexionId: '',
@@ -85,79 +86,132 @@ class DetailScreen extends React.Component {
       EndDate: getDateByFormat(new Date(new Date().setHours(24, 0, 0, 0)), 'L'),
     });
     dispatchGetConexionTimeline();
+    dispatchSetConexionNoteFilter({
+      ConexionId: '',
+      StartDate: getDateByFormat(getDateBefore(30), 'L'),
+      EndDate: getDateByFormat(new Date(new Date().setHours(24, 0, 0, 0)), 'L'),
+    });
+    dispatchGetConexionNotes();
   }
 
-  render() {
+  handleRenderIcon = ({ route, focused, color }) => {
+    switch (route.key) {
+      case PROFILE:
+        return (
+          <FontAwesome5
+            name="id-card"
+            style={{ marginRight: 5 }}
+            solid={focused}
+            color={color}
+            size={20}
+          />
+        );
+      case NOTES:
+        return (
+          <FontAwesome5
+            name="sticky-note"
+            style={{ marginRight: 5 }}
+            solid={focused}
+            color={color}
+            size={20}
+          />
+        );
+      case TIMELINE:
+        return (
+          <FontAwesome5
+            name="history"
+            style={{ marginRight: 5 }}
+            solid={focused}
+            color={color}
+            size={20}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
+  handleRenderText = ({ route }) => (
+    <Title style={{ color: '#FFFFFF' }}>{route.title}</Title>
+  );
+
+  handleRenderScene = ({ route }) => {
     const { selected } = this.state;
-    const { loaderState, toastVisible, toast } = this.props;
+    switch (route.key) {
+      case PROFILE:
+        return <ProfileView selectedValue={selected} />;
+      case NOTES:
+        return <Notes />;
+      case TIMELINE:
+        return <Timeline />;
+      default:
+        return null;
+    }
+  };
+
+  handleTabChange = ({ route }) => {
+    const {
+      dispatchGetConexionNotes,
+      dispatchSetConexionNoteFilter,
+      dispatchGetConexionTimeline,
+      dispatchSetConexionTimelineFilter,
+    } = this.props;
+    switch (route.key) {
+      case NOTES: {
+        dispatchSetConexionNoteFilter({
+          ConexionId: '',
+          StartDate: getDateByFormat(getDateBefore(30), 'L'),
+          EndDate: getDateByFormat(
+            new Date(new Date().setHours(24, 0, 0, 0)),
+            'L',
+          ),
+        });
+        dispatchGetConexionNotes();
+        break;
+      }
+      case TIMELINE: {
+        dispatchSetConexionTimelineFilter({
+          ConexionId: '',
+          StartDate: getDateByFormat(getDateBefore(30), 'L'),
+          EndDate: getDateByFormat(
+            new Date(new Date().setHours(24, 0, 0, 0)),
+            'L',
+          ),
+        });
+        dispatchGetConexionTimeline();
+        break;
+      }
+      default:
+        return null;
+    }
+    return null;
+  };
+
+  render() {
+    const { toastVisible, toast } = this.props;
     return (
-      <Container>
-        {/* <Dashboard /> */}
-        <HorizDivider />
-        <Tabs>
-          <Tab
-            heading={
-              <TabHeading>
-                <FontAwesome5 name="info-circle" color="#fff" size={20} brand />
-                <Text style={Styles.textColor}>Profile</Text>
-              </TabHeading>
-            }
-          >
-            {loaderState ? (
-              <View>
-                <Loader
-                  showLoader={loaderState}
-                  loaderTitle="Conexion"
-                  loadingText="Loading conexion details..."
-                />
-              </View>
-            ) : (
-              <ProfileView selectedValue={selected} />
-            )}
-          </Tab>
-          <Tab
-            heading={
-              <TabHeading>
-                <FontAwesome5 name="sticky-note" color="#fff" size={20} brand />
-                <Text style={Styles.textColor}>Notes</Text>
-              </TabHeading>
-            }
-          >
-            {loaderState ? (
-              <View>
-                <Loader
-                  showLoader={loaderState}
-                  loaderTitle="Conexion"
-                  loadingText="Loading notes..."
-                />
-              </View>
-            ) : (
-              <Notes />
-            )}
-          </Tab>
-          <Tab
-            heading={
-              <TabHeading>
-                <FontAwesome5 name="history" color="#fff" size={20} light />
-                <Text style={Styles.textColor}>Timeline</Text>
-              </TabHeading>
-            }
-          >
-            {loaderState ? (
-              <View>
-                <Loader
-                  showLoader={loaderState}
-                  loaderTitle="Conexion"
-                  loadingText="Loading Conexion Timeline..."
-                />
-              </View>
-            ) : (
-              <Timeline />
-            )}
-          </Tab>
-        </Tabs>
+      <View style={{ flex: 1 }}>
+        <TabView
+          navigationState={this.state}
+          renderScene={this.handleRenderScene}
+          onIndexChange={index => this.setState({ index })} //eslint-disable-line
+          initialLayout={{ width: Dimensions.get('window').width }}
+          renderTabBar={props => (
+            <TabBar
+              {...props}
+              indicatorStyle={{ backgroundColor: 'white', height: 2 }}
+              tabStyle={{
+                flexDirection: 'row',
+              }}
+              renderIcon={this.handleRenderIcon}
+              renderLabel={this.handleRenderText}
+              style={{ backgroundColor: colors.PRIMARY }}
+              bounces
+            />
+          )}
+        />
         <Snackbar toastVisible={toastVisible} toast={toast} />
-      </Container>
+      </View>
     );
   }
 }
@@ -175,11 +229,6 @@ DetailScreen.propTypes = {
   dispatchSetConexionTimelineFilter: PropTypes.func.isRequired,
 };
 
-/**
- * @method: mapStateToProps()
- * @description: Redux Map method to map all redux state into each individual state value
- * @returns: jobState ans filterState in the State
- */
 const mapStateToProps = createStructuredSelector({
   accessToken: selectToken(),
   loaderState: selectGlobalLoader(),
@@ -189,11 +238,6 @@ const mapStateToProps = createStructuredSelector({
   toast: selectToastData(),
 });
 
-/**
- * @method: mapDispatchToProps()
- * @description: Map the Props of this class to the respective Redux dispatch functions
- * @returns: Mapped functions
- */
 const mapDispatchToProps = dispatch => ({
   dispatchSetGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),
   dispatchGetConexionNotes: () => dispatch(getConexionsNotesAction()),

@@ -20,6 +20,7 @@ import {
   SAVE_NOTE_DATE,
   SAVE_NOTE_FILTER,
   SAVE_TIMELINE_FILTER,
+  SAVE_LOADER_TEXT_VALUE,
 } from './constants';
 
 export const conexionInitialState = {
@@ -64,6 +65,10 @@ export const conexionInitialState = {
     ConexionId: '',
     StartDate: new Date(),
     EndDate: new Date(),
+  },
+  loaderValue: {
+    title: 'Conexion',
+    text: 'Loading...',
   },
 };
 
@@ -165,6 +170,10 @@ const conexionStore = (state = conexionInitialState, action) =>
       }
       case SAVE_TIMELINE_FILTER: {
         draftState.timelineFilter = action.timelineFilter;
+        break;
+      }
+      case SAVE_LOADER_TEXT_VALUE: {
+        draftState.loaderValue = action.loaderObj;
         break;
       }
       default: {

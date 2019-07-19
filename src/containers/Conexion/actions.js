@@ -38,6 +38,7 @@ import {
   DELETE_CONEXION_NOTE,
   SAVE_NOTE_FILTER,
   SAVE_TIMELINE_FILTER,
+  SAVE_LOADER_TEXT_VALUE,
 } from './constants';
 
 export const getIndConexions = intialPage => ({
@@ -212,7 +213,13 @@ export const setNoteFilter = noteFilter => ({
   type: SAVE_NOTE_FILTER,
   noteFilter,
 });
+
 export const setTimelineFilter = timelineFilter => ({
   type: SAVE_TIMELINE_FILTER,
   timelineFilter,
+});
+
+export const setLoaderObject = loaderObj => ({
+  type: SAVE_LOADER_TEXT_VALUE,
+  loaderObj,
 });

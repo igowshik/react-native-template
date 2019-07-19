@@ -35,6 +35,7 @@ import {
   selectToastVisibility,
   selectToastData,
   selectIndividualModal,
+  selectLoaderObject,
 } from '../selectors';
 import {
   getIndConexions,
@@ -95,7 +96,6 @@ class PrimaryScreen extends React.Component {
       pageNumber: 1,
     };
     const {
-      // accessToken,
       setGlobalLoaderState,
       fetchOrgConexion,
       fetchIndConexion,
@@ -192,8 +192,13 @@ class PrimaryScreen extends React.Component {
       ind_shared_type: 'PUBL',
     };
     const { indSelected, createConexionType, firstQuery } = this.state;
-
-    const { toastVisible, toast, loaderState, conexionModal } = this.props;
+    const {
+      toastVisible,
+      toast,
+      loaderState,
+      conexionModal,
+      loaderObj,
+    } = this.props;
     return (
       <View>
         <StatusBar hidden={false} />
@@ -220,24 +225,12 @@ class PrimaryScreen extends React.Component {
               ]}
             >
               <Row>
-                <Col
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'flex-start',
-                    alignItems: 'center',
-                  }}
-                >
+                <Col style={styles.colStart}>
                   <Headline
                     style={{ color: '#fff' }}
                   >{`${this.getConexionTitle()} Conexions`}</Headline>
                 </Col>
-                <Col
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'flex-end',
-                    alignItems: 'center',
-                  }}
-                >
+                <Col style={styles.colEnd}>
                   <Menu
                     visible={this.state.visible}
                     onDismiss={this._closeMenu}
@@ -332,8 +325,8 @@ class PrimaryScreen extends React.Component {
             />
             <Loader
               showLoader={loaderState}
-              loaderTitle="Conexion"
-              loadingText="Loading conexion list..."
+              loaderTitle={loaderObj.title}
+              loadingText={loaderObj.text}
             />
           </View>
         </View>
@@ -349,7 +342,6 @@ class PrimaryScreen extends React.Component {
 }
 
 PrimaryScreen.propTypes = {
-  // accessToken: PropTypes.string.isRequired,
   fetchIndConexion: PropTypes.func.isRequired,
   fetchOrgConexion: PropTypes.func.isRequired,
   setGlobalLoaderState: PropTypes.func.isRequired,
@@ -367,28 +359,19 @@ PrimaryScreen.propTypes = {
   conexionModal: PropTypes.bool.isRequired,
   dispatchGetUserDDList: PropTypes.func.isRequired,
   dispatchGetOrgDDList: PropTypes.func.isRequired,
+  loaderObj: PropTypes.object.isRequired,
 };
 
-/**
- * @method: mapStateToProps()
- * @description: Redux Map method to map all redux state into each individual state value
- * @returns: jobState ans filterState in the State
- */
 const mapStateToProps = createStructuredSelector({
-  // accessToken: selectToken(),
   loaderState: selectGlobalLoader(),
   indConexions: selectIndConexion(),
   orgConexions: selectOrgConexion(),
   toastVisible: selectToastVisibility(),
   toast: selectToastData(),
   conexionModal: selectIndividualModal(),
+  loaderObj: selectLoaderObject(),
 });
 
-/**
- * @method: mapDispatchToProps()
- * @description: Map the Props of this class to the respective Redux dispatch functions
- * @returns: Mapped functions
- */
 const mapDispatchToProps = dispatch => ({
   fetchIndConexion: intialPage => dispatch(getIndConexions(intialPage)),
   fetchOrgConexion: initialPage => dispatch(getOrgConexions(initialPage)),

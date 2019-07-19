@@ -149,10 +149,17 @@ const selectConexionNoteFilter = () =>
     conexionReducers,
     dataState => dataState.noteFilter,
   );
+
 const selectConexionTimelineFilter = () =>
   createSelector(
     conexionReducers,
     dataState => dataState.timelineFilter,
+  );
+
+const selectLoaderObject = () =>
+  createSelector(
+    conexionReducers,
+    dataState => dataState.loaderValue,
   );
 
 export {
@@ -180,4 +187,5 @@ export {
   selectConexionNoteFilter,
   selectConexionTimelineData,
   selectConexionTimelineFilter,
+  selectLoaderObject,
 };

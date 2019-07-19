@@ -57,9 +57,11 @@ export default class RenderIndListItem extends PureComponent {
               size={50}
               label={this.getIndAvatarText(item.Name, item.LastName)}
               style={{
-                backgroundColor: `#${Math.random()
-                  .toString(16)
-                  .substr(-6)}`,
+                backgroundColor: `rgba(${Math.floor(
+                  Math.random() * 256,
+                )},${Math.floor(Math.random() * 256)},${Math.floor(
+                  Math.random() * 256,
+                )},0.8)`,
               }}
             />
           )}

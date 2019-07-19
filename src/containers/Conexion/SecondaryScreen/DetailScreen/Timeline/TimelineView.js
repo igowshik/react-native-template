@@ -69,6 +69,7 @@ export default class TimelineView extends Component {
           renderRow={this._renderRow}
           automaticallyAdjustContentInsets={false}
           enableEmptySections
+          removeClippedSubviews={false}
           {...this.props.options}
         />
       </View>
