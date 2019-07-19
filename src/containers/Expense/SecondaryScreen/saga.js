@@ -10,7 +10,7 @@ import {
 } from 'cnxapp/src/app/rootActions';
 
 import { ERROR } from 'cnxapp/src/utils/constants';
-import { selectToken, selectExpenseId } from '../selectors';
+import { selectToken } from '../selectors';
 
 import { saveExpenseItems } from './actions';
 import { GENERAL_ERROR, GET_EXPENSE_ITEMS } from './constants';
@@ -18,7 +18,8 @@ import { GENERAL_ERROR, GET_EXPENSE_ITEMS } from './constants';
 function* getExpenseItemsAPI() {
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
-  const expenseId = yield select(selectExpenseId());
+  // const expenseId = yield select(selectExpenseId());
+  const expenseId = 836;
   const requestURL = `${config.apiURL}GetExpenseItems?expenseId=${expenseId}`;
   const options = {
     method: 'GET',
