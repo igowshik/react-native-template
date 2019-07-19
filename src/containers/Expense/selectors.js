@@ -42,6 +42,11 @@ const selectIndConexion = () =>
     expenseReducers,
     dataState => dataState.individualConexions,
   );
+const selectExpenseMetadata = codeRoleName =>
+  createSelector(
+    expenseReducers,
+    dataState => dataState.expenseMetadata[codeRoleName],
+  );
 
 export {
   selectToken,
@@ -49,4 +54,5 @@ export {
   selectToastVisibility,
   selectToastData,
   selectIndConexion,
+  selectExpenseMetadata,
 };
