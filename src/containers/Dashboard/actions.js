@@ -4,6 +4,7 @@ import {
   GET_SHARED_CHANNEL_LIST,
   SET_SHARED_CHANNEL_LIST,
   SET_INTERACTIONS,
+  GET_INTERACTIONS,
 } from './constants';
 
 export const saveMyChannelList = channelList => ({
@@ -25,4 +26,7 @@ export const saveSharedChannelList = sharedChannelList => ({
 export const saveGetinteractions = getInteractions => ({
   type: SET_INTERACTIONS,
   getInteractions,
+});
+export const getInteractionsList = () => ({
+  type: GET_INTERACTIONS,
 });

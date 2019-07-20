@@ -14,8 +14,15 @@ import {
   saveMyChannelList,
   saveSharedChannelList,
   saveGetinteractions,
+  getSharedChannelList,
+  getInteractionsList,
 } from './actions';
-import { GET_MY_CHANNEL_LIST, GENERAL_ERROR } from './constants';
+import {
+  GET_MY_CHANNEL_LIST,
+  GENERAL_ERROR,
+  GET_SHARED_CHANNEL_LIST,
+  GET_INTERACTIONS,
+} from './constants';
 import { selectToken } from './selectors';
 
 function* getMyChannelListAPI() {
@@ -30,7 +37,7 @@ function* getMyChannelListAPI() {
   if (response.data) {
     yield put(setRootGlobalLoader(false));
     yield put(saveMyChannelList(response.data));
-    yield call(getSharedChannelAPI);
+    yield put(getSharedChannelList());
   } else {
     yield put(
       setToastMessage({
@@ -54,7 +61,7 @@ function* getSharedChannelAPI() {
   const response = yield call(request, requestURL, options);
   if (response.data) {
     yield put(saveSharedChannelList(response.data));
-    yield call(getInteractionsAPI);
+    yield put(getInteractionsList());
   } else {
     yield put(
       setToastMessage({
@@ -85,4 +92,6 @@ function* getInteractionsAPI() {
 
 export default function* dashboardSaga() {
   yield takeLatest(GET_MY_CHANNEL_LIST, getMyChannelListAPI);
+  yield takeLatest(GET_SHARED_CHANNEL_LIST, getSharedChannelAPI);
+  yield takeLatest(GET_INTERACTIONS, getInteractionsAPI);
 }
