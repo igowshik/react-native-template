@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, Dimensions } from 'react-native';
 import PropTypes from 'prop-types';
 
 import {
@@ -9,45 +9,124 @@ import {
   Col,
   // ListItem,
   // List,
-  Tabs,
-  Tab,
-  TabHeading,
+  // Tabs,
+  // Tab,
+  // TabHeading,
   Container,
 } from 'native-base';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import { List } from 'react-native-paper';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { CNXH4 } from 'cnxapp/src/components/Typography';
+import * as colors from 'cnxapp/src/utils/colorsConstants';
 
-const EventsQuickView = ({
-  myChannelList,
-  otherChannelList,
-  getInteractions,
-}) => (
-  <View style={styles.containerContent}>
-    <Row style={{ height: 270 }}>
-      <Col style={styles.coloumnCard}>
-        <Card style={{ height: 300 }}>
-          <CardItem style={styles.cardContentContainerReport}>
-            <CardItem header style={styles.headerStyle}>
-              <View
-                style={[
-                  styles.iconRoundBackground,
-                  { backgroundColor: '#F9DFF1', borderColor: '#B60580' },
-                ]}
-              >
-                <FontAwesome5
-                  name="envelope-open-text"
-                  color="#B60580"
-                  size={20}
-                  brand
-                />
-              </View>
-              <CNXH4 style={styles.textMargin}>Notifications</CNXH4>
-            </CardItem>
-            <ScrollView>
-              <View>
-                {/* <List>
+class EventsQuickView extends React.Component {
+  state = {
+    /* eslint-disable */
+    index: 1,
+    routes: [
+      { key: 'first', title: '' },
+      { key: 'second', title: '' },
+      { key: 'third', title: '' },
+    ],
+  };
+  handleRenderIcon = ({route}) =>{
+    switch(route.key){
+      case 'first' :
+        return(
+          <FontAwesome5 name="video" color="#fff" size={20} brand />
+        );
+      case 'second':
+        return(
+          <FontAwesome5
+          name="bullhorn"
+          color="#fff"
+          size={20}
+          brand
+        />
+        );
+      case 'third':
+        return(
+          <FontAwesome5
+          name="hashtag"
+          color="#fff"
+          size={20}
+          brand
+        />
+      );
+      default :
+        return null;
+    }
+  }
+
+  render() {
+    const { myChannelList, otherChannelList, getInteractions } = this.props;
+    const FirstRoute = () => (
+      <View style={[styles.scene, { backgroundColor: '#fff' }]}>
+        <ScrollView>
+          {getInteractions.map(interaction => (
+            <List.Item
+              title={interaction.CreatedBy.Name}
+              description={interaction.ZoomStartUrl}
+              key={interaction.ZoomOccurrenceId}
+            />
+          ))}
+        </ScrollView>
+      </View>
+    );
+    const SecondRoute = () => (
+      <View style={[styles.scene, { backgroundColor: '#fff' }]}>
+        <ScrollView>
+          {myChannelList.map(myChannel => (
+            <List.Item
+              title={myChannel.ChannelName}
+              description={myChannel.JoinUrl}
+              key={myChannel.ZoomMeetingId}
+            />
+          ))}
+        </ScrollView>
+      </View>
+    );
+    const ThirdRoute = () => (
+      <View style={[styles.scene, { backgroundColor: '#fff' }]}>
+        <ScrollView>
+          {otherChannelList.map(otherChannel => (
+            <List.Item
+              title={otherChannel.ChannelName}
+              description={otherChannel.JoinUrl}
+              key={otherChannel.ZoomMeetingId}
+            />
+          ))}
+        </ScrollView>
+      </View>
+    );
+
+    return (
+      <View style={styles.containerContent}>
+        <Row style={{ height: 270 }}>
+          <Col style={styles.coloumnCard}>
+            <Card style={{ height: 300 }}>
+              <CardItem style={styles.cardContentContainerReport}>
+                <CardItem header style={styles.headerStyle}>
+                  <View
+                    style={[
+                      styles.iconRoundBackground,
+                      { backgroundColor: '#F9DFF1', borderColor: '#B60580' },
+                    ]}
+                  >
+                    <FontAwesome5
+                      name="envelope-open-text"
+                      color="#B60580"
+                      size={20}
+                      brand
+                    />
+                  </View>
+                  <CNXH4 style={styles.textMargin}>Notifications</CNXH4>
+                </CardItem>
+                <ScrollView>
+                  <View>
+                    {/* <List>
                   <ListItem>
                     <Text style={{ color: '#3498DB' }}>
                       Platform Practice - Academy Course
@@ -74,27 +153,32 @@ const EventsQuickView = ({
                     </Text>
                   </ListItem>
                 </List> */}
-              </View>
-            </ScrollView>
-          </CardItem>
-        </Card>
-      </Col>
-      <Col style={styles.coloumnCard}>
-        <Card style={{ height: 300 }}>
-          <CardItem style={styles.cardContentContainerReport}>
-            <CardItem header style={styles.headerStyle}>
-              <View
-                style={[
-                  styles.iconRoundBackground,
-                  { backgroundColor: '#D1E5FF', borderColor: '#005CD1' },
-                ]}
-              >
-                <FontAwesome5 name="video" color="#005CD1" size={20} brand />
-              </View>
-              <CNXH4 style={styles.textMargin}>Conference</CNXH4>
-            </CardItem>
-            <Container>
-              <Tabs tabContainerStyle={{ elevation: 0 }}>
+                  </View>
+                </ScrollView>
+              </CardItem>
+            </Card>
+          </Col>
+          <Col style={styles.coloumnCard}>
+            <Card style={{ height: 300 }}>
+              <CardItem style={styles.cardContentContainerReport}>
+                <CardItem header style={styles.headerStyle}>
+                  <View
+                    style={[
+                      styles.iconRoundBackground,
+                      { backgroundColor: '#D1E5FF', borderColor: '#005CD1' },
+                    ]}
+                  >
+                    <FontAwesome5
+                      name="video"
+                      color="#005CD1"
+                      size={20}
+                      brand
+                    />
+                  </View>
+                  <CNXH4 style={styles.textMargin}>Conference</CNXH4>
+                </CardItem>
+                <Container>
+                  {/* <Tabs tabContainerStyle={{ elevation: 0 }}>
                 <Tab
                   heading={
                     <TabHeading
@@ -161,14 +245,39 @@ const EventsQuickView = ({
                     ))}
                   </ScrollView>
                 </Tab>
-              </Tabs>
-            </Container>
-          </CardItem>
-        </Card>
-      </Col>
-    </Row>
-  </View>
-);
+              </Tabs> */}
+                  <TabView
+                    navigationState={this.state}
+                    renderScene={SceneMap({
+                      first: FirstRoute,
+                      second: SecondRoute,
+                      third: ThirdRoute,
+                    })}
+                    onIndexChange={index => this.setState({ index })} //eslint-disable-line
+                    initialLayout={{ width: Dimensions.get('window').width }}
+                    renderTabBar={props => (
+                      <TabBar
+                        {...props}
+                        indicatorStyle={{ backgroundColor: 'white', height: 2 }}
+                        tabStyle={{
+                          flexDirection: 'row',
+                        }}
+                        renderIcon={this.handleRenderIcon}
+                        // renderLabel={this.handleRenderText}
+                        style={{ backgroundColor: colors.PRIMARY }}
+                        bounces
+                      />
+                    )}
+                  />
+                </Container>
+              </CardItem>
+            </Card>
+          </Col>
+        </Row>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   containerContent: {
