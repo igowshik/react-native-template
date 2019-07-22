@@ -61,7 +61,6 @@ class FullPageModal extends React.Component {
           paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
         }}
       >
-        <StatusBar hidden />
         <Modal
           animationType="slide"
           onRequestClose={() => {}}
@@ -103,6 +102,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: colors.HEADER,
     height: 50,
+    paddingTop: 10,
   },
   closeIcon: {
     display: 'flex',

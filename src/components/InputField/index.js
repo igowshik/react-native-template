@@ -7,7 +7,7 @@ import { RFTextInput } from '../ReduxFormComponents/RFTextInput';
 import { RFNumberInput } from '../ReduxFormComponents/RFNumberInput';
 
 export const TextInput = props => {
-  const { label, name, required, helperText } = props;
+  const { label, name, required, helperText, multiline, disabled } = props;
   return (
     <Field
       style={styles.field}
@@ -16,6 +16,8 @@ export const TextInput = props => {
       component={RFTextInput}
       required={required}
       helperText={helperText}
+      multiline={multiline}
+      disabled={disabled}
     />
   );
 };
@@ -25,6 +27,8 @@ TextInput.propTypes = {
   name: PropTypes.string.isRequired,
   required: PropTypes.bool,
   helperText: PropTypes.string,
+  multiline: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 export const NumberInput = props => {

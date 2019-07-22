@@ -10,8 +10,13 @@ import {
 } from 'cnxapp/src/app/rootActions';
 import { ERROR } from 'cnxapp/src/utils/constants';
 import { selectToken } from './selectors';
-import { saveIndConexions } from './actions';
-import { GENERAL_ERROR, GET_IND_CONEXIONS } from './constants';
+import { saveIndConexions, saveExpenseMetaData } from './actions';
+import {
+  GENERAL_ERROR,
+  GET_IND_CONEXIONS,
+  GET_EXPENSE_METADATA,
+  METADATA_VARIABLES,
+} from './constants';
 
 function* getIndividualConexionAPI() {
   yield put(setRootGlobalLoader(true));
@@ -39,6 +44,36 @@ function* getIndividualConexionAPI() {
   }
 }
 
+function* getExpenseMetaDataAPI() {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const requestURL = `${
+    config.apiURL
+  }CodeRoleValues?roles=${METADATA_VARIABLES}`;
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+  const response = yield call(request, requestURL, options);
+
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(saveExpenseMetaData(response.data));
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+
 export default function* initConexionSaga() {
   yield takeLatest(GET_IND_CONEXIONS, getIndividualConexionAPI);
+  yield takeLatest(GET_EXPENSE_METADATA, getExpenseMetaDataAPI);
 }

@@ -10,6 +10,8 @@ export const RFTextInput = props => {
     label,
     required,
     helperText,
+    multiline,
+    disabled,
     meta: { error, touched },
     ...inputProps
   } = props;
@@ -28,6 +30,9 @@ export const RFTextInput = props => {
         value={input.value}
         style={{ width: '100%' }}
         error={hasError}
+        disabled={disabled}
+        multiline={multiline}
+        numberOfLines={multiline ? 3 : 1}
       />
       {required ? (
         <HelperText type="error" visible={hasError}>
@@ -44,10 +49,11 @@ RFTextInput.propTypes = {
   label: PropTypes.string.isRequired,
   required: PropTypes.bool,
   helperText: PropTypes.string,
+  multiline: PropTypes.bool,
+  disabled: PropTypes.bool,
 };
 
 const styles = StyleSheet.create({
-  // const styles = {
   item: {
     flex: 1,
     flexDirection: 'column',
@@ -76,4 +82,3 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 });
-// };

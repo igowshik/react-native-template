@@ -30,6 +30,7 @@ import {
   getConexionsNotesAction,
   saveConexionTimelineAction,
   getConexionTimelineAction,
+  setLoaderObject,
 } from './actions';
 import {
   GET_IND_CONEXIONS,
@@ -68,10 +69,16 @@ import {
   individualConexionPayloadMapper,
   organisationPayloadMappers,
 } from './mappers';
-function* getIndividualConexionAPI() {
+
+function* getIndividualConexionAPI({ intialPage }) {
+  yield put(
+    setLoaderObject({ title: 'Conexion', text: 'Loading Conexions...' }),
+  );
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
-  const requestURL = `${config.apiURL}IndividualConexions`;
+  const requestURL = `${config.apiURL}IndividualConexions?pageSize=${
+    intialPage.pageSize
+  }&pageNumber=${intialPage.pageNumber}`;
   const options = {
     method: 'GET',
     headers: {
@@ -79,9 +86,12 @@ function* getIndividualConexionAPI() {
     },
   };
   const response = yield call(request, requestURL, options);
+
   if (response.success) {
     yield put(setRootGlobalLoader(false));
-    yield put(saveIndConexions(response.data));
+    yield put(
+      saveIndConexions({ data: response.data, page: intialPage.pageNumber }),
+    );
   } else {
     yield put(
       setToastMessage({
@@ -94,10 +104,15 @@ function* getIndividualConexionAPI() {
   }
 }
 
-function* getOrganizationConexionAPI() {
+function* getOrganizationConexionAPI({ initialPage }) {
+  yield put(
+    setLoaderObject({ title: 'Conexion', text: 'Loading Conexions...' }),
+  );
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
-  const requestURL = `${config.apiURL}OrganizationConexions`;
+  const requestURL = `${config.apiURL}OrganizationConexions?pageSize=${
+    initialPage.pageSize
+  }&pageNumber=${initialPage.pageNumber}`;
   const options = {
     method: 'GET',
     headers: {
@@ -108,7 +123,9 @@ function* getOrganizationConexionAPI() {
 
   if (response.success) {
     yield put(setRootGlobalLoader(false));
-    yield put(saveOrgConexions(response.data));
+    yield put(
+      saveOrgConexions({ data: response.data, page: initialPage.pageNumber }),
+    );
   } else {
     yield put(
       setToastMessage({
@@ -122,6 +139,9 @@ function* getOrganizationConexionAPI() {
 }
 
 function* getConexionNotesAPI() {
+  yield put(
+    setLoaderObject({ title: 'Conexion', text: 'Loading Conexion Notes...' }),
+  );
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
   const conexionId = yield select(selectConexionId());
@@ -154,6 +174,12 @@ function* getConexionNotesAPI() {
 }
 
 function* getConexionTimelineAPI() {
+  yield put(
+    setLoaderObject({
+      title: 'Conexion',
+      text: 'Loading Conexion Timeline...',
+    }),
+  );
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
   const conexionId = yield select(selectConexionId());
@@ -186,6 +212,9 @@ function* getConexionTimelineAPI() {
 }
 
 function* getConexionDetailsAPI() {
+  yield put(
+    setLoaderObject({ title: 'Conexion', text: 'Loading Conexion details...' }),
+  );
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
   const conexionId = yield select(selectConexionId());
@@ -213,6 +242,9 @@ function* getConexionDetailsAPI() {
   }
 }
 function* getOrganisationDetailsAPI() {
+  yield put(
+    setLoaderObject({ title: 'Conexion', text: 'Loading Conexion details...' }),
+  );
   yield put(setRootGlobalLoader(true));
   const accessToken = yield select(selectToken());
   const conexionId = yield select(selectConexionId());

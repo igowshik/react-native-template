@@ -20,6 +20,7 @@ import {
   SAVE_NOTE_DATE,
   SAVE_NOTE_FILTER,
   SAVE_TIMELINE_FILTER,
+  SAVE_LOADER_TEXT_VALUE,
 } from './constants';
 
 export const conexionInitialState = {
@@ -65,6 +66,10 @@ export const conexionInitialState = {
     StartDate: new Date(),
     EndDate: new Date(),
   },
+  loaderValue: {
+    title: 'Conexion',
+    text: 'Loading...',
+  },
 };
 
 const conexionStore = (state = conexionInitialState, action) =>
@@ -72,11 +77,27 @@ const conexionStore = (state = conexionInitialState, action) =>
     const draftState = draft;
     switch (action.type) {
       case SET_IND_CONEXIONS: {
-        draftState.individualConexions = action.indConexions;
+        if (action.indConexions.data && action.indConexions.data.length > 0) {
+          if (action.indConexions.page === 1)
+            draftState.individualConexions = action.indConexions.data;
+          else {
+            const obj = [...state.individualConexions];
+            obj.push(...action.indConexions.data);
+            draftState.individualConexions = obj;
+          }
+        }
         break;
       }
       case SET_ORG_CONEXIONS: {
-        draftState.organizationConexions = action.orgConexions;
+        if (action.orgConexions.data && action.orgConexions.data.length > 0) {
+          if (action.orgConexions.page === 1)
+            draftState.organizationConexions = action.orgConexions.data;
+          else {
+            const obj = [...state.organizationConexions];
+            obj.push(...action.orgConexions.data);
+            draftState.organizationConexions = obj;
+          }
+        }
         break;
       }
       case SET_CREATE_CONEXION_DATE: {
@@ -149,6 +170,10 @@ const conexionStore = (state = conexionInitialState, action) =>
       }
       case SAVE_TIMELINE_FILTER: {
         draftState.timelineFilter = action.timelineFilter;
+        break;
+      }
+      case SAVE_LOADER_TEXT_VALUE: {
+        draftState.loaderValue = action.loaderObj;
         break;
       }
       default: {

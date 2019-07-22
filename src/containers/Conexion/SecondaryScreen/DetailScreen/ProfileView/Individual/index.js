@@ -73,14 +73,14 @@ class IndividualConexion extends React.Component {
                 {`${getTitleName(
                   conexionDetails.Title,
                   conexionDetails.DisplayName,
-                )} (${conexionDetails.ShortName})`}
+                ) || ''} (${
+                  conexionDetails.ShortName ? conexionDetails.ShortName : ''
+                })`}
               </H1>
               {getOrgName(
                 conexionDetails.JobTitle,
                 conexionDetails.Organization,
               )}
-              {/* {getEmail(conexionDetails.BusinessEmailAddress)} */}
-              {/* {getPhone(conexionDetails.BusinessTelephoneNumber)} */}
               {getContact(
                 conexionDetails.BusinessEmailAddress,
                 conexionDetails.BusinessTelephoneNumber,
