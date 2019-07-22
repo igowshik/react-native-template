@@ -254,7 +254,7 @@ class EventsQuickView extends React.Component {
                       third: ThirdRoute,
                     })}
                     onIndexChange={index => this.setState({ index })} //eslint-disable-line
-                    initialLayout={{ width: Dimensions.get('window').width }}
+                    initialLayout={{ width: Dimensions.get('window').width, height: Dimensions.get('window').height}}
                     renderTabBar={props => (
                       <TabBar
                         {...props}
