@@ -30,7 +30,7 @@ export default class DateTimePickerTester extends Component {
   render() {
     return (
       <View style={{ flex: 1, margin: 30 }}>
-        <StatusBar hidden />
+        <StatusBar barStyle="default" />
         <Card elevation={4}>
           <Card.Title
             title="DateTime Picker"

@@ -18,12 +18,11 @@ import { selectIndConexion } from '../../selectors';
 import { PAGE_CONFIG } from '../../constants';
 
 const ITEM_HEIGHT = 70;
-const { page, size } = PAGE_CONFIG;
 
 class ConexionList extends PureComponent {
   state = {
-    pageSize: size,
-    pageNumber: page,
+    pageSize: PAGE_CONFIG.pageSize,
+    pageNumber: PAGE_CONFIG.pageNumber,
     refreshing: false,
   };
 

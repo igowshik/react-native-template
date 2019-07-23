@@ -58,7 +58,7 @@ class FullPageModal extends React.Component {
     return (
       <View
         style={{
-          paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
+          paddingTop: StatusBar.currentHeight,
         }}
       >
         <Modal

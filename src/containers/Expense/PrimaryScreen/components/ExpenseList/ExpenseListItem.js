@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Card } from 'react-native-paper';
+import { Card, Subheading } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
 import ListItemRight from './ListItemRight';
@@ -18,7 +18,9 @@ export default class ExpenseListItem extends PureComponent {
         style={{ marginTop: 2, marginRight: 1, marginLeft: 1 }}
       >
         <Card.Title
-          title={`${item.ReportName} - ${item.ExpenseKey}`}
+          title={
+            <Subheading>{`${item.ReportName} - ${item.ExpenseKey}`}</Subheading>
+          }
           subtitle={`Report date: ${getDateByFormat(
             new Date(item.ReportDate),
             'L',

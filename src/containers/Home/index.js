@@ -18,7 +18,7 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <StatusBar hidden={false} barStyle="default" />
+        <StatusBar barStyle="default" />
         <DashboardMainScreen />
       </View>
     );

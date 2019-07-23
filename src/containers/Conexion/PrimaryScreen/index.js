@@ -207,7 +207,7 @@ class PrimaryScreen extends React.Component {
     } = this.props;
     return (
       <View>
-        <StatusBar hidden={false} />
+        <StatusBar barStyle="default" />
         <View>
           <View style={styles.headerStyle}>
             <CreateIndividual
@@ -257,6 +257,7 @@ class PrimaryScreen extends React.Component {
                               createConexionType === INDIVIDUAL
                                 ? colors.PRIMARY
                                 : '#000',
+                            paddingLeft: 10,
                           }}
                           name="users"
                           size={20}
@@ -289,6 +290,7 @@ class PrimaryScreen extends React.Component {
                               createConexionType === ORGANIZATION
                                 ? colors.PRIMARY
                                 : '#000',
+                            paddingLeft: 14,
                           }}
                           name="building"
                           size={20}

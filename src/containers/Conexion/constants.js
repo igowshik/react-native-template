@@ -83,6 +83,6 @@ export const NOTES = 'Notes';
 export const TIMELINE = 'Timeline';
 
 export const PAGE_CONFIG = {
-  page: 1,
-  size: 20,
+  pageNumber: 1,
+  pageSize: 20,
 };

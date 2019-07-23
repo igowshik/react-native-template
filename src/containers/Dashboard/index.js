@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, StatusBar } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { Header, Left, Right, Button } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
@@ -27,7 +27,6 @@ class DashboardMainView extends React.Component {
   render() {
     return (
       <View style={{ height: '100%' }}>
-        <StatusBar hidden={false} barStyle="default" />
         <ScrollView style={{ padding: 20, paddingBottom: 0 }}>
           <Card elevation={5}>
             <LinearGradient
