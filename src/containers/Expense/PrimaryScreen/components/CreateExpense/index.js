@@ -3,15 +3,19 @@ import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button } from 'react-native-paper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
-import { reduxForm } from 'redux-form';
+import { reduxForm, reset } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 // Absolute imports
 import FullPageModal from 'cnxapp/src/components/FullPageModal';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
+import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
 import { createStructuredSelector } from 'reselect';
 import CreateExpenseForm from './CreateExpenseForm';
+import { validate } from '../../../Validator';
+import { setNewExpense, setCreateExpenseModalVisibility } from '../../actions';
+import { EXPENSE_FORM } from '../../constants';
 
 class CreateExpense extends Component {
   constructor(props) {
@@ -20,17 +24,29 @@ class CreateExpense extends Component {
     this.onCreateExpense = this.onCreateExpense.bind(this);
   }
 
-  onCreateExpense = () => {
-    this._closeModal();
+  onCreateExpense = values => {
+    const { createNewExpense } = this.props;
+    const valuesForm = JSON.stringify(values, null, 2);
+    const objectForm = JSON.parse(valuesForm);
+    const objBuilder = {
+      ReportName: objectForm.exp_report_name,
+      ReportDate: getDateByFormat(objectForm.exp_report_date, 'L'),
+      BusinessPurpose: objectForm.exp_business_purpose
+        ? objectForm.exp_business_purpose
+        : '',
+      BusinessUnit: objectForm.exp_business_unit,
+    };
+    createNewExpense(objBuilder);
   };
 
   _closeModal = () => {
-    const { setModalOpenClose } = this.props;
-    setModalOpenClose(false);
+    const { dispatchCreateExpenseModalState, dispatchFormReset } = this.props;
+    dispatchCreateExpenseModalState(false);
+    dispatchFormReset(EXPENSE_FORM);
   };
 
   render() {
-    const { modalOpen, pristine, submitting } = this.props;
+    const { modalOpen, submitting, handleSubmit } = this.props;
     return (
       <FullPageModal
         visible={modalOpen}
@@ -40,10 +56,10 @@ class CreateExpense extends Component {
         <View style={styles.headerContainer}>
           <Button
             raised
-            // onPress={handleSubmit(this.onCreateExpense)}
-            disabled={pristine || submitting}
+            onPress={handleSubmit(this.onCreateExpense)}
+            disabled={submitting}
             mode="contained"
-            color={colors.PURPLE}
+            color={colors.BLUE}
             icon={() => (
               <FontAwesome5 name="check" color="#fff" size={18} light />
             )}
@@ -58,17 +74,19 @@ class CreateExpense extends Component {
 }
 CreateExpense.propTypes = {
   modalOpen: PropTypes.bool.isRequired,
-  setModalOpenClose: PropTypes.func.isRequired,
-  pristine: PropTypes.bool,
+  dispatchCreateExpenseModalState: PropTypes.func.isRequired,
+  createNewExpense: PropTypes.func.isRequired,
   submitting: PropTypes.bool,
-  // handleSubmit: PropTypes.func.isRequired,
+  dispatchFormReset: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
-const redux = reduxForm({
-  form: 'createExpense',
-  enableReinitialize: true,
-  destroyOnUnmount: true,
-  keepDirtyOnReinitialize: false,
+const reduxFormExpense = reduxForm({
+  form: EXPENSE_FORM,
+  validate,
+  enableReinitialize: false,
+  destroyOnUnmount: false,
+  keepDirtyOnReinitialize: true,
 });
 
 const styles = StyleSheet.create({
@@ -88,12 +106,18 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = createStructuredSelector({});
 
-const mapDispatchToProps = dispatch => ({});//eslint-disable-line
+const mapDispatchToProps = dispatch => ({
+  dispatchFormReset: formName => dispatch(reset(formName)),
+  createNewExpense: value => dispatch(setNewExpense(value)),
+  dispatchCreateExpenseModalState: visibility =>
+    dispatch(setCreateExpenseModalVisibility(visibility)),
+});
 const withConnect = connect(
   mapStateToProps,
   mapDispatchToProps,
 );
+
 export default compose(
   withConnect,
-  redux,
+  reduxFormExpense,
 )(CreateExpense);

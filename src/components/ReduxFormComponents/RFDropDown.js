@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -6,21 +6,7 @@ import { Dropdown as MaterialDropdown } from 'react-native-material-dropdown';
 
 import * as fonts from 'cnxapp/src/utils/font-list';
 
-class RFDropdown extends React.Component {
-  state = {
-    hasError: false,
-  };
-
-  onFocusOut = () => {
-    const {
-      required,
-      meta: { error, touched },
-    } = this.props;
-    if (required && touched && error) {
-      this.setState({ hasError: true });
-    }
-  };
-
+class RFDropdown extends PureComponent {
   render() {
     const {
       input,
@@ -31,10 +17,10 @@ class RFDropdown extends React.Component {
       ...inputProps
     } = this.props;
 
+    let hasError = false;
     if (required && touched && error) {
-      this.setState({ hasError: true });
+      hasError = true;
     }
-
     return (
       <View style={styles.parentView}>
         <MaterialDropdown
@@ -48,8 +34,8 @@ class RFDropdown extends React.Component {
           labelFontSize={12}
           value={input.value}
           onChangeText={input.onChange}
-          onBlur={this.onFocusOut}
-          error={this.state.hasError ? 'required' : null}
+          onBlur={input.onBlur}
+          error={hasError ? `${label} is required` : null}
           textColor="rgba(0, 0, 0, 0.8)"
           baseColor="rgba(0, 0, 0, 0.5)"
         />

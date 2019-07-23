@@ -33,28 +33,28 @@ class ExpenseFAB extends React.Component {
                 color: '#000',
               },
             },
-            {
-              icon: 'history',
-              label: 'Expense history',
-              onPress: () => {},
-              // this.props.handleConexionCreate(true, ORGANIZATION),
-              //   this.props.handleConexionCreate(),
-              // onPress: this.props.handleConexionCreate,
-              style: {
-                backgroundColor: colors.SECONDARY,
-              },
-            },
-            {
-              icon: 'add',
-              label: 'Expense dashboard',
-              onPress: () => {},
-              // this.props.handleConexionCreate(true, ORGANIZATION),
-              //   this.props.handleConexionCreate(),
-              // onPress: this.props.handleConexionCreate,
-              style: {
-                backgroundColor: colors.SECONDARY,
-              },
-            },
+            // {
+            //   icon: 'history',
+            //   label: 'Expense history',
+            //   onPress: () => {},
+            //   // this.props.handleConexionCreate(true, ORGANIZATION),
+            //   //   this.props.handleConexionCreate(),
+            //   // onPress: this.props.handleConexionCreate,
+            //   style: {
+            //     backgroundColor: colors.SECONDARY,
+            //   },
+            // },
+            // {
+            //   icon: 'add',
+            //   label: 'Expense dashboard',
+            //   onPress: () => {},
+            //   // this.props.handleConexionCreate(true, ORGANIZATION),
+            //   //   this.props.handleConexionCreate(),
+            //   // onPress: this.props.handleConexionCreate,
+            //   style: {
+            //     backgroundColor: colors.SECONDARY,
+            //   },
+            // },
           ]}
           onStateChange={({ open }) => this.setState({ open })}
           onPress={() => {

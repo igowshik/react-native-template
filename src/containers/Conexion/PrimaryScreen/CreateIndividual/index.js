@@ -62,7 +62,6 @@ class CreateIndividual extends Component {
     const {
       modalOpen,
       handleSubmit,
-      // invalid,
       pristine,
       submitting,
       conexionType,
@@ -117,7 +116,6 @@ CreateIndividual.propTypes = {
   createOrganisation: PropTypes.func,
 };
 
-// export default reduxForm({
 const redux = reduxForm({
   form: 'createConexion',
   validate,

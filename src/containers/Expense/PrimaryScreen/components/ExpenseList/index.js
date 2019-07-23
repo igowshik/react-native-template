@@ -14,8 +14,7 @@ import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 import ExpenseListItem from './ExpenseListItem';
 import { getExpenseList } from '../../actions';
-import { selectExpenseList } from '../../selectors';
-import { selectGlobalLoader } from '../../../selectors';
+import { selectExpenseList, selectGlobalLoader } from '../../selectors';
 
 class ExpenseList extends Component {
   constructor(props) {

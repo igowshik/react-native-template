@@ -7,7 +7,7 @@ export const getFormatedDate = date =>
     .format('L LT');
 
 export const getDateByFormat = (date, format) =>
-  moment(date, format)
+  moment(new Date(date), format)
     .utc()
     .local()
     .format(format);

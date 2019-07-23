@@ -8,21 +8,19 @@ import PropTypes from 'prop-types';
 
 import Loader from 'cnxapp/src/components/Loader';
 
+import { withNavigation, withNavigationFocus } from 'react-navigation';
 import AnalyticCard from './AnalyticCard';
 import ExpenseFAB from '../ExpenseFAB';
 import ExpenseList from '../ExpenseList';
-import { selectGlobalLoader, selectExpenseMetadata } from '../../../selectors';
-import {
-  setCreateExpenseModalVisibility,
-  getExpenseSummary,
-} from '../../actions';
+
+import { setCreateExpenseModalVisibility } from '../../actions';
 import CreateExpense from '../CreateExpense';
 import {
   selectCreateExpenseModelState,
   selectExpenseSummary,
   selectCurrentExpenseStatus,
+  selectGlobalLoader,
 } from '../../selectors';
-import { getExpenseMetadata } from '../../../actions';
 
 class ExpenseDashboard extends Component {
   constructor(props) {
@@ -30,21 +28,14 @@ class ExpenseDashboard extends Component {
     this.createExpenseTrigger = this.createExpenseTrigger.bind(this);
   }
 
-  componentDidMount() {
-    const { dispatchGetExpenseSummary, fetchExpenseMetadata } = this.props;
-    fetchExpenseMetadata();
-    dispatchGetExpenseSummary();
-  }
-
-  createExpenseTrigger = () => {
-    // this.setCreateExpenseModalOpenClose(modalState);
-    // this.setState({ createExpenseVisible: modalState });
+  createExpenseTrigger = modalState => {
+    this.props.dispatchCreateExpenseModalState(modalState);
   };
 
-  setCreateExpenseModalOpenClose = value => {
-    const { dispatchCreateExpenseModalState } = this.props;
-    dispatchCreateExpenseModalState(value);
-  };
+  // setCreateExpenseModalOpenClose = value => {
+  //   const { dispatchCreateExpenseModalState } = this.props;
+  //   dispatchCreateExpenseModalState(value);
+  // };
 
   renderDashboardCards = () => {
     const { expenseSummary } = this.props;
@@ -57,7 +48,6 @@ class ExpenseDashboard extends Component {
           title={expense.Description}
           value={expense.Count}
           subTitle={expense.Status === 'ALL' ? '' : 'Placeholder'}
-          // isSelected={currentStatus === expense.Status}
         />,
       ),
     );
@@ -65,7 +55,10 @@ class ExpenseDashboard extends Component {
   };
 
   render() {
-    const { loaderState, createExpenseModalVisible } = this.props;
+    const { loaderState, createExpenseModalVisible, isFocused } = this.props;
+    const expenseIntialValues = {
+      exp_report_date: new Date(),
+    };
     return (
       <View style={{ height: '100%' }}>
         <ScrollView
@@ -82,7 +75,9 @@ class ExpenseDashboard extends Component {
           {this.renderDashboardCards()}
         </ScrollView>
         <ExpenseList />
-        <ExpenseFAB handleExpenseCreate={this.createExpenseTrigger} />
+        {isFocused ? (
+          <ExpenseFAB handleExpenseCreate={this.createExpenseTrigger} />
+        ) : null}
         <Loader
           showLoader={loaderState}
           loaderTitle="Expense"
@@ -90,8 +85,8 @@ class ExpenseDashboard extends Component {
         />
         <CreateExpense
           modalOpen={createExpenseModalVisible}
-          setModalOpenClose={this.setCreateExpenseModalOpenClose}
-          // handleSubmit={() => this.setState({ createExpenseVisible: false })}
+          // setModalOpenClose={this.setCreateExpenseModalOpenClose}
+          initialValues={expenseIntialValues}
         />
       </View>
     );
@@ -102,9 +97,8 @@ ExpenseDashboard.propTypes = {
   loaderState: PropTypes.bool.isRequired,
   createExpenseModalVisible: PropTypes.bool.isRequired,
   dispatchCreateExpenseModalState: PropTypes.func.isRequired,
-  dispatchGetExpenseSummary: PropTypes.func.isRequired,
   expenseSummary: PropTypes.array.isRequired,
-  fetchExpenseMetadata: PropTypes.func.isRequired,
+  isFocused: PropTypes.bool.isRequired,
 };
 
 /**
@@ -117,14 +111,11 @@ const mapStateToProps = createStructuredSelector({
   createExpenseModalVisible: selectCreateExpenseModelState(),
   expenseSummary: selectExpenseSummary(),
   currentStatus: selectCurrentExpenseStatus(),
-  metaData: selectExpenseMetadata(),
 });
 
 const mapDispatchToProps = dispatch => ({
   dispatchCreateExpenseModalState: visibility =>
     dispatch(setCreateExpenseModalVisibility(visibility)),
-  dispatchGetExpenseSummary: () => dispatch(getExpenseSummary()),
-  fetchExpenseMetadata: () => dispatch(getExpenseMetadata()),
 });
 
 const withConnect = connect(
@@ -132,4 +123,8 @@ const withConnect = connect(
   mapDispatchToProps,
 );
 
-export default compose(withConnect)(ExpenseDashboard);
+export default compose(
+  withNavigation,
+  withNavigationFocus,
+  withConnect,
+)(ExpenseDashboard);

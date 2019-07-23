@@ -9,16 +9,63 @@ import {
   setToastVisibility,
 } from 'cnxapp/src/app/rootActions';
 import { ERROR } from 'cnxapp/src/utils/constants';
-import { saveExpenseList, saveExpenseSummary } from './actions';
+import {
+  saveExpenseList,
+  saveExpenseSummary,
+  saveExpenseMetaData,
+  getExpenseSummary,
+  setCreateExpenseModalVisibility,
+  getExpenseList,
+  resetReduxForm,
+} from './actions';
 import {
   GENERAL_ERROR,
   GET_EXPENSE_LIST,
   GET_EXPENSE_SUMMARY,
+  METADATA_VARIABLES,
+  GROUPED_EXPENSE_STATUS,
+  EXPENSE_STATUS,
+  GET_EXPENSE_METADATA,
+  SET_NEW_EXPENSE,
+  EXPENSE_FORM,
 } from './constants';
-import { selectToken, selectExpenseFilterQuery } from './selectors';
-import { selectExpenseMetadata } from '../selectors';
+import {
+  selectToken,
+  selectExpenseFilterQuery,
+  selectExpenseMetadata,
+  selectNewExpense,
+} from './selectors';
 import { mapGroupedStatusCodeRole, mapStatusCodeRole } from './mappers';
-import { GROUPED_EXPENSE_STATUS, EXPENSE_STATUS } from '../constants';
+
+function* getExpenseMetaDataAPI() {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const requestURL = `${
+    config.apiURL
+  }CodeRoleValues?roles=${METADATA_VARIABLES}`;
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+  const response = yield call(request, requestURL, options);
+
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(saveExpenseMetaData(response.data));
+    yield put(getExpenseSummary());
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
 
 function* getExpenseListAPI() {
   yield put(setRootGlobalLoader(true));
@@ -70,6 +117,7 @@ function* getExpenseSummaryAPI() {
     const expenseStatus = yield select(
       selectExpenseMetadata(GROUPED_EXPENSE_STATUS),
     );
+
     const mappedStatus = mapGroupedStatusCodeRole(response.data, expenseStatus);
     yield put(saveExpenseSummary(mappedStatus));
   } else {
@@ -83,8 +131,40 @@ function* getExpenseSummaryAPI() {
     yield put(setToastVisibility(true));
   }
 }
-
+function* setNewExpenseAPI() {
+  yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+  const payLoad = yield select(selectNewExpense());
+  const requestURL = `${config.apiURL}NewExpense`;
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payLoad),
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(getExpenseSummary());
+    yield put(getExpenseList(1));
+    yield put(resetReduxForm(EXPENSE_FORM));
+    yield put(setCreateExpenseModalVisibility(false));
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
 export default function* initConexionSaga() {
   yield takeLatest(GET_EXPENSE_LIST, getExpenseListAPI);
   yield takeLatest(GET_EXPENSE_SUMMARY, getExpenseSummaryAPI);
+  yield takeLatest(GET_EXPENSE_METADATA, getExpenseMetaDataAPI);
+  yield takeLatest(SET_NEW_EXPENSE, setNewExpenseAPI);
 }

@@ -19,6 +19,12 @@ const selectToken = () =>
     rootReducers,
     dataState => dataState.accessToken,
   );
+const selectGlobalLoader = () =>
+  createSelector(
+    rootReducers,
+    dataState => dataState.globalLoader,
+  );
+
 const selectExpenseFilterQuery = () =>
   createSelector(
     expenseReducers,
@@ -44,6 +50,17 @@ const selectCurrentExpenseStatus = () =>
     expenseReducers,
     dataState => dataState.expenseFilter.Status,
   );
+
+const selectExpenseMetadata = codeRoleName =>
+  createSelector(
+    expenseReducers,
+    dataState => dataState.expenseMetadata[codeRoleName],
+  );
+const selectNewExpense = () =>
+  createSelector(
+    expenseReducers,
+    dataState => dataState.newExpense,
+  );
 export {
   selectToken,
   selectExpenseFilterQuery,
@@ -51,4 +68,7 @@ export {
   selectCreateExpenseModelState,
   selectExpenseSummary,
   selectCurrentExpenseStatus,
+  selectExpenseMetadata,
+  selectGlobalLoader,
+  selectNewExpense,
 };

@@ -5,12 +5,22 @@ import {
   SET_CREATE_EXPENSE_MODAL,
   SET_EXPENSE_SUMMARY,
   SET_EXPENSE_STATUS,
+  SAVE_EXPENSE_METADATA,
+  SET_NEW_EXPENSE,
 } from './constants';
 
 export const IntialState = {
   individualConexions: [],
   expenseSummary: [],
   expenseList: [],
+  expenseMetadata: {
+    expense_status: [],
+    expense_type: [],
+    payment_method: [],
+    costcenter: [],
+    business_unit: [],
+    expense_item_project_chargeable: [],
+  },
   createConexion: {
     data: {},
     types: '',
@@ -21,6 +31,7 @@ export const IntialState = {
     Status: 'ALL',
   },
   createExpenseModelVisible: false,
+  newExpense: {},
 };
 
 const expensePrimaryScreenStore = (state = IntialState, action) =>
@@ -35,6 +46,10 @@ const expensePrimaryScreenStore = (state = IntialState, action) =>
         draftState.expenseList = action.expenseList;
         break;
       }
+      case SAVE_EXPENSE_METADATA: {
+        draftState.expenseMetadata = action.metadata;
+        break;
+      }
       case SET_CREATE_EXPENSE_MODAL: {
         draftState.createExpenseModelVisible = action.visibility;
         break;
@@ -45,6 +60,10 @@ const expensePrimaryScreenStore = (state = IntialState, action) =>
       }
       case SET_EXPENSE_STATUS: {
         draftState.expenseFilter.Status = action.selectedFilter;
+        break;
+      }
+      case SET_NEW_EXPENSE: {
+        draftState.newExpense = action.value;
         break;
       }
       default: {
