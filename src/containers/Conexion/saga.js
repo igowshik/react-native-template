@@ -54,6 +54,7 @@ import {
   CREATE_CONEXION_NOTE,
   EDIT_CONEXION_NOTE,
   DELETE_CONEXION_NOTE,
+  PAGE_CONFIG,
 } from './constants';
 import {
   selectToken,
@@ -491,7 +492,7 @@ function* createIndividualDetailsAPI() {
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(setIndividualModalVisibility(false));
-    yield put(getIndConexions());
+    yield put(getIndConexions(PAGE_CONFIG));
   } else {
     yield put(setIndividualModalVisibility(false));
     yield put(
@@ -523,7 +524,7 @@ function* createOragnisationDetailsAPI() {
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(setIndividualModalVisibility(false));
-    yield put(getOrgConexions());
+    yield put(getOrgConexions(PAGE_CONFIG));
   } else if (response.status === 422) {
     yield put(setIndividualModalVisibility(false));
     yield put(
@@ -574,7 +575,7 @@ function* editIndividualDetailsAPI() {
     yield put(setRootGlobalLoader(false));
     yield put(setEditCNXModalVisibilty(false));
     yield put(getConexionDetails());
-    yield put(getIndConexions());
+    yield put(getIndConexions(PAGE_CONFIG));
   } else if (response.status === 422) {
     yield put(setEditCNXModalVisibilty(false));
     yield put(
@@ -623,7 +624,7 @@ function* editOrganisationDetailsAPI() {
     yield put(setRootGlobalLoader(false));
     yield put(setEditCNXModalVisibilty(false));
     yield put(getOrganisationDetails());
-    yield put(getOrgConexions());
+    yield put(getOrgConexions(PAGE_CONFIG));
   } else if (response.status === 422) {
     yield put(setEditCNXModalVisibilty(false));
     yield put(

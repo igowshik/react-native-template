@@ -33,10 +33,10 @@ class Details extends React.Component {
       const mappedTitle = [];
       const mappedSuffix = [];
       metaData.title.forEach(data => {
-        mappedTitle.push({ label: data.Description, value: data.Value });
+        mappedTitle.push({ label: data.Text, value: data.Value });
       });
       metaData.suffix.forEach(data => {
-        mappedSuffix.push({ label: data.Description, value: data.Value });
+        mappedSuffix.push({ label: data.Text, value: data.Value });
       });
       this.setState({ title: mappedTitle, suffix: mappedSuffix });
     }

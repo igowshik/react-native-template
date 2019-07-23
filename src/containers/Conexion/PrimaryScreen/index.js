@@ -48,7 +48,13 @@ import {
   getOrgDDList,
 } from '../actions';
 import { conexionStyles as styles } from '../styles';
-import { INDIVIDUAL, ORGANIZATION, ALL } from '../constants';
+import {
+  INDIVIDUAL,
+  ORGANIZATION,
+  ALL,
+  INDIVIDUALS,
+  ORGANIZATIONS,
+} from '../constants';
 import FABUI from './UIComponents/FAB';
 
 class PrimaryScreen extends React.Component {
@@ -270,7 +276,7 @@ class PrimaryScreen extends React.Component {
                                 : '#000',
                           }}
                         >
-                          {INDIVIDUAL}
+                          {INDIVIDUALS}
                         </Text>
                       }
                     />
@@ -302,7 +308,7 @@ class PrimaryScreen extends React.Component {
                                 : '#000',
                           }}
                         >
-                          {ORGANIZATION}
+                          {ORGANIZATIONS}
                         </Text>
                       }
                     />

@@ -47,6 +47,8 @@ export const SAVE_LOADER_TEXT_VALUE = '@Conexion/SAVE_LOADER_TEXT_VALUE';
 export const INDIVIDUAL = 'Individual';
 export const ORGANIZATION = 'Organization';
 export const ALL = 'All';
+export const INDIVIDUALS = 'Individuals';
+export const ORGANIZATIONS = 'Organizations';
 
 export const conexionSelectListItems = [
   { label: 'Individual', value: INDIVIDUAL, key: 'key1' },
@@ -79,3 +81,8 @@ export const DELETE_NOTE_MESSAGE = 'Are you sure on deleting this note?';
 export const PROFILE = 'Profile';
 export const NOTES = 'Notes';
 export const TIMELINE = 'Timeline';
+
+export const PAGE_CONFIG = {
+  page: 1,
+  size: 20,
+};

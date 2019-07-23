@@ -13,8 +13,7 @@ export const rootInitialState = {
     toastMessage: '',
     toastType: INFO,
   },
-  accessToken:
-    '5RZpt5qrk8YVBjCqDP4XMAZO8PphmKG2L6b99sZO4VkRCfAkIQXsWX5VfvvLcWDuXoDhln9KvnXevl03qFDhsSGzttIXZfDp3O8u7PiDStOthT3qlZhYdfsPXKeuN8YEMp3U2oeas4r6RFRGoJNyooG-chCmPJgHG8dVNccUchey5L_JU5Aw2zWMgB0PvffgIkSrfBAzcEVnfixzOisovZM2QvT8LGYtIsM2YeBc-h6kp-5B03MytjKX2egzeb1yCdUe-rITEXYx2Tofz9KFMuiYd-tYdDErWVknYTlbGo0kJSVi5GIuVRPcqXKcXJSHcBoLZdKozkFt2CDkbkpqTZFatQ9ee2ZJIR_HSjJorlex2DKvahEPGElFdcFtL5QLqe-X8Kk0t2fh8Ta4fzOr_pHDS26mFdBJzsyy5yHRbovb2xjteViS1rFgfS5jN1PhcbZmojI7zWpNG7DWUYZLzDmwrJG2d34mNOD_vErZCpyD0Z8nJydYdse0xHqKkR5ILmFzqw',
+  accessToken: '',
   globalLoader: false,
   toastVisible: false,
 };

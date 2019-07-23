@@ -15,13 +15,15 @@ import RenderIndListItem from './RenderIndListItem';
 import RenderOrgListItem from './RenderOrgListItem';
 import { getIndConexions, getOrgConexions } from '../../actions';
 import { selectIndConexion } from '../../selectors';
+import { PAGE_CONFIG } from '../../constants';
 
 const ITEM_HEIGHT = 70;
+const { page, size } = PAGE_CONFIG;
 
 class ConexionList extends PureComponent {
   state = {
-    pageSize: 20,
-    pageNumber: 1,
+    pageSize: size,
+    pageNumber: page,
     refreshing: false,
   };
 
