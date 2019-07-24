@@ -32,11 +32,6 @@ class ExpenseDashboard extends Component {
     this.props.dispatchCreateExpenseModalState(modalState);
   };
 
-  // setCreateExpenseModalOpenClose = value => {
-  //   const { dispatchCreateExpenseModalState } = this.props;
-  //   dispatchCreateExpenseModalState(value);
-  // };
-
   renderDashboardCards = () => {
     const { expenseSummary } = this.props;
     const expenseCategory = [];
@@ -55,12 +50,17 @@ class ExpenseDashboard extends Component {
   };
 
   render() {
-    const { loaderState, createExpenseModalVisible, isFocused } = this.props;
+    const {
+      loaderState,
+      createExpenseModalVisible,
+      isFocused,
+      // navigateToHistory,
+    } = this.props;
     const expenseIntialValues = {
       exp_report_date: new Date(),
     };
     return (
-      <View style={{ height: '100%' }}>
+      <View style={{ flex: 1 }}>
         <ScrollView
           style={{
             padding: 10,
@@ -76,7 +76,10 @@ class ExpenseDashboard extends Component {
         </ScrollView>
         <ExpenseList />
         {isFocused ? (
-          <ExpenseFAB handleExpenseCreate={this.createExpenseTrigger} />
+          <ExpenseFAB
+            handleExpenseCreate={this.createExpenseTrigger}
+            // handleExpenseHistoryPress={navigateToHistory()}
+          />
         ) : null}
         <Loader
           showLoader={loaderState}
@@ -99,6 +102,7 @@ ExpenseDashboard.propTypes = {
   dispatchCreateExpenseModalState: PropTypes.func.isRequired,
   expenseSummary: PropTypes.array.isRequired,
   isFocused: PropTypes.bool.isRequired,
+  // navigateToHistory: PropTypes.func.isRequired,
 };
 
 /**

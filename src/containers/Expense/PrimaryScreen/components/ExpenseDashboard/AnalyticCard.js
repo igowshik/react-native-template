@@ -12,6 +12,7 @@ import {
   setExpenseStatusFilter,
   getExpenseList,
   saveExpenseList,
+  setExpensePageNumber,
 } from '../../actions';
 import { selectCurrentExpenseStatus } from '../../selectors';
 
@@ -32,7 +33,7 @@ class AnalyticsCard extends React.Component {
   componentDidMount() {
     const { fetchExpenseList } = this.props;
     this._getColorCode();
-    fetchExpenseList(1);
+    fetchExpenseList();
   }
 
   _getColorCode() {
@@ -84,13 +85,15 @@ class AnalyticsCard extends React.Component {
       fetchExpenseList,
       value,
       setExpenseList,
+      updateExpensePageNumber,
     } = this.props;
     dispatchSetExpenseStatus(status);
     if (value === 0) {
       setExpenseList([]);
       return;
     }
-    fetchExpenseList(1);
+    updateExpensePageNumber(1);
+    fetchExpenseList();
   };
 
   isSelected = () => {
@@ -164,6 +167,7 @@ AnalyticsCard.propTypes = {
   subTitle: PropTypes.string,
   value: PropTypes.number.isRequired,
   dispatchSetExpenseStatus: PropTypes.func.isRequired,
+  updateExpensePageNumber: PropTypes.func.isRequired,
   fetchExpenseList: PropTypes.func.isRequired,
   currentStatus: PropTypes.string.isRequired,
   setExpenseList: PropTypes.func,
@@ -184,7 +188,9 @@ const mapStateToProps = createStructuredSelector({
 });
 const mapDispatchToProps = dispatch => ({
   dispatchSetExpenseStatus: status => dispatch(setExpenseStatusFilter(status)),
-  fetchExpenseList: pageNumber => dispatch(getExpenseList(pageNumber)),
+  updateExpensePageNumber: pageNumber =>
+    dispatch(setExpensePageNumber(pageNumber)),
+  fetchExpenseList: () => dispatch(getExpenseList()),
   setExpenseList: value => dispatch(saveExpenseList(value)),
 });
 const withConnect = connect(

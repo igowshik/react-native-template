@@ -10,6 +10,8 @@ import {
   SAVE_EXPENSE_METADATA,
   GET_EXPENSE_METADATA,
   SET_NEW_EXPENSE,
+  UPDATE_EXPENSE_LIST,
+  SET_EXPENSE_PAGENUMBER,
 } from './constants';
 
 export const saveExpenseMetaData = metadata => ({
@@ -19,11 +21,17 @@ export const saveExpenseMetaData = metadata => ({
 
 export const getExpenseMetadata = () => ({ type: GET_EXPENSE_METADATA });
 
-export const getExpenseList = pageNumber => ({
+export const getExpenseList = () => ({
   type: GET_EXPENSE_LIST,
+});
+export const setExpensePageNumber = pageNumber => ({
+  type: SET_EXPENSE_PAGENUMBER,
   pageNumber,
 });
-
+export const loadMoreExpense = pageNumber => ({
+  type: UPDATE_EXPENSE_LIST,
+  pageNumber,
+});
 export const saveExpenseList = expenseList => ({
   type: SET_EXPENSE_LIST,
   expenseList,

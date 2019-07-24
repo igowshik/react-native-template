@@ -36,10 +36,7 @@ class ExpenseFAB extends React.Component {
             // {
             //   icon: 'history',
             //   label: 'Expense history',
-            //   onPress: () => {},
-            //   // this.props.handleConexionCreate(true, ORGANIZATION),
-            //   //   this.props.handleConexionCreate(),
-            //   // onPress: this.props.handleConexionCreate,
+            //   onPress: () => this.props.handleExpenseHistoryPress(),
             //   style: {
             //     backgroundColor: colors.SECONDARY,
             //   },
@@ -70,6 +67,7 @@ class ExpenseFAB extends React.Component {
 
 ExpenseFAB.propTypes = {
   handleExpenseCreate: PropTypes.func.isRequired,
+  // handleExpenseHistoryPress: PropTypes.func.isRequired,
 };
 
 export default ExpenseFAB;

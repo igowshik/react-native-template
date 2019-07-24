@@ -9,12 +9,18 @@ import { withNavigation, withNavigationFocus } from 'react-navigation';
 import { createStructuredSelector } from 'reselect';
 import Lo from 'lodash';
 
-import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 import ExpenseListItem from './ExpenseListItem';
-import { getExpenseList } from '../../actions';
+import {
+  getExpenseList,
+  getExpenseSummary,
+  setExpensePageNumber,
+  loadMoreExpense,
+} from '../../actions';
 import { selectExpenseList, selectGlobalLoader } from '../../selectors';
+
+const ITEM_HEIGHT = 70;
 
 class ExpenseList extends Component {
   constructor(props) {
@@ -22,7 +28,6 @@ class ExpenseList extends Component {
 
     this.state = {
       loading: false,
-      pageNumber: 1,
       refreshing: false,
       searchQuery: '',
       expenseLocal: [],
@@ -30,21 +35,31 @@ class ExpenseList extends Component {
   }
 
   handleRefresh = () => {
-    const { fetchExpenseList } = this.props;
-    const { pageNumber } = this.state;
+    const {
+      fetchExpenseList,
+      fetchExpenseSummary,
+      updateExpensePageNumber,
+    } = this.props;
     this.setState({
       pageNumber: 1,
       refreshing: true,
     });
-    fetchExpenseList(pageNumber);
+    fetchExpenseSummary();
+    updateExpensePageNumber(1);
+    fetchExpenseList();
     this.setState({ refreshing: false });
   };
 
   handleLoadMore = () => {
-    const { fetchExpenseList } = this.props;
     const { pageNumber } = this.state;
-    this.setState({ pageNumber: pageNumber + 1 });
-    fetchExpenseList(pageNumber);
+    this.setState({ pageNumber: pageNumber + 1 }, () => {
+      this.lodMoreExpense();
+    });
+  };
+
+  lodMoreExpense = () => {
+    this.props.fetchMoreExpense();
+    this.setState({ refreshing: false });
   };
 
   renderSeparator = () => <Divider />;
@@ -116,8 +131,13 @@ class ExpenseList extends Component {
         ListFooterComponent={this.renderFooter}
         onRefresh={this.handleRefresh}
         refreshing={this.state.refreshing}
-        // onEndReached={this.handleLoadMore}
-        onEndReachedThreshold={0.5}
+        onEndReached={this.handleLoadMore}
+        onEndReachedThreshold={0}
+        getItemLayout={(data, index) => ({
+          length: ITEM_HEIGHT,
+          offset: ITEM_HEIGHT * index,
+          index,
+        })}
       />
     );
   };
@@ -136,18 +156,6 @@ class ExpenseList extends Component {
           value={searchQuery}
         />
         {this.renderExpenseView()}
-        {/* <FlatList
-          data={this.renderExpenseList()}
-          renderItem={({ item }) => (
-            <ExpenseListItem item={item} onPressItem={this.itemPress} />
-          )}
-          keyExtractor={item => item.ExpenseId.toString()}
-          ListFooterComponent={this.renderFooter}
-          onRefresh={this.handleRefresh}
-          refreshing={this.state.refreshing}
-          // onEndReached={this.handleLoadMore}
-          onEndReachedThreshold={0.5}
-        /> */}
       </View>
     );
   }
@@ -155,6 +163,9 @@ class ExpenseList extends Component {
 
 ExpenseList.propTypes = {
   fetchExpenseList: PropTypes.func.isRequired,
+  fetchExpenseSummary: PropTypes.func.isRequired,
+  updateExpensePageNumber: PropTypes.func.isRequired,
+  fetchMoreExpense: PropTypes.func.isRequired,
   expenseList: PropTypes.array,
 };
 const styles = StyleSheet.create({
@@ -182,8 +193,11 @@ const mapStateToProps = createStructuredSelector({
  * @returns: Mapped functions
  */
 const mapDispatchToProps = dispatch => ({
-  setGlobalLoaderState: value => dispatch(setRootGlobalLoader(value)),
-  fetchExpenseList: pageNumber => dispatch(getExpenseList(pageNumber)),
+  updateExpensePageNumber: pageNumber =>
+    dispatch(setExpensePageNumber(pageNumber)),
+  fetchExpenseList: () => dispatch(getExpenseList()),
+  fetchExpenseSummary: () => dispatch(getExpenseSummary()),
+  fetchMoreExpense: () => dispatch(loadMoreExpense()),
 });
 
 const withConnect = connect(

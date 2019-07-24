@@ -61,6 +61,7 @@ const selectNewExpense = () =>
     expenseReducers,
     dataState => dataState.newExpense,
   );
+
 export {
   selectToken,
   selectExpenseFilterQuery,

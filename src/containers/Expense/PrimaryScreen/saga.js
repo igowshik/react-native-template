@@ -15,8 +15,9 @@ import {
   saveExpenseMetaData,
   getExpenseSummary,
   setCreateExpenseModalVisibility,
-  getExpenseList,
   resetReduxForm,
+  setExpensePageNumber,
+  getExpenseList,
 } from './actions';
 import {
   GENERAL_ERROR,
@@ -28,6 +29,7 @@ import {
   GET_EXPENSE_METADATA,
   SET_NEW_EXPENSE,
   EXPENSE_FORM,
+  UPDATE_EXPENSE_LIST,
 } from './constants';
 import {
   selectToken,
@@ -72,7 +74,6 @@ function* getExpenseListAPI() {
   const accessToken = yield select(selectToken());
   const payLoad = yield select(selectExpenseFilterQuery());
   const requestURL = `${config.apiURL}ExpenseList`;
-
   const options = {
     method: 'POST',
     headers: {
@@ -148,7 +149,8 @@ function* setNewExpenseAPI() {
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(getExpenseSummary());
-    yield put(getExpenseList(1));
+    yield put(setExpensePageNumber(1));
+    yield put(getExpenseList());
     yield put(resetReduxForm(EXPENSE_FORM));
     yield put(setCreateExpenseModalVisibility(false));
   } else {
@@ -167,4 +169,5 @@ export default function* initConexionSaga() {
   yield takeLatest(GET_EXPENSE_SUMMARY, getExpenseSummaryAPI);
   yield takeLatest(GET_EXPENSE_METADATA, getExpenseMetaDataAPI);
   yield takeLatest(SET_NEW_EXPENSE, setNewExpenseAPI);
+  yield takeLatest(UPDATE_EXPENSE_LIST, getExpenseListAPI);
 }

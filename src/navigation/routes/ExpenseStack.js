@@ -1,6 +1,7 @@
 import { createStackNavigator } from 'react-navigation';
 
 import ExpenseScreen from 'cnxapp/src/containers/Expense';
+import ExpenseHistory from 'cnxapp/src/containers/Expense/PrimaryScreen/ChildPrimaryScreen';
 
 import { NAVHEADER } from 'cnxapp/src/utils/colorsConstants';
 
@@ -27,24 +28,24 @@ const ConexionStack = createStackNavigator(
         },
       },
     },
-    // SecondScreen: {
-    //   screen: DetailScreen,
-    //   navigationOptions: {
-    //     title: Platform.OS === 'ios' ? '' : 'CONEXION', // set "" initially added "CONEXION" jy
-    //     headerStyle: {
-    //       backgroundColor: NAVHEADER,
-    //     },
-    //     headerTitleStyle: {
-    //       color: BLUE,
-    //       fontFamily:
-    //         Platform.OS === 'ios' ? 'Montserrat' : 'Montserrat-SemiBold',
-    //       fontWeight: '400',
-    //       fontSize: 25,
-    //       marginLeft: -10,
-    //     },
-    //     headerTintColor: BLUE,
-    //   },
-    // },
+    ExpenseHistory: {
+      screen: ExpenseHistory,
+      navigationOptions: {
+        title: 'Expense History',
+        headerStyle: {
+          backgroundColor: NAVHEADER,
+        },
+        headerTitleStyle: {
+          color: '#000',
+          fontFamily:
+            Platform.OS === 'ios' ? 'Montserrat' : 'Montserrat-SemiBold',
+          fontWeight: '400',
+          fontSize: 25,
+          flexGrow: 1,
+          textAlign: 'center',
+        },
+      },
+    },
   },
   {
     navigationOptions: {

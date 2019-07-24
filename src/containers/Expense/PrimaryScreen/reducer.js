@@ -1,12 +1,13 @@
 import produce from 'immer';
 import {
-  GET_EXPENSE_LIST,
   SET_EXPENSE_LIST,
   SET_CREATE_EXPENSE_MODAL,
   SET_EXPENSE_SUMMARY,
   SET_EXPENSE_STATUS,
   SAVE_EXPENSE_METADATA,
   SET_NEW_EXPENSE,
+  SET_EXPENSE_PAGENUMBER,
+  UPDATE_EXPENSE_LIST,
 } from './constants';
 
 export const IntialState = {
@@ -26,6 +27,8 @@ export const IntialState = {
     types: '',
   },
   expenseFilter: {
+    StartDate: '',
+    EndDate: '',
     PageSize: 20,
     PageNumber: 1,
     Status: 'ALL',
@@ -38,12 +41,20 @@ const expensePrimaryScreenStore = (state = IntialState, action) =>
   produce(state, draft => {
     const draftState = draft;
     switch (action.type) {
-      case GET_EXPENSE_LIST: {
+      case SET_EXPENSE_PAGENUMBER: {
         draftState.expenseFilter.PageNumber = action.pageNumber;
         break;
       }
+      case UPDATE_EXPENSE_LIST: {
+        draftState.expenseFilter.PageNumber += 1;
+        break;
+      }
       case SET_EXPENSE_LIST: {
-        draftState.expenseList = action.expenseList;
+        if (draftState.expenseFilter.PageNumber === 1) {
+          draftState.expenseList = action.expenseList;
+        } else {
+          action.expenseList.map(item => draftState.expenseList.push(item));
+        }
         break;
       }
       case SAVE_EXPENSE_METADATA: {
