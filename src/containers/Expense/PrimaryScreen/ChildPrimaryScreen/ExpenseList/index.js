@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, FlatList, ActivityIndicator, StyleSheet } from 'react-native';
-import { Divider, Searchbar, Subheading, Card } from 'react-native-paper';
+import { Divider, Searchbar, Card, Subheading } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { compose } from 'redux';
@@ -12,17 +12,10 @@ import Lo from 'lodash';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 import ExpenseListItem from './ExpenseListItem';
+import { getExpenseHistoryList, setExpenseHistoryFilter } from '../../actions';
 import {
-  getExpenseList,
-  getExpenseSummary,
-  setExpensePageNumber,
-  loadMoreExpense,
-  setExpenseSearchQuery,
-} from '../../actions';
-import {
-  selectExpenseList,
-  selectGlobalLoader,
-  selectExpenseSearchQuery,
+  selectExpenseHistory,
+  selectExpenseHistoryQuery,
 } from '../../selectors';
 
 const ITEM_HEIGHT = 70;
@@ -30,9 +23,13 @@ const ITEM_HEIGHT = 70;
 class ExpenseList extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       loading: false,
       refreshing: false,
+      pageNumber: 1,
+      searchQuery: '',
+      expenseLocal: [],
     };
   }
 
@@ -44,25 +41,47 @@ class ExpenseList extends Component {
   handleRefresh = Lo.debounce(() => {
     const {
       fetchExpenseList,
-      fetchExpenseSummary,
-      updateExpensePageNumber,
+      dispatchSetExpenseHistoryFilter,
+      expenseFilters,
     } = this.props;
-    this.onEndReachedCalledDuringMomentum = true;
-    this.setState({ refreshing: true });
-    fetchExpenseSummary();
-    updateExpensePageNumber(1);
-    fetchExpenseList();
-    this.setState({ refreshing: false });
+    const { pageNumber } = this.state;
+    this.setState(
+      {
+        pageNumber: 1,
+        refreshing: false,
+      },
+      () => {
+        dispatchSetExpenseHistoryFilter({
+          ...expenseFilters,
+          PageNumber: pageNumber,
+        });
+        fetchExpenseList();
+      },
+    );
   }, 200);
 
   handleLoadMore = Lo.debounce(() => {
-    const { searchQuery } = this.props;
-    if (!this.onEndReachedCalledDuringMomentum && !searchQuery.searchString) {
-      this.props.fetchMoreExpense();
-      this.setState({ refreshing: false });
+    const { pageNumber } = this.state;
+    const {
+      dispatchSetExpenseHistoryFilter,
+      expenseFilters,
+      fetchExpenseList,
+    } = this.props;
+    if (!this.onEndReachedCalledDuringMomentum && !this.state.searchQuery) {
+      this.setState({ pageNumber: pageNumber + 1, refreshing: false }, () => {
+        dispatchSetExpenseHistoryFilter({
+          ...expenseFilters,
+          PageNumber: pageNumber,
+        });
+        fetchExpenseList();
+      });
       this.onEndReachedCalledDuringMomentum = true;
     }
   }, 300);
+
+  handleMomentedScrollBegin = () => {
+    this.onEndReachedCalledDuringMomentum = false;
+  };
 
   renderSeparator = () => <Divider />;
 
@@ -74,6 +93,7 @@ class ExpenseList extends Component {
           paddingVertical: 20,
           borderTopWidth: 1,
           borderColor: '#CED0CE',
+          backgroundColor: colors.BGCOLOR,
         }}
       >
         <ActivityIndicator animating size="large" />
@@ -82,7 +102,7 @@ class ExpenseList extends Component {
   };
 
   onExpenseSearch = query => {
-    const { expenseList, dispatchSetExpenseSearchQuery } = this.props;
+    const { expenseList } = this.props;
     const filterData = [];
 
     expenseList
@@ -96,22 +116,16 @@ class ExpenseList extends Component {
             .includes(query.toLowerCase().trim()),
       )
       .map(exp => filterData.push(exp));
-    dispatchSetExpenseSearchQuery({
-      searchString: query,
-      searchResult: filterData,
-    });
+    this.setState({ searchQuery: query, expenseLocal: filterData });
   };
 
   renderExpenseList = () => {
-    const { expenseList, searchQuery } = this.props;
-    if (!searchQuery.searchString && Lo.isEmpty(searchQuery.searchResult)) {
+    const { expenseList } = this.props;
+    const { expenseLocal, searchQuery } = this.state;
+    if (!searchQuery && Lo.isEmpty(expenseLocal)) {
       return expenseList;
     }
-    return searchQuery.searchResult;
-  };
-
-  handleMomentedScrollBegin = () => {
-    this.onEndReachedCalledDuringMomentum = false;
+    return expenseLocal;
   };
 
   renderListEmpty = () => (
@@ -131,11 +145,17 @@ class ExpenseList extends Component {
     </Card>
   );
 
-  itemPress = () => {};
+  itemPress = () => {
+    // alert(JSON.stringify(itemData));
+  };
+
+  handleSearchText = Lo.debounce(queryValue => {
+    this.onExpenseSearch(queryValue);
+  }, 10);
 
   render() {
     this.onEndReachedCalledDuringMomentum = true;
-    const { searchQuery } = this.props;
+    const { searchQuery } = this.state;
     return (
       <FlatList
         data={this.renderExpenseList()}
@@ -147,7 +167,7 @@ class ExpenseList extends Component {
           <Searchbar
             placeholder="Search"
             onChangeText={query => this.onExpenseSearch(query)}
-            value={searchQuery.searchString}
+            value={searchQuery}
           />
         }
         ListFooterComponent={this.renderFooter}
@@ -155,8 +175,8 @@ class ExpenseList extends Component {
         onRefresh={this.handleRefresh}
         refreshing={this.state.refreshing}
         onEndReached={this.handleLoadMore}
-        onEndReachedThreshold={0}
         onMomentumScrollBegin={this.handleMomentedScrollBegin}
+        onEndReachedThreshold={0}
         stickyHeaderIndices={[0]}
         getItemLayout={(data, index) => ({
           length: ITEM_HEIGHT,
@@ -170,12 +190,9 @@ class ExpenseList extends Component {
 
 ExpenseList.propTypes = {
   fetchExpenseList: PropTypes.func.isRequired,
-  fetchExpenseSummary: PropTypes.func.isRequired,
-  updateExpensePageNumber: PropTypes.func.isRequired,
-  fetchMoreExpense: PropTypes.func.isRequired,
+  dispatchSetExpenseHistoryFilter: PropTypes.func.isRequired,
+  expenseFilters: PropTypes.object.isRequired,
   expenseList: PropTypes.array,
-  searchQuery: PropTypes.object.isRequired,
-  dispatchSetExpenseSearchQuery: PropTypes.func.isRequired,
 };
 const styles = StyleSheet.create({
   noDataContainer: {
@@ -202,9 +219,8 @@ const styles = StyleSheet.create({
  * @returns: jobState ans filterState in the State
  */
 const mapStateToProps = createStructuredSelector({
-  expenseList: selectExpenseList(),
-  loaderState: selectGlobalLoader(),
-  searchQuery: selectExpenseSearchQuery(),
+  expenseList: selectExpenseHistory(),
+  expenseFilters: selectExpenseHistoryQuery(),
 });
 
 /**
@@ -213,13 +229,9 @@ const mapStateToProps = createStructuredSelector({
  * @returns: Mapped functions
  */
 const mapDispatchToProps = dispatch => ({
-  updateExpensePageNumber: pageNumber =>
-    dispatch(setExpensePageNumber(pageNumber)),
-  fetchExpenseList: () => dispatch(getExpenseList()),
-  fetchExpenseSummary: () => dispatch(getExpenseSummary()),
-  fetchMoreExpense: () => dispatch(loadMoreExpense()),
-  dispatchSetExpenseSearchQuery: query =>
-    dispatch(setExpenseSearchQuery(query)),
+  fetchExpenseList: () => dispatch(getExpenseHistoryList()),
+  dispatchSetExpenseHistoryFilter: expenseHistoryFilter =>
+    dispatch(setExpenseHistoryFilter(expenseHistoryFilter)),
 });
 
 const withConnect = connect(

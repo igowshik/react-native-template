@@ -10,17 +10,13 @@ import {
 } from 'cnxapp/src/app/rootActions';
 import { ERROR } from 'cnxapp/src/utils/constants';
 import { saveIndConexions } from './actions';
-import { GENERAL_ERROR, GET_IND_CONEXIONS } from './constants';
+import { GET_IND_CONEXIONS } from './constants';
 
 function* getIndividualConexionAPI() {
   yield put(setRootGlobalLoader(true));
-  const accessToken = 'test';
   const requestURL = `${config.apiURL}IndividualConexions`;
   const options = {
     method: 'GET',
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
   };
   const response = yield call(request, requestURL, options);
   if (response.success) {
@@ -29,7 +25,7 @@ function* getIndividualConexionAPI() {
   } else {
     yield put(
       setToastMessage({
-        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastMessage: response.message,
         toastType: ERROR,
       }),
     );

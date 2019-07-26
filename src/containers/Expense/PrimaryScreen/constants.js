@@ -11,6 +11,13 @@ export const SET_NEW_EXPENSE = '@ExpenseMain/SET_NEW_EXPENSE';
 export const UPDATE_EXPENSE_LIST = '@Expense/UPDATE_EXPENSE_LIST';
 export const SET_EXPENSE_PAGENUMBER = '@Expense/SET_EXPENSE_PAGENUMBER';
 
+export const GET_EXPENSE_SEARCH_QUERY = '@Expense/GET_EXPENSE_SEARCH_QUERY';
+export const SET_EXPENSE_SEARCH_QUERY = '@Expense/SET_EXPENSE_SEARCH_QUERY';
+
+export const GET_EXPENSE_HISTORY = '@Expense/GET_EXPENSE_HISTORY';
+export const SAVE_EXPENSE_HISTORY = '@Expense/SAVE_EXPENSE_HISTORY';
+export const SET_EXPENSE_HISTORY_FILTER = '@Expense/SET_EXPENSE_HISTORY_FILTER';
+
 export const METADATA_VARIABLES =
   'grouped_expense_status,expense_status,expense_type,payment_method,costcenter,business_unit,expense_item_project_chargeable';
 export const EXPENSE_STATUS = 'expense_status';
