@@ -7,7 +7,7 @@ import { Col, Grid } from 'react-native-easy-grid';
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 
 const ReportDetails = () => (
-  <View style={{ flex: 1, margin: 15 }}>
+  <View style={{ flex: 1, margin: 10 }}>
     <Card elevation={4}>
       <Card.Title
         title="Expense Report Details"
