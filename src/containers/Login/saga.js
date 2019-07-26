@@ -4,7 +4,7 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import request from 'cnxapp/src/utils/request';
 import config from 'cnxapp/src/config/config';
 import {
-  setRootAccessToken,
+  // setRootAccessToken,
   setToastMessage,
   setToastVisibility,
 } from 'cnxapp/src/app/rootActions';
@@ -14,6 +14,7 @@ import { GET_ACCESS_TOKEN } from './constants';
 import { setAccessToken, setLoaderValue } from './actions';
 
 function* getAccessToken({ userName, password }) {
+  yield put(setLoaderValue(true));
   const requestURL = `${config.apiBaseURL}token`;
   const options = {
     method: 'POST',
@@ -23,6 +24,7 @@ function* getAccessToken({ userName, password }) {
     body: `grant_type=password&UserName=${userName}&Password=${password}`,
   };
   const data = yield call(request, requestURL, options);
+
   if (data && !data.access_token) {
     if (data.response) {
       yield put(
@@ -45,7 +47,7 @@ function* getAccessToken({ userName, password }) {
   } else if (data.access_token) {
     yield put(setLoaderValue(false));
     yield put(setAccessToken(data.access_token));
-    yield put(setRootAccessToken(data.access_token));
+    // yield put(setRootAccessToken(data.access_token));
   }
 }
 

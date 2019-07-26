@@ -13,7 +13,7 @@ export const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 2,
-    elevation: 4,
+    elevation: 8,
   },
   logo: {
     position: 'absolute',
@@ -23,17 +23,18 @@ export const styles = StyleSheet.create({
   },
   parentViewWrapper: {
     flex: 1,
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    // marginTop: 60,
+    // marginRight: 60,
   },
   loginContainer: {
     height: Util.size.height / 3,
     width: Util.size.width / 2,
-    borderColor: 'rgba(0,0,0,0.3)',
-    borderWidth: 1,
-    backgroundColor: 'rgba(255,255,255,1)',
-    borderRadius: 8,
+    borderLeftColor: 'rgb(168, 69, 255)',
+    borderLeftWidth: 4,
+    backgroundColor: 'rgba(255,255,255,0.9)',
+    borderRadius: 10,
   },
   logoContainer: {
     display: 'flex',
