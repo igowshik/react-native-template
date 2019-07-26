@@ -2,6 +2,7 @@ import { createStackNavigator } from 'react-navigation';
 
 import ExpenseScreen from 'cnxapp/src/containers/Expense';
 import ExpenseHistory from 'cnxapp/src/containers/Expense/PrimaryScreen/ChildPrimaryScreen';
+import ExpenseReport from 'cnxapp/src/containers/Expense/SecondaryScreen/components/ExpenseReport';
 
 import { NAVHEADER } from 'cnxapp/src/utils/colorsConstants';
 
@@ -32,6 +33,24 @@ const ConexionStack = createStackNavigator(
       screen: ExpenseHistory,
       navigationOptions: {
         title: 'Expense History',
+        headerStyle: {
+          backgroundColor: NAVHEADER,
+        },
+        headerTitleStyle: {
+          color: '#000',
+          fontFamily:
+            Platform.OS === 'ios' ? 'Montserrat' : 'Montserrat-SemiBold',
+          fontWeight: '400',
+          fontSize: 25,
+          flexGrow: 1,
+          textAlign: 'center',
+        },
+      },
+    },
+    SecondScreen: {
+      screen: ExpenseReport,
+      navigationOptions: {
+        title: 'Expense Report',
         headerStyle: {
           backgroundColor: NAVHEADER,
         },

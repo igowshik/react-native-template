@@ -143,7 +143,9 @@ class ExpenseList extends Component {
   };
 
   itemPress = () => {
-    // alert(JSON.stringify(itemData));
+    // ExpenseReport
+    const { navigation } = this.props;
+    navigation.navigate('SecondScreen');
   };
 
   render() {
@@ -167,6 +169,7 @@ ExpenseList.propTypes = {
   updateExpensePageNumber: PropTypes.func.isRequired,
   fetchMoreExpense: PropTypes.func.isRequired,
   expenseList: PropTypes.array,
+  navigation: PropTypes.any,
 };
 const styles = StyleSheet.create({
   noDataContainer: {

@@ -16,6 +16,7 @@ export default class ExpenseListItem extends PureComponent {
       <Card
         elevation={2}
         style={{ marginTop: 2, marginRight: 1, marginLeft: 1 }}
+        onPress={this._onPress}
       >
         <Card.Title
           title={
