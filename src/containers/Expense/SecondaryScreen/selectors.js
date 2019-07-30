@@ -30,7 +30,7 @@ const selectExpenseDetails = () =>
 const selectExpenseReportItemQuery = () =>
   createSelector(
     expenseReducers,
-    dataState => dataState.draftState.expenseReportItemsQuery,
+    dataState => dataState.expenseReportItemsQuery,
   );
 
 export {

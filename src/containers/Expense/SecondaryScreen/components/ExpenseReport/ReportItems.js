@@ -12,106 +12,103 @@ import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
 import { selectExpenseDetails } from '../../selectors';
 import { getExpenseReportItems } from '../../actions';
 
-const tableItems = ExpenseItems =>
-  ExpenseItems.map(item => (
-    <DataTable.Row key={item.ExpenseItemId}>
-      <DataTable.Cell>{item.ExpenseItemId}</DataTable.Cell>
-      <DataTable.Cell>
-        {getDateByFormat(item.TransactionDate, 'L')}
-      </DataTable.Cell>
-      <DataTable.Cell>{item.ExpenseType}</DataTable.Cell>
-      <DataTable.Cell>{item.Miles ? item.Miles : ''}</DataTable.Cell>
-      <DataTable.Cell>
-        {item.PaymentType ? item.PaymentType : ''}
-      </DataTable.Cell>
-      <DataTable.Cell>{item.BusinessPurpose}</DataTable.Cell>
-      <DataTable.Cell>{item.Amount}</DataTable.Cell>
-      <DataTable.Cell>$500.00</DataTable.Cell>
-    </DataTable.Row>
-  ));
+class ReportItems extends React.PureComponent {
+  tableItems = ExpenseItems =>
+    ExpenseItems.map(item => (
+      <DataTable.Row key={item.ExpenseItemId}>
+        <DataTable.Cell>{item.ExpenseItemId}</DataTable.Cell>
+        <DataTable.Cell>
+          {getDateByFormat(item.TransactionDate, 'L')}
+        </DataTable.Cell>
+        <DataTable.Cell>{item.ExpenseType}</DataTable.Cell>
+        <DataTable.Cell>{item.Miles ? item.Miles : ''}</DataTable.Cell>
+        <DataTable.Cell>
+          {item.PaymentType ? item.PaymentType : ''}
+        </DataTable.Cell>
+        <DataTable.Cell>{item.BusinessPurpose}</DataTable.Cell>
+        <DataTable.Cell>{item.Amount}</DataTable.Cell>
+        <DataTable.Cell>$500.00</DataTable.Cell>
+      </DataTable.Row>
+    ));
 
-const ReportItems = props => {
-  const { expenseDetailsData, dispatchGetExpenseReportItems } = props;
-  return (
-    <View style={{ flex: 1, margin: 15 }}>
-      <Card elevation={4}>
-        <Card.Title
-          title="Expense Report Items"
-          left={leftProps => (
-            <View
-              style={[
-                styles.iconRoundBackground,
-                { backgroundColor: '#D0FCE2', borderColor: '#21D66C' },
-              ]}
-              {...leftProps}
-            >
-              <FontAwesome5 name="list-ul" color="#1F914E" size={20} light />
-            </View>
-          )}
-          right={rightProps => (
-            <IconButton
-              {...rightProps}
-              icon={() => (
-                <FontAwesome5
-                  name="plus-circle"
-                  color={Colors.PRIMARY}
-                  size={25}
-                  light
-                />
-              )}
-              style={{ height: 50, width: 50 }}
-              color={Colors.PRIMARY}
-              // onPress={() => console.log('Pressed')}
-            />
-          )}
-        />
-        <Divider />
-        <Card.Content>
-          <Grid>
-            <Col>
-              <DataTable>
-                <DataTable.Header>
-                  <DataTable.Title>Transaction Id</DataTable.Title>
-                  <DataTable.Title>Transaction Date</DataTable.Title>
-                  <DataTable.Title>Expense Type</DataTable.Title>
-                  <DataTable.Title>Miles</DataTable.Title>
-                  <DataTable.Title>Payment Type</DataTable.Title>
-                  <DataTable.Title>Business Purpose</DataTable.Title>
-                  <DataTable.Title>Amount</DataTable.Title>
-                  <DataTable.Title>Action</DataTable.Title>
-                </DataTable.Header>
-                {tableItems(expenseDetailsData.ExpenseItems.Data)}
-                {/* <DataTable.Row>
-                  <DataTable.Cell>263</DataTable.Cell>
-                  <DataTable.Cell>7/26/2019</DataTable.Cell>
-                  <DataTable.Cell>Travel - Fuel</DataTable.Cell>
-                  <DataTable.Cell>23</DataTable.Cell>
-                  <DataTable.Cell>Credit Card</DataTable.Cell>
-                  <DataTable.Cell>test purpose</DataTable.Cell>
-                  <DataTable.Cell>$500.00</DataTable.Cell>
-                  <DataTable.Cell>$500.00</DataTable.Cell>
-                </DataTable.Row> */}
-                <DataTable.Pagination
-                  page={
-                    expenseDetailsData.ExpenseItems.PagingDetail
-                      .CurrentPageNumber
-                  }
-                  numberOfPages={
-                    expenseDetailsData.ExpenseItems.PagingDetail.TotalPages
-                  }
-                  onPageChange={page => {
-                    dispatchGetExpenseReportItems(page);
-                  }}
-                  label="1-2 of 6"
-                />
-              </DataTable>
-            </Col>
-          </Grid>
-        </Card.Content>
-      </Card>
-    </View>
-  );
-};
+  renderPaging = pageDetail => {
+    const { dispatchGetExpenseReportItems } = this.props;
+    if (pageDetail.TotalPages === 1) return null;
+    return (
+      <DataTable.Pagination
+        page={pageDetail.CurrentPageNumber}
+        numberOfPages={pageDetail.TotalPages}
+        onPageChange={page => {
+          dispatchGetExpenseReportItems(page);
+        }}
+        label="1-2 of 6"
+      />
+    );
+  };
+
+  render() {
+    const { expenseDetailsData } = this.props;
+    return (
+      <View style={{ flex: 1, margin: 15 }}>
+        <Card elevation={4}>
+          <Card.Title
+            title="Expense Report Items"
+            left={leftProps => (
+              <View
+                style={[
+                  styles.iconRoundBackground,
+                  { backgroundColor: '#D0FCE2', borderColor: '#21D66C' },
+                ]}
+                {...leftProps}
+              >
+                <FontAwesome5 name="list-ul" color="#1F914E" size={20} light />
+              </View>
+            )}
+            right={rightProps => (
+              <IconButton
+                {...rightProps}
+                icon={() => (
+                  <FontAwesome5
+                    name="plus-circle"
+                    color={Colors.PRIMARY}
+                    size={25}
+                    light
+                  />
+                )}
+                style={{ height: 50, width: 50 }}
+                color={Colors.PRIMARY}
+                // onPress={() => console.log('Pressed')}
+              />
+            )}
+          />
+          <Divider />
+          <Card.Content>
+            <Grid>
+              <Col>
+                <DataTable>
+                  <DataTable.Header>
+                    <DataTable.Title>Transaction Id</DataTable.Title>
+                    <DataTable.Title>Transaction Date</DataTable.Title>
+                    <DataTable.Title>Expense Type</DataTable.Title>
+                    <DataTable.Title>Miles</DataTable.Title>
+                    <DataTable.Title>Payment Type</DataTable.Title>
+                    <DataTable.Title>Business Purpose</DataTable.Title>
+                    <DataTable.Title>Amount</DataTable.Title>
+                    <DataTable.Title>Action</DataTable.Title>
+                  </DataTable.Header>
+                  {this.tableItems(expenseDetailsData.ExpenseItems.Data)}
+                  {this.renderPaging(
+                    expenseDetailsData.ExpenseItems.PagingDetail,
+                  )}
+                </DataTable>
+              </Col>
+            </Grid>
+          </Card.Content>
+        </Card>
+      </View>
+    );
+  }
+}
 
 ReportItems.propTypes = {
   data: PropTypes.object,

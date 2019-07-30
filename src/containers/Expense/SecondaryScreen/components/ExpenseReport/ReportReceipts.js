@@ -22,6 +22,19 @@ const receiptItems = ExpenseReceipts =>
     </DataTable.Row>
   ));
 
+const renderPageNumber = pagingDetail => {
+  if (pagingDetail.TotalPages === 1) return null;
+  return (
+    <DataTable.Pagination
+      page={pagingDetail.CurrentPageNumber}
+      numberOfPages={pagingDetail.TotalPages}
+      // onPageChange={page => {
+      //   console.log(page);
+      // }}
+      label="1-2 of 6"
+    />
+  );
+};
 const ReportReceipts = props => {
   const { expenseDetailsData } = props;
   return (
@@ -70,26 +83,9 @@ const ReportReceipts = props => {
                   <DataTable.Title>Actions</DataTable.Title>
                 </DataTable.Header>
                 {receiptItems(expenseDetailsData.ExpenseReceipts.Data)}
-                {/* <DataTable.Row>
-                  <DataTable.Cell>263</DataTable.Cell>
-                  <DataTable.Cell>7/26/2019</DataTable.Cell>
-                  <DataTable.Cell>Travel - Fuel</DataTable.Cell>
-                  <DataTable.Cell>23</DataTable.Cell>
-                  <DataTable.Cell>Credit Card</DataTable.Cell>
-                </DataTable.Row> */}
-                <DataTable.Pagination
-                  page={
-                    expenseDetailsData.ExpenseReceipts.PagingDetail
-                      .CurrentPageNumber
-                  }
-                  numberOfPages={
-                    expenseDetailsData.ExpenseReceipts.PagingDetail.TotalPages
-                  }
-                  // onPageChange={page => {
-                  //   console.log(page);
-                  // }}
-                  label="1-2 of 6"
-                />
+                {renderPageNumber(
+                  expenseDetailsData.ExpenseReceipts.PagingDetail,
+                )}
               </DataTable>
             </Col>
           </Grid>

@@ -69,7 +69,7 @@ class ReportHistory extends PureComponent {
           <View style={styles.line} />
         </View>
         <View style={styles.lineText}>
-          <Text style={{ fontSize: 12, color: '#797D7F' }}>
+          <Text style={{ fontSize: 12, paddingBottom: 10, color: '#797D7F' }}>
             {item.Date || value}
           </Text>
         </View>
@@ -176,10 +176,10 @@ const styles = StyleSheet.create({
   },
   lineHeader: {
     flex: 1,
-    paddingTop: 4,
+    paddingBottom: 5,
     width: 150,
   },
-  lineFooter: { flex: 1, width: 100 },
+  lineFooter: { flex: 1, width: 100, paddingBottom: 10 },
 });
 
 export default ReportHistory;
