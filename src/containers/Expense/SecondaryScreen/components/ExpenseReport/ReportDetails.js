@@ -24,14 +24,14 @@ class ReportDetails extends PureComponent {
     const { expenseDetailsData } = this.props;
     const { ExpenseDetail } = expenseDetailsData;
     return (
-      <Card elevation={3} style={styles.rootCard}>
+      <Card elevation={4} style={styles.rootCard}>
         <LinearGradient
           start={{ x: 0, y: 1 }}
           end={{ x: 1, y: 0 }}
           colors={['#6a11cb', '#2575fc']}
           style={{
             flex: 1,
-            borderRadius: 20,
+            borderRadius: 15,
           }}
         >
           <Card.Title
@@ -172,7 +172,7 @@ const mapStateToProps = createStructuredSelector({
 const styles = StyleSheet.create({
   rootCard: {
     flex: 1,
-    borderRadius: 20,
+    borderRadius: 15,
     alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: '#2C3E50',

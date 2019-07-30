@@ -118,6 +118,9 @@ const styles = StyleSheet.create({
   propTag: {
     fontWeight: 'bold',
   },
+  card: {
+    borderRadius: 15,
+  },
 });
 
 const mapStateToProps = createStructuredSelector({
