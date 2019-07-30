@@ -34,7 +34,7 @@ function* getExpenseAPI() {
   } else {
     yield put(
       setToastMessage({
-        toastMessage: response.message ? response.message : GENERAL_ERROR,
+        toastMessage: response.message,
         toastType: ERROR,
       }),
     );
