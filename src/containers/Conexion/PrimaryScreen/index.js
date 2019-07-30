@@ -224,12 +224,7 @@ class PrimaryScreen extends React.Component {
               backgroundColor: colors.BGCOLOR,
             }}
           >
-            <Header
-              gradientColors={[
-                'rgba(255,88,88,1) 75%',
-                'rgba(255,79,165,1) 100%',
-              ]}
-            >
+            <Header gradientColors={['#6a11cb', '#2575fc']}>
               <Row>
                 <Col style={styles.colStart}>
                   <Headline
