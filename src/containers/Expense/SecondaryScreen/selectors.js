@@ -27,9 +27,14 @@ const selectExpenseDetails = () =>
     expenseReducers,
     dataState => dataState.expenseDetails,
   );
-const selectExpenseMetadata = codeRoleName =>
+const selectExpenseReportItemQuery = () =>
   createSelector(
     expenseReducers,
-    dataState => dataState.expenseMetadata[codeRoleName],
+    dataState => dataState.draftState.expenseReportItemsQuery,
   );
-export { selectCurrentExpenseID, selectExpenseDetails, selectExpenseMetadata };
+
+export {
+  selectCurrentExpenseID,
+  selectExpenseDetails,
+  selectExpenseReportItemQuery,
+};

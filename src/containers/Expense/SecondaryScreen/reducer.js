@@ -1,11 +1,22 @@
 import produce from 'immer';
-import { SET_IND_CONEXIONS, GET_EXPENSE, SAVE_EXPENSE } from './constants';
+import {
+  SET_IND_CONEXIONS,
+  GET_EXPENSE,
+  SAVE_EXPENSE,
+  GET_EXP_REPORT_ITEMS,
+  SAVE_EXP_REPORT_ITEMS,
+} from './constants';
 
 export const IntialState = {
   individualConexions: [],
   createConexion: {
     data: {},
     types: '',
+  },
+  expenseReportItemsQuery: {
+    ExpenseId: 0,
+    PageSize: 20,
+    PageNumber: 0,
   },
   currentExpenseId: '',
   expenseDetails: {
@@ -67,6 +78,16 @@ const expenseSecondaryScreenStore = (state = IntialState, action) =>
       }
       case SAVE_EXPENSE: {
         draftState.expenseDetails = action.expenseDetails;
+        break;
+      }
+      case GET_EXP_REPORT_ITEMS: {
+        draftState.expenseReportItemsQuery.PageNumber = action.pageNumber;
+        draftState.expenseReportItemsQuery.ExpenseId =
+          draftState.expenseDetails.ExpenseDetail.ExpenseId;
+        break;
+      }
+      case SAVE_EXP_REPORT_ITEMS: {
+        draftState.expenseDetails.ExpenseItems.data = action.items;
         break;
       }
       default: {

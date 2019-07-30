@@ -21,7 +21,8 @@ import { selectExpenseDetails } from '../../selectors';
 
 class ReportDetails extends PureComponent {
   render() {
-    const { expenseDetails } = this.props;
+    const { expenseDetailsData } = this.props;
+    const { ExpenseDetail } = expenseDetailsData;
     return (
       <Card elevation={3} style={styles.rootCard}>
         <LinearGradient
@@ -111,7 +112,7 @@ class ReportDetails extends PureComponent {
                         <View style={styles.rowView}>
                           <Text>Report Name :</Text>
                           <Text style={styles.linkText}>
-                            {expenseDetails.ReportName}
+                            {ExpenseDetail.ReportName}
                           </Text>
                         </View>
                       </DataTable.Row>
@@ -119,7 +120,7 @@ class ReportDetails extends PureComponent {
                         <View style={styles.rowView}>
                           <Text>Business Unit :</Text>
                           <Text style={styles.linkText}>
-                            {expenseDetails.BusinessUnit}
+                            {ExpenseDetail.BusinessUnit}
                           </Text>
                         </View>
                       </DataTable.Row>
@@ -127,7 +128,7 @@ class ReportDetails extends PureComponent {
                         <View style={styles.rowView}>
                           <Text>Cost Center :</Text>
                           <Text style={styles.linkText}>
-                            {expenseDetails.CostCenter}
+                            {ExpenseDetail.CostCenter}
                           </Text>
                         </View>
                       </DataTable.Row>
@@ -135,7 +136,7 @@ class ReportDetails extends PureComponent {
                         <View style={styles.rowView}>
                           <Text>Business Purpose :</Text>
                           <Text style={styles.linkText}>
-                            {expenseDetails.BusinessPurpose}
+                            {ExpenseDetail.BusinessPurpose}
                           </Text>
                         </View>
                       </DataTable.Row>
@@ -143,7 +144,7 @@ class ReportDetails extends PureComponent {
                         <View style={styles.rowView}>
                           <Text>Created On :</Text>
                           <Text style={styles.linkText}>
-                            {getDateByFormat(expenseDetails.CreatedDate, 'L')}
+                            {getDateByFormat(ExpenseDetail.CreatedDate, 'L')}
                           </Text>
                         </View>
                       </DataTable.Row>
@@ -161,11 +162,11 @@ class ReportDetails extends PureComponent {
 
 ReportDetails.propTypes = {
   openActionSheet: PropTypes.func,
-  expenseDetails: PropTypes.object,
+  expenseDetailsData: PropTypes.object,
 };
 
 const mapStateToProps = createStructuredSelector({
-  expenseDetails: selectExpenseDetails(),
+  expenseDetailsData: selectExpenseDetails(),
 });
 
 const styles = StyleSheet.create({

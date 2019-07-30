@@ -17,7 +17,9 @@ const profileBG = require('cnxapp/src/assets/images/cardbg.png');
 
 class ExpenseCard extends PureComponent {
   render() {
-    const { expenseDetails } = this.props;
+    const { expenseDetailsData } = this.props;
+    const { ExpenseDetail } = expenseDetailsData;
+
     return (
       <Card elevation={5} style={styles.cardRoot}>
         <LinearGradient
@@ -38,7 +40,7 @@ class ExpenseCard extends PureComponent {
                     solid
                     style={{ paddingRight: 5 }}
                   />
-                  <Text>{expenseDetails.StatusDescription}</Text>
+                  <Text>{ExpenseDetail.StatusDescription}</Text>
                 </Col>
                 <Col style={styles.amountCol}>
                   <View style={styles.amountView}>
@@ -49,7 +51,7 @@ class ExpenseCard extends PureComponent {
                       light
                     />
                     <Text style={styles.amountText}>
-                      {expenseDetails.TotalAmount}
+                      {ExpenseDetail.TotalAmount}
                     </Text>
                   </View>
                   <Text style={styles.total}>Total amount</Text>
@@ -69,15 +71,15 @@ class ExpenseCard extends PureComponent {
                     <Headline>XXXX</Headline>
                     <Headline>
                       {`X${
-                        expenseDetails.ExpenseKey
-                          ? expenseDetails.ExpenseKey.split('-')[0]
+                        ExpenseDetail.ExpenseKey
+                          ? ExpenseDetail.ExpenseKey.split('-')[0]
                           : 'XXX'
                       }`}
                     </Headline>
                     <View style={{ flexDirection: 'row' }}>
                       <Headline>
-                        {expenseDetails.ExpenseKey
-                          ? expenseDetails.ExpenseKey.split('-')[1]
+                        {ExpenseDetail.ExpenseKey
+                          ? ExpenseDetail.ExpenseKey.split('-')[1]
                           : 'XXXX'}
                       </Headline>
                       <Text style={{ fontSize: 10 }}>Report Id</Text>
@@ -89,15 +91,15 @@ class ExpenseCard extends PureComponent {
                 <Col>
                   <Text style={{ fontSize: 10 }}>Created by</Text>
                   <Subheading>
-                    {expenseDetails.CreatedBy
-                      ? expenseDetails.CreatedBy.Name
+                    {ExpenseDetail.CreatedBy
+                      ? ExpenseDetail.CreatedBy.Name
                       : ''}
                   </Subheading>
                 </Col>
                 <Col style={styles.createdDate}>
                   <Text style={{ fontSize: 10 }}>Report date</Text>
                   <Subheading>
-                    {getDateByFormat(expenseDetails.ReportDate, 'L')}
+                    {getDateByFormat(ExpenseDetail.ReportDate, 'L')}
                   </Subheading>
                 </Col>
               </Row>
@@ -110,7 +112,7 @@ class ExpenseCard extends PureComponent {
 }
 
 ExpenseCard.propTypes = {
-  expenseDetails: PropTypes.object.isRequired,
+  expenseDetailsData: PropTypes.object.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -180,7 +182,7 @@ const styles = StyleSheet.create({
   detailsRow: { alignItems: 'center', marginTop: 10 },
 });
 const mapStateToProps = createStructuredSelector({
-  expenseDetails: selectExpenseDetails(),
+  expenseDetailsData: selectExpenseDetails(),
 });
 
 const withConnect = connect(
