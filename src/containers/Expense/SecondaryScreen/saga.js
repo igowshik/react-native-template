@@ -10,7 +10,7 @@ import {
 } from 'cnxapp/src/app/rootActions';
 import { ERROR } from 'cnxapp/src/utils/constants';
 import { saveExpenseDetails } from './actions';
-import { GENERAL_ERROR, GET_EXPENSE } from './constants';
+import { GET_EXPENSE } from './constants';
 import { selectCurrentExpenseID, selectExpenseMetadata } from './selectors';
 import { mapStatusCodeRole } from '../mappers';
 import { EXPENSE_STATUS } from '../constants';

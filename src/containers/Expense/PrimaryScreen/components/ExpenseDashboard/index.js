@@ -114,6 +114,7 @@ ExpenseDashboard.propTypes = {
   expenseSummary: PropTypes.array.isRequired,
   isFocused: PropTypes.bool.isRequired,
   navigation: PropTypes.any,
+  navigateToHistory: PropTypes.func,
 };
 
 /**

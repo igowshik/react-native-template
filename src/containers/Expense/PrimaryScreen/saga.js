@@ -36,7 +36,6 @@ import {
   EXPENSE_STATUS,
 } from '../constants';
 import {
-  selectToken,
   selectExpenseFilterQuery,
   selectExpenseMetadata,
   selectNewExpense,

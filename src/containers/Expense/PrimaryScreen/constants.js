@@ -11,6 +11,11 @@ export const SET_NEW_EXPENSE = '@ExpenseMain/SET_NEW_EXPENSE';
 export const UPDATE_EXPENSE_LIST = '@Expense/UPDATE_EXPENSE_LIST';
 export const SET_EXPENSE_PAGENUMBER = '@Expense/SET_EXPENSE_PAGENUMBER';
 
+export const GET_EXPENSE_HISTORY = '@Expense/GET_EXPENSE_HISTORY';
+export const SAVE_EXPENSE_HISTORY = '@Expense/SAVE_EXPENSE_HISTORY';
+export const SET_EXPENSE_HISTORY_FILTER = '@Expense/SET_EXPENSE_HISTORY_FILTER';
+export const SET_EXPENSE_SEARCH_QUERY = '@Expense/SET_EXPENSE_SEARCH_QUERY';
+
 export const GENERAL_ERROR = 'Message from server: Something just went wrong!';
 
 export const EXPENSE_FORM = 'createExpense';
