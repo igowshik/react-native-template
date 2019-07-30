@@ -56,11 +56,11 @@ class ReportHistory extends PureComponent {
   _keyExtractor = item => item.Id.toString();
 
   _renderItem = ({ item }) => {
-    const value = '';
+    const empty = '';
     return (
       <View style={styles.lineRoot}>
         <View style={styles.lineText}>
-          <Text>{item.Status || value}</Text>
+          <Text>{item.Status || empty}</Text>
         </View>
         <View style={styles.iconLine}>
           <View style={{ flexDirection: 'column' }}>
@@ -69,9 +69,7 @@ class ReportHistory extends PureComponent {
           <View style={styles.line} />
         </View>
         <View style={styles.lineText}>
-          <Text style={{ fontSize: 12, paddingBottom: 10, color: '#797D7F' }}>
-            {item.Date || value}
-          </Text>
+          <Text style={styles.dateText}>{item.Date || empty}</Text>
         </View>
       </View>
     );
@@ -100,7 +98,7 @@ class ReportHistory extends PureComponent {
             color="#34495E"
             size={25}
             solid
-            style={{ alignItems: 'center', alignContent: 'center' }}
+            style={styles.footerEndIcon}
           />
         </View>
       </View>
@@ -120,7 +118,7 @@ class ReportHistory extends PureComponent {
             )}
           />
           <Divider />
-          <Card.Content style={{ marginTop: 20, marginBottom: 10 }}>
+          <Card.Content style={styles.cardContent}>
             <FlatList
               data={SAMPLE_DATA}
               keyExtractor={this._keyExtractor}
@@ -180,6 +178,15 @@ const styles = StyleSheet.create({
     width: 150,
   },
   lineFooter: { flex: 1, width: 100, paddingBottom: 10 },
+  dateText: { fontSize: 12, paddingBottom: 10, color: '#797D7F' },
+  footerEndIcon: {
+    alignItems: 'center',
+    alignContent: 'center',
+  },
+  cardContent: {
+    marginTop: 20,
+    marginBottom: 10,
+  },
 });
 
 export default ReportHistory;
