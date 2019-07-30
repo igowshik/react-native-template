@@ -4,6 +4,11 @@ import { Button, StatusBar, View, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 
 class OtherScreen extends React.Component {
+  constructor() {
+    super();
+    this._signOutAsync = this._signOutAsync.bind(this);
+  }
+
   render() {
     return (
       <View style={styles.container}>

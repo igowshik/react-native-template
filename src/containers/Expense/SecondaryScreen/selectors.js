@@ -1,17 +1,35 @@
 import { createSelector } from 'reselect';
 
 // Relative imports
+// import { rootInitialState } from 'cnxapp/src/app/rootReducer';
 import { IntialState } from './reducer';
 
-const store = state =>
+// const rootReducers = state =>
+//   state.rootStore ? state.rootStore : rootInitialState;
+
+const expenseReducers = state =>
   state.expenseSecondaryScreenStore
     ? state.expenseSecondaryScreenStore
     : IntialState;
 
-const selectIndConexion = () =>
-  createSelector(
-    store,
-    dataState => dataState.individualConexions,
-  );
+// const store = state =>
+//   state.expenseSecondaryScreenStore
+//     ? state.expenseSecondaryScreenStore
+//     : IntialState;
 
-export { selectIndConexion };
+const selectCurrentExpenseID = () =>
+  createSelector(
+    expenseReducers,
+    dataState => dataState.currentExpenseId,
+  );
+const selectExpenseDetails = () =>
+  createSelector(
+    expenseReducers,
+    dataState => dataState.expenseDetails,
+  );
+const selectExpenseMetadata = codeRoleName =>
+  createSelector(
+    expenseReducers,
+    dataState => dataState.expenseMetadata[codeRoleName],
+  );
+export { selectCurrentExpenseID, selectExpenseDetails, selectExpenseMetadata };

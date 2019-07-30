@@ -6,32 +6,47 @@ import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { withNavigation, withNavigationFocus } from 'react-navigation';
 
+import Snackbar from 'cnxapp/src/components/Snackbar';
 import ExpenseDashboard from './components/ExpenseDashboard';
-import { getExpenseMetadata, setExpenseStatusFilter } from './actions';
-import { selectExpenseMetadata } from './selectors';
-import { GROUPED_EXPENSE_STATUS } from './constants';
+import { getExpenseMetadata, setExpenseStatusQuery } from './actions';
+import {
+  selectExpenseMetadata,
+  selectExpenseFilterQuery,
+  selectToastVisibility,
+  selectToastData,
+} from './selectors';
+import { GROUPED_EXPENSE_STATUS } from '../constants';
 
 class Expense extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.navigateToHistory = this.navigateToHistory.bind(this);
-  // }
-
-  componentDidMount() {
-    const { fetchExpenseMetadata, dispatchSetExpenseListType } = this.props;
-    fetchExpenseMetadata();
-    dispatchSetExpenseListType('ALL');
+  constructor(props) {
+    super(props);
+    this.navigateToHistory = this.navigateToHistory.bind(this);
   }
 
-  // navigateToHistory = () => {
-  //   const { navigation } = this.props;
-  //   navigation.navigate('ExpenseHistory');
-  // };
+  componentDidMount() {
+    const {
+      fetchExpenseMetadata,
+      dispatchSetExpenseListType,
+      expenseQuery,
+    } = this.props;
+    fetchExpenseMetadata();
+    dispatchSetExpenseListType({
+      ...expenseQuery,
+      Status: 'ALL',
+    });
+  }
+
+  navigateToHistory = () => {
+    const { navigation } = this.props;
+    navigation.navigate('ExpenseHistory');
+  };
 
   render() {
+    const { toastVisible, toast } = this.props;
     return (
       <View style={{ flex: 1 }}>
-        <ExpenseDashboard />
+        <ExpenseDashboard navigateToHistory={this.navigateToHistory} />
+        <Snackbar toastVisible={toastVisible} toast={toast} />
       </View>
     );
   }
@@ -39,15 +54,21 @@ class Expense extends Component {
 Expense.propTypes = {
   fetchExpenseMetadata: PropTypes.func.isRequired,
   dispatchSetExpenseListType: PropTypes.func.isRequired,
-  // navigation: PropTypes.any,
+  navigation: PropTypes.any,
+  expenseQuery: PropTypes.object.isRequired,
+  toastVisible: PropTypes.bool.isRequired,
+  toast: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = createStructuredSelector({
   metaData: selectExpenseMetadata(GROUPED_EXPENSE_STATUS),
+  expenseQuery: selectExpenseFilterQuery(),
+  toastVisible: selectToastVisibility(),
+  toast: selectToastData(),
 });
 const mapDispatchToProps = dispatch => ({
   dispatchSetExpenseListType: expenseType =>
-    dispatch(setExpenseStatusFilter(expenseType)),
+    dispatch(setExpenseStatusQuery(expenseType)),
   fetchExpenseMetadata: () => dispatch(getExpenseMetadata()),
 });
 
