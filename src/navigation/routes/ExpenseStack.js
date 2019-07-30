@@ -1,8 +1,8 @@
 import { createStackNavigator } from 'react-navigation';
 
-// import ExpenseScreen from 'cnxapp/src/containers/Expense';
+import ExpenseScreen from 'cnxapp/src/containers/Expense';
 import ExpenseHistory from 'cnxapp/src/containers/Expense/PrimaryScreen/ChildPrimaryScreen';
-import ExpenseReportDashboard from 'cnxapp/src/containers/Expense/SecondaryScreen/components/ExpenseReportDashboard';
+import ExpenseReport from 'cnxapp/src/containers/Expense/SecondaryScreen/components/ExpenseReport';
 
 import { NAVHEADER } from 'cnxapp/src/utils/colorsConstants';
 
@@ -12,7 +12,7 @@ import { EXPENSE } from '../constants';
 const ConexionStack = createStackNavigator(
   {
     [EXPENSE]: {
-      screen: ExpenseReportDashboard, // ExpenseScreen,
+      screen: ExpenseScreen,
       navigationOptions: {
         title: 'EXPENSE',
         headerStyle: {
@@ -48,7 +48,7 @@ const ConexionStack = createStackNavigator(
       },
     },
     SecondScreen: {
-      screen: ExpenseReportDashboard,
+      screen: ExpenseReport,
       navigationOptions: {
         title: 'Expense Report',
         headerStyle: {
