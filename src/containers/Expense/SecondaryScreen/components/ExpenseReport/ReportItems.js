@@ -8,7 +8,7 @@ import * as Colors from 'cnxapp/src/utils/colorsConstants';
 
 const ReportItems = () => (
   <View style={{ flex: 1, margin: 15 }}>
-    <Card elevation={4}>
+    <Card elevation={4} style={styles.card}>
       <Card.Title
         title="Expense Report Items"
         left={propss => (
@@ -97,6 +97,9 @@ const styles = StyleSheet.create({
   },
   propTag: {
     fontWeight: 'bold',
+  },
+  card: {
+    borderRadius: 15,
   },
 });
 

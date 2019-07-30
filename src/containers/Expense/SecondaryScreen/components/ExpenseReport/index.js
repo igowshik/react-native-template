@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Grid, Col } from 'react-native-easy-grid';
-// import * as Colors from 'cnxapp/src/utils/colorsConstants';
+import * as Colors from 'cnxapp/src/utils/colorsConstants';
 import ReportItems from './ReportItems';
 import ExpenseCard from './ExpenseCard';
 import ReportDetails from './ReportDetails';
@@ -11,7 +11,7 @@ import ReportHistory from './ReportHistory';
 class ExpenseReport extends Component {
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: Colors.BGCOLOR }}>
         <View style={styles.rootView}>
           <Grid style={styles.rootGrid}>
             <Col size={25}>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   rootView: {
-    margin: 20,
+    margin: 15,
     display: 'flex',
     flexDirection: 'row',
   },
