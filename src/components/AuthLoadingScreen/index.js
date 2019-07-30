@@ -2,7 +2,6 @@ import React from 'react';
 import { StatusBar, View } from 'react-native';
 import PropTypes from 'prop-types';
 import AsyncStorage from '@react-native-community/async-storage';
-import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 import Loader from '../Loader';
 
@@ -14,9 +13,12 @@ class AuthLoadingScreen extends React.Component {
 
   // Fetch the token from storage then navigate to our appropriate place
   _bootstrapAsync = async () => {
-    const userToken = await AsyncStorage.getItem('@appusertoken');
+    const userToken = await AsyncStorage.getItem('userToken');
     // This will switch to the App screen or Auth screen and this loading
     // screen will be unmounted and thrown away.
+    // setTimeout(() => {
+    //   this.props.navigation.navigate(userToken ? 'App' : 'Auth'); //eslint-disable-line
+    // }, 3000);
     this.props.navigation.navigate(userToken ? 'App' : 'Auth'); //eslint-disable-line
   };
 
@@ -24,8 +26,8 @@ class AuthLoadingScreen extends React.Component {
   render() {
     return (
       <View>
-        <Loader showLoader loaderTitle="Just makes work easier" />
-        <StatusBar backgroundColor={colors.NAVHEADER} barStyle="default" />
+        <Loader showLoader loaderTitle="just makes work easier" />
+        <StatusBar barStyle="default" />
       </View>
     );
   }

@@ -29,11 +29,7 @@ class Details extends React.Component {
 
   componentDidMount() {
     const { metaData } = this.props;
-    if (
-      !Lo.isEmpty(metaData) &&
-      !Lo.isEmpty(metaData.title) &&
-      !Lo.isEmpty(metaData.suffix)
-    ) {
+    if (!Lo.isEmpty(metaData)) {
       const mappedTitle = [];
       const mappedSuffix = [];
       metaData.title.forEach(data => {

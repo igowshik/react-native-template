@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  // createStackNavigator,
+  createStackNavigator,
   createSwitchNavigator,
   createAppContainer,
 } from 'react-navigation';
@@ -102,19 +102,17 @@ const AppStack = createMaterialBottomTabNavigator(
   },
 );
 
-// const AuthStack = createStackNavigator({ SignIn: Login });
+const AuthStack = createStackNavigator({ SignIn: Login });
 
-const NavigationMapper = createAppContainer(
+export default createAppContainer(
   createSwitchNavigator(
     {
       AuthLoading: AuthLoadingScreen,
       App: AppStack,
-      Auth: Login,
+      Auth: AuthStack,
     },
     {
       initialRouteName: 'AuthLoading',
     },
   ),
 );
-
-export default NavigationMapper;

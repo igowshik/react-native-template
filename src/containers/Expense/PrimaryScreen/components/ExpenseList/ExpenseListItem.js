@@ -7,7 +7,7 @@ import ListItemLeft from './ListItemLeft';
 
 export default class ExpenseListItem extends PureComponent {
   _onPress = () => {
-    this.props.onPressItem(this.props.item.ExpenseId);
+    this.props.onPressItem(this.props.item);
   };
 
   render() {

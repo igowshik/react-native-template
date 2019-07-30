@@ -9,15 +9,12 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import {
+  setExpenseStatusFilter,
   getExpenseList,
-  setExpenseSearchQuery,
-  setExpenseStatusQuery,
   saveExpenseList,
+  setExpensePageNumber,
 } from '../../actions';
-import {
-  selectCurrentExpenseStatus,
-  selectExpenseFilterQuery,
-} from '../../selectors';
+import { selectCurrentExpenseStatus } from '../../selectors';
 
 const { ExpenseColors } = Colors;
 const { LINEAR_EXPE_COLORS } = Colors;
@@ -88,23 +85,14 @@ class AnalyticsCard extends React.Component {
       fetchExpenseList,
       value,
       setExpenseList,
-      dispatchSetExpenseSearchQuery,
-      expenseQuery,
+      updateExpensePageNumber,
     } = this.props;
-    dispatchSetExpenseSearchQuery({
-      searchString: '',
-      searchResult: [],
-    });
-    dispatchSetExpenseStatus({
-      ...expenseQuery,
-      Status: status,
-      PageNumber: 1,
-    });
+    dispatchSetExpenseStatus(status);
     if (value === 0) {
       setExpenseList([]);
       return;
     }
-    // updateExpensePageNumber(1);
+    updateExpensePageNumber(1);
     fetchExpenseList();
   };
 
@@ -117,7 +105,7 @@ class AnalyticsCard extends React.Component {
     const { selectedColor, linearColor, defaultColor } = this.state;
     return (
       <Card
-        elevation={3}
+        elevation={1}
         onPress={this.cardClicked}
         style={{
           borderTopColor: selectedColor,
@@ -179,11 +167,10 @@ AnalyticsCard.propTypes = {
   subTitle: PropTypes.string,
   value: PropTypes.number.isRequired,
   dispatchSetExpenseStatus: PropTypes.func.isRequired,
+  updateExpensePageNumber: PropTypes.func.isRequired,
   fetchExpenseList: PropTypes.func.isRequired,
   currentStatus: PropTypes.string.isRequired,
   setExpenseList: PropTypes.func,
-  dispatchSetExpenseSearchQuery: PropTypes.func.isRequired,
-  expenseQuery: PropTypes.object.isRequired,
 };
 const styles = StyleSheet.create({
   cardContentContainer: {
@@ -198,14 +185,13 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = createStructuredSelector({
   currentStatus: selectCurrentExpenseStatus(),
-  expenseQuery: selectExpenseFilterQuery(),
 });
 const mapDispatchToProps = dispatch => ({
-  dispatchSetExpenseStatus: status => dispatch(setExpenseStatusQuery(status)),
+  dispatchSetExpenseStatus: status => dispatch(setExpenseStatusFilter(status)),
+  updateExpensePageNumber: pageNumber =>
+    dispatch(setExpensePageNumber(pageNumber)),
   fetchExpenseList: () => dispatch(getExpenseList()),
   setExpenseList: value => dispatch(saveExpenseList(value)),
-  dispatchSetExpenseSearchQuery: query =>
-    dispatch(setExpenseSearchQuery(query)),
 });
 const withConnect = connect(
   mapStateToProps,

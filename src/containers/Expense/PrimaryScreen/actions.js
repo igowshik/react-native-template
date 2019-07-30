@@ -12,10 +12,6 @@ import {
   SET_NEW_EXPENSE,
   UPDATE_EXPENSE_LIST,
   SET_EXPENSE_PAGENUMBER,
-  GET_EXPENSE_HISTORY,
-  SAVE_EXPENSE_HISTORY,
-  SET_EXPENSE_HISTORY_FILTER,
-  SET_EXPENSE_SEARCH_QUERY,
 } from './constants';
 
 export const saveExpenseMetaData = metadata => ({
@@ -51,25 +47,10 @@ export const saveExpenseSummary = summary => ({
   summary,
 });
 export const getExpenseSummary = () => ({ type: GET_EXPENSE_SUMMARY });
-export const setExpenseStatusQuery = expenseQuery => ({
+export const setExpenseStatusFilter = selectedFilter => ({
   type: SET_EXPENSE_STATUS,
-  expenseQuery,
+  selectedFilter,
 });
 export const setNewExpense = value => ({ type: SET_NEW_EXPENSE, value });
 
 export const resetReduxForm = formName => reset(formName);
-export const getExpenseHistoryList = () => ({
-  type: GET_EXPENSE_HISTORY,
-});
-export const saveExpenseHistoryList = expenseHistory => ({
-  type: SAVE_EXPENSE_HISTORY,
-  expenseHistory,
-});
-export const setExpenseHistoryFilter = filter => ({
-  type: SET_EXPENSE_HISTORY_FILTER,
-  filter,
-});
-export const setExpenseSearchQuery = searchQuery => ({
-  type: SET_EXPENSE_SEARCH_QUERY,
-  searchQuery,
-});

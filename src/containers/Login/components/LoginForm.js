@@ -5,22 +5,15 @@ import { View, TextInput, StyleSheet, StatusBar } from 'react-native';
 // Absolute imports
 import { PrimaryButtonGradient } from 'cnxapp/src/components/Buttons/Primary';
 
-const loginButtonGradient = [
-  'rgba(51,17,115,1) 5%',
-  'rgba(215,15,140,1) 92%',
-  'rgba(255,0,129,1) 100%',
-];
-
 class LoginForm extends Component {
-  // state = {
-  //   // userName: 'operationmanagertest@gmail.com',
-  //   userName: 'pete@demoinc.com',
-  //   password: 'Conexus123$',
-  // };
   state = {
     userName: 'pete@demoinc.com',
     password: 'Conexus123$',
   };
+  // state = {
+  //   userName: '',
+  //   password: '',
+  // };
 
   _handleUserLogin = () => {
     const { onLogin } = this.props;
@@ -32,7 +25,7 @@ class LoginForm extends Component {
     const { userName, password } = this.state;
     return (
       <View>
-        <StatusBar barStyle="light-content" />
+        <StatusBar barStyle="default" backgroundColor="#6F5CEC" />
         <TextInput
           style={styles.input}
           autoCapitalize="none"
@@ -67,7 +60,6 @@ class LoginForm extends Component {
             handleButtonClick={this._handleUserLogin}
             buttonText="Login"
             style={{ margin: 50 }}
-            gradientColors={loginButtonGradient}
           />
         </View>
       </View>

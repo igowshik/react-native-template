@@ -7,22 +7,27 @@ import {
   TouchableRipple,
   Surface,
   Divider,
-  Button,
 } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
+// import { Row, Col } from 'native-base';
 import { Row, Col } from 'react-native-easy-grid';
 
 // Absolute Imports
 import * as colors from 'cnxapp/src/utils/colorsConstants';
-import { getDateByFormat, getDateBefore } from 'cnxapp/src/utils/DateFormatter';
+import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
 import DateTimePicker from 'cnxapp/src/components/DateTimePicker';
 
-import ExpenseList from './ExpenseList';
-import { setExpenseHistoryFilter, getExpenseHistoryList } from '../actions';
-import { selectExpenseHistoryQuery } from '../selectors';
+import ExpenseList from '../components/ExpenseList';
+import {
+  getExpenseList,
+  setExpenseStatusFilter,
+  setExpensePageNumber,
+  loadMoreExpense,
+} from '../actions';
+import { selectExpenseFilterQuery } from '../selectors';
 
 class ExpenseHistory extends Component {
   constructor(props) {
@@ -35,16 +40,12 @@ class ExpenseHistory extends Component {
 
   componentDidMount() {
     const {
-      dispatchSetExpenseHistoryFilter,
+      dispatchSetExpenseListType,
       dispatchGetHistoryExpenses,
+      updateExpensePageNumber,
     } = this.props;
-    dispatchSetExpenseHistoryFilter({
-      StartDate: getDateByFormat(getDateBefore(180), 'L'),
-      EndDate: getDateByFormat(new Date(new Date().setHours(24, 0, 0, 0)), 'L'),
-      PageSize: 20,
-      PageNumber: 1,
-      Status: 'EXTR',
-    });
+    updateExpensePageNumber(1);
+    dispatchSetExpenseListType('EXTR');
     dispatchGetHistoryExpenses();
   }
 
@@ -54,15 +55,15 @@ class ExpenseHistory extends Component {
 
   handleDatePicked = date => {
     const { fromDateVisible, toDateVisible } = this.state;
-    const { dispatchSetExpenseHistoryFilter, expenseFilters } = this.props;
+    const { dispatchSetConexionNoteFilter, expenseFilters } = this.props;
     if (fromDateVisible) {
-      dispatchSetExpenseHistoryFilter({
+      dispatchSetConexionNoteFilter({
         ...expenseFilters,
         StartDate: getDateByFormat(date, 'L'),
       });
     }
     if (toDateVisible) {
-      dispatchSetExpenseHistoryFilter({
+      dispatchSetConexionNoteFilter({
         ...expenseFilters,
         EndDate: getDateByFormat(date, 'L'),
       });
@@ -93,7 +94,7 @@ class ExpenseHistory extends Component {
     const { expenseFilters } = this.props;
 
     return (
-      <View style={{ flex: 1, backgroundColor: colors.BGCOLOR }}>
+      <View style={{ flex: 1 }}>
         <Surface style={{ elevation: 4 }}>
           <Row style={{ height: 'auto' }}>
             <Col>
@@ -151,21 +152,25 @@ class ExpenseHistory extends Component {
               </TouchableRipple>
             </Col>
             <Col style={styles.filterView}>
-              <Button
+              <IconButton
                 icon={() => (
-                  <FontAwesome5 color="#fff" name="filter" size={15} />
+                  <FontAwesome5
+                    color={colors.PURPLE}
+                    name="filter"
+                    size={20}
+                    solid
+                  />
                 )}
-                mode="contained"
+                mode="outlined"
                 color={colors.PURPLE}
                 onPress={this.applyDateFilter}
-                uppercase
-                solid
-              >
-                Filter
-              </Button>
+              />
             </Col>
           </Row>
           <Divider />
+        </Surface>
+        <View style={styles.container}>
+          <ExpenseList />
           <DateTimePicker
             value={this.getSelectedDate()}
             mode="date"
@@ -173,24 +178,41 @@ class ExpenseHistory extends Component {
             onDateSelect={this.handleDatePicked}
             onCancel={this.hideDateTimePicker}
           />
-        </Surface>
-        <ExpenseList />
+        </View>
       </View>
     );
   }
 }
 
 ExpenseHistory.propTypes = {
+  dispatchSetExpenseListType: PropTypes.func.isRequired,
   dispatchGetHistoryExpenses: PropTypes.func.isRequired,
+  updateExpensePageNumber: PropTypes.func.isRequired,
+
   expenseFilters: PropTypes.object.isRequired,
-  dispatchSetExpenseHistoryFilter: PropTypes.func,
+  dispatchSetConexionNoteFilter: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 15,
     paddingTop: 0,
     backgroundColor: 'white',
+  },
+  list: {
+    flex: 1,
+    paddingTop: 25,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+    backgroundColor: colors.PRIMARY,
+  },
+  searchbar: {
+    marginBottom: 2,
   },
   dateView: {
     flexDirection: 'row',
@@ -216,13 +238,20 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = createStructuredSelector({
-  expenseFilters: selectExpenseHistoryQuery(),
+  expenseFilters: selectExpenseFilterQuery(),
+  // expenseList: selectExpenseList(),
 });
 
 const mapDispatchToProps = dispatch => ({
-  dispatchSetExpenseHistoryFilter: expenseHistoryFilter =>
-    dispatch(setExpenseHistoryFilter(expenseHistoryFilter)),
-  dispatchGetHistoryExpenses: () => dispatch(getExpenseHistoryList()),
+  dispatchSetExpenseListType: expenseType =>
+    dispatch(setExpenseStatusFilter(expenseType)),
+  // dispatchSetConexionNoteFilter: noteFilter =>
+  //   dispatch(setNoteFilter(noteFilter)),
+
+  updateExpensePageNumber: pageNumber =>
+    dispatch(setExpensePageNumber(pageNumber)),
+  dispatchGetHistoryExpenses: () => dispatch(getExpenseList()),
+  fetchMoreExpense: () => dispatch(loadMoreExpense()),
 });
 
 const withConnect = connect(

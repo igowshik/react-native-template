@@ -57,6 +57,7 @@ import {
   PAGE_CONFIG,
 } from './constants';
 import {
+  selectToken,
   selectConexionId,
   selectCreateAddressData,
   selectIndividualDetails,
@@ -75,16 +76,18 @@ function* getIndividualConexionAPI({ intialPage }) {
     setLoaderObject({ title: 'Conexion', text: 'Loading Conexions...' }),
   );
   yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
   const requestURL = `${config.apiURL}IndividualConexions?pageSize=${
     intialPage.pageSize
   }&pageNumber=${intialPage.pageNumber}`;
   const options = {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
     },
   };
   const response = yield call(request, requestURL, options);
+
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(
@@ -107,14 +110,14 @@ function* getOrganizationConexionAPI({ initialPage }) {
     setLoaderObject({ title: 'Conexion', text: 'Loading Conexions...' }),
   );
   yield put(setRootGlobalLoader(true));
-
+  const accessToken = yield select(selectToken());
   const requestURL = `${config.apiURL}OrganizationConexions?pageSize=${
     initialPage.pageSize
   }&pageNumber=${initialPage.pageNumber}`;
   const options = {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
     },
   };
   const response = yield call(request, requestURL, options);
@@ -127,7 +130,7 @@ function* getOrganizationConexionAPI({ initialPage }) {
   } else {
     yield put(
       setToastMessage({
-        toastMessage: response.message,
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
         toastType: ERROR,
       }),
     );
@@ -141,7 +144,7 @@ function* getConexionNotesAPI() {
     setLoaderObject({ title: 'Conexion', text: 'Loading Conexion Notes...' }),
   );
   yield put(setRootGlobalLoader(true));
-
+  const accessToken = yield select(selectToken());
   const conexionId = yield select(selectConexionId());
   const payLoad = yield select(selectConexionNoteFilter());
   payLoad.ConexionId = conexionId;
@@ -149,6 +152,7 @@ function* getConexionNotesAPI() {
   const options = {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payLoad),
@@ -178,7 +182,7 @@ function* getConexionTimelineAPI() {
     }),
   );
   yield put(setRootGlobalLoader(true));
-
+  const accessToken = yield select(selectToken());
   const conexionId = yield select(selectConexionId());
   const payLoad = yield select(selectConexionTimelineFilter());
   payLoad.ConexionId = conexionId;
@@ -186,6 +190,7 @@ function* getConexionTimelineAPI() {
   const options = {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payLoad),
@@ -212,19 +217,20 @@ function* getConexionDetailsAPI() {
     setLoaderObject({ title: 'Conexion', text: 'Loading Conexion details...' }),
   );
   yield put(setRootGlobalLoader(true));
-
+  const accessToken = yield select(selectToken());
   const conexionId = yield select(selectConexionId());
   const requestURL = `${config.apiURL}ConexionDetail?conexionId=${conexionId}`;
   const options = {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
     },
   };
   const response = yield call(request, requestURL, options);
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(saveConexionDetails(response.data));
+    // yield put(dispatchOrganisationDetails());
   } else {
     yield put(
       setToastMessage({
@@ -241,7 +247,7 @@ function* getOrganisationDetailsAPI() {
     setLoaderObject({ title: 'Conexion', text: 'Loading Conexion details...' }),
   );
   yield put(setRootGlobalLoader(true));
-
+  const accessToken = yield select(selectToken());
   const conexionId = yield select(selectConexionId());
   const requestURL = `${
     config.apiURL
@@ -249,7 +255,7 @@ function* getOrganisationDetailsAPI() {
   const options = {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
     },
   };
   const response = yield call(request, requestURL, options);
@@ -270,14 +276,14 @@ function* getOrganisationDetailsAPI() {
 
 function* getConexionMetaDataAPI() {
   yield put(setRootGlobalLoader(true));
-
+  const accessToken = yield select(selectToken());
   const requestURL = `${
     config.apiURL
   }CodeRoleValues?roles=${METADATA_VARIABLES}`;
   const options = {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
     },
   };
   const response = yield call(request, requestURL, options);
@@ -298,7 +304,7 @@ function* getConexionMetaDataAPI() {
 
 function* createConexionAddressAPI() {
   yield put(setRootGlobalLoader(true));
-
+  const accessToken = yield select(selectToken());
   const conexionId = yield select(selectConexionId());
   const addressData = yield select(selectCreateAddressData());
   const requestURL = `${config.apiURL}NewConexionAddress`;
@@ -315,6 +321,7 @@ function* createConexionAddressAPI() {
   const options = {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(CREATE_ADDRESS),
@@ -338,7 +345,7 @@ function* createConexionAddressAPI() {
 
 function* editConexionAddressAPI() {
   yield put(setRootGlobalLoader(true));
-
+  const accessToken = yield select(selectToken());
   const addressData = yield select(selectCreateAddressData());
   const requestURL = `${config.apiURL}EditConexionAddress`;
   const CREATE_ADDRESS = {
@@ -354,6 +361,7 @@ function* editConexionAddressAPI() {
   const options = {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(CREATE_ADDRESS),
@@ -377,14 +385,14 @@ function* editConexionAddressAPI() {
 
 function* deleteAddressAPI({ addressId }) {
   yield put(setRootGlobalLoader(true));
-
+  const accessToken = yield select(selectToken());
   const requestURL = `${
     config.apiURL
   }DeleteConexionAddress?conexionAddressId=${addressId}`;
   const options = {
     method: 'DELETE',
     headers: {
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
     },
   };
   const response = yield call(request, requestURL, options);
@@ -405,13 +413,13 @@ function* deleteAddressAPI({ addressId }) {
 
 function* getUserDDValuesAPI() {
   yield put(setRootGlobalLoader(true));
-
+  const accessToken = yield select(selectToken());
   const requestURL = `${config.apiURL}UserDropdownValues`;
   const ddList = [];
   const options = {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
     },
   };
   const response = yield call(request, requestURL, options);
@@ -439,12 +447,12 @@ function* getUserDDValuesAPI() {
 
 function* getOrgDDValuesAPI() {
   yield put(setRootGlobalLoader(true));
-
+  const accessToken = yield select(selectToken());
   const requestURL = `${config.apiURL}OrganizationConexionDropdown`;
   const options = {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
     },
   };
   const response = yield call(request, requestURL, options);
@@ -465,7 +473,7 @@ function* getOrgDDValuesAPI() {
 
 function* createIndividualDetailsAPI() {
   yield put(setRootGlobalLoader(true));
-
+  const accessToken = yield select(selectToken());
   const newIndividual = yield select(selectIndividualDetails());
   const requestURL = `${config.apiURL}CreateIndividualConexion`;
   const individualConexionPayload = individualConexionPayloadMapper(
@@ -474,6 +482,7 @@ function* createIndividualDetailsAPI() {
   const options = {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(individualConexionPayload),
@@ -498,13 +507,14 @@ function* createIndividualDetailsAPI() {
 }
 function* createOragnisationDetailsAPI() {
   yield put(setRootGlobalLoader(true));
-
+  const accessToken = yield select(selectToken());
   const newOrganisation = yield select(selectOrganisationDetails());
   const requestURL = `${config.apiURL}CreateOrganizationConexion`;
   const organisatoinPayload = organisationPayloadMappers(newOrganisation);
   const options = {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(organisatoinPayload),
@@ -544,7 +554,7 @@ function* createOragnisationDetailsAPI() {
 
 function* editIndividualDetailsAPI() {
   yield put(setRootGlobalLoader(true));
-
+  const accessToken = yield select(selectToken());
   const newIndividual = yield select(selectIndividualDetails());
   const conexionId = yield select(selectConexionId());
   const requestURL = `${config.apiURL}EditIndividualConexion`;
@@ -555,6 +565,7 @@ function* editIndividualDetailsAPI() {
   const options = {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(individualConexionPayload),
@@ -593,7 +604,7 @@ function* editIndividualDetailsAPI() {
 }
 function* editOrganisationDetailsAPI() {
   yield put(setRootGlobalLoader(true));
-
+  const accessToken = yield select(selectToken());
   const newOrganisation = yield select(selectOrganisationDetails());
   const conexionId = yield select(selectConexionId());
   const requestURL = `${config.apiURL}EditOrganizationConexion`;
@@ -602,6 +613,7 @@ function* editOrganisationDetailsAPI() {
   const options = {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(organisationPayload),
@@ -642,7 +654,7 @@ function* editOrganisationDetailsAPI() {
 
 function* createNotesAPI() {
   yield put(setRootGlobalLoader(true));
-
+  const accessToken = yield select(selectToken());
   const conexionId = yield select(selectConexionId());
   const notesData = yield select(selectCreateConexionNoteData());
   const requestURL = `${config.apiURL}NewConexionNote`;
@@ -651,6 +663,7 @@ function* createNotesAPI() {
   const options = {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(notesData),
@@ -674,13 +687,14 @@ function* createNotesAPI() {
 
 function* editConexionNotesAPI() {
   yield put(setRootGlobalLoader(true));
-
+  const accessToken = yield select(selectToken());
   const notesData = yield select(selectCreateConexionNoteData());
   const requestURL = `${config.apiURL}EditConexionNote`;
 
   const options = {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(notesData),
@@ -704,7 +718,7 @@ function* editConexionNotesAPI() {
 
 function* deleteConexionNotesAPI({ noteId }) {
   yield put(setRootGlobalLoader(true));
-
+  const accessToken = yield select(selectToken());
   const requestURL = `${
     config.apiURL
   }DeleteConexionNote?conexionNoteId=${noteId}`;
@@ -712,6 +726,7 @@ function* deleteConexionNotesAPI({ noteId }) {
   const options = {
     method: 'DELETE',
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
   };

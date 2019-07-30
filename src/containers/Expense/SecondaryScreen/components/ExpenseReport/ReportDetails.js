@@ -11,17 +11,11 @@ import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { Grid, Col, Row } from 'react-native-easy-grid';
 import PropTypes from 'prop-types';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
 
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
-import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
-import { createStructuredSelector } from 'reselect';
-import { selectExpenseDetails } from '../../selectors';
 
 class ReportDetails extends PureComponent {
   render() {
-    const { expenseDetails } = this.props;
     return (
       <Card elevation={4} style={styles.rootCard}>
         <LinearGradient
@@ -111,7 +105,7 @@ class ReportDetails extends PureComponent {
                         <View style={styles.rowView}>
                           <Text>Report Name :</Text>
                           <Text style={styles.linkText}>
-                            {expenseDetails.ReportName}
+                            Running Report tegsdhsdhjsdlkssmlkskagtresyuuyfyy
                           </Text>
                         </View>
                       </DataTable.Row>
@@ -119,32 +113,26 @@ class ReportDetails extends PureComponent {
                         <View style={styles.rowView}>
                           <Text>Business Unit :</Text>
                           <Text style={styles.linkText}>
-                            {expenseDetails.BusinessUnit}
+                            Running application
                           </Text>
                         </View>
                       </DataTable.Row>
                       <DataTable.Row>
                         <View style={styles.rowView}>
                           <Text>Cost Center :</Text>
-                          <Text style={styles.linkText}>
-                            {expenseDetails.CostCenter}
-                          </Text>
+                          <Text style={styles.linkText}>CC01</Text>
                         </View>
                       </DataTable.Row>
                       <DataTable.Row>
                         <View style={styles.rowView}>
                           <Text>Business Purpose :</Text>
-                          <Text style={styles.linkText}>
-                            {expenseDetails.BusinessPurpose}
-                          </Text>
+                          <Text style={styles.linkText}>Testing</Text>
                         </View>
                       </DataTable.Row>
                       <DataTable.Row>
                         <View style={styles.rowView}>
                           <Text>Created On :</Text>
-                          <Text style={styles.linkText}>
-                            {getDateByFormat(expenseDetails.CreatedDate, 'L')}
-                          </Text>
+                          <Text style={styles.linkText}>2019-07-25</Text>
                         </View>
                       </DataTable.Row>
                     </DataTable>
@@ -161,12 +149,7 @@ class ReportDetails extends PureComponent {
 
 ReportDetails.propTypes = {
   openActionSheet: PropTypes.func,
-  expenseDetails: PropTypes.object,
 };
-
-const mapStateToProps = createStructuredSelector({
-  expenseDetails: selectExpenseDetails(),
-});
 
 const styles = StyleSheet.create({
   rootCard: {
@@ -211,9 +194,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const withConnect = connect(
-  mapStateToProps,
-  null,
-);
-
-export default compose(withConnect)(ReportDetails);
+export default ReportDetails;

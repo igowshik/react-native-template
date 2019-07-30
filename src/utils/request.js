@@ -1,14 +1,4 @@
 import 'whatwg-fetch';
-import AsyncStorage from '@react-native-community/async-storage';
-
-import {
-  REQUIRED_ERROR,
-  UNAUTH_ERROR,
-  GENERAL_ERROR,
-  INTERNAL_ERROR,
-} from './constants';
-
-// import NavigationService from '../navigation/NavigationService';
 
 /**
  * Returns the thrown error message
@@ -17,7 +7,6 @@ import {
  *
  * @return {object} The constructed Error Message from the request
  */
-
 async function handleError(error) {
   let processedErrorResponse;
   try {
@@ -53,46 +42,15 @@ function parseJSON(response) {
  *
  * @return {object|undefined} Returns either the response, or throws an error
  */
-async function checkStatus(response) {
+function checkStatus(response) {
+  // TODO alex try catch error .
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
-  if (response.status === 401) {
-    const error = new Error(UNAUTH_ERROR);
-    error.response = response;
-    await clearAccessToken();
-    // setTimeout(() => {
-    //   NavigationService.navigate('Auth', {
-    //     loginFailed: true,
-    //     message: 'Session timeout, please login again',
-    //   });
-    // }, 500);
-    throw error;
-  }
-  if (response.status === 422) {
-    const error = new Error(REQUIRED_ERROR);
-    error.response = response;
-    throw error;
-  }
-  if (response.status === 500) {
-    const error = new Error(INTERNAL_ERROR);
-    error.response = response;
-    throw error;
-  }
-  const error = new Error(GENERAL_ERROR);
+
+  const error = new Error(response.statusText);
   error.response = response;
   throw error;
-}
-
-/**
- * Get the Access token from Async Storage
- */
-async function getAccessTokenFromAsyncStorage() {
-  return AsyncStorage.getItem('@appusertoken');
-}
-
-async function clearAccessToken() {
-  return AsyncStorage.removeItem('@appusertoken');
 }
 
 /**
@@ -103,16 +61,7 @@ async function clearAccessToken() {
  *
  * @return {object}           The response data
  */
-export default async function request(url, options) {
-  const updatedOptions = options;
-  const accessToken = await getAccessTokenFromAsyncStorage();
-  if (accessToken) {
-    updatedOptions.headers = {
-      ...options.headers,
-      'Cache-Control': 'No-Store',
-      Authorization: `Bearer ${accessToken}`,
-    };
-  }
+export default function request(url, options) {
   return fetch(url, options)
     .then(checkStatus)
     .then(parseJSON)

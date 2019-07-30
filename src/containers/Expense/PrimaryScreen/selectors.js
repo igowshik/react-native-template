@@ -24,17 +24,6 @@ const selectGlobalLoader = () =>
     rootReducers,
     dataState => dataState.globalLoader,
   );
-const selectToastVisibility = () =>
-  createSelector(
-    rootReducers,
-    dataState => dataState.toastVisible,
-  );
-
-const selectToastData = () =>
-  createSelector(
-    rootReducers,
-    dataState => dataState.toast,
-  );
 
 const selectExpenseFilterQuery = () =>
   createSelector(
@@ -72,21 +61,7 @@ const selectNewExpense = () =>
     expenseReducers,
     dataState => dataState.newExpense,
   );
-const selectExpenseHistoryQuery = () =>
-  createSelector(
-    expenseReducers,
-    dataState => dataState.expenseHistoryFilter,
-  );
-const selectExpenseHistory = () =>
-  createSelector(
-    expenseReducers,
-    dataState => dataState.expenseHistoryList,
-  );
-const selectExpenseSearchQuery = () =>
-  createSelector(
-    expenseReducers,
-    dataState => dataState.expenseSearch,
-  );
+
 export {
   selectToken,
   selectExpenseFilterQuery,
@@ -97,9 +72,4 @@ export {
   selectExpenseMetadata,
   selectGlobalLoader,
   selectNewExpense,
-  selectExpenseHistoryQuery,
-  selectExpenseHistory,
-  selectExpenseSearchQuery,
-  selectToastVisibility,
-  selectToastData,
 };

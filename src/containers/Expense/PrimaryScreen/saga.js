@@ -18,38 +18,38 @@ import {
   resetReduxForm,
   setExpensePageNumber,
   getExpenseList,
-  saveExpenseHistoryList,
 } from './actions';
 import {
   GENERAL_ERROR,
   GET_EXPENSE_LIST,
   GET_EXPENSE_SUMMARY,
+  METADATA_VARIABLES,
+  GROUPED_EXPENSE_STATUS,
+  EXPENSE_STATUS,
   GET_EXPENSE_METADATA,
   SET_NEW_EXPENSE,
   EXPENSE_FORM,
   UPDATE_EXPENSE_LIST,
-  GET_EXPENSE_HISTORY,
 } from './constants';
 import {
-  METADATA_VARIABLES,
-  GROUPED_EXPENSE_STATUS,
-  EXPENSE_STATUS,
-} from '../constants';
-import {
+  selectToken,
   selectExpenseFilterQuery,
   selectExpenseMetadata,
   selectNewExpense,
-  selectExpenseHistoryQuery,
 } from './selectors';
-import { mapGroupedStatusCodeRole, mapStatusCodeRole } from '../mappers';
+import { mapGroupedStatusCodeRole, mapStatusCodeRole } from './mappers';
 
 function* getExpenseMetaDataAPI() {
   yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
   const requestURL = `${
     config.apiURL
   }CodeRoleValues?roles=${METADATA_VARIABLES}`;
   const options = {
     method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   };
   const response = yield call(request, requestURL, options);
 
@@ -71,11 +71,13 @@ function* getExpenseMetaDataAPI() {
 
 function* getExpenseListAPI() {
   yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
   const payLoad = yield select(selectExpenseFilterQuery());
   const requestURL = `${config.apiURL}ExpenseList`;
   const options = {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payLoad),
@@ -89,7 +91,7 @@ function* getExpenseListAPI() {
   } else {
     yield put(
       setToastMessage({
-        toastMessage: response.message,
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
         toastType: ERROR,
       }),
     );
@@ -100,9 +102,14 @@ function* getExpenseListAPI() {
 
 function* getExpenseSummaryAPI() {
   yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
+
   const requestURL = `${config.apiURL}GetExpenseCountByStatus`;
   const options = {
     method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   };
   const response = yield call(request, requestURL, options);
 
@@ -117,7 +124,7 @@ function* getExpenseSummaryAPI() {
   } else {
     yield put(
       setToastMessage({
-        toastMessage: response.message,
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
         toastType: ERROR,
       }),
     );
@@ -127,11 +134,13 @@ function* getExpenseSummaryAPI() {
 }
 function* setNewExpenseAPI() {
   yield put(setRootGlobalLoader(true));
+  const accessToken = yield select(selectToken());
   const payLoad = yield select(selectNewExpense());
   const requestURL = `${config.apiURL}NewExpense`;
   const options = {
     method: 'POST',
     headers: {
+      Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payLoad),
@@ -147,36 +156,7 @@ function* setNewExpenseAPI() {
   } else {
     yield put(
       setToastMessage({
-        toastMessage: response.message,
-        toastType: ERROR,
-      }),
-    );
-    yield put(setRootGlobalLoader(false));
-    yield put(setToastVisibility(true));
-  }
-}
-function* getExpenseHistoryAPI() {
-  yield put(setRootGlobalLoader(true));
-  const payLoad = yield select(selectExpenseHistoryQuery());
-  const requestURL = `${config.apiURL}ExpenseList`;
-
-  const options = {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payLoad),
-  };
-  const response = yield call(request, requestURL, options);
-  if (response.success) {
-    yield put(setRootGlobalLoader(false));
-    const expenseStatus = yield select(selectExpenseMetadata(EXPENSE_STATUS));
-    const mappedStatus = mapStatusCodeRole(response.data, expenseStatus);
-    yield put(saveExpenseHistoryList(mappedStatus));
-  } else {
-    yield put(
-      setToastMessage({
-        toastMessage: response.message,
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
         toastType: ERROR,
       }),
     );
@@ -190,5 +170,4 @@ export default function* initConexionSaga() {
   yield takeLatest(GET_EXPENSE_METADATA, getExpenseMetaDataAPI);
   yield takeLatest(SET_NEW_EXPENSE, setNewExpenseAPI);
   yield takeLatest(UPDATE_EXPENSE_LIST, getExpenseListAPI);
-  yield takeLatest(GET_EXPENSE_HISTORY, getExpenseHistoryAPI);
 }

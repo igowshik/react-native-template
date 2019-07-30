@@ -1,4 +1,4 @@
-import { takeLatest, put, call, select } from 'redux-saga/effects';
+import { takeLatest, put, call } from 'redux-saga/effects';
 
 // Absolute imports
 import request from 'cnxapp/src/utils/request';
@@ -9,32 +9,27 @@ import {
   setToastVisibility,
 } from 'cnxapp/src/app/rootActions';
 import { ERROR } from 'cnxapp/src/utils/constants';
-import { saveExpenseDetails } from './actions';
-import { GET_EXPENSE } from './constants';
-import { selectCurrentExpenseID, selectExpenseMetadata } from './selectors';
-import { mapStatusCodeRole } from '../mappers';
-import { EXPENSE_STATUS } from '../constants';
+import { saveIndConexions } from './actions';
+import { GENERAL_ERROR, GET_IND_CONEXIONS } from './constants';
 
-function* getExpenseAPI() {
+function* getIndividualConexionAPI() {
   yield put(setRootGlobalLoader(true));
-  const expenseId = yield select(selectCurrentExpenseID());
-  const requestURL = `${config.apiURL}GetExpense?expenseId=${expenseId}`;
-  // console.log(requestURL);
-
+  const accessToken = 'test';
+  const requestURL = `${config.apiURL}IndividualConexions`;
   const options = {
     method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
   };
   const response = yield call(request, requestURL, options);
-  // console.log(response);
   if (response.success) {
     yield put(setRootGlobalLoader(false));
-    const expenseStatus = yield select(selectExpenseMetadata(EXPENSE_STATUS));
-    const mappedStatus = mapStatusCodeRole(response.data, expenseStatus);
-    yield put(saveExpenseDetails(mappedStatus));
+    yield put(saveIndConexions(response.data));
   } else {
     yield put(
       setToastMessage({
-        toastMessage: response.message,
+        toastMessage: response.message ? response.message : GENERAL_ERROR,
         toastType: ERROR,
       }),
     );
@@ -44,5 +39,5 @@ function* getExpenseAPI() {
 }
 
 export default function* initConexionSaga() {
-  yield takeLatest(GET_EXPENSE, getExpenseAPI);
+  yield takeLatest(GET_IND_CONEXIONS, getIndividualConexionAPI);
 }

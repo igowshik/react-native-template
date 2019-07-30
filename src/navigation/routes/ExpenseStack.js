@@ -14,7 +14,7 @@ const ConexionStack = createStackNavigator(
     [EXPENSE]: {
       screen: ExpenseScreen,
       navigationOptions: {
-        title: 'EXPENSES',
+        title: 'EXPENSE',
         headerStyle: {
           backgroundColor: NAVHEADER,
         },
@@ -32,8 +32,7 @@ const ConexionStack = createStackNavigator(
     ExpenseHistory: {
       screen: ExpenseHistory,
       navigationOptions: {
-        title: 'Completed Expenses',
-        headerBackTitle: 'Expenses',
+        title: 'Expense History',
         headerStyle: {
           backgroundColor: NAVHEADER,
         },

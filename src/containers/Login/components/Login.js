@@ -7,24 +7,11 @@ import { withNavigation } from 'react-navigation';
 import { compose } from 'redux';
 import { Row, Grid } from 'react-native-easy-grid';
 import AsyncStorage from '@react-native-community/async-storage';
-// import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 // Absolute imports
 import BackgroundImage from 'cnxapp/src/components/BackgroundImage';
 import Loader from 'cnxapp/src/components/Loader';
 import Snackbar from 'cnxapp/src/components/Snackbar';
-import {
-  // ERROR,
-  SIGN_IN_MESSAGE,
-  SIGN_IN,
-  // SIGN_OUT,
-  // SIGN_OUT_MESSAGE,
-} from 'cnxapp/src/utils/constants';
-import {
-  setRootAccessToken,
-  setToastMessage,
-  setToastVisibility,
-} from 'cnxapp/src/app/rootActions';
 
 // Relative imports
 import {
@@ -33,86 +20,51 @@ import {
   selectToastVisibility,
   selectToastData,
 } from '../selectors';
-import { getAccessToken, setLoaderValue, setAccessToken } from '../actions';
+import { getAccessToken, setLoaderValue } from '../actions';
 import { styles } from '../styles';
 
 // Components
 import LoginForm from './LoginForm';
 
 const logo = require('cnxapp/src/assets/images/Boast_logo.png');
-const backgroundImage = require('cnxapp/src/assets/images/newcpy.png');
+const backgroundImage = require('cnxapp/src/assets/images/login.png');
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this._signInAsync = this._signInAsync.bind(this);
-    this.state = {
-      // canRenderApp: false,
-      loaderTitle: SIGN_IN,
-      loaderMessage: SIGN_IN_MESSAGE,
-    };
   }
 
   _signInAsync = async token => {
     const { navigation } = this.props;
     if (token) {
-      await AsyncStorage.setItem('@appusertoken', token);
+      await AsyncStorage.setItem('userToken', token);
       navigation.navigate('App');
     }
   };
 
-  // componentDidMount() {
-  //   const {
-  //     accessToken,
-  //     navigation,
-  //     setLoginAccessTokenDispatch,
-  //     setRootAccessTokenDispatch,
-  //     setToastMessageDispatch,
-  //     setToastVisibilityDispatch,
-  //     setLoaderState,
-  //   } = this.props;
-  //   const loginFailed = navigation.getParam('loginFailed');
-  //   const message = navigation.getParam('message');
-  //   if (loginFailed) {
-  //     this.setState({
-  //       loaderTitle: SIGN_OUT,
-  //       loaderMessage: SIGN_OUT_MESSAGE,
-  //     });
-  //     setLoaderState(true);
-  //     setLoginAccessTokenDispatch('');
-  //     setRootAccessTokenDispatch('');
-  //     setToastMessageDispatch({
-  //       toastMessage: message,
-  //       toastType: ERROR,
-  //     });
-  //     setToastVisibilityDispatch(true);
-  //     setTimeout(() => {
-  //       setLoaderState(false);
-  //     }, 2000);
-  //   }
-  //   this.setState({ canRenderApp: !loginFailed });
-  // }
-
   componentDidUpdate() {
     const { accessToken } = this.props;
-
-    if (accessToken && accessToken !== '') {
-      this._signInAsync(accessToken);
-    }
+    if (accessToken && accessToken !== '') this._signInAsync(accessToken);
   }
 
   handleUserLogin = (userName, password) => {
-    const { getUserAccessTone } = this.props;
+    const { getUserAccessTone, setLoaderState } = this.props;
+    setLoaderState(true);
     getUserAccessTone(userName, password);
   };
 
   render() {
     const { loaderState, toastVisible, toast } = this.props;
-    const { loaderTitle, loaderMessage } = this.state;
     return (
       <BackgroundImage imageSource={backgroundImage}>
         <View style={styles.parentViewWrapper}>
           <KeyboardAvoidingView
+            style={{
+              flex: 1,
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }}
             behavior="padding"
             enabled
             keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : -300}
@@ -133,13 +85,11 @@ class Login extends Component {
             </View>
           </KeyboardAvoidingView>
           <Snackbar toastVisible={toastVisible} toast={toast} />
-          {loaderState ? (
-            <Loader
-              showLoader={loaderState}
-              loaderTitle={loaderTitle}
-              loadingText={loaderMessage}
-            />
-          ) : null}
+          <Loader
+            showLoader={loaderState}
+            loaderTitle="Signing in"
+            loadingText="Loading..."
+          />
         </View>
       </BackgroundImage>
     );
@@ -151,13 +101,9 @@ Login.propTypes = {
   getUserAccessTone: PropTypes.func.isRequired,
   accessToken: PropTypes.string,
   loaderState: PropTypes.bool.isRequired,
-  // setLoaderState: PropTypes.func.isRequired,
+  setLoaderState: PropTypes.func.isRequired,
   toastVisible: PropTypes.bool.isRequired,
   toast: PropTypes.object.isRequired,
-  // setRootAccessTokenDispatch: PropTypes.func.isRequired,
-  // setLoginAccessTokenDispatch: PropTypes.func.isRequired,
-  // setToastMessageDispatch: PropTypes.func.isRequired,
-  // setToastVisibilityDispatch: PropTypes.func.isRequired,
 };
 
 /**
@@ -181,10 +127,6 @@ const mapDispatchToProps = dispatch => ({
   getUserAccessTone: (userName, password) =>
     dispatch(getAccessToken(userName, password)),
   setLoaderState: value => dispatch(setLoaderValue(value)),
-  setLoginAccessTokenDispatch: value => dispatch(setAccessToken(value)),
-  setRootAccessTokenDispatch: value => dispatch(setRootAccessToken(value)),
-  setToastMessageDispatch: message => dispatch(setToastMessage(message)),
-  setToastVisibilityDispatch: value => dispatch(setToastVisibility(value)),
 });
 
 const withConnect = connect(
