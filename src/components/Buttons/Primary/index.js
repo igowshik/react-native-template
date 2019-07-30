@@ -48,13 +48,19 @@ PrimaryButton.propTypes = {
 };
 
 export const PrimaryButtonGradient = props => {
-  const { handleButtonClick, buttonText, icon, disabled } = props;
+  const {
+    handleButtonClick,
+    buttonText,
+    icon,
+    disabled,
+    gradientColors,
+  } = props;
   return (
     <View>
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
-        colors={colors.primaryColorSet}
+        colors={gradientColors || colors.primaryColorSet}
         style={primaryButtonGradientStyle.linearGradientButton}
       >
         <TouchableOpacity onPress={handleButtonClick} disabled={disabled}>
@@ -89,6 +95,7 @@ PrimaryButtonGradient.propTypes = {
   buttonText: PropTypes.string,
   icon: PropTypes.string,
   disabled: PropTypes.bool,
+  gradientColors: PropTypes.array,
 };
 
 export const PrimaryRoundButton = props => {

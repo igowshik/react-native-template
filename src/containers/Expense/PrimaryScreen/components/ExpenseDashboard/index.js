@@ -7,6 +7,7 @@ import { createStructuredSelector } from 'reselect';
 import PropTypes from 'prop-types';
 
 import Loader from 'cnxapp/src/components/Loader';
+import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 import { withNavigation, withNavigationFocus } from 'react-navigation';
 import AnalyticCard from './AnalyticCard';
@@ -26,7 +27,12 @@ class ExpenseDashboard extends Component {
   constructor(props) {
     super(props);
     this.createExpenseTrigger = this.createExpenseTrigger.bind(this);
+    this.triggerExpenseHistoryNavigation = this.triggerExpenseHistoryNavigation.bind(
+      this,
+    );
   }
+
+  triggerExpenseHistoryNavigation = () => this.props.navigateToHistory();
 
   createExpenseTrigger = modalState => {
     this.props.dispatchCreateExpenseModalState(modalState);
@@ -49,6 +55,11 @@ class ExpenseDashboard extends Component {
     return expenseCategory;
   };
 
+  expenseItemPress = expenseId => {
+    const { navigation } = this.props;
+    navigation.navigate('SecondScreen', { expenseKey: expenseId });
+  };
+
   render() {
     const {
       loaderState,
@@ -60,7 +71,7 @@ class ExpenseDashboard extends Component {
       exp_report_date: new Date(),
     };
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: colors.BGCOLOR }}>
         <ScrollView
           style={{
             padding: 10,
@@ -74,11 +85,11 @@ class ExpenseDashboard extends Component {
         >
           {this.renderDashboardCards()}
         </ScrollView>
-        <ExpenseList />
+        <ExpenseList itemPress={this.expenseItemPress} />
         {isFocused ? (
           <ExpenseFAB
             handleExpenseCreate={this.createExpenseTrigger}
-            // handleExpenseHistoryPress={navigateToHistory()}
+            handleExpenseHistoryPress={this.triggerExpenseHistoryNavigation}
           />
         ) : null}
         <Loader
@@ -102,7 +113,8 @@ ExpenseDashboard.propTypes = {
   dispatchCreateExpenseModalState: PropTypes.func.isRequired,
   expenseSummary: PropTypes.array.isRequired,
   isFocused: PropTypes.bool.isRequired,
-  // navigateToHistory: PropTypes.func.isRequired,
+  navigation: PropTypes.any,
+  navigateToHistory: PropTypes.func,
 };
 
 /**

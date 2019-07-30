@@ -7,8 +7,15 @@ import ExpenseCard from './ExpenseCard';
 import ReportDetails from './ReportDetails';
 import ReportReceipts from './ReportReceipts';
 import ReportHistory from './ReportHistory';
+import { getExpenseDetails } from '../../actions';
 
 class ExpenseReport extends Component {
+  componentDidMount() {
+    const { navigation, dispatchGetExpense } = this.props;
+    const selectedValue = navigation.getParam('expenseKey', 'NO-SELECT');
+    dispatchGetExpense(selectedValue);
+  }
+
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: Colors.BGCOLOR }}>
@@ -31,6 +38,10 @@ class ExpenseReport extends Component {
     );
   }
 }
+ExpenseReport.propTypes = {
+  dispatchGetExpense: PropType.func.isRequired,
+  navigation: PropType.any,
+};
 const styles = StyleSheet.create({
   rootGrid: {
     height: 200,
@@ -44,4 +55,21 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
 });
-export default ExpenseReport;
+const mapStateToProps = createStructuredSelector({
+  // expenseDetails: selectExpenseDetails(),
+});
+
+const mapDispatchToProps = dispatch => ({
+  dispatchGetExpense: expenseId => dispatch(getExpenseDetails(expenseId)),
+});
+
+const withConnect = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+);
+
+export default compose(
+  withNavigation,
+  withNavigationFocus,
+  withConnect,
+)(ExpenseReport);

@@ -12,10 +12,15 @@ import Navigation from 'cnxapp/src/navigation';
 import Snackbar from '../../components/Snackbar';
 import { selectToastVisibility, selectToastData } from '../rootSelector';
 import { setRootGlobalLoader } from '../rootActions';
+import NavigationService from '../../navigation/NavigationService';
 
 const StoreWrappedApp = props => (
   <View style={{ flex: 1 }}>
-    <Navigation />
+    <Navigation
+      ref={navigatorRef => {
+        NavigationService.setTopLevelNavigator(navigatorRef);
+      }}
+    />
     <Snackbar toastVisible={props.toastVisible} toast={props.toast} />
   </View>
 );
