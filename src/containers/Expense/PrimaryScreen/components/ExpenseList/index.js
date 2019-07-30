@@ -108,6 +108,7 @@ class ExpenseList extends Component {
 
   renderExpenseView = () => {
     const listItems = this.renderExpenseList();
+    const { itemPress } = this.props;
     if (listItems.length === 0) {
       return (
         <View style={styles.noDataContainer}>
@@ -121,11 +122,12 @@ class ExpenseList extends Component {
         </View>
       );
     }
+
     return (
       <FlatList
         data={listItems}
         renderItem={({ item }) => (
-          <ExpenseListItem item={item} onPressItem={this.itemPress} />
+          <ExpenseListItem item={item} onPressItem={itemPress} />
         )}
         keyExtractor={item => item.ExpenseId.toString()}
         ListFooterComponent={this.renderFooter}
@@ -140,12 +142,6 @@ class ExpenseList extends Component {
         })}
       />
     );
-  };
-
-  itemPress = () => {
-    // ExpenseReport
-    const { navigation } = this.props;
-    navigation.navigate('SecondScreen');
   };
 
   render() {
@@ -169,7 +165,8 @@ ExpenseList.propTypes = {
   updateExpensePageNumber: PropTypes.func.isRequired,
   fetchMoreExpense: PropTypes.func.isRequired,
   expenseList: PropTypes.array,
-  navigation: PropTypes.any,
+  // navigation: PropTypes.any,
+  itemPress: PropTypes.func,
 };
 const styles = StyleSheet.create({
   noDataContainer: {

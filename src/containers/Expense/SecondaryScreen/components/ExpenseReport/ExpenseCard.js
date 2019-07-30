@@ -4,13 +4,20 @@ import { Card, Text, Headline, Subheading } from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { Grid, Col, Row } from 'react-native-easy-grid';
+import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
+import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
+import { createStructuredSelector } from 'reselect';
+import { selectExpenseDetails } from '../../selectors';
 
 const profileBG = require('cnxapp/src/assets/images/cardbg.png');
 
 class ExpenseCard extends PureComponent {
   render() {
+    const { expenseDetails } = this.props;
     return (
       <Card elevation={5} style={styles.cardRoot}>
         <LinearGradient
@@ -31,7 +38,7 @@ class ExpenseCard extends PureComponent {
                     solid
                     style={{ paddingRight: 5 }}
                   />
-                  <Text>New</Text>
+                  <Text>{expenseDetails.StatusDescription}</Text>
                 </Col>
                 <Col style={styles.amountCol}>
                   <View style={styles.amountView}>
@@ -41,7 +48,9 @@ class ExpenseCard extends PureComponent {
                       size={25}
                       light
                     />
-                    <Text style={styles.amountText}>948</Text>
+                    <Text style={styles.amountText}>
+                      {expenseDetails.TotalAmount}
+                    </Text>
                   </View>
                   <Text style={styles.total}>Total amount</Text>
                 </Col>
@@ -58,9 +67,19 @@ class ExpenseCard extends PureComponent {
                   <View style={styles.numberColView}>
                     <Headline>XXXX</Headline>
                     <Headline>XXXX</Headline>
-                    <Headline>XXXX</Headline>
+                    <Headline>
+                      {`X${
+                        expenseDetails.ExpenseKey
+                          ? expenseDetails.ExpenseKey.split('-')[0]
+                          : 'XXX'
+                      }`}
+                    </Headline>
                     <View style={{ flexDirection: 'row' }}>
-                      <Headline>2354</Headline>
+                      <Headline>
+                        {expenseDetails.ExpenseKey
+                          ? expenseDetails.ExpenseKey.split('-')[1]
+                          : 'XXXX'}
+                      </Headline>
                       <Text style={{ fontSize: 10 }}>Report Id</Text>
                     </View>
                   </View>
@@ -69,11 +88,17 @@ class ExpenseCard extends PureComponent {
               <Row size={50} style={styles.detailsRow}>
                 <Col>
                   <Text style={{ fontSize: 10 }}>Created by</Text>
-                  <Subheading>Pete Allen</Subheading>
+                  <Subheading>
+                    {expenseDetails.CreatedBy
+                      ? expenseDetails.CreatedBy.Name
+                      : ''}
+                  </Subheading>
                 </Col>
                 <Col style={styles.createdDate}>
                   <Text style={{ fontSize: 10 }}>Report date</Text>
-                  <Subheading>05/21/2019</Subheading>
+                  <Subheading>
+                    {getDateByFormat(expenseDetails.ReportDate, 'L')}
+                  </Subheading>
                 </Col>
               </Row>
             </Grid>
@@ -83,6 +108,10 @@ class ExpenseCard extends PureComponent {
     );
   }
 }
+
+ExpenseCard.propTypes = {
+  expenseDetails: PropTypes.object.isRequired,
+};
 
 const styles = StyleSheet.create({
   cardRoot: {
@@ -150,5 +179,13 @@ const styles = StyleSheet.create({
   },
   detailsRow: { alignItems: 'center', marginTop: 10 },
 });
+const mapStateToProps = createStructuredSelector({
+  expenseDetails: selectExpenseDetails(),
+});
 
-export default ExpenseCard;
+const withConnect = connect(
+  mapStateToProps,
+  null,
+);
+
+export default compose(withConnect)(ExpenseCard);
