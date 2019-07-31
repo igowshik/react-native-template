@@ -7,7 +7,6 @@ import { withNavigation, withNavigationFocus } from 'react-navigation';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import LinearGradient from 'react-native-linear-gradient';
 import ReportItems from './ReportItems';
 import ExpenseCard from './ExpenseCard';
 import ReportDetails from './ReportDetails';
@@ -25,29 +24,21 @@ class ExpenseReport extends Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: Colors.BGCOLOR }}>
-        <LinearGradient
-          start={{ x: 0, y: 0 }}
-          end={{ x: 0, y: 1 }}
-          // colors={['#4E9753', '#67AA70', '#4E9753']}
-          colors={['#4E9753', '#FFF', '#FFF']}
-          style={styles.linearGradient}
-        >
-          <View style={styles.rootView}>
-            <Grid style={styles.rootGrid}>
-              <Col size={25}>
-                <ExpenseCard />
-              </Col>
-              <Col size={30}>
-                <ReportDetails openActionSheet={this.openActionSheetHanlder} />
-              </Col>
-            </Grid>
-          </View>
-          <ScrollView>
-            <ReportItems />
-            <ReportReceipts />
-            <ReportHistory />
-          </ScrollView>
-        </LinearGradient>
+        <View style={styles.rootView}>
+          <Grid style={styles.rootGrid}>
+            <Col size={25}>
+              <ExpenseCard />
+            </Col>
+            <Col size={30}>
+              <ReportDetails openActionSheet={this.openActionSheetHanlder} />
+            </Col>
+          </Grid>
+        </View>
+        <ScrollView>
+          <ReportItems />
+          <ReportReceipts />
+          <ReportHistory />
+        </ScrollView>
       </View>
     );
   }
