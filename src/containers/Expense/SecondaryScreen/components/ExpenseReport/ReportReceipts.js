@@ -10,94 +10,140 @@ import * as Colors from 'cnxapp/src/utils/colorsConstants';
 import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
 import { createStructuredSelector } from 'reselect';
 import { selectExpenseDetails } from '../../selectors';
+import { getExpenseReportReceipts } from '../../actions';
 
-const receiptItems = ExpenseReceipts =>
-  ExpenseReceipts.map(item => (
-    <DataTable.Row key={item.ExpenseReceiptId}>
-      <DataTable.Cell>{item.ReceiptName}</DataTable.Cell>
-      <DataTable.Cell>{item.ExpenseItemId}</DataTable.Cell>
-      <DataTable.Cell>{getDateByFormat(item.UpdatedDate, 'L')}</DataTable.Cell>
-      <DataTable.Cell>{item.Comment ? item.Comment : ''}</DataTable.Cell>
-      <DataTable.Cell>Credit Card</DataTable.Cell>
-    </DataTable.Row>
-  ));
+class ReportReceipts extends React.PureComponent {
+  receiptItems = ExpenseReceipts =>
+    ExpenseReceipts.map(item => (
+      <DataTable.Row key={item.ExpenseReceiptId}>
+        <DataTable.Cell>{item.ReceiptName}</DataTable.Cell>
+        <DataTable.Cell>{item.ExpenseItemId}</DataTable.Cell>
+        <DataTable.Cell>
+          {getDateByFormat(item.UpdatedDate, 'L')}
+        </DataTable.Cell>
+        <DataTable.Cell>{item.Comment ? item.Comment : ''}</DataTable.Cell>
+        {/* <DataTable.Cell> */}
+        {/* <View
+          style={{
+            flexDirection: 'row',
+          }}
+        >
+          <IconButton
+            icon={() => (
+              <FontAwesome5
+                name="pen-alt"
+                color={Colors.PRIMARY}
+                size={15}
+                solid
+              />
+            )}
+            size={25}
+            onPress={() => {
+              // this.editAddressHandler(add.ConexionAddressId);
+            }}
+          />
+          <IconButton
+            icon={() => (
+              <FontAwesome5
+                name="trash"
+                color={Colors.SECONDARY}
+                size={15}
+                solid
+              />
+            )}
+            color={Colors.SECONDARY}
+            size={25}
+            onPress={() => {
+              // this.deleteAddressConfirmation(add.ConexionAddressId);
+            }}
+          />
+        </View> */}
+        {/* </DataTable.Cell> */}
+      </DataTable.Row>
+    ));
 
-const renderPageNumber = pagingDetail => {
-  if (pagingDetail.TotalPages === 1) return null;
-  return (
-    <DataTable.Pagination
-      page={pagingDetail.CurrentPageNumber}
-      numberOfPages={pagingDetail.TotalPages}
-      // onPageChange={page => {
-      //   console.log(page);
-      // }}
-      label="1-2 of 6"
-    />
-  );
-};
-const ReportReceipts = props => {
-  const { expenseDetailsData } = props;
-  return (
-    <View style={{ flex: 1, margin: 15 }}>
-      <Card elevation={4}>
-        <Card.Title
-          title="Expense Report Receipts"
-          left={leftProps => (
-            <View
-              style={[
-                styles.iconRoundBackground,
-                { backgroundColor: '#FFDBE6', borderColor: '#FA2A6C' },
-              ]}
-              {...leftProps}
-            >
-              <FontAwesome5 name="receipt" color="#FA2A6C" size={20} light />
-            </View>
-          )}
-          right={rightProps => (
-            <IconButton
-              {...rightProps}
-              icon={() => (
-                <FontAwesome5
-                  name="plus-circle"
-                  color={Colors.PRIMARY}
-                  size={25}
-                  light
-                />
-              )}
-              style={{ height: 50, width: 50 }}
-              color={Colors.PRIMARY}
-              // onPress={() => console.log('Pressed')}
-            />
-          )}
-        />
-        <Divider />
-        <Card.Content>
-          <Grid>
-            <Col>
-              <DataTable>
-                <DataTable.Header>
-                  <DataTable.Title>Name</DataTable.Title>
-                  <DataTable.Title>Transaction Id</DataTable.Title>
-                  <DataTable.Title>Uploaded On</DataTable.Title>
-                  <DataTable.Title>Comment</DataTable.Title>
-                  <DataTable.Title>Actions</DataTable.Title>
-                </DataTable.Header>
-                {receiptItems(expenseDetailsData.ExpenseReceipts.Data)}
-                {renderPageNumber(
-                  expenseDetailsData.ExpenseReceipts.PagingDetail,
+  renderPageNumber = pagingDetail => {
+    const { dispatchGetExpenseReportReceipts } = this.props;
+    if (pagingDetail.TotalPages <= 1) return null;
+    return (
+      <DataTable.Pagination
+        page={pagingDetail.CurrentPageNumber}
+        numberOfPages={pagingDetail.TotalPages}
+        onPageChange={page => dispatchGetExpenseReportReceipts(page)}
+        label={
+          `${pagingDetail.CurrentPageNumber}` +
+          '  of  ' +
+          `${pagingDetail.TotalPages}`
+        }
+      />
+    );
+  };
+
+  render() {
+    const { expenseDetailsData } = this.props;
+    return (
+      <View style={{ flex: 1, margin: 10 }}>
+        <Card elevation={4} style={styles.card}>
+          <Card.Title
+            title="Expense Report Receipts"
+            left={leftProps => (
+              <View
+                style={[
+                  styles.iconRoundBackground,
+                  { backgroundColor: '#FFDBE6', borderColor: '#FA2A6C' },
+                ]}
+                {...leftProps}
+              >
+                <FontAwesome5 name="receipt" color="#FA2A6C" size={20} light />
+              </View>
+            )}
+            right={rightProps => (
+              <IconButton
+                {...rightProps}
+                icon={() => (
+                  <FontAwesome5
+                    name="plus-circle"
+                    color={Colors.PRIMARY}
+                    size={25}
+                    light
+                  />
                 )}
-              </DataTable>
-            </Col>
-          </Grid>
-        </Card.Content>
-      </Card>
-    </View>
-  );
-};
+                style={{ height: 50, width: 50 }}
+                color={Colors.PRIMARY}
+                // onPress={() => console.log('Pressed')}
+              />
+            )}
+          />
+          <Divider />
+          <Card.Content>
+            <Grid>
+              <Col>
+                <DataTable>
+                  <DataTable.Header>
+                    <DataTable.Title>Name</DataTable.Title>
+                    <DataTable.Title>Transaction Id</DataTable.Title>
+                    <DataTable.Title>Uploaded On</DataTable.Title>
+                    <DataTable.Title>Comment</DataTable.Title>
+                    {/* <DataTable.Title>Actions</DataTable.Title> */}
+                  </DataTable.Header>
+                  {this.receiptItems(expenseDetailsData.ExpenseReceipts.Data)}
+                  {this.renderPageNumber(
+                    expenseDetailsData.ExpenseReceipts.PagingDetail,
+                  )}
+                </DataTable>
+              </Col>
+            </Grid>
+          </Card.Content>
+        </Card>
+      </View>
+    );
+  }
+}
 
 ReportReceipts.propTypes = {
   data: PropTypes.object,
   expenseDetailsData: PropTypes.object,
+  dispatchGetExpenseReportReceipts: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -122,10 +168,14 @@ const styles = StyleSheet.create({
 const mapStateToProps = createStructuredSelector({
   expenseDetailsData: selectExpenseDetails(),
 });
+const mapDispatchToProps = dispatch => ({
+  dispatchGetExpenseReportReceipts: pageNumber =>
+    dispatch(getExpenseReportReceipts(pageNumber)),
+});
 
 const withConnect = connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 );
 
 export default compose(withConnect)(ReportReceipts);

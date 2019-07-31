@@ -33,7 +33,7 @@ class ReportItems extends React.PureComponent {
 
   renderPaging = pageDetail => {
     const { dispatchGetExpenseReportItems } = this.props;
-    if (pageDetail.TotalPages === 1) return null;
+    if (pageDetail.TotalPages <= 1) return null;
     return (
       <DataTable.Pagination
         page={pageDetail.CurrentPageNumber}
@@ -41,7 +41,11 @@ class ReportItems extends React.PureComponent {
         onPageChange={page => {
           dispatchGetExpenseReportItems(page);
         }}
-        label="1-2 of 6"
+        label={
+          `${pageDetail.CurrentPageNumber}` +
+          '  of  ' +
+          `${pageDetail.TotalPages}`
+        }
       />
     );
   };
@@ -49,8 +53,8 @@ class ReportItems extends React.PureComponent {
   render() {
     const { expenseDetailsData } = this.props;
     return (
-      <View style={{ flex: 1, margin: 15 }}>
-        <Card elevation={4}>
+      <View style={{ flex: 1, margin: 10 }}>
+        <Card elevation={4} style={styles.card}>
           <Card.Title
             title="Expense Report Items"
             left={leftProps => (

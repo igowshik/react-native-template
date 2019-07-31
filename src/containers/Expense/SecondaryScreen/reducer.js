@@ -5,6 +5,8 @@ import {
   SAVE_EXPENSE,
   GET_EXP_REPORT_ITEMS,
   SAVE_EXP_REPORT_ITEMS,
+  GET_EXP_REPORT_RECEIPTS,
+  SAVE_EXP_REPORT_RECEIPTS,
 } from './constants';
 
 export const IntialState = {
@@ -16,8 +18,9 @@ export const IntialState = {
   expenseReportItemsQuery: {
     ExpenseId: 0,
     PageSize: 20,
-    PageNumber: 0,
+    PageNumber: 1,
   },
+  expenseReportReceiptsQuery: { ExpenseId: 0, PageSize: 20, PageNumber: 1 },
   currentExpenseId: '',
   expenseDetails: {
     ExpenseDetail: {
@@ -88,6 +91,16 @@ const expenseSecondaryScreenStore = (state = IntialState, action) =>
       }
       case SAVE_EXP_REPORT_ITEMS: {
         draftState.expenseDetails.ExpenseItems.data = action.items;
+        break;
+      }
+      case GET_EXP_REPORT_RECEIPTS: {
+        draftState.expenseReportReceiptsQuery.PageNumber = action.pageNumber;
+        draftState.expenseReportReceiptsQuery.ExpenseId =
+          draftState.expenseDetails.ExpenseDetail.ExpenseId;
+        break;
+      }
+      case SAVE_EXP_REPORT_RECEIPTS: {
+        draftState.expenseDetails.ExpenseReceipts.data = action.items;
         break;
       }
       default: {

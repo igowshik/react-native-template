@@ -23,9 +23,9 @@ class ExpenseCard extends PureComponent {
     return (
       <Card elevation={5} style={styles.cardRoot}>
         <LinearGradient
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          // colors={['rgba(255,88,88,1) 39%', 'rgba(240,152,25,1) 81%']}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 0 }}
+          // colors={['#4E9753', '#67AA70', '#4E9753']}
           colors={['#FFF', '#FFF']}
           style={styles.linearGradient}
         >

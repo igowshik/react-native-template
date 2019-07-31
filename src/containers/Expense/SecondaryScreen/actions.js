@@ -3,6 +3,8 @@ import {
   SAVE_EXPENSE,
   GET_EXP_REPORT_ITEMS,
   SAVE_EXP_REPORT_ITEMS,
+  GET_EXP_REPORT_RECEIPTS,
+  SAVE_EXP_REPORT_RECEIPTS,
 } from './constants';
 
 export const getExpenseDetails = expenseId => ({
@@ -20,5 +22,13 @@ export const getExpenseReportItems = pageNumber => ({
 });
 export const saveExpenseReportItems = items => ({
   type: SAVE_EXP_REPORT_ITEMS,
+  items,
+});
+export const getExpenseReportReceipts = pageNumber => ({
+  type: GET_EXP_REPORT_RECEIPTS,
+  pageNumber,
+});
+export const saveExpenseReportReceipts = items => ({
+  type: SAVE_EXP_REPORT_RECEIPTS,
   items,
 });

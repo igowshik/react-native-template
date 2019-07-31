@@ -7,6 +7,7 @@ import { withNavigation, withNavigationFocus } from 'react-navigation';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import LinearGradient from 'react-native-linear-gradient';
 import ReportItems from './ReportItems';
 import ExpenseCard from './ExpenseCard';
 import ReportDetails from './ReportDetails';
@@ -24,21 +25,29 @@ class ExpenseReport extends Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: Colors.BGCOLOR }}>
-        <View style={styles.rootView}>
-          <Grid style={styles.rootGrid}>
-            <Col size={25}>
-              <ExpenseCard />
-            </Col>
-            <Col size={30}>
-              <ReportDetails openActionSheet={this.openActionSheetHanlder} />
-            </Col>
-          </Grid>
-        </View>
-        <ScrollView>
-          <ReportHistory />
-          <ReportItems />
-          <ReportReceipts />
-        </ScrollView>
+        <LinearGradient
+          start={{ x: 0, y: 0 }}
+          end={{ x: 0, y: 1 }}
+          // colors={['#4E9753', '#67AA70', '#4E9753']}
+          colors={['#4E9753', '#FFF', '#FFF']}
+          style={styles.linearGradient}
+        >
+          <View style={styles.rootView}>
+            <Grid style={styles.rootGrid}>
+              <Col size={25}>
+                <ExpenseCard />
+              </Col>
+              <Col size={30}>
+                <ReportDetails openActionSheet={this.openActionSheetHanlder} />
+              </Col>
+            </Grid>
+          </View>
+          <ScrollView>
+            <ReportItems />
+            <ReportReceipts />
+            <ReportHistory />
+          </ScrollView>
+        </LinearGradient>
       </View>
     );
   }
@@ -49,20 +58,20 @@ ExpenseReport.propTypes = {
 };
 const styles = StyleSheet.create({
   rootGrid: {
-    height: 200,
+    height: 240,
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
   },
   rootView: {
     margin: 15,
+    marginTop: 10,
+    marginBottom: 10,
     display: 'flex',
     flexDirection: 'row',
   },
 });
-const mapStateToProps = createStructuredSelector({
-  // expenseDetails: selectExpenseDetails(),
-});
+const mapStateToProps = createStructuredSelector({});
 
 const mapDispatchToProps = dispatch => ({
   dispatchGetExpense: expenseId => dispatch(getExpenseDetails(expenseId)),

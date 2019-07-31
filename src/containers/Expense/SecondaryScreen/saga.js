@@ -9,8 +9,16 @@ import {
   setToastVisibility,
 } from 'cnxapp/src/app/rootActions';
 import { ERROR } from 'cnxapp/src/utils/constants';
-import { saveExpenseDetails, saveExpenseReportItems } from './actions';
-import { GET_EXPENSE, GET_EXP_REPORT_ITEMS } from './constants';
+import {
+  saveExpenseDetails,
+  saveExpenseReportItems,
+  saveExpenseReportReceipts,
+} from './actions';
+import {
+  GET_EXPENSE,
+  GET_EXP_REPORT_ITEMS,
+  GET_EXP_REPORT_RECEIPTS,
+} from './constants';
 import {
   selectCurrentExpenseID,
   selectExpenseReportItemQuery,
@@ -74,7 +82,36 @@ function* getExpReportItemsAPI() {
   }
 }
 
+function* getExpReportReceiptsAPI() {
+  yield put(setRootGlobalLoader(true));
+  const expenseReportItemsQuery = yield select(selectExpenseReportItemQuery());
+  const requestURL = `${config.apiURL}GetExpenseReceipts?expenseId=${
+    expenseReportItemsQuery.ExpenseId
+  }&pageSize=${expenseReportItemsQuery.PageSize}&pageNumber=${
+    expenseReportItemsQuery.PageNumber
+  }`;
+
+  const options = {
+    method: 'GET',
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(saveExpenseReportReceipts(response.data));
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+
 export default function* initConexionSaga() {
   yield takeLatest(GET_EXPENSE, getExpenseAPI);
   yield takeLatest(GET_EXP_REPORT_ITEMS, getExpReportItemsAPI);
+  yield takeLatest(GET_EXP_REPORT_RECEIPTS, getExpReportReceiptsAPI);
 }
