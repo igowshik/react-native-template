@@ -17,7 +17,7 @@ class ReportHistory extends PureComponent {
   _keyExtractor = item => item.ExpenseHistoryId.toString();
 
   _renderItem = ({ item }) => {
-    const value = '';
+    const empty = '';
     return (
       <View style={styles.lineRoot}>
         <View style={styles.lineText}>
@@ -61,7 +61,7 @@ class ReportHistory extends PureComponent {
             color="#34495E"
             size={25}
             solid
-            style={{ alignItems: 'center', alignContent: 'center' }}
+            style={styles.footerEndIcon}
           />
         </View>
       </View>
@@ -82,7 +82,7 @@ class ReportHistory extends PureComponent {
             )}
           />
           <Divider />
-          <Card.Content style={{ marginTop: 20, marginBottom: 10 }}>
+          <Card.Content style={styles.cardContent}>
             <FlatList
               data={expenseDetailsData.ExpenseHistories.Data}
               keyExtractor={this._keyExtractor}
@@ -146,6 +146,15 @@ const styles = StyleSheet.create({
     width: 150,
   },
   lineFooter: { flex: 1, width: 100, paddingBottom: 10 },
+  dateText: { fontSize: 12, paddingBottom: 10, color: '#797D7F' },
+  footerEndIcon: {
+    alignItems: 'center',
+    alignContent: 'center',
+  },
+  cardContent: {
+    marginTop: 20,
+    marginBottom: 10,
+  },
 });
 
 const mapStateToProps = createStructuredSelector({
