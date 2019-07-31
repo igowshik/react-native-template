@@ -35,9 +35,9 @@ class ExpenseReport extends Component {
           </Grid>
         </View>
         <ScrollView>
-          <ReportHistory />
           <ReportItems />
           <ReportReceipts />
+          <ReportHistory />
         </ScrollView>
       </View>
     );
@@ -49,20 +49,20 @@ ExpenseReport.propTypes = {
 };
 const styles = StyleSheet.create({
   rootGrid: {
-    height: 200,
+    height: 240,
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
   },
   rootView: {
     margin: 15,
+    marginTop: 10,
+    marginBottom: 10,
     display: 'flex',
     flexDirection: 'row',
   },
 });
-const mapStateToProps = createStructuredSelector({
-  // expenseDetails: selectExpenseDetails(),
-});
+const mapStateToProps = createStructuredSelector({});
 
 const mapDispatchToProps = dispatch => ({
   dispatchGetExpense: expenseId => dispatch(getExpenseDetails(expenseId)),

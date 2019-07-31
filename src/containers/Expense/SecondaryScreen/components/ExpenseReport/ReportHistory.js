@@ -2,65 +2,26 @@ import React, { PureComponent } from 'react';
 import { FlatList, View, StyleSheet, Image } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { Divider, Card, Text } from 'react-native-paper';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
+import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
+import { createStructuredSelector } from 'reselect';
+import { selectExpenseDetails } from '../../selectors';
 
 const EXPESNE_HISTORY_ICON = require('cnxapp/src/assets/icons/expensehistory.png');
 
-const SAMPLE_DATA = [
-  {
-    Id: 1,
-    Status: 'New',
-    Date: '30/07/2019 9:00 AM',
-    UpdatedUser: 'John wick',
-  },
-  {
-    Id: 2,
-    Status: 'Saved',
-    Date: '30/07/2019 9:40 AM',
-    UpdatedUser: 'John wick',
-  },
-  {
-    Id: 3,
-    Status: 'Submited',
-    Date: '30/07/2019 11:00 AM',
-    UpdatedUser: 'John wick',
-  },
-  {
-    Id: 4,
-    Status: 'Manager Rejected',
-    Date: '30/07/2019 02:00 PM',
-    UpdatedUser: 'Pete Ange',
-  },
-  {
-    Id: 12,
-    Status: 'Submited',
-    Date: '30/07/2019 02:30 PM',
-    UpdatedUser: 'John wick',
-  },
-  {
-    Id: 22,
-    Status: 'Manager Approved',
-    Date: '30/07/2019 05:00 PM',
-    UpdatedUser: 'Pete Ange',
-  },
-  {
-    Id: 23,
-    Status: 'Released',
-    Date: '31/07/2019 02:00 PM',
-    UpdatedUser: 'Mark Wood',
-  },
-];
-
 class ReportHistory extends PureComponent {
-  _keyExtractor = item => item.Id.toString();
+  _keyExtractor = item => item.ExpenseHistoryId.toString();
 
   _renderItem = ({ item }) => {
     const empty = '';
     return (
       <View style={styles.lineRoot}>
         <View style={styles.lineText}>
-          <Text>{item.Status || empty}</Text>
+          <Text>{item.NewStatus || empty}</Text>
         </View>
         <View style={styles.iconLine}>
           <View style={{ flexDirection: 'column' }}>
@@ -69,7 +30,9 @@ class ReportHistory extends PureComponent {
           <View style={styles.line} />
         </View>
         <View style={styles.lineText}>
-          <Text style={styles.dateText}>{item.Date || empty}</Text>
+          <Text style={{ fontSize: 12, paddingBottom: 10, color: '#797D7F' }}>
+            {getDateByFormat(item.StatusChangeDate, 'L') || empty}
+          </Text>
         </View>
       </View>
     );
@@ -106,8 +69,9 @@ class ReportHistory extends PureComponent {
   );
 
   render() {
+    const { expenseDetailsData } = this.props;
     return (
-      <View style={{ flex: 1, margin: 15 }}>
+      <View style={{ flex: 1, margin: 10 }}>
         <Card elevation={4} style={styles.card}>
           <Card.Title
             title="Expense Report History"
@@ -120,7 +84,7 @@ class ReportHistory extends PureComponent {
           <Divider />
           <Card.Content style={styles.cardContent}>
             <FlatList
-              data={SAMPLE_DATA}
+              data={expenseDetailsData.ExpenseHistories.Data}
               keyExtractor={this._keyExtractor}
               horizontal
               renderItem={this._renderItem}
@@ -133,6 +97,10 @@ class ReportHistory extends PureComponent {
     );
   }
 }
+
+ReportHistory.propTypes = {
+  expenseDetailsData: PropTypes.object,
+};
 
 const styles = StyleSheet.create({
   iconRoundBackground: {
@@ -189,4 +157,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ReportHistory;
+const mapStateToProps = createStructuredSelector({
+  expenseDetailsData: selectExpenseDetails(),
+});
+
+const withConnect = connect(
+  mapStateToProps,
+  null,
+);
+
+export default compose(withConnect)(ReportHistory);
