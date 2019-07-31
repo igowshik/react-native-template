@@ -36,13 +36,7 @@ const selectToastData = () =>
 const selectChannelList = () =>
   createSelector(
     dashboardReducers,
-    dataState => {
-      console.log(
-        'channel list by selector ',
-        dataState.channelsList.MyChannels,
-      );
-      return dataState.myChannelsList;
-    },
+    dataState => dataState.myChannelsList,
   );
 const selectOtherChannelList = () =>
   createSelector(

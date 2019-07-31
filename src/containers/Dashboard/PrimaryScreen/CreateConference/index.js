@@ -1,8 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
-import PropTypes from 'prop-types';
 import { Card } from 'react-native-paper';
-import { Grid, Row, Col } from 'native-base';
+import { Grid, Row } from 'native-base';
 import { TextInput } from 'cnxapp/src/components/InputField';
 import Dropdown from 'cnxapp/src/components/Dropdown';
 

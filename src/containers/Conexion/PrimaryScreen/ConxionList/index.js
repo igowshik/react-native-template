@@ -144,7 +144,7 @@ class ConexionList extends PureComponent {
           onRefresh={this.handleIndListRefresh}
           refreshing={this.state.refreshing}
           onEndReached={this.handleLoadMoreIndList}
-          onEndReachedThreshold={0}
+          onEndReachedThreshold={0.5}
           getItemLayout={(data, index) => ({
             length: ITEM_HEIGHT,
             offset: ITEM_HEIGHT * index,

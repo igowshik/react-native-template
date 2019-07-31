@@ -14,43 +14,49 @@ import {
   // TabHeading,
   Container,
 } from 'native-base';
-import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
+import { TabView, TabBar } from 'react-native-tab-view';
 import { List } from 'react-native-paper';
 
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { CNXH4 } from 'cnxapp/src/components/Typography';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
+import { INTERACTIONS, MY_CHANNEL, SHARED_CHANNEL } from '../constants';
+import Interactions from './EventsQuickView/Interactions';
+import MyChannels from './EventsQuickView/MyChannels';
+import SharedChannels from './EventsQuickView/SharedChannels';
 
 class EventsQuickView extends React.Component {
   state = {
     /* eslint-disable */
-    index: 1,
+    index: 0,
     routes: [
-      { key: 'first', title: '' },
-      { key: 'second', title: '' },
-      { key: 'third', title: '' },
+      { key: INTERACTIONS, title: ''},
+      { key: MY_CHANNEL, title: '' },
+      { key: SHARED_CHANNEL, title: '' },
     ],
   };
-  handleRenderIcon = ({route}) =>{
+  handleRenderIcon = ({route,focused}) =>{
     switch(route.key){
-      case 'first' :
+      case INTERACTIONS :
         return(
-          <FontAwesome5 name="video" color="#fff" size={20} brand />
+          <FontAwesome5 name="video" color="#fff"  solid={focused} size={20} brand />
         );
-      case 'second':
+      case MY_CHANNEL:
         return(
           <FontAwesome5
           name="bullhorn"
           color="#fff"
           size={20}
+          solid={focused}
           brand
         />
         );
-      case 'third':
+      case SHARED_CHANNEL:
         return(
           <FontAwesome5
           name="hashtag"
           color="#fff"
+          solid={focused}
           size={20}
           brand
         />
@@ -60,47 +66,23 @@ class EventsQuickView extends React.Component {
     }
   }
 
+
   render() {
     const { myChannelList, otherChannelList, getInteractions } = this.props;
-    const FirstRoute = () => (
-      <View style={[styles.scene, { backgroundColor: '#fff' }]}>
-        <ScrollView>
-          {getInteractions.map(interaction => (
-            <List.Item
-              title={interaction.CreatedBy.Name}
-              description={interaction.ZoomStartUrl}
-              key={interaction.ZoomOccurrenceId}
-            />
-          ))}
-        </ScrollView>
-      </View>
-    );
-    const SecondRoute = () => (
-      <View style={[styles.scene, { backgroundColor: '#fff' }]}>
-        <ScrollView>
-          {myChannelList.map(myChannel => (
-            <List.Item
-              title={myChannel.ChannelName}
-              description={myChannel.JoinUrl}
-              key={myChannel.ZoomMeetingId}
-            />
-          ))}
-        </ScrollView>
-      </View>
-    );
-    const ThirdRoute = () => (
-      <View style={[styles.scene, { backgroundColor: '#fff' }]}>
-        <ScrollView>
-          {otherChannelList.map(otherChannel => (
-            <List.Item
-              title={otherChannel.ChannelName}
-              description={otherChannel.JoinUrl}
-              key={otherChannel.ZoomMeetingId}
-            />
-          ))}
-        </ScrollView>
-      </View>
-    );
+    const handleRenderScene = ({ route }) => {
+      // const { myChannelList, otherChannelList, getInteractions } = this.props;
+      const { selected } = this.state;
+      switch (route.key) {
+        case INTERACTIONS:
+          return <Interactions getInteractions = {getInteractions} selectedValue={selected} />;
+        case MY_CHANNEL:
+          return <MyChannels myChannelList = {myChannelList} />;
+        case SHARED_CHANNEL:
+          return <SharedChannels otherChannelList = {otherChannelList} />;
+        default:
+          return null;
+      }
+    };
 
     return (
       <View style={styles.containerContent}>
@@ -159,6 +141,8 @@ class EventsQuickView extends React.Component {
             </Card>
           </Col>
           <Col style={styles.coloumnCard}>
+          {/* </Row> */}
+          {/* <Row style={{ height: 270 }}> */}
             <Card style={{ height: 300 }}>
               <CardItem style={styles.cardContentContainerReport}>
                 <CardItem header style={styles.headerStyle}>
@@ -248,11 +232,49 @@ class EventsQuickView extends React.Component {
               </Tabs> */}
                   <TabView
                     navigationState={this.state}
-                    renderScene={SceneMap({
-                      first: FirstRoute,
-                      second: SecondRoute,
-                      third: ThirdRoute,
-                    })}
+                    renderScene = { handleRenderScene }
+                    onIndexChange={index => this.setState({ index })} //eslint-disable-line
+                    initialLayout={{ width: Dimensions.get('window').width, height: Dimensions.get('window').height}}
+                    renderTabBar={props => (
+                      <TabBar
+                        {...props}
+                        indicatorStyle={{ backgroundColor: 'white', height: 2 }}
+                        tabStyle={{
+                          flexDirection: 'row',
+                        }}
+                        renderIcon={this.handleRenderIcon}
+                        style={{ backgroundColor: colors.PRIMARY }}
+                        bounces
+                      />
+                    )}
+                  />
+                </Container>
+              </CardItem>
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Card style = {{height: 600, width: 1200, marginTop: 120, borderRadius: 20}}>
+            <View
+              style={[
+                styles.iconRoundBackground,
+                { backgroundColor: '#D1E5FF', borderColor: '#005CD1' , margin: 20},
+              ]}
+              >
+              <FontAwesome5
+                name="video"
+                color="#005CD1"
+                size={20}
+                brand
+              />
+            </View>
+            <CNXH4 style = {{marginLeft : 90, marginTop : -60 }}>Conference</CNXH4>
+            <CardItem>
+              <Container>
+                {/* <View> */}
+                  <TabView
+                    navigationState={this.state}
+                    renderScene = { handleRenderScene }
                     onIndexChange={index => this.setState({ index })} //eslint-disable-line
                     initialLayout={{ width: Dimensions.get('window').width, height: Dimensions.get('window').height}}
                     renderTabBar={props => (
@@ -269,10 +291,10 @@ class EventsQuickView extends React.Component {
                       />
                     )}
                   />
+                {/* </View> */}
                 </Container>
-              </CardItem>
-            </Card>
-          </Col>
+            </CardItem>
+          </Card>
         </Row>
       </View>
     );
