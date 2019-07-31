@@ -11,13 +11,13 @@ import {
   Paragraph,
   IconButton,
   Avatar,
-  Button,
   Text,
 } from 'react-native-paper';
 import Lo from 'lodash';
 
 // Absolute imports
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
+import { CARD_BORDER_RADIUS } from 'cnxapp/src/utils/valueconstants';
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
 import {
   selectConexionDetails,
@@ -105,6 +105,7 @@ class Address extends React.Component {
                     solid
                   />
                 )}
+                color={Colors.PRIMARY}
                 size={25}
                 onPress={() => {
                   this.editAddressHandler(add.ConexionAddressId);
@@ -159,7 +160,7 @@ class Address extends React.Component {
     if (!Lo.isEmpty(data)) {
       return (
         <View style={styles.parentView}>
-          <Card elevation={4}>
+          <Card elevation={4} style={{ borderRadius: CARD_BORDER_RADIUS }}>
             <Card.Title
               title="Address"
               left={propss => (
@@ -170,29 +171,27 @@ class Address extends React.Component {
                   <FontAwesome5
                     name="address-card"
                     color="#1B5E20"
-                    size={25}
+                    size={20}
                     light
                   />
                 </View>
               )}
-              right={propss => (
-                <View {...propss} style={{ marginRight: 10 }}>
-                  <Button
-                    raised
-                    color={Colors.PURPLE}
+              right={rightProps => (
+                <View {...rightProps} style={{ marginRight: 10 }}>
+                  <IconButton
+                    {...rightProps}
                     icon={() => (
                       <FontAwesome5
                         name="map-marker-plus"
-                        color="#FFF"
-                        size={18}
-                        light
+                        color={Colors.PURPLE}
+                        size={20}
+                        solid
                       />
                     )}
-                    mode="contained"
+                    style={{ height: 50, width: 50 }}
+                    color={Colors.PURPLE}
                     onPress={this.setModalOpen}
-                  >
-                    Add Address
-                  </Button>
+                  />
                 </View>
               )}
             />

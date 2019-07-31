@@ -5,6 +5,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { Divider, Card, Chip } from 'react-native-paper';
 import Lo from 'lodash';
 
+import { CARD_BORDER_RADIUS } from 'cnxapp/src/utils/valueconstants';
 import { getShareUser } from '../util';
 let i = 1;
 const Managers = props => {
@@ -12,18 +13,18 @@ const Managers = props => {
   if (!Lo.isEmpty(data)) {
     return (
       <View style={{ flex: 1, margin: 15 }}>
-        <Card elevation={4}>
+        <Card elevation={4} style={{ borderRadius: CARD_BORDER_RADIUS }}>
           <Card.Title
             title="Managers"
             left={propss => (
               <View
                 style={[
                   styles.iconRoundBackground,
-                  { backgroundColor: '#F3E5F5', borderColor: '#880E4F' },
+                  { backgroundColor: '#FFDBE6', borderColor: '#FA2A6C' },
                 ]}
                 {...propss}
               >
-                <FontAwesome5 name="sitemap" color="#880E4F" size={25} light />
+                <FontAwesome5 name="sitemap" color="#FA2A6C" size={20} light />
               </View>
             )}
           />

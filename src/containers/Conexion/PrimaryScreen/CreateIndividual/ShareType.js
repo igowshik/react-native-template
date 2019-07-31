@@ -1,15 +1,15 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Card, Headline, Divider } from 'react-native-paper';
+import { Card, Divider, Title } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { formValueSelector } from 'redux-form';
 
-import * as colors from 'cnxapp/src/utils/colorsConstants';
 import RadioButtonGroup from 'cnxapp/src/components/RadioButtonGroup';
 import MultiSelect from 'cnxapp/src/components/MultiSelect';
+import { CARD_BORDER_RADIUS } from 'cnxapp/src/utils/valueconstants';
 
 import { shareTypes, shareTypeObj } from '../../constants';
 import { selectUserDDList } from '../../selectors';
@@ -20,7 +20,7 @@ class ShareType extends React.Component {
       <Card elevation={4} style={styles.card}>
         <Card.Content>
           <View>
-            <Headline>Sharing</Headline>
+            <Title>Sharing</Title>
             <Divider />
             <RadioButtonGroup
               defaultValue={shareTypeObj.PUBLIC}
@@ -51,8 +51,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   card: {
-    borderTopColor: colors.ORANGE,
-    borderTopWidth: 2,
+    borderRadius: CARD_BORDER_RADIUS,
   },
   row: {
     flexDirection: 'row',

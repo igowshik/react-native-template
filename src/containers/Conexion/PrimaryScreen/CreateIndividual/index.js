@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { reduxForm, reset } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Button } from 'react-native-paper';
+import { IconButton } from 'react-native-paper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 
 // Absolute imports
@@ -16,7 +15,6 @@ import {
   dispatchOrganisationDetails,
   dispatchCreateOrganisation,
 } from 'cnxapp/src/containers/Conexion/actions';
-import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 // Relative imports
 import IndividualConexionForm from './IndividualConexionForm';
@@ -31,7 +29,8 @@ class CreateIndividual extends Component {
   }
 
   _closeModal = () => {
-    const { setModalOpenClose } = this.props;
+    const { setModalOpenClose, dispatchFormReset } = this.props;
+    dispatchFormReset('createConexion');
     setModalOpenClose(false);
   };
 
@@ -64,6 +63,7 @@ class CreateIndividual extends Component {
       handleSubmit,
       pristine,
       submitting,
+      invalid,
       conexionType,
     } = this.props;
 
@@ -76,21 +76,17 @@ class CreateIndividual extends Component {
             ? 'Create Individual'
             : 'Create Organisation'
         }
-      >
-        <View style={styles.headerContainer}>
-          <Button
-            raised
-            onPress={handleSubmit(this.onCreateConexion)}
-            disabled={pristine || submitting}
-            mode="contained"
-            color={colors.PURPLE}
+        modalHeaderRightComponent={
+          <IconButton
             icon={() => (
-              <FontAwesome5 name="user-plus" color="#fff" size={18} light />
+              <FontAwesome5 name="check-circle" color="#FFF" size={25} solid />
             )}
-          >
-            Done
-          </Button>
-        </View>
+            color="#FFF"
+            onPress={handleSubmit(this.onCreateConexion)}
+            disabled={pristine || submitting || invalid}
+          />
+        }
+      >
         <ScrollView>
           <IndividualConexionForm
             handleSubmit={handleSubmit}
@@ -108,6 +104,7 @@ CreateIndividual.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   pristine: PropTypes.bool,
   submitting: PropTypes.bool,
+  invalid: PropTypes.bool,
   conexionType: PropTypes.string.isRequired,
   setIndividualsDetails: PropTypes.func,
   createIndividual: PropTypes.func,
@@ -119,9 +116,9 @@ CreateIndividual.propTypes = {
 const redux = reduxForm({
   form: 'createConexion',
   validate,
-  enableReinitialize: true,
-  destroyOnUnmount: true,
-  keepDirtyOnReinitialize: false,
+  enableReinitialize: false,
+  destroyOnUnmount: false,
+  keepDirtyOnReinitialize: true,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -139,19 +136,3 @@ export default compose(
   withConnect,
   redux,
 )(CreateIndividual);
-
-const styles = StyleSheet.create({
-  headerContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    margin: 10,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    flex: 1,
-  },
-});

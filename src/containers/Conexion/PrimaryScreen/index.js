@@ -8,11 +8,8 @@ import { withNavigation, withNavigationFocus } from 'react-navigation';
 import {
   TouchableRipple,
   Searchbar,
-  Divider,
-  Menu,
   IconButton,
   Headline,
-  Text,
 } from 'react-native-paper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { Col, Row } from 'react-native-easy-grid';
@@ -48,13 +45,7 @@ import {
   getOrgDDList,
 } from '../actions';
 import { conexionStyles as styles } from '../styles';
-import {
-  INDIVIDUAL,
-  ORGANIZATION,
-  ALL,
-  INDIVIDUALS,
-  ORGANIZATIONS,
-} from '../constants';
+import { INDIVIDUAL, ORGANIZATION, ALL } from '../constants';
 import FABUI from './UIComponents/FAB';
 
 class PrimaryScreen extends React.Component {
@@ -67,7 +58,7 @@ class PrimaryScreen extends React.Component {
       createConexionType: INDIVIDUAL,
       firstQuery: '',
       conexionList: [],
-      visible: false,
+      // visible: false,
     };
     this.onLayout = this.onLayout.bind(this);
     this.getConexionTitle = this.getConexionTitle.bind(this);
@@ -93,7 +84,7 @@ class PrimaryScreen extends React.Component {
       });
       this.props.dispatchSetConexionType(ORGANIZATION);
     }
-    this.setState({ visible: false });
+    // this.setState({ visible: false });
   };
 
   componentDidMount() {
@@ -189,9 +180,9 @@ class PrimaryScreen extends React.Component {
     } else this.setState({ conexionList: [] });
   };
 
-  _openMenu = () => this.setState({ visible: true });
+  // _openMenu = () => this.setState({ visible: true });
 
-  _closeMenu = () => this.setState({ visible: false });
+  // _closeMenu = () => this.setState({ visible: false });
 
   render() {
     const initialIndividualValues = {
@@ -224,7 +215,7 @@ class PrimaryScreen extends React.Component {
               backgroundColor: colors.BGCOLOR,
             }}
           >
-            <Header gradientColors={['#6a11cb', '#2575fc']}>
+            <Header>
               <Row>
                 <Col style={styles.colStart}>
                   <Headline
@@ -232,7 +223,7 @@ class PrimaryScreen extends React.Component {
                   >{`${this.getConexionTitle()} Conexions`}</Headline>
                 </Col>
                 <Col style={styles.colEnd}>
-                  <Menu
+                  {/* <Menu
                     visible={this.state.visible}
                     onDismiss={this._closeMenu}
                     anchor={
@@ -309,7 +300,39 @@ class PrimaryScreen extends React.Component {
                         </Text>
                       }
                     />
-                  </Menu>
+                  </Menu> */}
+                  <IconButton
+                    icon={() => (
+                      <FontAwesome5
+                        name="users"
+                        color={
+                          createConexionType === INDIVIDUAL ? '#FFF' : '#FFF'
+                        }
+                        size={20}
+                        solid={createConexionType === INDIVIDUAL}
+                      />
+                    )}
+                    color={createConexionType === INDIVIDUAL ? '#FFF' : '#FFF'}
+                    size={20}
+                    onPress={() => this._onSwitchIndOrgPress(INDIVIDUAL)}
+                  />
+                  <IconButton
+                    icon={() => (
+                      <FontAwesome5
+                        name="building"
+                        color={
+                          createConexionType === ORGANIZATION ? '#FFF' : '#FFF'
+                        }
+                        size={20}
+                        solid={createConexionType === ORGANIZATION}
+                      />
+                    )}
+                    color={
+                      createConexionType === ORGANIZATION ? '#FFF' : '#FFF'
+                    }
+                    size={20}
+                    onPress={() => this._onSwitchIndOrgPress(ORGANIZATION)}
+                  />
                 </Col>
               </Row>
             </Header>

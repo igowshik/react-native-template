@@ -11,6 +11,7 @@ import { Card, Text, Avatar, Paragraph } from 'react-native-paper';
 import PropTypes from 'prop-types';
 
 import * as colors from 'cnxapp/src/utils/colorsConstants';
+import { CARD_BORDER_RADIUS } from 'cnxapp/src/utils/valueconstants';
 
 const ds = new ListView.DataSource({
   rowHasChanged: (r1, r2) => r1 !== r2,
@@ -242,7 +243,7 @@ export default class TimelineView extends Component {
       <Text style={[styles.title, this.props.titleStyle]}>{rowData.title}</Text>
     ) : (
       <View style={{ paddingRight: 20 }}>
-        <Card elevation={2} style={styles.card}>
+        <Card elevation={3} style={styles.card}>
           <Card.Content>
             <View
               style={{
@@ -435,6 +436,7 @@ TimelineView.propTypes = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.BGCOLOR,
   },
   listview: {
     flex: 1,
@@ -504,8 +506,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   card: {
-    borderTopColor: '#85929E',
-    borderTopWidth: 2,
+    borderRadius: CARD_BORDER_RADIUS,
   },
   headerView: {
     flexDirection: 'row',
