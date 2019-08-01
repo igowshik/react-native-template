@@ -39,7 +39,7 @@ export const IntialState = {
       },
       CreatedDate: null,
       LastUpdatedDate: null,
-      CurrentStatus: null,
+      CurrentStatus: '',
       TotalAmount: null,
       BusinessUnit: null,
       ExpenseKey: null,
