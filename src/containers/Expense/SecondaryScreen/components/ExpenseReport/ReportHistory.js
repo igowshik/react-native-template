@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   lineHeader: {
     flex: 1,
     paddingBottom: 5,
-    width: 150,
+    width: 100,
   },
   lineFooter: { flex: 1, width: 100, paddingBottom: 10 },
   dateText: { fontSize: 12, paddingBottom: 10, color: '#797D7F' },
