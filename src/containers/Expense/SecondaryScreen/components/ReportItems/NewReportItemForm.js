@@ -14,7 +14,7 @@ import * as colors from 'cnxapp/src/utils/colorsConstants';
 import DateTimePicker from 'cnxapp/src/components/DatePickerReduxForm';
 import Dropdown from 'cnxapp/src/components/Dropdown';
 import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
-import { TextInput } from 'cnxapp/src/components/InputField';
+import { TextInput, NumberInput } from 'cnxapp/src/components/InputField';
 import { createStructuredSelector } from 'reselect';
 import { EXPENSE_TYPE, PAYMENT_TYPE } from '../../../constants';
 import { selectExpenseMetadata } from '../../../PrimaryScreen/selectors';
@@ -25,7 +25,7 @@ class NewReportItemForm extends React.Component {
     super(props);
     this.state = {
       isDatePickerVisible: false,
-      isMileageRowVisible: true,
+      isMileageRowVisible: false,
       isAmountDisabled: false,
       isPaymentTypeDisabled: false,
     };
@@ -63,11 +63,35 @@ class NewReportItemForm extends React.Component {
     return paymentType;
   };
 
+  onMilesChanged = () => {
+    // const { riMiles, riStandardMileageRate, changeRDXField } = this.props;
+    // const amount = parseFloat(riMiles) * parseFloat(riStandardMileageRate);
+    // changeRDXField(CREATE_REPORT_ITEM, 'riAmount', amount.toString());
+  };
+
   onExpenseTypeChanged = () => {
-    const { riExpenseType } = this.props;
+    const { riExpenseType, changeRDXField } = this.props;
     if (riExpenseType === 'TPER' || riExpenseType === 'TPAO') {
-      console.log('value matched');
+      this.setState({
+        isMileageRowVisible: true,
+        isAmountDisabled: true,
+        isPaymentTypeDisabled: true,
+      });
+      changeRDXField(
+        CREATE_REPORT_ITEM,
+        'riStandardMileageRate',
+        riExpenseType === 'TPER' ? '0.535' : '0.19',
+      );
+      changeRDXField(CREATE_REPORT_ITEM, 'ri_payment_Type', 'CASH');
+      return;
     }
+    this.setState({
+      isMileageRowVisible: false,
+      isAmountDisabled: false,
+      isPaymentTypeDisabled: false,
+    });
+    changeRDXField(CREATE_REPORT_ITEM, 'riStandardMileageRate', '0.0');
+    changeRDXField(CREATE_REPORT_ITEM, 'ri_payment_Type', '');
   };
 
   render() {
@@ -120,12 +144,16 @@ class NewReportItemForm extends React.Component {
               {isMileageRowVisible ? (
                 <Row>
                   <Col>
-                    <TextInput label="Miles" name="ri_miles" />
+                    <NumberInput
+                      label="Miles"
+                      name="riMiles"
+                      onChangeTrigger={this.onMilesChanged}
+                    />
                   </Col>
                   <Col>
-                    <TextInput
+                    <NumberInput
                       label="Standard Mileage Rate"
-                      name="ri_standard_mileage_rate"
+                      name="riStandardMileageRate"
                       disabled
                     />
                   </Col>
@@ -141,11 +169,10 @@ class NewReportItemForm extends React.Component {
                   />
                 </Col>
                 <Col>
-                  <TextInput
+                  <NumberInput
                     label="Amount"
-                    name="ri_amount"
+                    name="riAmount"
                     disabled={isAmountDisabled}
-                    numeric
                   />
                 </Col>
               </Row>
@@ -181,6 +208,9 @@ NewReportItemForm.propTypes = {
   paymentTypeMetadata: PropTypes.array.isRequired,
   ri_transaction_date: PropTypes.object,
   riExpenseType: PropTypes.string,
+  // riMiles: PropTypes.string,
+  changeRDXField: PropTypes.func,
+  // riStandardMileageRate: PropTypes.string,
 };
 
 const styles = StyleSheet.create({
@@ -222,9 +252,11 @@ export default compose(
   connect(state =>
     selectorCreateExpense(
       state,
-      'ri_standard_mileage_rate',
+      'riStandardMileageRate',
       'ri_transaction_date',
       'riExpenseType',
+      'riAmount',
+      'riMiles',
     ),
   ),
   withConnect,

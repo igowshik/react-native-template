@@ -65,7 +65,9 @@ class ReportItems extends React.Component {
     } = this.props;
     const intialValues = {
       ri_transaction_date: new Date(),
-      ri_standard_mileage_rate: 'test',
+      riStandardMileageRate: '0.00',
+      riAmount: '0.00',
+      // riMiles: '',
     };
     return (
       <View style={{ flex: 1, margin: 10 }}>

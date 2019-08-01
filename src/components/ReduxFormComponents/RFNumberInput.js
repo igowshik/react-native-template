@@ -4,41 +4,51 @@ import { View, StyleSheet } from 'react-native';
 import { PRIMARY } from 'cnxapp/src/utils/colorsConstants';
 import { TextInput, HelperText } from 'react-native-paper';
 
-export const RFNumberInput = props => {
-  const {
-    input,
-    label,
-    required,
-    helperText,
-    meta: { error, touched },
-    ...inputProps
-  } = props;
-  let hasError = false;
+class RFNumberInput extends React.PureComponent {
+  onchangeHandler = event => {
+    const { input, onChangeTrigger } = this.props;
+    input.onChange(event);
+    if (onChangeTrigger) onChangeTrigger(input.value);
+  };
 
-  if (required && touched && error) {
-    hasError = true;
+  render() {
+    const {
+      input,
+      label,
+      required,
+      helperText,
+      disabled,
+      meta: { error, touched },
+      ...inputProps
+    } = this.props;
+    let hasError = false;
+
+    if (required && touched && error) {
+      hasError = true;
+    }
+    return (
+      <View style={styles.item}>
+        <TextInput
+          {...inputProps}
+          onChange={event => this.onchangeHandler(event)}
+          onBlur={input.onBlur}
+          onFocus={input.onFocus}
+          value={input.value}
+          label={required ? `${label}*` : label}
+          keyboardType="phone-pad"
+          error={hasError}
+          style={{ width: '100%' }}
+          disabled={disabled}
+        />
+        {required ? (
+          <HelperText type="error" visible={hasError}>
+            {helperText || 'this field is required'}
+          </HelperText>
+        ) : null}
+      </View>
+    );
   }
-  return (
-    <View style={styles.item}>
-      <TextInput
-        {...inputProps}
-        onChangeText={input.onChange}
-        onBlur={input.onBlur}
-        onFocus={input.onFocus}
-        value={input.value}
-        label={required ? `${label}*` : label}
-        keyboardType="phone-pad"
-        error={hasError}
-        style={{ width: '100%' }}
-      />
-      {required ? (
-        <HelperText type="error" visible={hasError}>
-          {helperText || 'this field is required'}
-        </HelperText>
-      ) : null}
-    </View>
-  );
-};
+}
 
 RFNumberInput.propTypes = {
   input: PropTypes.object.isRequired,
@@ -46,6 +56,8 @@ RFNumberInput.propTypes = {
   label: PropTypes.string.isRequired,
   required: PropTypes.bool,
   helperText: PropTypes.string,
+  onChangeTrigger: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 
 const styles = StyleSheet.create({
@@ -75,3 +87,4 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 });
+export default RFNumberInput;
