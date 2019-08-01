@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, ImageBackground } from 'react-native';
 import { Card, Text, Headline, Subheading } from 'react-native-paper';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
@@ -14,7 +14,7 @@ import { createStructuredSelector } from 'reselect';
 import { selectExpenseDetails } from '../../selectors';
 const { ExpenseColors } = Colors;
 
-// const profileBG = require('cnxapp/src/assets/images/cardbg.png');
+const profileBG = require('cnxapp/src/assets/images/cardbg3.png');
 
 class ExpenseCard extends PureComponent {
   statusColor = status => {
@@ -36,85 +36,88 @@ class ExpenseCard extends PureComponent {
         <LinearGradient
           start={{ x: 0, y: 1 }}
           end={{ x: 1, y: 0 }}
-          colors={['#4E9753', '#67AA70', '#4E9753']}
-          // colors={['#FFF', '#FFF']}
+          // colors={['#4E9753', '#67AA70', '#4E9753']}
+          colors={['#FFF', '#FFF']}
           style={styles.linearGradient}
         >
-          {/* <ImageBackground source={profileBG} style={styles.imageBG}> */}
-          <Grid style={styles.grid}>
-            <Row size={30} style={{ alignItems: 'center' }}>
-              <Col style={styles.status}>
-                <FontAwesome5
-                  name="circle"
-                  color={this.statusColor(ExpenseDetail.CurrentStatus)}
-                  size={13}
-                  solid
-                  style={{ paddingRight: 5 }}
-                />
-                <Text style={{ color: '#fff', fontWeight: 'bold' }}>
-                  {ExpenseDetail.CurrentStatus}
-                </Text>
-              </Col>
-              <Col style={styles.amountCol}>
-                <View style={styles.amountView}>
+          <ImageBackground source={profileBG} style={styles.imageBG}>
+            <Grid style={styles.grid}>
+              <Row size={30} style={{ alignItems: 'center' }}>
+                <Col style={styles.status}>
                   <FontAwesome5
-                    name="dollar-sign"
-                    color="#fff" // "#34495E"
-                    size={25}
-                    light
+                    name="circle"
+                    color={this.statusColor(ExpenseDetail.CurrentStatus)}
+                    size={13}
+                    solid
+                    style={{ paddingRight: 5 }}
                   />
-                  <Text style={styles.amountText}>
-                    {ExpenseDetail.TotalAmount}
+                  <Text style={{ color: '#34495E' }}>
+                    {ExpenseDetail.CurrentStatus}
                   </Text>
-                </View>
-                <Text style={styles.total}>Total amount</Text>
-              </Col>
-            </Row>
-            <Row size={50}>
-              <Col style={styles.numberCol}>
-                <Image
-                  style={{ width: 56, height: 56 }}
-                  source={{
-                    uri: 'https://img.icons8.com/officel/2x/sim-card-chip.png',
-                  }}
-                />
-                <View style={styles.numberColView}>
-                  <Headline style={{ color: '#fff' }}>XXXX</Headline>
-                  <Headline style={{ color: '#fff' }}>XXXX</Headline>
-                  <Headline style={{ color: '#fff' }}>
-                    {`${
-                      ExpenseDetail.ExpenseKey
-                        ? ExpenseDetail.ExpenseKey.split('-')[0]
-                        : 'XXX'
-                    }`}
-                  </Headline>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Headline style={{ color: '#fff' }}>
-                      {ExpenseDetail.ExpenseKey
-                        ? ExpenseDetail.ExpenseKey.split('-')[1]
-                        : 'XXXX'}
-                    </Headline>
-                    <Text style={{ fontSize: 10 }}>Report Id</Text>
+                </Col>
+                <Col style={styles.amountCol}>
+                  <View style={styles.amountView}>
+                    <FontAwesome5
+                      name="dollar-sign"
+                      color="#34495E" // "#34495E"
+                      size={25}
+                      light
+                    />
+                    <Text style={styles.amountText}>
+                      {ExpenseDetail.TotalAmount}
+                    </Text>
                   </View>
-                </View>
-              </Col>
-            </Row>
-            <Row size={50} style={styles.detailsRow}>
-              <Col>
-                <Text style={{ fontSize: 10 }}>Created by</Text>
-                <Subheading style={{ color: '#fff' }}>
-                  {ExpenseDetail.CreatedBy ? ExpenseDetail.CreatedBy.Name : ''}
-                </Subheading>
-              </Col>
-              <Col style={styles.createdDate}>
-                <Text style={{ fontSize: 10 }}>Report date</Text>
-                <Subheading style={{ color: '#fff' }}>
-                  {getDateByFormat(ExpenseDetail.ReportDate, 'L')}
-                </Subheading>
-              </Col>
-            </Row>
-          </Grid>
-          {/* </ImageBackground> */}
+                  <Text style={styles.total}>Total amount</Text>
+                </Col>
+              </Row>
+              <Row size={50}>
+                <Col style={styles.numberCol}>
+                  <Image
+                    style={{ width: 56, height: 56 }}
+                    source={{
+                      uri:
+                        'https://img.icons8.com/officel/2x/sim-card-chip.png',
+                    }}
+                  />
+                  <View style={styles.numberColView}>
+                    <Headline style={styles.cardNumber}>XXXX</Headline>
+                    <Headline style={styles.cardNumber}>XXXX</Headline>
+                    <Headline style={styles.cardNumber}>
+                      {`${
+                        ExpenseDetail.ExpenseKey
+                          ? ExpenseDetail.ExpenseKey.split('-')[0]
+                          : 'XXX'
+                      }`}
+                    </Headline>
+                    <View style={{ flexDirection: 'row' }}>
+                      <Headline style={styles.cardNumber}>
+                        {ExpenseDetail.ExpenseKey
+                          ? ExpenseDetail.ExpenseKey.split('-')[1]
+                          : 'XXXX'}
+                      </Headline>
+                      <Text style={{ fontSize: 10 }}>Report Id</Text>
+                    </View>
+                  </View>
+                </Col>
+              </Row>
+              <Row size={50} style={styles.detailsRow}>
+                <Col>
+                  <Text style={{ fontSize: 10 }}>Created by</Text>
+                  <Subheading style={{ color: '#fff' }}>
+                    {ExpenseDetail.CreatedBy
+                      ? ExpenseDetail.CreatedBy.Name
+                      : ''}
+                  </Subheading>
+                </Col>
+                <Col style={styles.createdDate}>
+                  <Text style={{ fontSize: 10 }}>Report date</Text>
+                  <Subheading style={{ color: '#fff' }}>
+                    {getDateByFormat(ExpenseDetail.ReportDate, 'L')}
+                  </Subheading>
+                </Col>
+              </Row>
+            </Grid>
+          </ImageBackground>
         </LinearGradient>
       </Card>
     );
@@ -164,7 +167,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   amountText: {
-    color: '#fff', // '#34495E',
+    color: '#34495E', // '#34495E',
     fontSize: 25,
     fontWeight: 'bold',
     paddingLeft: 5,
@@ -190,6 +193,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   detailsRow: { alignItems: 'center', marginTop: 10 },
+  cardNumber: { color: '#34495E', fontWeight: 'bold' },
 });
 const mapStateToProps = createStructuredSelector({
   expenseDetailsData: selectExpenseDetails(),
