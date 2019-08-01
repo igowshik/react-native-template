@@ -41,7 +41,7 @@ class ExpenseCard extends PureComponent {
                   style={{ paddingRight: 5 }}
                 />
                 <Text style={{ color: '#fff', fontWeight: 'bold' }}>
-                  {ExpenseDetail.StatusDescription}
+                  {ExpenseDetail.CurrentStatus}
                 </Text>
               </Col>
               <Col style={styles.amountCol}>

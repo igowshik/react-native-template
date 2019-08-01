@@ -8,23 +8,30 @@ import * as Colors from 'cnxapp/src/utils/colorsConstants';
 const { ExpenseColors } = Colors;
 export default class ListItemRight extends PureComponent {
   statusColor = status => {
-    switch (status.toUpperCase()) {
-      case 'ALL':
-        return ExpenseColors.ALL;
-      case 'NEW': // NEW is SAVED
-        return ExpenseColors.SAVED;
-      case 'SUBM':
-        return ExpenseColors.SUBMITED;
-      case 'MAPR':
-      case 'AAPR':
-        return ExpenseColors.APPROVED;
-      case 'REJECTED':
-      case 'MREJ':
-      case 'AREJ':
-        return ExpenseColors.REJECTED;
-      default:
-        return ExpenseColors.ALL;
-    }
+    const _status = status.toUpperCase();
+    if (_status.includes('ALL')) return ExpenseColors.ALL;
+    if (_status.includes('NEW')) return ExpenseColors.SAVED;
+    if (_status.includes('SUBMITED')) return ExpenseColors.SUBMITED;
+    if (_status.includes('APPROVED')) return ExpenseColors.APPROVED;
+    if (_status.includes('REJECTED')) return ExpenseColors.REJECTED;
+    return ExpenseColors.ALL;
+    // switch (status.toUpperCase()) {
+    //   case 'ALL':
+    //     return ExpenseColors.ALL;
+    //   case 'NEW': // NEW is SAVED
+    //     return ExpenseColors.SAVED;
+    //   case 'SUBM':
+    //     return ExpenseColors.SUBMITED;
+    //   case 'MAPR':
+    //   case 'AAPR':
+    //     return ExpenseColors.APPROVED;
+    //   case 'REJECTED':
+    //   case 'MREJ':
+    //   case 'AREJ':
+    //     return ExpenseColors.REJECTED;
+    //   default:
+    //     return ExpenseColors.ALL;
+    // }
   };
 
   render() {
@@ -75,7 +82,7 @@ export default class ListItemRight extends PureComponent {
               solid
               style={{ paddingRight: 5 }}
             />
-            <Text style={{ fontSize: 10 }}>{item.StatusDescription}</Text>
+            <Text style={{ fontSize: 10 }}>{item.CurrentStatus}</Text>
           </View>
         </View>
       </View>

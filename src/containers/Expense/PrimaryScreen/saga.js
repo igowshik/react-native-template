@@ -30,18 +30,14 @@ import {
   UPDATE_EXPENSE_LIST,
   GET_EXPENSE_HISTORY,
 } from './constants';
-import {
-  METADATA_VARIABLES,
-  GROUPED_EXPENSE_STATUS,
-  EXPENSE_STATUS,
-} from '../constants';
+import { METADATA_VARIABLES, GROUPED_EXPENSE_STATUS } from '../constants';
 import {
   selectExpenseFilterQuery,
   selectExpenseMetadata,
   selectNewExpense,
   selectExpenseHistoryQuery,
 } from './selectors';
-import { mapGroupedStatusCodeRole, mapStatusCodeRole } from '../mappers';
+import { mapGroupedStatusCodeRole } from '../mappers';
 
 function* getExpenseMetaDataAPI() {
   yield put(setRootGlobalLoader(true));
@@ -72,6 +68,7 @@ function* getExpenseMetaDataAPI() {
 function* getExpenseListAPI() {
   yield put(setRootGlobalLoader(true));
   const payLoad = yield select(selectExpenseFilterQuery());
+
   const requestURL = `${config.apiURL}ExpenseList`;
   const options = {
     method: 'POST',
@@ -83,9 +80,10 @@ function* getExpenseListAPI() {
   const response = yield call(request, requestURL, options);
   if (response.success) {
     yield put(setRootGlobalLoader(false));
-    const expenseStatus = yield select(selectExpenseMetadata(EXPENSE_STATUS));
-    const mappedStatus = mapStatusCodeRole(response.data, expenseStatus);
-    yield put(saveExpenseList(mappedStatus));
+
+    // const expenseStatus = yield select(selectExpenseMetadata(EXPENSE_STATUS));
+    // const mappedStatus = mapStatusCodeRole(response.data, expenseStatus);
+    yield put(saveExpenseList(response.data));
   } else {
     yield put(
       setToastMessage({
@@ -170,9 +168,9 @@ function* getExpenseHistoryAPI() {
   const response = yield call(request, requestURL, options);
   if (response.success) {
     yield put(setRootGlobalLoader(false));
-    const expenseStatus = yield select(selectExpenseMetadata(EXPENSE_STATUS));
-    const mappedStatus = mapStatusCodeRole(response.data, expenseStatus);
-    yield put(saveExpenseHistoryList(mappedStatus));
+    // const expenseStatus = yield select(selectExpenseMetadata(EXPENSE_STATUS));
+    // const mappedStatus = mapStatusCodeRole(response.data, expenseStatus);
+    yield put(saveExpenseHistoryList(response.data));
   } else {
     yield put(
       setToastMessage({

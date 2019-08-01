@@ -9,10 +9,17 @@ import { Col, Grid } from 'react-native-easy-grid';
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 import { createStructuredSelector } from 'reselect';
 import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
-import { selectExpenseDetails } from '../../selectors';
-import { getExpenseReportItems } from '../../actions';
+import {
+  selectExpenseDetails,
+  selectReportItemModalVisibility,
+} from '../../selectors';
+import {
+  getExpenseReportItems,
+  setCreateReportItemModalVisibility,
+} from '../../actions';
+import CreateReportItem from './CreateReportItem';
 
-class ReportItems extends React.PureComponent {
+class ReportItems extends React.Component {
   tableItems = ExpenseItems =>
     ExpenseItems.map(item => (
       <DataTable.Row key={item.ExpenseItemId}>
@@ -27,7 +34,7 @@ class ReportItems extends React.PureComponent {
         </DataTable.Cell>
         <DataTable.Cell>{item.BusinessPurpose}</DataTable.Cell>
         <DataTable.Cell>{item.Amount}</DataTable.Cell>
-        <DataTable.Cell>$500.00</DataTable.Cell>
+        {/* <DataTable.Cell>$500.00</DataTable.Cell> */}
       </DataTable.Row>
     ));
 
@@ -51,7 +58,17 @@ class ReportItems extends React.PureComponent {
   };
 
   render() {
-    const { expenseDetailsData } = this.props;
+    const {
+      expenseDetailsData,
+      reportItemModalVisibility,
+      dispatchModalStateVisibility,
+    } = this.props;
+    const intialValues = {
+      ri_transaction_date: new Date(),
+      riStandardMileageRate: '0.00',
+      riAmount: '0.00',
+      // riMiles: '',
+    };
     return (
       <View style={{ flex: 1, margin: 10 }}>
         <Card elevation={4} style={styles.card}>
@@ -81,7 +98,7 @@ class ReportItems extends React.PureComponent {
                 )}
                 style={{ height: 50, width: 50 }}
                 color={Colors.PRIMARY}
-                // onPress={() => console.log('Pressed')}
+                onPress={() => dispatchModalStateVisibility(true)}
               />
             )}
           />
@@ -98,7 +115,7 @@ class ReportItems extends React.PureComponent {
                     <DataTable.Title>Payment Type</DataTable.Title>
                     <DataTable.Title>Business Purpose</DataTable.Title>
                     <DataTable.Title>Amount</DataTable.Title>
-                    <DataTable.Title>Action</DataTable.Title>
+                    {/* <DataTable.Title>Action</DataTable.Title> */}
                   </DataTable.Header>
                   {this.tableItems(expenseDetailsData.ExpenseItems.Data)}
                   {this.renderPaging(
@@ -109,6 +126,10 @@ class ReportItems extends React.PureComponent {
             </Grid>
           </Card.Content>
         </Card>
+        <CreateReportItem
+          modalOpen={reportItemModalVisibility}
+          initialValues={intialValues}
+        />
       </View>
     );
   }
@@ -118,6 +139,8 @@ ReportItems.propTypes = {
   data: PropTypes.object,
   expenseDetailsData: PropTypes.object,
   dispatchGetExpenseReportItems: PropTypes.func.isRequired,
+  reportItemModalVisibility: PropTypes.bool,
+  dispatchModalStateVisibility: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -141,10 +164,13 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = createStructuredSelector({
   expenseDetailsData: selectExpenseDetails(),
+  reportItemModalVisibility: selectReportItemModalVisibility(),
 });
 const mapDispatchToProps = dispatch => ({
   dispatchGetExpenseReportItems: pageNumber =>
     dispatch(getExpenseReportItems(pageNumber)),
+  dispatchModalStateVisibility: visibility =>
+    dispatch(setCreateReportItemModalVisibility(visibility)),
 });
 
 const withConnect = connect(

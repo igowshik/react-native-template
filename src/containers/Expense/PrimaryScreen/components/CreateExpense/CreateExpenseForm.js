@@ -16,7 +16,8 @@ import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
 import { TextInput } from 'cnxapp/src/components/InputField';
 import { createStructuredSelector } from 'reselect';
 import { selectExpenseMetadata } from '../../selectors';
-import { BUSINESS_UNIT } from '../../constants';
+import { EXPENSE_FORM } from '../../constants';
+import { BUSINESS_UNIT } from '../../../constants';
 
 class CreateExpenseForm extends React.Component {
   constructor(props) {
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const selectorCreateExpense = formValueSelector('createExpense');
+const selectorCreateExpense = formValueSelector(EXPENSE_FORM);
 
 const mapStateToProps = createStructuredSelector({
   expenseMetadata: selectExpenseMetadata(BUSINESS_UNIT),
