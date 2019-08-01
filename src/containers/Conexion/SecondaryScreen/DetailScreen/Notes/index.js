@@ -9,6 +9,7 @@ import {
   TouchableRipple,
   Surface,
   Divider,
+  Button,
 } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -242,7 +243,7 @@ class Notes extends Component {
     const { noteFilters } = this.props;
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: colors.BGCOLOR }}>
         <Surface style={{ elevation: 4 }}>
           <Row style={{ height: 'auto' }}>
             <Col>
@@ -293,19 +294,18 @@ class Notes extends Component {
               </TouchableRipple>
             </Col>
             <Col style={styles.filterView}>
-              <IconButton
+              <Button
                 icon={() => (
-                  <FontAwesome5
-                    color={colors.PURPLE}
-                    name="filter"
-                    size={20}
-                    solid
-                  />
+                  <FontAwesome5 color="#fff" name="filter" size={15} />
                 )}
-                mode="outlined"
+                mode="contained"
                 color={colors.PURPLE}
                 onPress={this.applyDateFilter}
-              />
+                uppercase
+                solid
+              >
+                Filter
+              </Button>
             </Col>
           </Row>
           <Divider />
@@ -346,7 +346,7 @@ class Notes extends Component {
         <FullPageModal
           visible={modalOpen}
           handleModalVisible={this._closeModal}
-          modalHeaderText="New note"
+          modalHeaderText="Create new note"
         >
           <RichTextExample
             note={editNoteObject}
@@ -370,13 +370,13 @@ Notes.propTypes = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 15,
     paddingTop: 0,
     backgroundColor: 'white',
   },
   list: {
     flex: 1,
     paddingTop: 25,
+    backgroundColor: colors.BGCOLOR,
   },
   fab: {
     position: 'absolute',

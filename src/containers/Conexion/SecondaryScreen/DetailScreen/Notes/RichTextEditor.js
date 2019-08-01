@@ -20,6 +20,8 @@ import { compose } from 'redux';
 
 import WebViewQuillEditor from 'cnxapp/src/components/QuillEditor/WebViewQuillEditor';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
+import { CARD_BORDER_RADIUS } from 'cnxapp/src/utils/valueconstants';
+
 import {
   setNoteData,
   createConexionNote,
@@ -84,7 +86,6 @@ class RichTextEditor extends React.Component {
 
   render() {
     const { privateNote, titleText } = this.state;
-    const { isEditNote } = this.props;
     return (
       <View
         style={{
@@ -93,75 +94,77 @@ class RichTextEditor extends React.Component {
       >
         <View
           style={
-            ({ padding: 10 }, Platform.OS === 'ios' ? '' : { marginTop: 60 })
+            ({ margin: 10 }, Platform.OS === 'ios' ? '' : { marginTop: 60 })
           }
         >
-          <Card elevation={2} style={styles.card}>
-            <View style={styles.headerView}>
-              <Avatar.Icon
-                style={styles.avatar}
-                size={40}
-                icon="description"
-                color={colors.WHITE}
-              />
-              <Title style={{ paddingLeft: 10 }}>NOTE DETAILS</Title>
-            </View>
-            <Card.Content>
-              <View style={styles.form}>
-                <View style={{ width: '60%', flexDirection: 'column' }}>
-                  <TextInput
-                    style={{ width: '100%' }}
-                    label="Title"
-                    value={titleText}
-                    onChangeText={text => this.setState({ titleText: text })}
-                    error={titleText === ''}
-                  />
-                  <HelperText type="error" visible={titleText === ''}>
-                    Title is required
-                  </HelperText>
-                </View>
-                <TouchableRipple
-                  onPress={() => {
-                    this.setState({ privateNote: !privateNote });
-                  }}
-                >
-                  <View style={styles.row}>
-                    <Text style={{ paddingTop: 15 }}>Private Note</Text>
-                    <View pointerEvents="none" style={{ paddingTop: 15 }}>
-                      <Checkbox
-                        color={colors.SECONDARY}
-                        status={privateNote ? 'checked' : 'unchecked'}
-                      />
-                    </View>
-                  </View>
-                </TouchableRipple>
-                <View style={{ paddingLeft: 20, paddingTop: 10 }}>
-                  <Button
-                    raised
-                    color={colors.PURPLE}
-                    icon={() => (
-                      <FontAwesome5
-                        name="sticky-note"
-                        color="#FFF"
-                        size={18}
-                        light
-                      />
-                    )}
-                    mode="contained"
-                    onPress={this.handleNoteCreationandEdit}
-                    disabled={titleText === ''}
-                  >
-                    {!isEditNote ? 'Add Note' : 'Update Note'}
-                  </Button>
-                </View>
+          <View style={styles.parentView}>
+            <Card elevation={2} style={styles.card}>
+              <View style={styles.headerView}>
+                <Avatar.Icon
+                  style={styles.avatar}
+                  size={40}
+                  icon="description"
+                  color={colors.WHITE}
+                />
+                <Title style={{ paddingLeft: 10 }}>Note Details</Title>
               </View>
-            </Card.Content>
-          </Card>
+              <Card.Content>
+                <View style={styles.form}>
+                  <View style={{ width: '60%', flexDirection: 'column' }}>
+                    <TextInput
+                      style={{ width: '100%' }}
+                      label="Title"
+                      value={titleText}
+                      onChangeText={text => this.setState({ titleText: text })}
+                      error={titleText === ''}
+                    />
+                    <HelperText type="error" visible={titleText === ''}>
+                      Title is required
+                    </HelperText>
+                  </View>
+                  <TouchableRipple
+                    onPress={() => {
+                      this.setState({ privateNote: !privateNote });
+                    }}
+                  >
+                    <View style={styles.row}>
+                      <Text style={{ paddingTop: 15 }}>Private Note</Text>
+                      <View pointerEvents="none" style={{ paddingTop: 15 }}>
+                        <Checkbox
+                          color={colors.SECONDARY}
+                          status={privateNote ? 'checked' : 'unchecked'}
+                        />
+                      </View>
+                    </View>
+                  </TouchableRipple>
+                  <View style={{ paddingLeft: 20, paddingTop: 10 }}>
+                    <Button
+                      raised
+                      color={colors.PURPLE}
+                      icon={() => (
+                        <FontAwesome5
+                          name="sticky-note"
+                          color="#FFF"
+                          size={18}
+                          light
+                        />
+                      )}
+                      mode="contained"
+                      onPress={this.handleNoteCreationandEdit}
+                      disabled={titleText === ''}
+                    >
+                      Done
+                    </Button>
+                  </View>
+                </View>
+              </Card.Content>
+            </Card>
+          </View>
         </View>
         <View style={styles.webView}>
           <HelperText
             type="error"
-            style={{ fontSize: 24 }}
+            style={{ fontSize: 20 }}
             visible={this.state.noteRequied}
           >
             Notes field is required
@@ -200,22 +203,24 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     paddingLeft: 20,
   },
+  parentView: {
+    margin: 10,
+  },
   card: {
-    borderTopColor: colors.YELLOW,
-    borderTopWidth: 4,
+    borderRadius: CARD_BORDER_RADIUS,
   },
   headerView: {
     padding: 20,
     flexDirection: 'row',
     alignItems: 'center',
   },
-  avatar: { backgroundColor: colors.PURPLE },
+  avatar: { backgroundColor: colors.ORANGE },
   form: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  webView: { flex: 1 },
+  webView: { flex: 1, borderRadius: CARD_BORDER_RADIUS },
   label: {
     color: colors.PRIMARY,
     fontFamily: 'Montserrat',

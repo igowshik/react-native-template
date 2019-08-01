@@ -7,6 +7,8 @@ import { Divider, Card, Chip } from 'react-native-paper';
 import Lo from 'lodash';
 
 // import * as Colors from 'cnxapp/src/utils/colorsConstants';
+import { CARD_BORDER_RADIUS } from 'cnxapp/src/utils/valueconstants';
+
 import { getShareUser } from '../util';
 
 const Sharing = props => {
@@ -14,21 +16,21 @@ const Sharing = props => {
   if (!Lo.isEmpty(data)) {
     return (
       <View style={{ flex: 1, margin: 15 }}>
-        <Card elevation={4}>
+        <Card elevation={4} style={{ borderRadius: CARD_BORDER_RADIUS }}>
           <Card.Title
             title="Shared Users"
             left={propss => (
               <View
                 style={[
                   styles.iconRoundBackground,
-                  { backgroundColor: '#F3E5F5', borderColor: '#880E4F' },
+                  { backgroundColor: '#FFDBE6', borderColor: '#FA2A6C' },
                 ]}
                 {...propss}
               >
                 <FontAwesome5
                   name="share-alt"
-                  color="#880E4F"
-                  size={25}
+                  color="#FA2A6C"
+                  size={20}
                   light
                 />
               </View>

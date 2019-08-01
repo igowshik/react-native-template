@@ -67,7 +67,7 @@ class ConexionList extends PureComponent {
       <Card.Content style={Styles.nodataCard}>
         <FontAwesome5
           name="list-alt"
-          color={colors.PURPLE}
+          color={colors.GREY}
           style={{ margin: 5 }}
           size={30}
           light
@@ -140,7 +140,7 @@ class ConexionList extends PureComponent {
             <RenderIndListItem item={item} onPressItem={onPressItem} />
           )}
           keyExtractor={item => item.ConexionId.toString()}
-          ListFooterComponent={this.renderFooter}
+          // ListFooterComponent={this.renderFooter}
           ListEmptyComponent={this.renderListEmpty}
           onRefresh={this.handleIndListRefresh}
           refreshing={this.state.refreshing}
@@ -161,7 +161,7 @@ class ConexionList extends PureComponent {
           <RenderOrgListItem item={item} onPressItem={onPressItem} />
         )}
         keyExtractor={item => item.ConexionId.toString()}
-        ListFooterComponent={this.renderFooter}
+        // ListFooterComponent={this.renderFooter}
         ListEmptyComponent={this.renderListEmpty}
         onRefresh={this.handleOrgListRefresh}
         refreshing={this.state.refreshing}

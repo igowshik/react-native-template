@@ -3,17 +3,16 @@ import { StyleSheet, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import PropTypes from 'prop-types';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
-
-const primaryColorSet = [colors.HEADER, colors.HEADER, colors.HEADER];
+import { LINEAR_START, LINEAR_END } from 'cnxapp/src/utils/valueconstants';
 
 class Header extends PureComponent {
   render() {
     const { children, gradientColors } = this.props;
     return (
       <LinearGradient
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 0 }}
-        colors={gradientColors || primaryColorSet}
+        start={LINEAR_START}
+        end={LINEAR_END}
+        colors={gradientColors || colors.DEAFULT_HEADER}
       >
         <View style={styles.headerViewStyle}>{children}</View>
       </LinearGradient>

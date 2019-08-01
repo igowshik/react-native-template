@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ImageBackground } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import LinearGradient from 'react-native-linear-gradient';
 import { connect } from 'react-redux';
@@ -28,7 +28,7 @@ import Communication from './Communication';
 import Address from './Address';
 import Sharing from './Sharing';
 
-const profileBG = require('cnxapp/src/assets/images/newprofile.png');
+// const profileBG = require('cnxapp/src/assets/images/profilebg2.png');
 
 class IndividualConexion extends React.Component {
   constructor(props) {
@@ -48,46 +48,43 @@ class IndividualConexion extends React.Component {
     return (
       <View style={{ flex: 1, backgroundColor: Colors.BGCOLOR }}>
         <LinearGradient
-          start={{ x: 0, y: 0 }}
+          start={{ x: 0, y: 1 }}
           end={{ x: 1, y: 0 }}
-          colors={['rgba(3,0,187,1) 65%', 'rgba(7,133,244,1) 0%']}
+          colors={['#4674e9', '#359be9', '#15c39a']}
           style={styles.linearGraident}
         >
-          <ImageBackground source={profileBG} style={styles.imageBG}>
-            <View style={styles.surface}>
-              <Avatar.Icon
-                style={{ backgroundColor: '#fff' }}
-                size={120}
-                icon={() => (
-                  <FontAwesome5
-                    name="user"
-                    size={70}
-                    color={Colors.PRIMARY}
-                    light
-                  />
-                )}
-              />
-            </View>
-            <View style={styles.headerView}>
-              <H1 style={styles.headerText}>
-                {`${getTitleName(
-                  conexionDetails.Title,
-                  conexionDetails.DisplayName,
-                ) || ''} (${
-                  conexionDetails.ShortName ? conexionDetails.ShortName : ''
-                })`}
-              </H1>
-              {getOrgName(
-                conexionDetails.JobTitle,
-                conexionDetails.Organization,
+          {/* <ImageBackground source={profileBG} style={styles.imageBG}> */}
+          <View style={styles.surface}>
+            <Avatar.Icon
+              style={{ backgroundColor: '#fff' }}
+              size={120}
+              icon={() => (
+                <FontAwesome5
+                  name="user"
+                  size={70}
+                  color={Colors.PURPLE}
+                  light
+                />
               )}
-              {getContact(
-                conexionDetails.BusinessEmailAddress,
-                conexionDetails.BusinessTelephoneNumber,
-              )}
-              {getCreatedBy(conexionDetails.CreatedBy)}
-            </View>
-          </ImageBackground>
+            />
+          </View>
+          <View style={styles.headerView}>
+            <H1 style={styles.headerText}>
+              {`${getTitleName(
+                conexionDetails.Title,
+                conexionDetails.DisplayName,
+              ) || ''} (${
+                conexionDetails.ShortName ? conexionDetails.ShortName : ''
+              })`}
+            </H1>
+            {getOrgName(conexionDetails.JobTitle, conexionDetails.Organization)}
+            {getContact(
+              conexionDetails.BusinessEmailAddress,
+              conexionDetails.BusinessTelephoneNumber,
+            )}
+            {getCreatedBy(conexionDetails.CreatedBy)}
+          </View>
+          {/* </ImageBackground> */}
         </LinearGradient>
         <Surface ref={this.surfaceRef} style={styles.overlap}>
           <ScrollView>
@@ -133,18 +130,18 @@ const styles = StyleSheet.create({
   overlap: {
     marginTop: -15,
     flex: 1,
-    // marginBottom: 10,
     flexDirection: 'row',
-    borderRadius: 10,
+    borderRadius: 15,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
-    backgroundColor: '#F7F9F9',
+    backgroundColor: Colors.BGCOLOR,
     elevation: 4,
   },
   linearGraident: {
     height: 180,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    alignContent: 'center',
   },
   headerView: {
     flexDirection: 'column',

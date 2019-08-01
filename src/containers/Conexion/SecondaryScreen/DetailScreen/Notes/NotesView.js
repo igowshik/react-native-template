@@ -13,6 +13,7 @@ import HTMLView from 'react-native-htmlview';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 
 import * as colors from 'cnxapp/src/utils/colorsConstants';
+import { CARD_BORDER_RADIUS } from 'cnxapp/src/utils/valueconstants';
 
 const ds = new ListView.DataSource({
   rowHasChanged: (r1, r2) => r1 !== r2,
@@ -246,7 +247,7 @@ export default class NotesView extends Component {
     };
     const title = rowData.description ? (
       <View style={{ paddingRight: 20 }}>
-        <Card elevation={2} style={styles.card}>
+        <Card elevation={3} style={styles.card}>
           <Card.Content>
             <View
               style={{
@@ -487,6 +488,7 @@ NotesView.propTypes = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.BGCOLOR,
   },
   listview: {
     flex: 1,
@@ -556,8 +558,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   card: {
-    borderTopColor: '#85929E',
-    borderTopWidth: 2,
+    borderRadius: CARD_BORDER_RADIUS,
   },
   headerView: {
     padding: 20,

@@ -1,6 +1,5 @@
 import {
   Modal,
-  TouchableHighlight,
   View,
   Platform,
   StatusBar,
@@ -9,12 +8,18 @@ import {
 } from 'react-native';
 import React from 'react';
 import PropTypes from 'prop-types';
-import FontAwesome5 from 'react-native-vector-icons/EvilIcons';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import LinearGradient from 'react-native-linear-gradient';
 
-import { CNXH1 } from 'cnxapp/src/components/Typography';
-import { HorizDivider } from 'cnxapp/src/components/Dividers';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
+import {
+  LINEAR_START,
+  LINEAR_END,
+  // CARD_BORDER_RADIUS,
+} from 'cnxapp/src/utils/valueconstants';
+import { IconButton, Headline } from 'react-native-paper';
+import { Grid, Col } from 'react-native-easy-grid';
 
 const { height } = Dimensions.get('window');
 
@@ -54,7 +59,7 @@ class FullPageModal extends React.Component {
   };
 
   render() {
-    const { visible, modalHeaderText } = this.props;
+    const { visible, modalHeaderText, modalHeaderRightComponent } = this.props;
     return (
       <View
         style={{
@@ -67,23 +72,39 @@ class FullPageModal extends React.Component {
           transparent={false}
           visible={visible}
         >
+          <StatusBar barStyle={visible ? 'light-content' : 'default'} />
           <View style={styles.parentView}>
-            <View style={styles.titleView}>
-              <View style={styles.closeIcon}>
-                <TouchableHighlight onPress={this.closeModal}>
-                  <FontAwesome5
-                    style={styles.icon}
-                    name="close"
-                    size={50}
-                    light
+            <LinearGradient
+              start={LINEAR_START}
+              end={LINEAR_END}
+              colors={colors.DEAFULT_HEADER}
+              style={styles.titleView}
+            >
+              <Grid>
+                <Col size={20} style={styles.closeIcon}>
+                  <IconButton
+                    icon={() => (
+                      <FontAwesome5
+                        name="times-circle"
+                        color="#FFF"
+                        size={25}
+                        solid
+                      />
+                    )}
+                    color="#FFF"
+                    onPress={this.closeModal}
                   />
-                </TouchableHighlight>
-              </View>
-              <View style={styles.headerTitle}>
-                <CNXH1 style={styles.headerText}>{modalHeaderText}</CNXH1>
-              </View>
-            </View>
-            <HorizDivider />
+                </Col>
+                <Col size={60} style={styles.headerTitle}>
+                  <Headline style={styles.headerText}>
+                    {modalHeaderText}
+                  </Headline>
+                </Col>
+                <Col size={20} style={styles.doneIcon}>
+                  {modalHeaderRightComponent}
+                </Col>
+              </Grid>
+            </LinearGradient>
             {this.getScrollViewContent()}
           </View>
         </Modal>
@@ -93,30 +114,37 @@ class FullPageModal extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  parentView: { flex: 1, backgroundColor: colors.BGCOLOR },
+  parentView: {
+    flex: 1,
+    backgroundColor: colors.BGCOLOR,
+  },
   icon: {
     color: '#fff',
   },
   titleView: {
     display: 'flex',
     flexDirection: 'row',
-    backgroundColor: colors.HEADER,
-    height: 50,
-    paddingTop: 10,
+    height: 60,
+    // borderTopRightRadius: CARD_BORDER_RADIUS,
+    // borderTopLeftRadius: CARD_BORDER_RADIUS,
+    paddingTop: Platform.OS === 'ios' ? 10 : 0,
+    marginBottom: 10,
   },
   closeIcon: {
-    display: 'flex',
-    flexDirection: 'column',
     justifyContent: 'flex-start',
-    alignContent: 'flex-start',
+    alignContent: 'center',
+    marginHorizontal: 10,
+  },
+  doneIcon: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignContent: 'center',
+    marginEnd: 10,
   },
   headerTitle: {
-    display: 'flex',
-    flexDirection: 'column',
     justifyContent: 'center',
     alignContent: 'center',
     alignItems: 'center',
-    width: '90%',
   },
   scrollview: {
     flexGrow: 1,
@@ -134,6 +162,7 @@ FullPageModal.propTypes = {
     PropTypes.node,
   ]).isRequired,
   modalHeaderText: PropTypes.string,
+  modalHeaderRightComponent: PropTypes.element,
 };
 
 export default FullPageModal;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { Button } from 'react-native-paper';
+import { IconButton } from 'react-native-paper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { reduxForm, reset } from 'redux-form';
 import { compose } from 'redux';
@@ -10,7 +10,7 @@ import { createStructuredSelector } from 'reselect';
 
 import FullPageModal from 'cnxapp/src/components/FullPageModal';
 // import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
-import * as colors from 'cnxapp/src/utils/colorsConstants';
+// import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 import { CREATE_REPORT_ITEM } from '../../constants';
 import { setCreateReportItemModalVisibility } from '../../actions';
@@ -45,28 +45,30 @@ class CreateReportItem extends Component {
   };
 
   render() {
-    const { modalOpen, submitting, handleSubmit } = this.props;
+    const {
+      modalOpen,
+      submitting,
+      pristine,
+      invalid,
+      handleSubmit,
+    } = this.props;
 
     return (
       <FullPageModal
         visible={modalOpen}
         handleModalVisible={this._closeModal}
         modalHeaderText="Create Expense Report Item"
-      >
-        <View style={styles.headerContainer}>
-          <Button
-            raised
-            onPress={handleSubmit(this.onCreateReportItem)}
-            disabled={submitting}
-            mode="contained"
-            color={colors.BLUE}
+        modalHeaderRightComponent={
+          <IconButton
             icon={() => (
-              <FontAwesome5 name="check" color="#fff" size={18} light />
+              <FontAwesome5 name="check-circle" color="#FFF" size={25} solid />
             )}
-          >
-            Done
-          </Button>
-        </View>
+            color="#FFF"
+            onPress={handleSubmit(this.onCreateReportItem)}
+            disabled={pristine || submitting || invalid}
+          />
+        }
+      >
         <NewReportItemForm style={styles.container} />
       </FullPageModal>
     );
@@ -77,6 +79,8 @@ CreateReportItem.propTypes = {
   dispatchModalStateVisibility: PropTypes.func.isRequired,
   // createNewExpense: PropTypes.func.isRequired,
   submitting: PropTypes.bool,
+  pristine: PropTypes.bool,
+  invalid: PropTypes.bool,
   dispatchFormReset: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
 };

@@ -14,7 +14,7 @@ const ConexionStack = createStackNavigator(
     [EXPENSE]: {
       screen: ExpenseScreen,
       navigationOptions: {
-        title: 'EXPENSES',
+        title: 'Expenses',
         headerStyle: {
           backgroundColor: NAVHEADER,
         },

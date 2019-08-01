@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import { reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import { Button } from 'react-native-paper';
+import { IconButton } from 'react-native-paper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 
 // Absolute imports
@@ -23,7 +23,7 @@ import {
   createConexionAddress,
   editConexionAddress,
 } from 'cnxapp/src/containers/Conexion/actions';
-import * as colors from 'cnxapp/src/utils/colorsConstants';
+// import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 // Relative imports
 import AddressForm from './AddressForm';
@@ -68,47 +68,35 @@ class CreateAddress extends Component {
     } = this.props;
 
     return (
-      <View>
-        <FullPageModal
-          visible={modalOpen}
-          handleModalVisible={this._closeModal}
-          modalHeaderText="Create Address"
-        >
-          <View style={styles.headerContainer}>
-            <Button
-              raised
-              mode="contained"
-              onPress={handleSubmit(this.onCreateConexionAddress)}
-              disabled={pristine || submitting || invalid}
-              color={colors.PURPLE}
-              primary
-              icon={() => (
-                <FontAwesome5
-                  name="map-marker-plus"
-                  color="#fff"
-                  size={18}
-                  light
-                />
-              )}
-            >
-              Done
-            </Button>
-          </View>
-          <ScrollView>
-            {loaderState ? (
-              <View>
-                <Loader
-                  showLoader={loaderState}
-                  loaderTitle="Conexion"
-                  loadingText="Loading conexion address..."
-                />
-              </View>
-            ) : (
-              <AddressForm />
+      <FullPageModal
+        visible={modalOpen}
+        handleModalVisible={this._closeModal}
+        modalHeaderText="Create Address"
+        modalHeaderRightComponent={
+          <IconButton
+            icon={() => (
+              <FontAwesome5 name="check-circle" color="#FFF" size={25} solid />
             )}
-          </ScrollView>
-        </FullPageModal>
-      </View>
+            color="#FFF"
+            onPress={handleSubmit(this.onCreateConexionAddress)}
+            disabled={pristine || submitting || invalid}
+          />
+        }
+      >
+        <ScrollView>
+          {loaderState ? (
+            <View>
+              <Loader
+                showLoader={loaderState}
+                loaderTitle="Conexion"
+                loadingText="Loading conexion address..."
+              />
+            </View>
+          ) : (
+            <AddressForm />
+          )}
+        </ScrollView>
+      </FullPageModal>
     );
   }
 }
@@ -127,22 +115,6 @@ CreateAddress.propTypes = {
   editAddress: PropTypes.bool,
   dispatchEditAddress: PropTypes.func.isRequired,
 };
-
-const styles = StyleSheet.create({
-  headerContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    margin: 10,
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    flex: 1,
-  },
-});
 
 const mapStateToProps = createStructuredSelector({
   modalOpen: selectAddressModalVisible(),

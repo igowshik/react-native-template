@@ -14,6 +14,8 @@ import DateTimePicker from 'cnxapp/src/components/DatePickerReduxForm';
 import Dropdown from 'cnxapp/src/components/Dropdown';
 import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
 import { TextInput } from 'cnxapp/src/components/InputField';
+import { CARD_BORDER_RADIUS } from 'cnxapp/src/utils/valueconstants';
+
 import { createStructuredSelector } from 'reselect';
 import { selectExpenseMetadata } from '../../selectors';
 import { EXPENSE_FORM } from '../../constants';
@@ -131,8 +133,7 @@ const styles = StyleSheet.create({
     margin: 3,
   },
   card: {
-    borderTopColor: colors.GREEN,
-    borderTopWidth: 2,
+    borderRadius: CARD_BORDER_RADIUS,
   },
   parentView: {
     margin: 10,
