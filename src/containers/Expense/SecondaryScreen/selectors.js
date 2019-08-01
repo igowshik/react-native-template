@@ -32,9 +32,14 @@ const selectExpenseReportItemQuery = () =>
     expenseReducers,
     dataState => dataState.expenseReportItemsQuery,
   );
-
+const selectReportItemModalVisibility = () =>
+  createSelector(
+    expenseReducers,
+    dataState => dataState.createReportItemModalVisible,
+  );
 export {
   selectCurrentExpenseID,
   selectExpenseDetails,
   selectExpenseReportItemQuery,
+  selectReportItemModalVisibility,
 };

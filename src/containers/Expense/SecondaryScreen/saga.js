@@ -1,5 +1,5 @@
 import { takeLatest, put, call, select } from 'redux-saga/effects';
-import Lo from 'lodash';
+// import Lo from 'lodash';
 // Absolute imports
 import request from 'cnxapp/src/utils/request';
 import config from 'cnxapp/src/config/config';
@@ -23,8 +23,8 @@ import {
   selectCurrentExpenseID,
   selectExpenseReportItemQuery,
 } from './selectors';
-import { EXPENSE_STATUS } from '../constants';
-import { selectExpenseMetadata } from '../PrimaryScreen/selectors';
+// import { EXPENSE_STATUS } from '../constants';
+// import { selectExpenseMetadata } from '../PrimaryScreen/selectors';
 
 function* getExpenseAPI() {
   yield put(setRootGlobalLoader(true));
@@ -37,10 +37,10 @@ function* getExpenseAPI() {
   const response = yield call(request, requestURL, options);
   if (response.success) {
     yield put(setRootGlobalLoader(false));
-    const expenseStatus = yield select(selectExpenseMetadata(EXPENSE_STATUS));
-    response.data.ExpenseDetail.StatusDescription = Lo.filter(expenseStatus, {
-      Value: response.data.ExpenseDetail.CurrentStatus,
-    })[0].Text;
+    // const expenseStatus = yield select(selectExpenseMetadata(EXPENSE_STATUS));
+    // response.data.ExpenseDetail.CurrentStatus = Lo.filter(expenseStatus, {
+    //   Value: response.data.ExpenseDetail.CurrentStatus,
+    // })[0].Text;
     yield put(saveExpenseDetails(response.data));
   } else {
     yield put(

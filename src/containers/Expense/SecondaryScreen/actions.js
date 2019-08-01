@@ -5,6 +5,7 @@ import {
   SAVE_EXP_REPORT_ITEMS,
   GET_EXP_REPORT_RECEIPTS,
   SAVE_EXP_REPORT_RECEIPTS,
+  SET_REPORT_ITEM_MODAL_VISIBILITY,
 } from './constants';
 
 export const getExpenseDetails = expenseId => ({
@@ -31,4 +32,8 @@ export const getExpenseReportReceipts = pageNumber => ({
 export const saveExpenseReportReceipts = items => ({
   type: SAVE_EXP_REPORT_RECEIPTS,
   items,
+});
+export const setCreateReportItemModalVisibility = visibility => ({
+  type: SET_REPORT_ITEM_MODAL_VISIBILITY,
+  visibility,
 });

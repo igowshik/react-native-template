@@ -7,7 +7,7 @@ import { withNavigation, withNavigationFocus } from 'react-navigation';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import ReportItems from './ReportItems';
+import ReportItems from '../ReportItems';
 import ExpenseCard from './ExpenseCard';
 import ReportDetails from './ReportDetails';
 import ReportReceipts from './ReportReceipts';

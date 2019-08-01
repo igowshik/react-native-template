@@ -7,6 +7,7 @@ import {
   SAVE_EXP_REPORT_ITEMS,
   GET_EXP_REPORT_RECEIPTS,
   SAVE_EXP_REPORT_RECEIPTS,
+  SET_REPORT_ITEM_MODAL_VISIBILITY,
 } from './constants';
 
 export const IntialState = {
@@ -22,6 +23,7 @@ export const IntialState = {
   },
   expenseReportReceiptsQuery: { ExpenseId: 0, PageSize: 20, PageNumber: 1 },
   currentExpenseId: '',
+  createReportItemModalVisible: false,
   expenseDetails: {
     ExpenseDetail: {
       ExpenseId: null,
@@ -101,6 +103,10 @@ const expenseSecondaryScreenStore = (state = IntialState, action) =>
       }
       case SAVE_EXP_REPORT_RECEIPTS: {
         draftState.expenseDetails.ExpenseReceipts.data = action.items;
+        break;
+      }
+      case SET_REPORT_ITEM_MODAL_VISIBILITY: {
+        draftState.createReportItemModalVisible = action.visibility;
         break;
       }
       default: {

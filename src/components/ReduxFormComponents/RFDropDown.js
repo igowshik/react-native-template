@@ -7,6 +7,12 @@ import { Dropdown as MaterialDropdown } from 'react-native-material-dropdown';
 import * as fonts from 'cnxapp/src/utils/font-list';
 
 class RFDropdown extends PureComponent {
+  onchangeHandler = event => {
+    const { input, onChangeTrigger } = this.props;
+    input.onChange(event);
+    if (onChangeTrigger) onChangeTrigger();
+  };
+
   render() {
     const {
       input,
@@ -33,7 +39,7 @@ class RFDropdown extends PureComponent {
           titleTextStyle={styles.font}
           labelFontSize={12}
           value={input.value}
-          onChangeText={input.onChange}
+          onChangeText={this.onchangeHandler}
           onBlur={input.onBlur}
           error={hasError ? `${label} is required` : null}
           textColor="rgba(0, 0, 0, 0.8)"
@@ -50,6 +56,7 @@ RFDropdown.propTypes = {
   label: PropTypes.string.isRequired,
   required: PropTypes.bool,
   data: PropTypes.array.isRequired,
+  onChangeTrigger: PropTypes.func,
 };
 
 const styles = StyleSheet.create({

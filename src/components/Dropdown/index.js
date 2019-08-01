@@ -5,7 +5,7 @@ import { Field } from 'redux-form';
 import RFDropdown from '../ReduxFormComponents/RFDropDown';
 
 const Dropdown = props => {
-  const { label, data, name, required } = props;
+  const { label, data, name, required, onChangeTrigger } = props;
   return (
     <Field
       label={label}
@@ -13,6 +13,7 @@ const Dropdown = props => {
       name={name}
       component={RFDropdown}
       required={required}
+      onChangeTrigger={onChangeTrigger}
     />
   );
 };
@@ -22,6 +23,7 @@ Dropdown.propTypes = {
   data: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired,
   required: PropTypes.bool,
+  onChangeTrigger: PropTypes.func,
 };
 
 export default Dropdown;
