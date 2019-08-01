@@ -12,10 +12,21 @@ import * as Colors from 'cnxapp/src/utils/colorsConstants';
 import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
 import { createStructuredSelector } from 'reselect';
 import { selectExpenseDetails } from '../../selectors';
+const { ExpenseColors } = Colors;
 
 // const profileBG = require('cnxapp/src/assets/images/cardbg.png');
 
 class ExpenseCard extends PureComponent {
+  statusColor = status => {
+    const _status = status.toUpperCase();
+    if (_status.includes('ALL')) return ExpenseColors.ALL;
+    if (_status.includes('NEW')) return ExpenseColors.SAVED;
+    if (_status.includes('SUBMITED')) return ExpenseColors.SUBMITED;
+    if (_status.includes('APPROVED')) return ExpenseColors.APPROVED;
+    if (_status.includes('REJECTED')) return ExpenseColors.REJECTED;
+    return ExpenseColors.ALL;
+  };
+
   render() {
     const { expenseDetailsData } = this.props;
     const { ExpenseDetail } = expenseDetailsData;
@@ -35,7 +46,7 @@ class ExpenseCard extends PureComponent {
               <Col style={styles.status}>
                 <FontAwesome5
                   name="circle"
-                  color={Colors.PRIMARY}
+                  color={this.statusColor(ExpenseDetail.CurrentStatus)}
                   size={13}
                   solid
                   style={{ paddingRight: 5 }}
@@ -71,7 +82,7 @@ class ExpenseCard extends PureComponent {
                   <Headline style={{ color: '#fff' }}>XXXX</Headline>
                   <Headline style={{ color: '#fff' }}>XXXX</Headline>
                   <Headline style={{ color: '#fff' }}>
-                    {`X${
+                    {`${
                       ExpenseDetail.ExpenseKey
                         ? ExpenseDetail.ExpenseKey.split('-')[0]
                         : 'XXX'
