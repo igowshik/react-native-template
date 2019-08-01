@@ -270,8 +270,8 @@ class EventsQuickView extends React.Component {
             </View>
             <CNXH4 style = {{marginLeft : 90, marginTop : -60 }}>Conference</CNXH4>
             <CardItem>
-              <Container>
-                {/* <View> */}
+              {/* <Container> */}
+                <View>
                   <TabView
                     navigationState={this.state}
                     renderScene = { handleRenderScene }
@@ -291,8 +291,8 @@ class EventsQuickView extends React.Component {
                       />
                     )}
                   />
-                {/* </View> */}
-                </Container>
+                </View>
+                {/* </Container> */}
             </CardItem>
           </Card>
         </Row>

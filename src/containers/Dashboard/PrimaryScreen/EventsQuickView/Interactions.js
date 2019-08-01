@@ -9,7 +9,16 @@ const Interactions = ({ getInteractions }) => (
   <View style={[styles.scene, { backgroundColor: '#fff' }]}>
     {getInteractions.map(interaction => (
       <ScrollView key={interaction.ZoomOccurrenceId}>
-        <View style={[styles.iconRoundBackground, { margin: 30 }]}>
+        <View
+          style={[
+            styles.iconRoundBackground,
+            {
+              margin: 30,
+              borderColor: colors.ORANGE,
+              backgroundColor: '#fad991',
+            },
+          ]}
+        >
           <FontAwesome5 name="video" color={colors.ORANGE} size={20} brand />
         </View>
         <View style={{ marginLeft: 90, marginTop: -80 }}>
