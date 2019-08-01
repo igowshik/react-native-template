@@ -23,20 +23,20 @@ class CreateReportItem extends Component {
     this.onCreateReportItem = this.onCreateReportItem.bind(this);
   }
 
-  // onCreateReportItem = values => {
-  //   const { createNewExpense } = this.props;
-  //   const valuesForm = JSON.stringify(values, null, 2);
-  //   const objectForm = JSON.parse(valuesForm);
-  //   const objBuilder = {
-  //     ReportName: objectForm.exp_report_name,
-  //     ReportDate: getDateByFormat(objectForm.exp_report_date, 'L'),
-  //     BusinessPurpose: objectForm.exp_business_purpose
-  //       ? objectForm.exp_business_purpose
-  //       : '',
-  //     BusinessUnit: objectForm.exp_business_unit,
-  //   };
-  //   createNewExpense(objBuilder);
-  // };
+  onCreateReportItem = () => {
+    //   const { createNewExpense } = this.props;
+    //   const valuesForm = JSON.stringify(values, null, 2);
+    //   const objectForm = JSON.parse(valuesForm);
+    //   const objBuilder = {
+    //     ReportName: objectForm.exp_report_name,
+    //     ReportDate: getDateByFormat(objectForm.exp_report_date, 'L'),
+    //     BusinessPurpose: objectForm.exp_business_purpose
+    //       ? objectForm.exp_business_purpose
+    //       : '',
+    //     BusinessUnit: objectForm.exp_business_unit,
+    //   };
+    //   createNewExpense(objBuilder);
+  };
 
   _closeModal = () => {
     const { dispatchModalStateVisibility, dispatchFormReset } = this.props;
