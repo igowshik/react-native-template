@@ -34,7 +34,7 @@ class ReportItems extends React.Component {
         </DataTable.Cell>
         <DataTable.Cell>{item.BusinessPurpose}</DataTable.Cell>
         <DataTable.Cell>{item.Amount}</DataTable.Cell>
-        <DataTable.Cell>$500.00</DataTable.Cell>
+        {/* <DataTable.Cell>$500.00</DataTable.Cell> */}
       </DataTable.Row>
     ));
 
@@ -115,7 +115,7 @@ class ReportItems extends React.Component {
                     <DataTable.Title>Payment Type</DataTable.Title>
                     <DataTable.Title>Business Purpose</DataTable.Title>
                     <DataTable.Title>Amount</DataTable.Title>
-                    <DataTable.Title>Action</DataTable.Title>
+                    {/* <DataTable.Title>Action</DataTable.Title> */}
                   </DataTable.Header>
                   {this.tableItems(expenseDetailsData.ExpenseItems.Data)}
                   {this.renderPaging(
