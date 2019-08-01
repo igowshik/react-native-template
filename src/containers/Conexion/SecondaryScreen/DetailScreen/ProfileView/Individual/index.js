@@ -48,9 +48,9 @@ class IndividualConexion extends React.Component {
     return (
       <View style={{ flex: 1, backgroundColor: Colors.BGCOLOR }}>
         <LinearGradient
-          start={{ x: 0, y: 0 }}
+          start={{ x: 0, y: 1 }}
           end={{ x: 1, y: 0 }}
-          colors={Colors.DEAFULT_HEADER}
+          colors={['#4674e9', '#359be9', '#15c39a']}
           style={styles.linearGraident}
         >
           {/* <ImageBackground source={profileBG} style={styles.imageBG}> */}
