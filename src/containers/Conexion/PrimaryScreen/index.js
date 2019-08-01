@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Dimensions, StatusBar } from 'react-native';
+import { View, Dimensions, StatusBar, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -223,96 +223,21 @@ class PrimaryScreen extends React.Component {
                   >{`${this.getConexionTitle()} Conexions`}</Headline>
                 </Col>
                 <Col style={styles.colEnd}>
-                  {/* <Menu
-                    visible={this.state.visible}
-                    onDismiss={this._closeMenu}
-                    anchor={
-                      <IconButton
-                        icon="more-vert"
-                        color="#fff"
-                        size={30}
-                        onPress={this._openMenu}
-                      />
-                    }
-                  >
-                    <Menu.Item
-                      icon={() => (
-                        <FontAwesome5
-                          style={{
-                            color:
-                              createConexionType === INDIVIDUAL
-                                ? colors.PRIMARY
-                                : '#000',
-                            paddingLeft: 10,
-                          }}
-                          name="users"
-                          size={20}
-                          solid={createConexionType === INDIVIDUAL}
-                          light={!createConexionType === INDIVIDUAL}
-                        />
-                      )}
-                      onPress={() => {
-                        this._onSwitchIndOrgPress(INDIVIDUAL);
-                      }}
-                      title={
-                        <Text
-                          style={{
-                            color:
-                              createConexionType === INDIVIDUAL
-                                ? colors.PRIMARY
-                                : '#000',
-                          }}
-                        >
-                          {INDIVIDUALS}
-                        </Text>
-                      }
-                    />
-                    <Divider />
-                    <Menu.Item
-                      icon={() => (
-                        <FontAwesome5
-                          style={{
-                            color:
-                              createConexionType === ORGANIZATION
-                                ? colors.PRIMARY
-                                : '#000',
-                            paddingLeft: 14,
-                          }}
-                          name="building"
-                          size={20}
-                          solid={createConexionType === ORGANIZATION}
-                          light={!createConexionType === ORGANIZATION}
-                        />
-                      )}
-                      onPress={() => {
-                        this._onSwitchIndOrgPress(ORGANIZATION);
-                      }}
-                      title={
-                        <Text
-                          style={{
-                            color:
-                              createConexionType === ORGANIZATION
-                                ? colors.PRIMARY
-                                : '#000',
-                          }}
-                        >
-                          {ORGANIZATIONS}
-                        </Text>
-                      }
-                    />
-                  </Menu> */}
                   <IconButton
                     icon={() => (
                       <FontAwesome5
                         name="users"
-                        color={
-                          createConexionType === INDIVIDUAL ? '#FFF' : '#FFF'
-                        }
+                        color="#FFF"
                         size={20}
                         solid={createConexionType === INDIVIDUAL}
                       />
                     )}
-                    color={createConexionType === INDIVIDUAL ? '#FFF' : '#FFF'}
+                    color="#FFF"
+                    style={
+                      createConexionType === INDIVIDUAL
+                        ? Styles.selecteIcon
+                        : null
+                    }
                     size={20}
                     onPress={() => this._onSwitchIndOrgPress(INDIVIDUAL)}
                   />
@@ -320,17 +245,18 @@ class PrimaryScreen extends React.Component {
                     icon={() => (
                       <FontAwesome5
                         name="building"
-                        color={
-                          createConexionType === ORGANIZATION ? '#FFF' : '#FFF'
-                        }
+                        color="#FFF"
                         size={20}
                         solid={createConexionType === ORGANIZATION}
                       />
                     )}
-                    color={
-                      createConexionType === ORGANIZATION ? '#FFF' : '#FFF'
-                    }
+                    color="#FFF"
                     size={20}
+                    style={
+                      createConexionType === ORGANIZATION
+                        ? Styles.selecteIcon
+                        : null
+                    }
                     onPress={() => this._onSwitchIndOrgPress(ORGANIZATION)}
                   />
                 </Col>
@@ -340,7 +266,7 @@ class PrimaryScreen extends React.Component {
               placeholder="Search conexions"
               onChangeText={query => this.searchConexions(query)}
               value={firstQuery}
-              style={styles.searchbar}
+              style={Styles.searchbar}
             />
             <ConexionList
               conexioListData={this.getConexionList()}
@@ -387,6 +313,10 @@ PrimaryScreen.propTypes = {
   dispatchGetOrgDDList: PropTypes.func.isRequired,
   loaderObj: PropTypes.object.isRequired,
 };
+
+const Styles = StyleSheet.create({
+  selecteIcon: { backgroundColor: '#013B9C' },
+});
 
 const mapStateToProps = createStructuredSelector({
   loaderState: selectGlobalLoader(),

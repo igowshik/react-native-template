@@ -8,6 +8,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { formValueSelector, change } from 'redux-form';
+import { createStructuredSelector } from 'reselect';
 
 // Absolute Imports
 import * as colors from 'cnxapp/src/utils/colorsConstants';
@@ -15,7 +16,8 @@ import DateTimePicker from 'cnxapp/src/components/DatePickerReduxForm';
 import Dropdown from 'cnxapp/src/components/Dropdown';
 import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
 import { TextInput, NumberInput } from 'cnxapp/src/components/InputField';
-import { createStructuredSelector } from 'reselect';
+import { CARD_BORDER_RADIUS } from 'cnxapp/src/utils/valueconstants';
+
 import { EXPENSE_TYPE, PAYMENT_TYPE } from '../../../constants';
 import { selectExpenseMetadata } from '../../../PrimaryScreen/selectors';
 import { CREATE_REPORT_ITEM } from '../../constants';
@@ -224,8 +226,7 @@ const styles = StyleSheet.create({
     margin: 3,
   },
   card: {
-    borderTopColor: colors.GREEN,
-    borderTopWidth: 2,
+    borderRadius: CARD_BORDER_RADIUS,
   },
   parentView: {
     margin: 10,

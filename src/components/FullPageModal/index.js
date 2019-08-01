@@ -18,7 +18,7 @@ import {
   LINEAR_END,
   // CARD_BORDER_RADIUS,
 } from 'cnxapp/src/utils/valueconstants';
-import { IconButton, Headline, Divider } from 'react-native-paper';
+import { IconButton, Headline } from 'react-native-paper';
 import { Grid, Col } from 'react-native-easy-grid';
 
 const { height } = Dimensions.get('window');
@@ -105,7 +105,6 @@ class FullPageModal extends React.Component {
                 </Col>
               </Grid>
             </LinearGradient>
-            <Divider />
             {this.getScrollViewContent()}
           </View>
         </Modal>
@@ -129,6 +128,7 @@ const styles = StyleSheet.create({
     // borderTopRightRadius: CARD_BORDER_RADIUS,
     // borderTopLeftRadius: CARD_BORDER_RADIUS,
     paddingTop: Platform.OS === 'ios' ? 10 : 0,
+    marginBottom: 10,
   },
   closeIcon: {
     justifyContent: 'flex-start',

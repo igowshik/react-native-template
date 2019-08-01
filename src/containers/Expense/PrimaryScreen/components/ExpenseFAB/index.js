@@ -22,7 +22,7 @@ class ExpenseFAB extends React.Component {
             paddingRight: 10,
           }}
           open={this.state.open}
-          icon={this.state.open ? 'add' : 'add'}
+          icon={this.state.open ? 'attach-money' : 'add'}
           actions={[
             {
               icon: 'add',
@@ -41,17 +41,6 @@ class ExpenseFAB extends React.Component {
                 backgroundColor: colors.SECONDARY,
               },
             },
-            // {
-            //   icon: 'add',
-            //   label: 'Expense dashboard',
-            //   onPress: () => {},
-            //   // this.props.handleConexionCreate(true, ORGANIZATION),
-            //   //   this.props.handleConexionCreate(),
-            //   // onPress: this.props.handleConexionCreate,
-            //   style: {
-            //     backgroundColor: colors.SECONDARY,
-            //   },
-            // },
           ]}
           onStateChange={({ open }) => this.setState({ open })}
           onPress={() => {
