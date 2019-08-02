@@ -75,14 +75,15 @@ export default class ListItemRight extends PureComponent {
               alignItems: 'center',
             }}
           >
+            <Text style={{ fontSize: 10, paddingRight: 5 }}>
+              {item.CurrentStatus}
+            </Text>
             <FontAwesome5
               name="circle"
               color={this.statusColor(item.CurrentStatus)}
               size={10}
               solid
-              style={{ paddingRight: 5 }}
             />
-            <Text style={{ fontSize: 10 }}>{item.CurrentStatus}</Text>
           </View>
         </View>
       </View>

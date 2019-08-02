@@ -37,9 +37,15 @@ const selectReportItemModalVisibility = () =>
     expenseReducers,
     dataState => dataState.createReportItemModalVisible,
   );
+const selectNewExpReportItem = () =>
+  createSelector(
+    expenseReducers,
+    dataState => dataState.newExpenseReportItem,
+  );
 export {
   selectCurrentExpenseID,
   selectExpenseDetails,
   selectExpenseReportItemQuery,
   selectReportItemModalVisibility,
+  selectNewExpReportItem,
 };

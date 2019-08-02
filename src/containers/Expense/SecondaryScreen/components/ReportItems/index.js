@@ -16,6 +16,7 @@ import {
 import {
   getExpenseReportItems,
   setCreateReportItemModalVisibility,
+  setExpenseReportItemsQuery,
 } from '../../actions';
 import CreateReportItem from './CreateReportItem';
 
@@ -33,20 +34,24 @@ class ReportItems extends React.Component {
           {item.PaymentType ? item.PaymentType : ''}
         </DataTable.Cell>
         <DataTable.Cell>{item.BusinessPurpose}</DataTable.Cell>
-        <DataTable.Cell>{item.Amount}</DataTable.Cell>
+        <DataTable.Cell>$ {item.Amount}</DataTable.Cell>
         {/* <DataTable.Cell>$500.00</DataTable.Cell> */}
       </DataTable.Row>
     ));
 
   renderPaging = pageDetail => {
-    const { dispatchGetExpenseReportItems } = this.props;
+    const {
+      dispatchSetExpenseReportItemsQuery,
+      dispatchGetExpenseReportItems,
+    } = this.props;
     if (pageDetail.TotalPages <= 1) return null;
     return (
       <DataTable.Pagination
         page={pageDetail.CurrentPageNumber}
         numberOfPages={pageDetail.TotalPages}
         onPageChange={page => {
-          dispatchGetExpenseReportItems(page);
+          dispatchSetExpenseReportItemsQuery(page);
+          dispatchGetExpenseReportItems();
         }}
         label={
           `${pageDetail.CurrentPageNumber}` +
@@ -67,7 +72,6 @@ class ReportItems extends React.Component {
       ri_transaction_date: new Date(),
       riStandardMileageRate: '0.00',
       riAmount: '0.00',
-      // riMiles: '',
     };
     return (
       <View style={{ flex: 1, margin: 10 }}>
@@ -138,6 +142,7 @@ class ReportItems extends React.Component {
 ReportItems.propTypes = {
   data: PropTypes.object,
   expenseDetailsData: PropTypes.object,
+  dispatchSetExpenseReportItemsQuery: PropTypes.func.isRequired,
   dispatchGetExpenseReportItems: PropTypes.func.isRequired,
   reportItemModalVisibility: PropTypes.bool,
   dispatchModalStateVisibility: PropTypes.func.isRequired,
@@ -167,10 +172,11 @@ const mapStateToProps = createStructuredSelector({
   reportItemModalVisibility: selectReportItemModalVisibility(),
 });
 const mapDispatchToProps = dispatch => ({
-  dispatchGetExpenseReportItems: pageNumber =>
-    dispatch(getExpenseReportItems(pageNumber)),
+  dispatchSetExpenseReportItemsQuery: pageNumber =>
+    dispatch(setExpenseReportItemsQuery(pageNumber)),
   dispatchModalStateVisibility: visibility =>
     dispatch(setCreateReportItemModalVisibility(visibility)),
+  dispatchGetExpenseReportItems: () => dispatch(getExpenseReportItems()),
 });
 
 const withConnect = connect(

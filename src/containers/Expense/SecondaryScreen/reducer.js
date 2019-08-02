@@ -3,11 +3,12 @@ import {
   SET_IND_CONEXIONS,
   GET_EXPENSE,
   SAVE_EXPENSE,
-  GET_EXP_REPORT_ITEMS,
   SAVE_EXP_REPORT_ITEMS,
   GET_EXP_REPORT_RECEIPTS,
   SAVE_EXP_REPORT_RECEIPTS,
   SET_REPORT_ITEM_MODAL_VISIBILITY,
+  SET_EXP_REPORT_ITEM,
+  SET_EXP_REPORT_ITEM_QUERY,
 } from './constants';
 
 export const IntialState = {
@@ -16,14 +17,11 @@ export const IntialState = {
     data: {},
     types: '',
   },
-  expenseReportItemsQuery: {
-    ExpenseId: 0,
-    PageSize: 20,
-    PageNumber: 1,
-  },
-  expenseReportReceiptsQuery: { ExpenseId: 0, PageSize: 20, PageNumber: 1 },
+  expenseReportItemsQuery: { ExpenseId: 0, PageSize: 10, PageNumber: 1 },
+  expenseReportReceiptsQuery: { ExpenseId: 0, PageSize: 10, PageNumber: 1 },
   currentExpenseId: '',
   createReportItemModalVisible: false,
+  newExpenseReportItem: {},
   expenseDetails: {
     ExpenseDetail: {
       ExpenseId: null,
@@ -52,7 +50,7 @@ export const IntialState = {
       Data: [],
       PagingDetail: {
         TotalItems: 0,
-        PageSize: 20,
+        PageSize: 10,
         CurrentPageNumber: 1,
         TotalPages: 0,
       },
@@ -61,7 +59,7 @@ export const IntialState = {
       Data: [],
       PagingDetail: {
         TotalItems: 0,
-        PageSize: 20,
+        PageSize: 10,
         CurrentPageNumber: 1,
         TotalPages: 0,
       },
@@ -85,14 +83,14 @@ const expenseSecondaryScreenStore = (state = IntialState, action) =>
         draftState.expenseDetails = action.expenseDetails;
         break;
       }
-      case GET_EXP_REPORT_ITEMS: {
+      case SET_EXP_REPORT_ITEM_QUERY: {
         draftState.expenseReportItemsQuery.PageNumber = action.pageNumber;
         draftState.expenseReportItemsQuery.ExpenseId =
           draftState.expenseDetails.ExpenseDetail.ExpenseId;
         break;
       }
       case SAVE_EXP_REPORT_ITEMS: {
-        draftState.expenseDetails.ExpenseItems.data = action.items;
+        draftState.expenseDetails.ExpenseItems = action.items;
         break;
       }
       case GET_EXP_REPORT_RECEIPTS: {
@@ -102,11 +100,15 @@ const expenseSecondaryScreenStore = (state = IntialState, action) =>
         break;
       }
       case SAVE_EXP_REPORT_RECEIPTS: {
-        draftState.expenseDetails.ExpenseReceipts.data = action.items;
+        draftState.expenseDetails.ExpenseReceipts = action.items;
         break;
       }
       case SET_REPORT_ITEM_MODAL_VISIBILITY: {
         draftState.createReportItemModalVisible = action.visibility;
+        break;
+      }
+      case SET_EXP_REPORT_ITEM: {
+        draftState.newExpenseReportItem = action.form;
         break;
       }
       default: {

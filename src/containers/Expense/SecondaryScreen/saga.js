@@ -13,15 +13,21 @@ import {
   saveExpenseDetails,
   saveExpenseReportItems,
   saveExpenseReportReceipts,
+  setCreateReportItemModalVisibility,
+  getExpenseReportItems,
+  setExpenseReportItemsQuery,
 } from './actions';
 import {
   GET_EXPENSE,
   GET_EXP_REPORT_ITEMS,
   GET_EXP_REPORT_RECEIPTS,
+  CREATE_EXP_REPORT_ITEM,
 } from './constants';
 import {
   selectCurrentExpenseID,
   selectExpenseReportItemQuery,
+  selectNewExpReportItem,
+  selectExpenseDetails,
 } from './selectors';
 // import { EXPENSE_STATUS } from '../constants';
 // import { selectExpenseMetadata } from '../PrimaryScreen/selectors';
@@ -37,10 +43,6 @@ function* getExpenseAPI() {
   const response = yield call(request, requestURL, options);
   if (response.success) {
     yield put(setRootGlobalLoader(false));
-    // const expenseStatus = yield select(selectExpenseMetadata(EXPENSE_STATUS));
-    // response.data.ExpenseDetail.CurrentStatus = Lo.filter(expenseStatus, {
-    //   Value: response.data.ExpenseDetail.CurrentStatus,
-    // })[0].Text;
     yield put(saveExpenseDetails(response.data));
   } else {
     yield put(
@@ -109,9 +111,40 @@ function* getExpReportReceiptsAPI() {
     yield put(setToastVisibility(true));
   }
 }
+function* createExpReportItemAPI() {
+  yield put(setRootGlobalLoader(true));
+  const payLoad = yield select(selectNewExpReportItem());
+  const expenseDetailsData = yield select(selectExpenseDetails());
+  payLoad.ExpenseId = expenseDetailsData.ExpenseDetail.ExpenseId;
+  const requestURL = `${config.apiURL}NewExpenseItem`;
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payLoad),
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(setExpenseReportItemsQuery(1));
+    yield put(getExpenseReportItems());
+    yield put(setCreateReportItemModalVisibility(false));
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
 
 export default function* initConexionSaga() {
   yield takeLatest(GET_EXPENSE, getExpenseAPI);
   yield takeLatest(GET_EXP_REPORT_ITEMS, getExpReportItemsAPI);
   yield takeLatest(GET_EXP_REPORT_RECEIPTS, getExpReportReceiptsAPI);
+  yield takeLatest(CREATE_EXP_REPORT_ITEM, createExpReportItemAPI);
 }

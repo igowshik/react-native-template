@@ -9,12 +9,17 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 import FullPageModal from 'cnxapp/src/components/FullPageModal';
-// import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
+import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
 // import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 import { CREATE_REPORT_ITEM } from '../../constants';
-import { setCreateReportItemModalVisibility } from '../../actions';
+import {
+  setCreateReportItemModalVisibility,
+  setNewReportItem,
+  createNewExpenseReportItem,
+} from '../../actions';
 import NewReportItemForm from './NewReportItemForm';
+import { reportItemFormValidate as validate } from '../../../Validator';
 
 class CreateReportItem extends Component {
   constructor(props) {
@@ -23,19 +28,25 @@ class CreateReportItem extends Component {
     this.onCreateReportItem = this.onCreateReportItem.bind(this);
   }
 
-  onCreateReportItem = () => {
-    //   const { createNewExpense } = this.props;
-    //   const valuesForm = JSON.stringify(values, null, 2);
-    //   const objectForm = JSON.parse(valuesForm);
-    //   const objBuilder = {
-    //     ReportName: objectForm.exp_report_name,
-    //     ReportDate: getDateByFormat(objectForm.exp_report_date, 'L'),
-    //     BusinessPurpose: objectForm.exp_business_purpose
-    //       ? objectForm.exp_business_purpose
-    //       : '',
-    //     BusinessUnit: objectForm.exp_business_unit,
-    //   };
-    //   createNewExpense(objBuilder);
+  onCreateReportItem = values => {
+    const { dispatchSetNewReportItem, createExpenseReportItem } = this.props;
+    const valuesForm = JSON.stringify(values, null, 2);
+    const objectForm = JSON.parse(valuesForm);
+    const objBuilder = {
+      ExpenseId: '',
+      TransactionDate: getDateByFormat(objectForm.ri_transaction_date, 'L'),
+      ExpenseType: objectForm.riExpenseType,
+      PaymentType: objectForm.ri_payment_Type ? objectForm.ri_payment_Type : '',
+      Currency: '',
+      Amount: objectForm.riAmount,
+      BusinessPurpose: objectForm.ri_business_purpose,
+      Comment: objectForm.ri_comment ? objectForm.ri_comment : '',
+      Miles: objectForm.riMiles ? objectForm.riMiles : '',
+      StandardMileageRate: objectForm.riStandardMileageRate,
+      ProjectChargeable: '',
+    };
+    dispatchSetNewReportItem(objBuilder);
+    createExpenseReportItem();
   };
 
   _closeModal = () => {
@@ -77,7 +88,8 @@ class CreateReportItem extends Component {
 CreateReportItem.propTypes = {
   modalOpen: PropTypes.bool.isRequired,
   dispatchModalStateVisibility: PropTypes.func.isRequired,
-  // createNewExpense: PropTypes.func.isRequired,
+  dispatchSetNewReportItem: PropTypes.func.isRequired,
+  createExpenseReportItem: PropTypes.func.isRequired,
   submitting: PropTypes.bool,
   pristine: PropTypes.bool,
   invalid: PropTypes.bool,
@@ -87,7 +99,7 @@ CreateReportItem.propTypes = {
 
 const reduxFormExpense = reduxForm({
   form: CREATE_REPORT_ITEM,
-  // validate,
+  validate,
   enableReinitialize: false,
   destroyOnUnmount: false,
   keepDirtyOnReinitialize: true,
@@ -112,7 +124,8 @@ const mapStateToProps = createStructuredSelector({});
 
 const mapDispatchToProps = dispatch => ({
   dispatchFormReset: formName => dispatch(reset(formName)),
-  // createNewExpense: value => dispatch(setNewExpense(value)),
+  dispatchSetNewReportItem: value => dispatch(setNewReportItem(value)),
+  createExpenseReportItem: () => dispatch(createNewExpenseReportItem()),
   dispatchModalStateVisibility: visibility =>
     dispatch(setCreateReportItemModalVisibility(visibility)),
 });
