@@ -4,7 +4,7 @@ import { Divider, Card } from 'react-native-paper';
 import { Grid, Row, Col } from 'native-base';
 
 import { TextInput, NumberInput } from 'cnxapp/src/components/InputField';
-import * as colors from 'cnxapp/src/utils/colorsConstants';
+import { CARD_BORDER_RADIUS } from 'cnxapp/src/utils/valueconstants';
 
 const Communication = () => (
   <View style={styles.parentView}>
@@ -81,8 +81,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   card: {
-    borderTopColor: colors.ORANGE,
-    borderTopWidth: 2,
+    borderRadius: CARD_BORDER_RADIUS,
   },
 });
 

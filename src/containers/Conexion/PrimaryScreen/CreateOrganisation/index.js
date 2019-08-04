@@ -3,7 +3,6 @@ import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { Card } from 'react-native-paper';
 import { Grid, Row } from 'native-base';
-import * as colors from 'cnxapp/src/utils/colorsConstants';
 import { createStructuredSelector } from 'reselect';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -11,6 +10,7 @@ import { compose } from 'redux';
 // Absolute imports
 import { TextInput, NumberInput } from 'cnxapp/src/components/InputField';
 import MultiSelect from 'cnxapp/src/components/MultiSelect';
+import { CARD_BORDER_RADIUS } from 'cnxapp/src/utils/valueconstants';
 
 import { selectUserDDList } from '../../selectors';
 
@@ -80,8 +80,7 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   card: {
-    borderTopColor: colors.ORANGE,
-    borderTopWidth: 2,
+    borderRadius: CARD_BORDER_RADIUS,
   },
 });
 

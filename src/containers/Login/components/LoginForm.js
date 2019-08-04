@@ -18,8 +18,8 @@ class LoginForm extends Component {
   //   password: 'Conexus123$',
   // };
   state = {
-    userName: '',
-    password: '',
+    userName: 'pete@demoinc.com',
+    password: 'Conexus123$',
   };
 
   _handleUserLogin = () => {

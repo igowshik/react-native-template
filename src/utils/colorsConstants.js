@@ -72,3 +72,5 @@ export const LINEAR_EXPE_COLORS = {
     'rgba(255,100,100,1) 100%',
   ],
 };
+
+export const DEAFULT_HEADER = ['#6a11cb', '#2575fc'];

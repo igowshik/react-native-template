@@ -12,7 +12,7 @@ import { TextInput } from 'cnxapp/src/components/InputField';
 import Dropdown from 'cnxapp/src/components/Dropdown';
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
 import { Grid, Row } from 'native-base';
-import * as colors from 'cnxapp/src/utils/colorsConstants';
+import { CARD_BORDER_RADIUS } from 'cnxapp/src/utils/valueconstants';
 
 // Relative Imports
 import {
@@ -96,12 +96,10 @@ class AddressForm extends React.Component {
 
 const styles = StyleSheet.create({
   parentView: {
-    // margin: 10,
+    margin: 10,
   },
   card: {
-    borderTopColor: colors.PINK,
-    borderTopWidth: 2,
-    margin: 20,
+    borderRadius: CARD_BORDER_RADIUS,
   },
 });
 

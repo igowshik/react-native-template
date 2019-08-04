@@ -15,6 +15,7 @@ import {
   Title,
   Surface,
   Divider,
+  Button,
 } from 'react-native-paper';
 import {
   getDateByFormat,
@@ -243,19 +244,18 @@ class Timeline extends Component {
               </TouchableRipple>
             </Col>
             <Col style={styles.filterView}>
-              <IconButton
+              <Button
                 icon={() => (
-                  <FontAwesome5
-                    color={colors.PURPLE}
-                    name="filter"
-                    size={20}
-                    solid
-                  />
+                  <FontAwesome5 color="#fff" name="filter" size={15} />
                 )}
-                mode="outlined"
+                mode="contained"
                 color={colors.PURPLE}
                 onPress={this.applyDateFilter}
-              />
+                uppercase
+                solid
+              >
+                Filter
+              </Button>
             </Col>
           </Row>
           <Divider />
@@ -295,9 +295,8 @@ Timeline.propTypes = {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 15,
     paddingTop: 0,
-    backgroundColor: 'white',
+    backgroundColor: colors.BGCOLOR,
   },
   list: {
     flex: 1,

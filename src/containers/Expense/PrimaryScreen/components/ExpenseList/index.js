@@ -131,16 +131,14 @@ class ExpenseList extends Component {
     </Card>
   );
 
-  itemPress = () => {};
-
   render() {
     this.onEndReachedCalledDuringMomentum = true;
-    const { searchQuery } = this.props;
+    const { searchQuery, itemPress } = this.props;
     return (
       <FlatList
         data={this.renderExpenseList()}
         renderItem={({ item }) => (
-          <ExpenseListItem item={item} onPressItem={this.itemPress} />
+          <ExpenseListItem item={item} onPressItem={itemPress} />
         )}
         keyExtractor={item => item.ExpenseId.toString()}
         ListHeaderComponent={
@@ -176,6 +174,7 @@ ExpenseList.propTypes = {
   expenseList: PropTypes.array,
   searchQuery: PropTypes.object.isRequired,
   dispatchSetExpenseSearchQuery: PropTypes.func.isRequired,
+  itemPress: PropTypes.func,
 };
 const styles = StyleSheet.create({
   noDataContainer: {

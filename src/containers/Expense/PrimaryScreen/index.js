@@ -15,7 +15,7 @@ import {
   selectToastVisibility,
   selectToastData,
 } from './selectors';
-import { GROUPED_EXPENSE_STATUS } from './constants';
+import { GROUPED_EXPENSE_STATUS } from '../constants';
 
 class Expense extends Component {
   constructor(props) {

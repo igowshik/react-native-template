@@ -10,12 +10,14 @@ import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { withNavigation } from 'react-navigation';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
+import LinearGradient from 'react-native-linear-gradient';
 
 // Absolute imports
 import { setRootGlobalLoader } from 'cnxapp/src/app/rootActions';
 import Snackbar from 'cnxapp/src/components/Snackbar';
 import { getDateByFormat, getDateBefore } from 'cnxapp/src/utils/DateFormatter';
 import * as colors from 'cnxapp/src/utils/colorsConstants';
+import { LINEAR_START, LINEAR_END } from 'cnxapp/src/utils/valueconstants';
 
 import {
   INDIVIDUAL,
@@ -197,17 +199,23 @@ class DetailScreen extends Component {
           onIndexChange={index => this.setState({ index })} //eslint-disable-line
           initialLayout={{ width: Dimensions.get('window').width }}
           renderTabBar={props => (
-            <TabBar
-              {...props}
-              indicatorStyle={{ backgroundColor: 'white', height: 2 }}
-              tabStyle={{
-                flexDirection: 'row',
-              }}
-              renderIcon={this.handleRenderIcon}
-              renderLabel={this.handleRenderText}
-              style={{ backgroundColor: colors.PRIMARY }}
-              bounces
-            />
+            <LinearGradient
+              start={LINEAR_START}
+              end={LINEAR_END}
+              colors={colors.DEAFULT_HEADER}
+            >
+              <TabBar
+                {...props}
+                indicatorStyle={{ backgroundColor: 'white', height: 2 }}
+                tabStyle={{
+                  flexDirection: 'row',
+                }}
+                renderIcon={this.handleRenderIcon}
+                renderLabel={this.handleRenderText}
+                style={{ backgroundColor: 'transparent' }}
+                bounces
+              />
+            </LinearGradient>
           )}
         />
         <Snackbar toastVisible={toastVisible} toast={toast} />

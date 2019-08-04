@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { Button } from 'react-native-paper';
+import { IconButton } from 'react-native-paper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { reduxForm, reset } from 'redux-form';
 import { compose } from 'redux';
@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 
 // Absolute imports
 import FullPageModal from 'cnxapp/src/components/FullPageModal';
-import * as colors from 'cnxapp/src/utils/colorsConstants';
+// import * as colors from 'cnxapp/src/utils/colorsConstants';
 import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
 import { createStructuredSelector } from 'reselect';
 import CreateExpenseForm from './CreateExpenseForm';
@@ -46,27 +46,29 @@ class CreateExpense extends Component {
   };
 
   render() {
-    const { modalOpen, submitting, handleSubmit } = this.props;
+    const {
+      modalOpen,
+      submitting,
+      pristine,
+      invalid,
+      handleSubmit,
+    } = this.props;
     return (
       <FullPageModal
         visible={modalOpen}
         handleModalVisible={this._closeModal}
         modalHeaderText="Create Expense"
-      >
-        <View style={styles.headerContainer}>
-          <Button
-            raised
-            onPress={handleSubmit(this.onCreateExpense)}
-            disabled={submitting}
-            mode="contained"
-            color={colors.BLUE}
+        modalHeaderRightComponent={
+          <IconButton
             icon={() => (
-              <FontAwesome5 name="check" color="#fff" size={18} light />
+              <FontAwesome5 name="check-circle" color="#FFF" size={25} solid />
             )}
-          >
-            Done
-          </Button>
-        </View>
+            color="#FFF"
+            onPress={handleSubmit(this.onCreateExpense)}
+            disabled={pristine || submitting || invalid}
+          />
+        }
+      >
         <CreateExpenseForm style={styles.container} />
       </FullPageModal>
     );
@@ -79,6 +81,8 @@ CreateExpense.propTypes = {
   submitting: PropTypes.bool,
   dispatchFormReset: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  pristine: PropTypes.bool,
+  invalid: PropTypes.bool,
 };
 
 const reduxFormExpense = reduxForm({

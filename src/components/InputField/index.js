@@ -3,8 +3,8 @@ import { Field } from 'redux-form';
 import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
-import { RFTextInput } from '../ReduxFormComponents/RFTextInput';
-import { RFNumberInput } from '../ReduxFormComponents/RFNumberInput';
+import RFTextInput from '../ReduxFormComponents/RFTextInput';
+import RFNumberInput from '../ReduxFormComponents/RFNumberInput';
 
 export const TextInput = props => {
   const {
@@ -15,6 +15,7 @@ export const TextInput = props => {
     multiline,
     disabled,
     defaultValue,
+    onChangeTrigger,
   } = props;
   return (
     <Field
@@ -27,6 +28,7 @@ export const TextInput = props => {
       multiline={multiline}
       disabled={disabled}
       defaultValue={defaultValue}
+      onChangeTrigger={onChangeTrigger}
     />
   );
 };
@@ -39,10 +41,18 @@ TextInput.propTypes = {
   multiline: PropTypes.bool,
   disabled: PropTypes.bool,
   defaultValue: PropTypes.string,
+  onChangeTrigger: PropTypes.func,
 };
 
 export const NumberInput = props => {
-  const { label, name, required, helperText } = props;
+  const {
+    label,
+    name,
+    required,
+    helperText,
+    onChangeTrigger,
+    disabled,
+  } = props;
   return (
     <Field
       style={styles.field}
@@ -51,6 +61,8 @@ export const NumberInput = props => {
       component={RFNumberInput}
       required={required}
       helperText={helperText}
+      onChangeTrigger={onChangeTrigger}
+      disabled={disabled}
     />
   );
 };
@@ -60,6 +72,8 @@ NumberInput.propTypes = {
   name: PropTypes.string.isRequired,
   required: PropTypes.bool,
   helperText: PropTypes.string,
+  onChangeTrigger: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 
 const styles = StyleSheet.create({

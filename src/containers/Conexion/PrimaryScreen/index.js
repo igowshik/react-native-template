@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Dimensions, StatusBar } from 'react-native';
+import { View, Dimensions, StatusBar, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
@@ -8,11 +8,8 @@ import { withNavigation, withNavigationFocus } from 'react-navigation';
 import {
   TouchableRipple,
   Searchbar,
-  Divider,
-  Menu,
   IconButton,
   Headline,
-  Text,
 } from 'react-native-paper';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { Col, Row } from 'react-native-easy-grid';
@@ -48,13 +45,7 @@ import {
   getOrgDDList,
 } from '../actions';
 import { conexionStyles as styles } from '../styles';
-import {
-  INDIVIDUAL,
-  ORGANIZATION,
-  ALL,
-  INDIVIDUALS,
-  ORGANIZATIONS,
-} from '../constants';
+import { INDIVIDUAL, ORGANIZATION, ALL } from '../constants';
 import FABUI from './UIComponents/FAB';
 
 class PrimaryScreen extends React.Component {
@@ -67,7 +58,7 @@ class PrimaryScreen extends React.Component {
       createConexionType: INDIVIDUAL,
       firstQuery: '',
       conexionList: [],
-      visible: false,
+      // visible: false,
     };
     this.onLayout = this.onLayout.bind(this);
     this.getConexionTitle = this.getConexionTitle.bind(this);
@@ -93,7 +84,7 @@ class PrimaryScreen extends React.Component {
       });
       this.props.dispatchSetConexionType(ORGANIZATION);
     }
-    this.setState({ visible: false });
+    // this.setState({ visible: false });
   };
 
   componentDidMount() {
@@ -189,9 +180,9 @@ class PrimaryScreen extends React.Component {
     } else this.setState({ conexionList: [] });
   };
 
-  _openMenu = () => this.setState({ visible: true });
+  // _openMenu = () => this.setState({ visible: true });
 
-  _closeMenu = () => this.setState({ visible: false });
+  // _closeMenu = () => this.setState({ visible: false });
 
   render() {
     const initialIndividualValues = {
@@ -224,12 +215,7 @@ class PrimaryScreen extends React.Component {
               backgroundColor: colors.BGCOLOR,
             }}
           >
-            <Header
-              gradientColors={[
-                'rgba(255,88,88,1) 75%',
-                'rgba(255,79,165,1) 100%',
-              ]}
-            >
+            <Header>
               <Row>
                 <Col style={styles.colStart}>
                   <Headline
@@ -237,84 +223,42 @@ class PrimaryScreen extends React.Component {
                   >{`${this.getConexionTitle()} Conexions`}</Headline>
                 </Col>
                 <Col style={styles.colEnd}>
-                  <Menu
-                    visible={this.state.visible}
-                    onDismiss={this._closeMenu}
-                    anchor={
-                      <IconButton
-                        icon="more-vert"
-                        color="#fff"
-                        size={30}
-                        onPress={this._openMenu}
+                  <IconButton
+                    icon={() => (
+                      <FontAwesome5
+                        name="users"
+                        color="#FFF"
+                        size={20}
+                        solid={createConexionType === INDIVIDUAL}
                       />
+                    )}
+                    color="#FFF"
+                    style={
+                      createConexionType === INDIVIDUAL
+                        ? Styles.selecteIcon
+                        : null
                     }
-                  >
-                    <Menu.Item
-                      icon={() => (
-                        <FontAwesome5
-                          style={{
-                            color:
-                              createConexionType === INDIVIDUAL
-                                ? colors.PRIMARY
-                                : '#000',
-                            paddingLeft: 10,
-                          }}
-                          name="users"
-                          size={20}
-                          solid={createConexionType === INDIVIDUAL}
-                          light={!createConexionType === INDIVIDUAL}
-                        />
-                      )}
-                      onPress={() => {
-                        this._onSwitchIndOrgPress(INDIVIDUAL);
-                      }}
-                      title={
-                        <Text
-                          style={{
-                            color:
-                              createConexionType === INDIVIDUAL
-                                ? colors.PRIMARY
-                                : '#000',
-                          }}
-                        >
-                          {INDIVIDUALS}
-                        </Text>
-                      }
-                    />
-                    <Divider />
-                    <Menu.Item
-                      icon={() => (
-                        <FontAwesome5
-                          style={{
-                            color:
-                              createConexionType === ORGANIZATION
-                                ? colors.PRIMARY
-                                : '#000',
-                            paddingLeft: 14,
-                          }}
-                          name="building"
-                          size={20}
-                          solid={createConexionType === ORGANIZATION}
-                          light={!createConexionType === ORGANIZATION}
-                        />
-                      )}
-                      onPress={() => {
-                        this._onSwitchIndOrgPress(ORGANIZATION);
-                      }}
-                      title={
-                        <Text
-                          style={{
-                            color:
-                              createConexionType === ORGANIZATION
-                                ? colors.PRIMARY
-                                : '#000',
-                          }}
-                        >
-                          {ORGANIZATIONS}
-                        </Text>
-                      }
-                    />
-                  </Menu>
+                    size={20}
+                    onPress={() => this._onSwitchIndOrgPress(INDIVIDUAL)}
+                  />
+                  <IconButton
+                    icon={() => (
+                      <FontAwesome5
+                        name="building"
+                        color="#FFF"
+                        size={20}
+                        solid={createConexionType === ORGANIZATION}
+                      />
+                    )}
+                    color="#FFF"
+                    size={20}
+                    style={
+                      createConexionType === ORGANIZATION
+                        ? Styles.selecteIcon
+                        : null
+                    }
+                    onPress={() => this._onSwitchIndOrgPress(ORGANIZATION)}
+                  />
                 </Col>
               </Row>
             </Header>
@@ -322,7 +266,7 @@ class PrimaryScreen extends React.Component {
               placeholder="Search conexions"
               onChangeText={query => this.searchConexions(query)}
               value={firstQuery}
-              style={styles.searchbar}
+              style={Styles.searchbar}
             />
             <ConexionList
               conexioListData={this.getConexionList()}
@@ -369,6 +313,10 @@ PrimaryScreen.propTypes = {
   dispatchGetOrgDDList: PropTypes.func.isRequired,
   loaderObj: PropTypes.object.isRequired,
 };
+
+const Styles = StyleSheet.create({
+  selecteIcon: { backgroundColor: '#013B9C' },
+});
 
 const mapStateToProps = createStructuredSelector({
   loaderState: selectGlobalLoader(),

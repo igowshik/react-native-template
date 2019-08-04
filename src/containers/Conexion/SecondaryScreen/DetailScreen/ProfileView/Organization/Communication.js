@@ -6,16 +6,16 @@ import { Divider, Card, DataTable, Text } from 'react-native-paper';
 import { Grid, Col } from 'native-base';
 
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
+import { CARD_BORDER_RADIUS } from 'cnxapp/src/utils/valueconstants';
 
 const Communication = props => {
   const { data } = props;
   if (data) {
     return (
       <View style={{ flex: 1, margin: 15 }}>
-        <Card elevation={4}>
+        <Card elevation={4} style={{ borderRadius: CARD_BORDER_RADIUS }}>
           <Card.Title
             title="Communications"
-            style={{ fontSize: 24 }}
             left={propss => (
               <View
                 style={[
@@ -27,7 +27,7 @@ const Communication = props => {
                 <FontAwesome5
                   name="paper-plane"
                   color="#4527A0"
-                  size={25}
+                  size={20}
                   light
                 />
               </View>

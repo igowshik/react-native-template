@@ -55,6 +55,11 @@ class ExpenseDashboard extends Component {
     return expenseCategory;
   };
 
+  expenseItemPress = expenseId => {
+    const { navigation } = this.props;
+    navigation.navigate('SecondScreen', { expenseKey: expenseId });
+  };
+
   render() {
     const {
       loaderState,
@@ -80,7 +85,7 @@ class ExpenseDashboard extends Component {
         >
           {this.renderDashboardCards()}
         </ScrollView>
-        <ExpenseList />
+        <ExpenseList itemPress={this.expenseItemPress} />
         {isFocused ? (
           <ExpenseFAB
             handleExpenseCreate={this.createExpenseTrigger}
@@ -108,7 +113,8 @@ ExpenseDashboard.propTypes = {
   dispatchCreateExpenseModalState: PropTypes.func.isRequired,
   expenseSummary: PropTypes.array.isRequired,
   isFocused: PropTypes.bool.isRequired,
-  navigateToHistory: PropTypes.func.isRequired,
+  navigation: PropTypes.any,
+  navigateToHistory: PropTypes.func,
 };
 
 /**
