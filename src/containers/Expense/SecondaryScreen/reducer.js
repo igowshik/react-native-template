@@ -9,6 +9,10 @@ import {
   SET_REPORT_ITEM_MODAL_VISIBILITY,
   SET_EXP_REPORT_ITEM,
   SET_EXP_REPORT_ITEM_QUERY,
+  EDIT_EXP_MODAL_VISIBILITY,
+  TRIGGER_EXP_DELETE,
+  SET_EDIT_EXP_OBJ,
+  UPDATE_EXP_DETAILS,
 } from './constants';
 
 export const IntialState = {
@@ -21,8 +25,20 @@ export const IntialState = {
   expenseReportReceiptsQuery: { ExpenseId: 0, PageSize: 10, PageNumber: 1 },
   currentExpenseId: '',
   createReportItemModalVisible: false,
+  editExpenseModelVisibility: false,
+  triggerExpenseDelete: false,
   newExpenseReportItem: {},
+  editExpenseObject: {},
   expenseDetails: {
+    ExpenseUIActions: {
+      EnableDelete: false,
+      EnableSubmit: false,
+      EnableManagerApprove: false,
+      EnableManagerReject: false,
+      EnableReadyForPayment: false,
+      EnableAdminReject: false,
+      EnableArchive: false,
+    },
     ExpenseDetail: {
       ExpenseId: null,
       CustomerId: null,
@@ -109,6 +125,22 @@ const expenseSecondaryScreenStore = (state = IntialState, action) =>
       }
       case SET_EXP_REPORT_ITEM: {
         draftState.newExpenseReportItem = action.form;
+        break;
+      }
+      case EDIT_EXP_MODAL_VISIBILITY: {
+        draftState.editExpenseModelVisibility = action.visibility;
+        break;
+      }
+      case TRIGGER_EXP_DELETE: {
+        draftState.triggerExpenseDelete = action.value;
+        break;
+      }
+      case SET_EDIT_EXP_OBJ: {
+        draftState.editExpenseObject = action.value;
+        break;
+      }
+      case UPDATE_EXP_DETAILS: {
+        draftState.expenseDetails.ExpenseDetail = action.value;
         break;
       }
       default: {

@@ -26,6 +26,11 @@ class ExpenseReport extends Component {
     dispatchGetExpense(selectedValue);
   }
 
+  handleBackNavigation() {
+    const { navigation } = this.props;
+    navigation.goBack();
+  }
+
   renderBanner = () => {
     const { expenseDetailsData } = this.props;
     const currentStatus = expenseDetailsData.ExpenseDetail.CurrentStatus.toUpperCase();
@@ -61,7 +66,10 @@ class ExpenseReport extends Component {
               <ExpenseCard />
             </Col>
             <Col size={30}>
-              <ReportDetails openActionSheet={this.openActionSheetHanlder} />
+              <ReportDetails
+                openActionSheet={this.openActionSheetHanlder}
+                onBack={() => this.handleBackNavigation()}
+              />
             </Col>
           </Grid>
         </View>

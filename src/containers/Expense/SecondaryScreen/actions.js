@@ -9,6 +9,12 @@ import {
   SET_EXP_REPORT_ITEM,
   CREATE_EXP_REPORT_ITEM,
   SET_EXP_REPORT_ITEM_QUERY,
+  EDIT_EXP_MODAL_VISIBILITY,
+  DELETE_EXPENSE,
+  TRIGGER_EXP_DELETE,
+  SET_EDIT_EXP_OBJ,
+  EDIT_EXPENSE,
+  UPDATE_EXP_DETAILS,
 } from './constants';
 
 export const getExpenseDetails = expenseId => ({
@@ -49,4 +55,24 @@ export const setNewReportItem = form => ({
 });
 export const createNewExpenseReportItem = () => ({
   type: CREATE_EXP_REPORT_ITEM,
+});
+export const setEditExpenseModalVisibility = visibility => ({
+  type: EDIT_EXP_MODAL_VISIBILITY,
+  visibility,
+});
+export const setTriggerExpenseDelete = value => ({
+  type: TRIGGER_EXP_DELETE,
+  value,
+});
+export const setDeleteExpense = () => ({ type: DELETE_EXPENSE });
+export const setEditExpenseObject = value => ({
+  type: SET_EDIT_EXP_OBJ,
+  value,
+});
+export const editExpense = () => ({
+  type: EDIT_EXPENSE,
+});
+export const updateExpenseDetails = value => ({
+  type: UPDATE_EXP_DETAILS,
+  value,
 });

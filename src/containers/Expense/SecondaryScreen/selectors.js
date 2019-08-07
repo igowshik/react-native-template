@@ -42,10 +42,28 @@ const selectNewExpReportItem = () =>
     expenseReducers,
     dataState => dataState.newExpenseReportItem,
   );
+const selectEditModalOpen = () =>
+  createSelector(
+    expenseReducers,
+    dataState => dataState.editExpenseModelVisibility,
+  );
+const selectTriggerExpenseDelete = () =>
+  createSelector(
+    expenseReducers,
+    dataState => dataState.triggerExpenseDelete,
+  );
+const selectEditExpenseObject = () =>
+  createSelector(
+    expenseReducers,
+    dataState => dataState.editExpenseObject,
+  );
 export {
   selectCurrentExpenseID,
   selectExpenseDetails,
   selectExpenseReportItemQuery,
   selectReportItemModalVisibility,
   selectNewExpReportItem,
+  selectEditModalOpen,
+  selectTriggerExpenseDelete,
+  selectEditExpenseObject,
 };

@@ -10,19 +10,44 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { Grid, Col, Row } from 'react-native-easy-grid';
+import { withNavigation, withNavigationFocus } from 'react-navigation';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
+import { editExpenseMapper } from 'cnxapp/src/containers/Expense/mappers';
 import { createStructuredSelector } from 'reselect';
-import { selectExpenseDetails } from '../../selectors';
+import {
+  selectExpenseDetails,
+  selectTriggerExpenseDelete,
+} from '../../selectors';
+import EditExpense from '../EditExpense';
+import {
+  setEditExpenseModalVisibility,
+  setDeleteExpense,
+  setTriggerExpenseDelete,
+} from '../../actions';
 
 class ReportDetails extends PureComponent {
+  componentDidUpdate() {
+    const {
+      dispatchTriggerExpenseDelete,
+      triggerExpenseDelete,
+      onBack,
+    } = this.props;
+    if (triggerExpenseDelete) {
+      dispatchTriggerExpenseDelete(false);
+      onBack();
+    }
+  }
+
   render() {
-    const { expenseDetailsData } = this.props;
-    const { ExpenseDetail } = expenseDetailsData;
+    const { expenseDetailsData, dispatchEditExpenseModalState } = this.props;
+    const { ExpenseDetail, ExpenseUIActions } = expenseDetailsData;
+    const mappedValues = editExpenseMapper(ExpenseDetail);
+
     return (
       <Card elevation={4} style={styles.rootCard}>
         <LinearGradient
@@ -64,41 +89,48 @@ class ReportDetails extends PureComponent {
                   )}
                   color="#FFF"
                   size={20}
+                  onPress={() => dispatchEditExpenseModalState(true)}
                 />
-                <IconButton
-                  icon={() => (
-                    <FontAwesome5
-                      name="paper-plane"
-                      color="#FFF"
-                      size={16}
-                      solid
-                    />
-                  )}
-                  color="#FFF"
-                  size={20}
-                  // onPress={() => console.log('Pressed')}
-                />
-                <IconButton
-                  icon={() => (
-                    <FontAwesome5 name="trash" color="#FFF" size={16} solid />
-                  )}
-                  color="#FFF"
-                  size={20}
-                  // onPress={() => console.log('Pressed')}
-                />
-                <IconButton
-                  icon={() => (
-                    <FontAwesome5
-                      name="file-archive"
-                      color="#FFF"
-                      size={16}
-                      solid
-                    />
-                  )}
-                  color="#FFF"
-                  size={20}
-                  // onPress={() => console.log('Pressed')}
-                />
+                {ExpenseUIActions.EnableSubmit ? (
+                  <IconButton
+                    icon={() => (
+                      <FontAwesome5
+                        name="paper-plane"
+                        color="#FFF"
+                        size={16}
+                        solid
+                      />
+                    )}
+                    color="#FFF"
+                    size={20}
+                    // onPress={() => console.log('Pressed')}
+                  />
+                ) : null}
+                {ExpenseUIActions.EnableDelete ? (
+                  <IconButton
+                    icon={() => (
+                      <FontAwesome5 name="trash" color="#FFF" size={16} solid />
+                    )}
+                    color="#FFF"
+                    size={20}
+                    onPress={() => this.props.dispatchDeleteExpense()}
+                  />
+                ) : null}
+                {ExpenseUIActions.EnableArchive ? (
+                  <IconButton
+                    icon={() => (
+                      <FontAwesome5
+                        name="file-archive"
+                        color="#FFF"
+                        size={16}
+                        solid
+                      />
+                    )}
+                    color="#FFF"
+                    size={20}
+                    // onPress={() => console.log('Pressed')}
+                  />
+                ) : null}
               </View>
             )}
           />
@@ -155,6 +187,7 @@ class ReportDetails extends PureComponent {
             </Grid>
           </View>
         </LinearGradient>
+        <EditExpense initialValues={mappedValues} />
       </Card>
     );
   }
@@ -163,10 +196,17 @@ class ReportDetails extends PureComponent {
 ReportDetails.propTypes = {
   openActionSheet: PropTypes.func,
   expenseDetailsData: PropTypes.object,
+  dispatchEditExpenseModalState: PropTypes.func.isRequired,
+  dispatchDeleteExpense: PropTypes.func.isRequired,
+  triggerExpenseDelete: PropTypes.bool,
+  navigation: PropTypes.any,
+  onBack: PropTypes.func,
+  dispatchTriggerExpenseDelete: PropTypes.func,
 };
 
 const mapStateToProps = createStructuredSelector({
   expenseDetailsData: selectExpenseDetails(),
+  triggerExpenseDelete: selectTriggerExpenseDelete(),
 });
 
 const styles = StyleSheet.create({
@@ -212,9 +252,21 @@ const styles = StyleSheet.create({
   },
 });
 
+const mapDispatchToProps = dispatch => ({
+  dispatchEditExpenseModalState: visibility =>
+    dispatch(setEditExpenseModalVisibility(visibility)),
+  dispatchDeleteExpense: () => dispatch(setDeleteExpense()),
+  dispatchTriggerExpenseDelete: value =>
+    dispatch(setTriggerExpenseDelete(value)),
+});
+
 const withConnect = connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 );
 
-export default compose(withConnect)(ReportDetails);
+export default compose(
+  withConnect,
+  withNavigation,
+  withNavigationFocus,
+)(ReportDetails);
