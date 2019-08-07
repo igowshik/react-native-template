@@ -46,13 +46,13 @@ class ExpenseCard extends PureComponent {
                 <Col style={styles.status}>
                   <FontAwesome5
                     name="circle"
-                    color={this.statusColor(ExpenseDetail.CurrentStatus)}
+                    color={this.statusColor(ExpenseDetail.CurrentStatus.Value)}
                     size={13}
                     solid
                     style={{ paddingRight: 5 }}
                   />
                   <Text style={{ color: '#34495E' }}>
-                    {ExpenseDetail.CurrentStatus}
+                    {ExpenseDetail.CurrentStatus.Value}
                   </Text>
                 </Col>
                 <Col style={styles.amountCol}>

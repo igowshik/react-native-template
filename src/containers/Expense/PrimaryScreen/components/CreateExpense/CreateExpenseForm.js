@@ -38,6 +38,7 @@ class CreateExpenseForm extends React.Component {
   renderBusinessUnit = () => {
     const { expenseMetadata } = this.props;
     const businessUnit = [];
+
     expenseMetadata.map(unit =>
       businessUnit.push({
         key: unit.Value,
@@ -75,13 +76,6 @@ class CreateExpenseForm extends React.Component {
                   <Text style={{ color: colors.BLUE }}>
                     {getDateByFormat(this.props.exp_report_date, 'L')}
                   </Text>
-                  {/* <TextInput
-                    style={styles.dateText}
-                    name="exp_report_date"
-                    label=""
-                    disabled
-                    defaultValue={getDateByFormat(selectedDate, 'L')}
-                  /> */}
                 </View>
               </TouchableRipple>
 

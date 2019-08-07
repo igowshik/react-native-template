@@ -56,8 +56,8 @@ class ExpenseDashboard extends Component {
   };
 
   expenseItemPress = expenseId => {
-    const { navigation } = this.props;
-    navigation.navigate('SecondScreen', { expenseKey: expenseId });
+    const { navigate } = this.props.navigation;
+    navigate('SecondScreen', { expenseKey: expenseId });
   };
 
   render() {

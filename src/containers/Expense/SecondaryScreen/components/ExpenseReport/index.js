@@ -26,13 +26,18 @@ class ExpenseReport extends Component {
     dispatchGetExpense(selectedValue);
   }
 
+  handleBackNavigation() {
+    const { navigation } = this.props;
+    navigation.goBack();
+  }
+
   renderBanner = () => {
     const { expenseDetailsData } = this.props;
-    const currentStatus = expenseDetailsData.ExpenseDetail.CurrentStatus.toUpperCase();
+    const currentStatus = expenseDetailsData.ExpenseDetail.CurrentStatus.Value.toUpperCase();
 
     if (currentStatus.includes('REJECTED')) {
       const result = Lo.find(expenseDetailsData.ExpenseHistories.Data, o =>
-        o.NewStatus.toUpperCase().includes('REJECTED'),
+        o.NewStatus.Value.toUpperCase().includes('REJECTED'),
       );
       if (result)
         return (
@@ -61,7 +66,10 @@ class ExpenseReport extends Component {
               <ExpenseCard />
             </Col>
             <Col size={30}>
-              <ReportDetails openActionSheet={this.openActionSheetHanlder} />
+              <ReportDetails
+                openActionSheet={this.openActionSheetHanlder}
+                onBack={() => this.handleBackNavigation()}
+              />
             </Col>
           </Grid>
         </View>

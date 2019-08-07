@@ -71,20 +71,22 @@ class ReportItems extends React.Component {
         backgroundColor="transparent"
         key={uuidv1()}
       >
-        <DataTable.Row key={item.ExpenseItemId}>
-          <DataTable.Cell>{item.ExpenseItemId}</DataTable.Cell>
-          <DataTable.Cell>
-            {getDateByFormat(item.TransactionDate, 'L')}
-          </DataTable.Cell>
-          <DataTable.Cell>{item.ExpenseType}</DataTable.Cell>
-          <DataTable.Cell>{item.Miles ? item.Miles : ''}</DataTable.Cell>
-          <DataTable.Cell>
-            {item.PaymentType ? item.PaymentType : ''}
-          </DataTable.Cell>
-          <DataTable.Cell>{item.BusinessPurpose}</DataTable.Cell>
-          <DataTable.Cell>{item.Amount}</DataTable.Cell>
-          {/* <DataTable.Cell>$500.00</DataTable.Cell> */}
-        </DataTable.Row>
+      <DataTable.Row key={item.ExpenseItemId}>
+        <DataTable.Cell>{item.ExpenseItemId}</DataTable.Cell>
+        <DataTable.Cell>
+          {getDateByFormat(item.TransactionDate, 'L')}
+        </DataTable.Cell>
+        <DataTable.Cell>
+          {item.ExpenseType.Value ? item.ExpenseType.Value : ''}
+        </DataTable.Cell>
+        <DataTable.Cell>{item.Miles ? item.Miles : ''}</DataTable.Cell>
+        <DataTable.Cell>
+          {item.PaymentType.Value ? item.PaymentType.Value : ''}
+        </DataTable.Cell>
+        <DataTable.Cell>{item.BusinessPurpose}</DataTable.Cell>
+        <DataTable.Cell>$ {item.Amount}</DataTable.Cell>
+        {/* <DataTable.Cell>$500.00</DataTable.Cell> */}
+      </DataTable.Row>
       </Swipeout>
     ));
   };
@@ -97,7 +99,8 @@ class ReportItems extends React.Component {
         page={pageDetail.CurrentPageNumber}
         numberOfPages={pageDetail.TotalPages}
         onPageChange={page => {
-          dispatchGetExpenseReportItems(page);
+          dispatchSetExpenseReportItemsQuery(page);
+          dispatchGetExpenseReportItems();
         }}
         label={
           `${pageDetail.CurrentPageNumber}` +
@@ -118,7 +121,6 @@ class ReportItems extends React.Component {
       ri_transaction_date: new Date(),
       riStandardMileageRate: '0.00',
       riAmount: '0.00',
-      // riMiles: '',
     };
     return (
       <View style={{ flex: 1, margin: 10 }}>
@@ -189,6 +191,7 @@ class ReportItems extends React.Component {
 ReportItems.propTypes = {
   data: PropTypes.object,
   expenseDetailsData: PropTypes.object,
+  dispatchSetExpenseReportItemsQuery: PropTypes.func.isRequired,
   dispatchGetExpenseReportItems: PropTypes.func.isRequired,
   reportItemModalVisibility: PropTypes.bool,
   dispatchModalStateVisibility: PropTypes.func.isRequired,
@@ -218,10 +221,11 @@ const mapStateToProps = createStructuredSelector({
   reportItemModalVisibility: selectReportItemModalVisibility(),
 });
 const mapDispatchToProps = dispatch => ({
-  dispatchGetExpenseReportItems: pageNumber =>
-    dispatch(getExpenseReportItems(pageNumber)),
+  dispatchSetExpenseReportItemsQuery: pageNumber =>
+    dispatch(setExpenseReportItemsQuery(pageNumber)),
   dispatchModalStateVisibility: visibility =>
     dispatch(setCreateReportItemModalVisibility(visibility)),
+  dispatchGetExpenseReportItems: () => dispatch(getExpenseReportItems()),
 });
 
 const withConnect = connect(

@@ -13,16 +13,33 @@ import {
   saveExpenseDetails,
   saveExpenseReportItems,
   saveExpenseReportReceipts,
+  setCreateReportItemModalVisibility,
+  getExpenseReportItems,
+  setExpenseReportItemsQuery,
+  setTriggerExpenseDelete,
+  updateExpenseDetails,
+  setEditExpenseModalVisibility,
 } from './actions';
 import {
   GET_EXPENSE,
   GET_EXP_REPORT_ITEMS,
   GET_EXP_REPORT_RECEIPTS,
+  CREATE_EXP_REPORT_ITEM,
+  DELETE_EXPENSE,
+  EDIT_EXPENSE,
 } from './constants';
 import {
   selectCurrentExpenseID,
   selectExpenseReportItemQuery,
+  selectNewExpReportItem,
+  selectExpenseDetails,
+  selectEditExpenseObject,
 } from './selectors';
+import {
+  getExpenseSummary,
+  setExpensePageNumber,
+  getExpenseList,
+} from '../PrimaryScreen/actions';
 // import { EXPENSE_STATUS } from '../constants';
 // import { selectExpenseMetadata } from '../PrimaryScreen/selectors';
 
@@ -37,10 +54,6 @@ function* getExpenseAPI() {
   const response = yield call(request, requestURL, options);
   if (response.success) {
     yield put(setRootGlobalLoader(false));
-    // const expenseStatus = yield select(selectExpenseMetadata(EXPENSE_STATUS));
-    // response.data.ExpenseDetail.CurrentStatus = Lo.filter(expenseStatus, {
-    //   Value: response.data.ExpenseDetail.CurrentStatus,
-    // })[0].Text;
     yield put(saveExpenseDetails(response.data));
   } else {
     yield put(
@@ -109,9 +122,98 @@ function* getExpReportReceiptsAPI() {
     yield put(setToastVisibility(true));
   }
 }
+function* createExpReportItemAPI() {
+  yield put(setRootGlobalLoader(true));
+  const payLoad = yield select(selectNewExpReportItem());
+  const expenseDetailsData = yield select(selectExpenseDetails());
+  payLoad.ExpenseId = expenseDetailsData.ExpenseDetail.ExpenseId;
+  const requestURL = `${config.apiURL}NewExpenseItem`;
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payLoad),
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(setExpenseReportItemsQuery(1));
+    yield put(getExpenseReportItems());
+    yield put(setCreateReportItemModalVisibility(false));
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+function* setDeleteExpenseAPI() {
+  yield put(setRootGlobalLoader(true));
+  const expenseDetailsData = yield select(selectExpenseDetails());
+  const requestURL = `${config.apiURL}DeleteExpense?expenseId=${
+    expenseDetailsData.ExpenseDetail.ExpenseId
+  }`;
 
+  const options = {
+    method: 'DELETE',
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(getExpenseSummary());
+    yield put(setExpensePageNumber(1));
+    yield put(getExpenseList());
+    yield put(setTriggerExpenseDelete(true));
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+function* setEditExpenseAPI() {
+  yield put(setRootGlobalLoader(true));
+  const payLoad = yield select(selectEditExpenseObject());
+  const expenseDetailsData = yield select(selectExpenseDetails());
+  payLoad.ExpenseId = expenseDetailsData.ExpenseDetail.ExpenseId;
+  const requestURL = `${config.apiURL}EditExpense`;
+  const options = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payLoad),
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(updateExpenseDetails(response.data));
+    yield put(setEditExpenseModalVisibility(false));
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
 export default function* initConexionSaga() {
   yield takeLatest(GET_EXPENSE, getExpenseAPI);
   yield takeLatest(GET_EXP_REPORT_ITEMS, getExpReportItemsAPI);
   yield takeLatest(GET_EXP_REPORT_RECEIPTS, getExpReportReceiptsAPI);
+  yield takeLatest(CREATE_EXP_REPORT_ITEM, createExpReportItemAPI);
+  yield takeLatest(DELETE_EXPENSE, setDeleteExpenseAPI);
+  yield takeLatest(EDIT_EXPENSE, setEditExpenseAPI);
 }

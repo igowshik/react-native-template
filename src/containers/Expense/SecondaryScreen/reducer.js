@@ -3,11 +3,16 @@ import {
   SET_IND_CONEXIONS,
   GET_EXPENSE,
   SAVE_EXPENSE,
-  GET_EXP_REPORT_ITEMS,
   SAVE_EXP_REPORT_ITEMS,
   GET_EXP_REPORT_RECEIPTS,
   SAVE_EXP_REPORT_RECEIPTS,
   SET_REPORT_ITEM_MODAL_VISIBILITY,
+  SET_EXP_REPORT_ITEM,
+  SET_EXP_REPORT_ITEM_QUERY,
+  EDIT_EXP_MODAL_VISIBILITY,
+  TRIGGER_EXP_DELETE,
+  SET_EDIT_EXP_OBJ,
+  UPDATE_EXP_DETAILS,
 } from './constants';
 
 export const IntialState = {
@@ -16,21 +21,30 @@ export const IntialState = {
     data: {},
     types: '',
   },
-  expenseReportItemsQuery: {
-    ExpenseId: 0,
-    PageSize: 20,
-    PageNumber: 1,
-  },
-  expenseReportReceiptsQuery: { ExpenseId: 0, PageSize: 20, PageNumber: 1 },
+  expenseReportItemsQuery: { ExpenseId: 0, PageSize: 10, PageNumber: 1 },
+  expenseReportReceiptsQuery: { ExpenseId: 0, PageSize: 10, PageNumber: 1 },
   currentExpenseId: '',
   createReportItemModalVisible: false,
+  editExpenseModelVisibility: false,
+  triggerExpenseDelete: false,
+  newExpenseReportItem: {},
+  editExpenseObject: {},
   expenseDetails: {
+    ExpenseUIActions: {
+      EnableDelete: false,
+      EnableSubmit: false,
+      EnableManagerApprove: false,
+      EnableManagerReject: false,
+      EnableReadyForPayment: false,
+      EnableAdminReject: false,
+      EnableArchive: false,
+    },
     ExpenseDetail: {
       ExpenseId: null,
       CustomerId: null,
       ReportName: null,
       ReportDate: null,
-      CostCenter: null,
+      CostCenter: { Code: '', Value: '' },
       BusinessPurpose: null,
       CreatedBy: {
         Id: null,
@@ -39,9 +53,9 @@ export const IntialState = {
       },
       CreatedDate: null,
       LastUpdatedDate: null,
-      CurrentStatus: '',
+      CurrentStatus: { Code: '', Value: '' },
       TotalAmount: null,
-      BusinessUnit: null,
+      BusinessUnit: { Code: '', Value: '' },
       ExpenseKey: null,
     },
     ExpenseHistories: {
@@ -52,7 +66,7 @@ export const IntialState = {
       Data: [],
       PagingDetail: {
         TotalItems: 0,
-        PageSize: 20,
+        PageSize: 10,
         CurrentPageNumber: 1,
         TotalPages: 0,
       },
@@ -61,7 +75,7 @@ export const IntialState = {
       Data: [],
       PagingDetail: {
         TotalItems: 0,
-        PageSize: 20,
+        PageSize: 10,
         CurrentPageNumber: 1,
         TotalPages: 0,
       },
@@ -85,14 +99,14 @@ const expenseSecondaryScreenStore = (state = IntialState, action) =>
         draftState.expenseDetails = action.expenseDetails;
         break;
       }
-      case GET_EXP_REPORT_ITEMS: {
+      case SET_EXP_REPORT_ITEM_QUERY: {
         draftState.expenseReportItemsQuery.PageNumber = action.pageNumber;
         draftState.expenseReportItemsQuery.ExpenseId =
           draftState.expenseDetails.ExpenseDetail.ExpenseId;
         break;
       }
       case SAVE_EXP_REPORT_ITEMS: {
-        draftState.expenseDetails.ExpenseItems.data = action.items;
+        draftState.expenseDetails.ExpenseItems = action.items;
         break;
       }
       case GET_EXP_REPORT_RECEIPTS: {
@@ -102,11 +116,31 @@ const expenseSecondaryScreenStore = (state = IntialState, action) =>
         break;
       }
       case SAVE_EXP_REPORT_RECEIPTS: {
-        draftState.expenseDetails.ExpenseReceipts.data = action.items;
+        draftState.expenseDetails.ExpenseReceipts = action.items;
         break;
       }
       case SET_REPORT_ITEM_MODAL_VISIBILITY: {
         draftState.createReportItemModalVisible = action.visibility;
+        break;
+      }
+      case SET_EXP_REPORT_ITEM: {
+        draftState.newExpenseReportItem = action.form;
+        break;
+      }
+      case EDIT_EXP_MODAL_VISIBILITY: {
+        draftState.editExpenseModelVisibility = action.visibility;
+        break;
+      }
+      case TRIGGER_EXP_DELETE: {
+        draftState.triggerExpenseDelete = action.value;
+        break;
+      }
+      case SET_EDIT_EXP_OBJ: {
+        draftState.editExpenseObject = action.value;
+        break;
+      }
+      case UPDATE_EXP_DETAILS: {
+        draftState.expenseDetails.ExpenseDetail = action.value;
         break;
       }
       default: {
