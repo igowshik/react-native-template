@@ -22,16 +22,17 @@ import { DELETE_EXPENSE_MESSAGE } from 'cnxapp/src/containers/Expense/constants'
 
 import Dialog from 'cnxapp/src/components/Dialog';
 import { createStructuredSelector } from 'reselect';
-import {
-  selectExpenseDetails,
-  selectTriggerExpenseDelete,
-} from '../../selectors';
+
 import EditExpense from '../EditExpense';
 import {
   setEditExpenseModalVisibility,
   setDeleteExpense,
   setTriggerExpenseDelete,
 } from '../../actions';
+import {
+  selectExpenseDetails,
+  selectTriggerExpenseDelete,
+} from '../../selectors';
 
 class ReportDetails extends PureComponent {
   state = { dialogVisible: false };
