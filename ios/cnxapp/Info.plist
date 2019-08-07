@@ -37,12 +37,20 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>BOAST app wants to access the Camera</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string></string>
+	<string>BOAST app wants to access the location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>BOAST app wants to access the location</string>
 	<key>NSMainNibFile</key>
 	<string>LaunchScreen</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>BOAST app wants to access the Microphone</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>BOAST app wants to access the Photo library</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>BOAST app wants to access the library</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>ProximaNova-Regular.otf</string>

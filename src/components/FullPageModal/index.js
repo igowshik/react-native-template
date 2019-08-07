@@ -128,7 +128,6 @@ const styles = StyleSheet.create({
     // borderTopRightRadius: CARD_BORDER_RADIUS,
     // borderTopLeftRadius: CARD_BORDER_RADIUS,
     paddingTop: Platform.OS === 'ios' ? 10 : 0,
-    marginBottom: 10,
   },
   closeIcon: {
     justifyContent: 'flex-start',

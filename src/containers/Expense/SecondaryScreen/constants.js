@@ -19,7 +19,7 @@ export const SET_EDIT_EXP_OBJ = '@Expense/SET_EDIT_EXP_OBJ';
 export const EDIT_EXPENSE = '@Expense/EDIT_EXPENSE';
 export const UPDATE_EXP_DETAILS = '@Expense/UPDATE_EXP_DETAILS';
 
-export const CREATE_REPORT_ITEM = '@Expense/CREATE_REPORT_ITEM';
+export const CREATE_REPORT_ITEM_FORM = 'createReportItemForm';
 export const EDIT_EXPENSE_FORM = 'editExpenseForm';
 export const SET_REPORT_ITEM_MODAL_VISIBILITY =
   '@Expense/SET_REPORT_ITEM_MODAL_VISIBILITY';

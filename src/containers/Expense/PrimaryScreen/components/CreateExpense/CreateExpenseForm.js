@@ -18,8 +18,8 @@ import { CARD_BORDER_RADIUS } from 'cnxapp/src/utils/valueconstants';
 
 import { createStructuredSelector } from 'reselect';
 import { selectExpenseMetadata } from '../../selectors';
-import { BUSINESS_UNIT } from '../../../constants';
 import { EXPENSE_FORM } from '../../constants';
+import { BUSINESS_UNIT } from '../../../constants';
 
 class CreateExpenseForm extends React.Component {
   constructor(props) {
