@@ -21,7 +21,7 @@ class ReportHistory extends PureComponent {
     return (
       <View style={styles.lineRoot}>
         <View style={styles.lineText}>
-          <Text>{item.NewStatus || empty}</Text>
+          <Text>{item.NewStatus.Value || empty}</Text>
         </View>
         <View style={styles.iconLine}>
           <View style={{ flexDirection: 'column' }}>

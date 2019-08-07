@@ -8,3 +8,4 @@ export const GROUPED_EXPENSE_STATUS = 'grouped_expense_status';
 
 export const METADATA_VARIABLES =
   'grouped_expense_status,expense_status,expense_type,payment_type,costcenter,business_unit,expense_item_project_chargeable';
+export const DELETE_EXPENSE_MESSAGE = 'Are you sure on deleting this expense?';
