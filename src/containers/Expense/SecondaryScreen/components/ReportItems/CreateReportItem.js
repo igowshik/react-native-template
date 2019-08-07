@@ -12,7 +12,7 @@ import FullPageModal from 'cnxapp/src/components/FullPageModal';
 // import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
 // import * as colors from 'cnxapp/src/utils/colorsConstants';
 
-import { CREATE_REPORT_ITEM } from '../../constants';
+import { CREATE_REPORT_ITEM_FORM } from '../../constants';
 import { setCreateReportItemModalVisibility } from '../../actions';
 import NewReportItemForm from './NewReportItemForm';
 
@@ -41,7 +41,7 @@ class CreateReportItem extends Component {
   _closeModal = () => {
     const { dispatchModalStateVisibility, dispatchFormReset } = this.props;
     dispatchModalStateVisibility(false);
-    dispatchFormReset(CREATE_REPORT_ITEM);
+    dispatchFormReset(CREATE_REPORT_ITEM_FORM);
   };
 
   render() {
@@ -86,7 +86,7 @@ CreateReportItem.propTypes = {
 };
 
 const reduxFormExpense = reduxForm({
-  form: CREATE_REPORT_ITEM,
+  form: CREATE_REPORT_ITEM_FORM,
   // validate,
   enableReinitialize: false,
   destroyOnUnmount: false,

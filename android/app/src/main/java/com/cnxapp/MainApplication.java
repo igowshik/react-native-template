@@ -3,6 +3,9 @@ package com.cnxapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativecommunity.cameraroll.CameraRollPackage;
+import com.rnfs.RNFSPackage;
+import org.reactnative.camera.RNCameraPackage;
 import com.swmansion.reanimated.ReanimatedPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.webview.RNCWebViewPackage;
@@ -30,6 +33,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new CameraRollPackage(),
+            new RNFSPackage(),
+            new RNCameraPackage(),
             new ReanimatedPackage(),
             new AsyncStoragePackage(),
             new RNCWebViewPackage(),

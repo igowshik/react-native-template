@@ -8,6 +8,7 @@ import { Divider, Card, DataTable, IconButton } from 'react-native-paper';
 import { Col, Grid } from 'react-native-easy-grid';
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 import { createStructuredSelector } from 'reselect';
+import Swipeout from 'react-native-swipeout';
 import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
 import {
   selectExpenseDetails,
@@ -18,25 +19,75 @@ import {
   setCreateReportItemModalVisibility,
 } from '../../actions';
 import CreateReportItem from './CreateReportItem';
+const uuidv1 = require('uuid/v1');
 
 class ReportItems extends React.Component {
-  tableItems = ExpenseItems =>
-    ExpenseItems.map(item => (
-      <DataTable.Row key={item.ExpenseItemId}>
-        <DataTable.Cell>{item.ExpenseItemId}</DataTable.Cell>
-        <DataTable.Cell>
-          {getDateByFormat(item.TransactionDate, 'L')}
-        </DataTable.Cell>
-        <DataTable.Cell>{item.ExpenseType}</DataTable.Cell>
-        <DataTable.Cell>{item.Miles ? item.Miles : ''}</DataTable.Cell>
-        <DataTable.Cell>
-          {item.PaymentType ? item.PaymentType : ''}
-        </DataTable.Cell>
-        <DataTable.Cell>{item.BusinessPurpose}</DataTable.Cell>
-        <DataTable.Cell>{item.Amount}</DataTable.Cell>
-        {/* <DataTable.Cell>$500.00</DataTable.Cell> */}
-      </DataTable.Row>
+  tableItems = ExpenseItems => {
+    const rightButton = [
+      {
+        component: (
+          <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
+            <IconButton
+              icon={() => (
+                <FontAwesome5 name="marker" color="#FFF" size={16} solid />
+              )}
+              size={20}
+              color="#FFF"
+              onPress={() => alert('Edit Pressed')}
+            />
+          </View>
+        ),
+        backgroundColor: Colors.PURPLE,
+        underlayColor: 'rgba(0, 0, 1, 0.6)',
+        onPress: () => {
+          alert('Edit Pressed');
+        },
+      },
+      {
+        component: (
+          <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
+            <IconButton
+              icon={() => (
+                <FontAwesome5 name="trash" color="#FFF" size={16} solid />
+              )}
+              size={20}
+              color="#FFF"
+              onPress={() => alert('Delete Pressed')}
+            />
+          </View>
+        ),
+        backgroundColor: Colors.RED,
+        underlayColor: 'rgba(0, 0,1, 0.6)',
+        onPress: () => {
+          alert('Delete Pressed');
+        },
+      },
+    ];
+
+    return ExpenseItems.map(item => (
+      <Swipeout
+        right={rightButton}
+        autoClose
+        backgroundColor="transparent"
+        key={uuidv1()}
+      >
+        <DataTable.Row key={item.ExpenseItemId}>
+          <DataTable.Cell>{item.ExpenseItemId}</DataTable.Cell>
+          <DataTable.Cell>
+            {getDateByFormat(item.TransactionDate, 'L')}
+          </DataTable.Cell>
+          <DataTable.Cell>{item.ExpenseType}</DataTable.Cell>
+          <DataTable.Cell>{item.Miles ? item.Miles : ''}</DataTable.Cell>
+          <DataTable.Cell>
+            {item.PaymentType ? item.PaymentType : ''}
+          </DataTable.Cell>
+          <DataTable.Cell>{item.BusinessPurpose}</DataTable.Cell>
+          <DataTable.Cell>{item.Amount}</DataTable.Cell>
+          {/* <DataTable.Cell>$500.00</DataTable.Cell> */}
+        </DataTable.Row>
+      </Swipeout>
     ));
+  };
 
   renderPaging = pageDetail => {
     const { dispatchGetExpenseReportItems } = this.props;
