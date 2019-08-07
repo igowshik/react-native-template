@@ -30,7 +30,7 @@ export const editExpenseMapper = data => {
     const payload = {
       exp_report_date: new Date(data.ReportDate),
       exp_report_name: data.ReportName,
-      exp_business_unit: data.BusinessUnit,
+      exp_business_unit: data.BusinessUnit.Code,
       exp_business_purpose: data.BusinessPurpose,
     };
     return payload;

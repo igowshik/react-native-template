@@ -44,7 +44,7 @@ export const IntialState = {
       CustomerId: null,
       ReportName: null,
       ReportDate: null,
-      CostCenter: null,
+      CostCenter: { Code: '', Value: '' },
       BusinessPurpose: null,
       CreatedBy: {
         Id: null,
@@ -53,9 +53,9 @@ export const IntialState = {
       },
       CreatedDate: null,
       LastUpdatedDate: null,
-      CurrentStatus: '',
+      CurrentStatus: { Code: '', Value: '' },
       TotalAmount: null,
-      BusinessUnit: null,
+      BusinessUnit: { Code: '', Value: '' },
       ExpenseKey: null,
     },
     ExpenseHistories: {

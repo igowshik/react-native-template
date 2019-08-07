@@ -28,10 +28,12 @@ class ReportItems extends React.Component {
         <DataTable.Cell>
           {getDateByFormat(item.TransactionDate, 'L')}
         </DataTable.Cell>
-        <DataTable.Cell>{item.ExpenseType}</DataTable.Cell>
+        <DataTable.Cell>
+          {item.ExpenseType.Value ? item.ExpenseType.Value : ''}
+        </DataTable.Cell>
         <DataTable.Cell>{item.Miles ? item.Miles : ''}</DataTable.Cell>
         <DataTable.Cell>
-          {item.PaymentType ? item.PaymentType : ''}
+          {item.PaymentType.Value ? item.PaymentType.Value : ''}
         </DataTable.Cell>
         <DataTable.Cell>{item.BusinessPurpose}</DataTable.Cell>
         <DataTable.Cell>$ {item.Amount}</DataTable.Cell>

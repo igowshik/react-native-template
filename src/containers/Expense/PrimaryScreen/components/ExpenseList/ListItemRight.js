@@ -76,11 +76,11 @@ export default class ListItemRight extends PureComponent {
             }}
           >
             <Text style={{ fontSize: 10, paddingRight: 5 }}>
-              {item.CurrentStatus}
+              {item.CurrentStatus.Value}
             </Text>
             <FontAwesome5
               name="circle"
-              color={this.statusColor(item.CurrentStatus)}
+              color={this.statusColor(item.CurrentStatus.Value)}
               size={10}
               solid
             />

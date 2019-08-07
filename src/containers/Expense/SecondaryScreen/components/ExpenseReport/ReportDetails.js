@@ -18,6 +18,9 @@ import { connect } from 'react-redux';
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
 import { editExpenseMapper } from 'cnxapp/src/containers/Expense/mappers';
+import { DELETE_EXPENSE_MESSAGE } from 'cnxapp/src/containers/Expense/constants';
+
+import Dialog from 'cnxapp/src/components/Dialog';
 import { createStructuredSelector } from 'reselect';
 import {
   selectExpenseDetails,
@@ -31,6 +34,8 @@ import {
 } from '../../actions';
 
 class ReportDetails extends PureComponent {
+  state = { dialogVisible: false };
+
   componentDidUpdate() {
     const {
       dispatchTriggerExpenseDelete,
@@ -42,6 +47,15 @@ class ReportDetails extends PureComponent {
       onBack();
     }
   }
+
+  deleteExpenseConfirmation = () => this.setState({ dialogVisible: true });
+
+  onDialogDismiss = () => this.setState({ dialogVisible: false });
+
+  onDialogConfirm = () => {
+    this.props.dispatchDeleteExpense();
+    this.setState({ dialogVisible: false });
+  };
 
   render() {
     const { expenseDetailsData, dispatchEditExpenseModalState } = this.props;
@@ -113,7 +127,7 @@ class ReportDetails extends PureComponent {
                     )}
                     color="#FFF"
                     size={20}
-                    onPress={() => this.props.dispatchDeleteExpense()}
+                    onPress={this.deleteExpenseConfirmation}
                   />
                 ) : null}
                 {ExpenseUIActions.EnableArchive ? (
@@ -152,7 +166,7 @@ class ReportDetails extends PureComponent {
                         <View style={styles.rowView}>
                           <Text>Business Unit :</Text>
                           <Text style={styles.linkText}>
-                            {ExpenseDetail.BusinessUnit}
+                            {ExpenseDetail.BusinessUnit.Value}
                           </Text>
                         </View>
                       </DataTable.Row>
@@ -160,7 +174,7 @@ class ReportDetails extends PureComponent {
                         <View style={styles.rowView}>
                           <Text>Cost Center :</Text>
                           <Text style={styles.linkText}>
-                            {ExpenseDetail.CostCenter}
+                            {ExpenseDetail.CostCenter.Value}
                           </Text>
                         </View>
                       </DataTable.Row>
@@ -188,6 +202,13 @@ class ReportDetails extends PureComponent {
           </View>
         </LinearGradient>
         <EditExpense initialValues={mappedValues} />
+        <Dialog
+          visible={this.state.dialogVisible}
+          title="Delete!"
+          message={DELETE_EXPENSE_MESSAGE}
+          onDismiss={this.onDialogDismiss}
+          onConfirm={this.onDialogConfirm}
+        />
       </Card>
     );
   }
