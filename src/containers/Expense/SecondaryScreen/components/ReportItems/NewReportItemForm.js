@@ -149,7 +149,10 @@ class NewReportItemForm extends React.Component {
             <Grid>
               <Row>
                 <Col>
-                  <TouchableRipple onPress={this.showDatePicker}>
+                  <TouchableRipple
+                    onPress={this.showDatePicker}
+                    style={{ marginTop: 25 }}
+                  >
                     <View style={styles.dateView}>
                       <IconButton
                         icon={() => (
