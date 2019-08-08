@@ -162,7 +162,7 @@ class ReportItems extends React.Component {
               </View>
             )}
             right={rightProps =>
-              expenseDetailsData.ExpenseUIActions.EnableSubmit ? (
+              expenseDetailsData.ExpenseUIActions.EnableEdit ? (
                 <IconButton
                   {...rightProps}
                   icon={() => (

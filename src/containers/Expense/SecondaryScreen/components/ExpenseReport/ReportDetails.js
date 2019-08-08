@@ -112,14 +112,21 @@ class ReportDetails extends PureComponent {
             )}
             right={rightProp => (
               <View {...rightProp} style={styles.cardRight}>
-                <IconButton
-                  icon={() => (
-                    <FontAwesome5 name="marker" color="#FFF" size={16} solid />
-                  )}
-                  color="#FFF"
-                  size={20}
-                  onPress={() => dispatchEditExpenseModalState(true)}
-                />
+                {ExpenseUIActions.EnableEdit ? (
+                  <IconButton
+                    icon={() => (
+                      <FontAwesome5
+                        name="marker"
+                        color="#FFF"
+                        size={16}
+                        solid
+                      />
+                    )}
+                    color="#FFF"
+                    size={20}
+                    onPress={() => dispatchEditExpenseModalState(true)}
+                  />
+                ) : null}
                 {ExpenseUIActions.EnableSubmit ? (
                   <IconButton
                     icon={() => (
