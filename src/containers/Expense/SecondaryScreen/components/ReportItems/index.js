@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
-import { Divider, Card, DataTable, IconButton } from 'react-native-paper';
+import { Divider, Card, DataTable, IconButton, Text } from 'react-native-paper';
 import { Col, Grid } from 'react-native-easy-grid';
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 import { createStructuredSelector } from 'reselect';
@@ -104,7 +104,9 @@ class ReportItems extends React.Component {
             {item.PaymentType.Value ? item.PaymentType.Value : ''}
           </DataTable.Cell>
           <DataTable.Cell>{item.BusinessPurpose}</DataTable.Cell>
-          <DataTable.Cell>$ {item.Amount}</DataTable.Cell>
+          <DataTable.Cell>
+            <Text style={styles.linkText}>$ {item.Amount}</Text>
+          </DataTable.Cell>
         </DataTable.Row>
       </Swipeout>
     ));
@@ -159,22 +161,24 @@ class ReportItems extends React.Component {
                 <FontAwesome5 name="list-ul" color="#1F914E" size={20} light />
               </View>
             )}
-            right={rightProps => (
-              <IconButton
-                {...rightProps}
-                icon={() => (
-                  <FontAwesome5
-                    name="plus-circle"
-                    color={Colors.PRIMARY}
-                    size={25}
-                    light
-                  />
-                )}
-                style={{ height: 50, width: 50 }}
-                color={Colors.PRIMARY}
-                onPress={() => dispatchModalStateVisibility(true)}
-              />
-            )}
+            right={rightProps =>
+              expenseDetailsData.ExpenseUIActions.EnableSubmit ? (
+                <IconButton
+                  {...rightProps}
+                  icon={() => (
+                    <FontAwesome5
+                      name="plus-circle"
+                      color={Colors.PRIMARY}
+                      size={25}
+                      light
+                    />
+                  )}
+                  style={{ height: 50, width: 50 }}
+                  color={Colors.PRIMARY}
+                  onPress={() => dispatchModalStateVisibility(true)}
+                />
+              ) : null
+            }
           />
           <Divider />
           <Card.Content>

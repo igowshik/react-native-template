@@ -28,6 +28,7 @@ import {
   EDIT_EXPENSE,
   SUBMIT_EXPENSE_REPORT,
   DELETE_REPORT_ITEM,
+  CREATE_REPORT_ITEM_FORM,
 } from './constants';
 import {
   selectCurrentExpenseID,
@@ -41,6 +42,7 @@ import {
   getExpenseSummary,
   setExpensePageNumber,
   getExpenseList,
+  resetReduxForm,
 } from '../PrimaryScreen/actions';
 // import { EXPENSE_STATUS } from '../constants';
 // import { selectExpenseMetadata } from '../PrimaryScreen/selectors';
@@ -141,6 +143,7 @@ function* createExpReportItemAPI() {
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(getExpenseDetails(expenseDetailsData.ExpenseDetail.ExpenseId));
+    yield put(resetReduxForm(CREATE_REPORT_ITEM_FORM));
     yield put(setCreateReportItemModalVisibility(false));
   } else {
     yield put(
