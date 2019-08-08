@@ -13,6 +13,7 @@ import {
   TRIGGER_EXP_DELETE,
   SET_EDIT_EXP_OBJ,
   UPDATE_EXP_DETAILS,
+  DELETE_REPORT_ITEM,
 } from './constants';
 
 export const IntialState = {
@@ -29,6 +30,7 @@ export const IntialState = {
   triggerExpenseDelete: false,
   newExpenseReportItem: {},
   editExpenseObject: {},
+  deleteReportItemId: '',
   expenseDetails: {
     ExpenseUIActions: {
       EnableDelete: false,
@@ -141,6 +143,10 @@ const expenseSecondaryScreenStore = (state = IntialState, action) =>
       }
       case UPDATE_EXP_DETAILS: {
         draftState.expenseDetails.ExpenseDetail = action.value;
+        break;
+      }
+      case DELETE_REPORT_ITEM: {
+        draftState.deleteReportItemId = action.reportItemId;
         break;
       }
       default: {

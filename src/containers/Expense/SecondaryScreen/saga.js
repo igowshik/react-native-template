@@ -27,6 +27,7 @@ import {
   DELETE_EXPENSE,
   EDIT_EXPENSE,
   SUBMIT_EXPENSE_REPORT,
+  DELETE_REPORT_ITEM,
 } from './constants';
 import {
   selectCurrentExpenseID,
@@ -34,6 +35,7 @@ import {
   selectNewExpReportItem,
   selectExpenseDetails,
   selectEditExpenseObject,
+  selectDeleteReportItemId,
 } from './selectors';
 import {
   getExpenseSummary,
@@ -239,6 +241,32 @@ function* submitExpenseAPI() {
     yield put(setToastVisibility(true));
   }
 }
+function* deleteReportItemAPI() {
+  yield put(setRootGlobalLoader(true));
+  const deleteExpenseReportItemId = yield select(selectDeleteReportItemId());
+  const expenseDetailsData = yield select(selectExpenseDetails());
+  const requestURL = `${
+    config.apiURL
+  }DeleteExpenseItem?expenseItemId=${deleteExpenseReportItemId}`;
+
+  const options = {
+    method: 'DELETE',
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(getExpenseDetails(expenseDetailsData.ExpenseDetail.ExpenseId));
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
 export default function* initConexionSaga() {
   yield takeLatest(GET_EXPENSE, getExpenseAPI);
   yield takeLatest(GET_EXP_REPORT_ITEMS, getExpReportItemsAPI);
@@ -247,4 +275,5 @@ export default function* initConexionSaga() {
   yield takeLatest(DELETE_EXPENSE, setDeleteExpenseAPI);
   yield takeLatest(EDIT_EXPENSE, setEditExpenseAPI);
   yield takeLatest(SUBMIT_EXPENSE_REPORT, submitExpenseAPI);
+  yield takeLatest(DELETE_REPORT_ITEM, deleteReportItemAPI);
 }

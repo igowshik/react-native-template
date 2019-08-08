@@ -16,6 +16,7 @@ import {
   EDIT_EXPENSE,
   UPDATE_EXP_DETAILS,
   SUBMIT_EXPENSE_REPORT,
+  DELETE_REPORT_ITEM,
 } from './constants';
 
 export const getExpenseDetails = expenseId => ({
@@ -78,3 +79,7 @@ export const updateExpenseDetails = value => ({
   value,
 });
 export const setSubmitExpense = () => ({ type: SUBMIT_EXPENSE_REPORT });
+export const setDeleteExpenceReportItem = reportItemId => ({
+  type: DELETE_REPORT_ITEM,
+  reportItemId,
+});

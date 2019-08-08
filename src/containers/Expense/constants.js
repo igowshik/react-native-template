@@ -12,3 +12,5 @@ export const DELETE_EXPENSE_MESSAGE =
   'Are you sure on deleting this expense report?';
 export const SUBMIT_EXPENSE_MESSAGE =
   'Are you sure want to submit this expense report?';
+export const DELETE_REPORT_ITEM_MESSAGE =
+  'Are yoiu sure want to delete this expense item?';
