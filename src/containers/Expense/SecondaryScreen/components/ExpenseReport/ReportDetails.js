@@ -18,7 +18,10 @@ import { connect } from 'react-redux';
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
 import { editExpenseMapper } from 'cnxapp/src/containers/Expense/mappers';
-import { DELETE_EXPENSE_MESSAGE } from 'cnxapp/src/containers/Expense/constants';
+import {
+  DELETE_EXPENSE_MESSAGE,
+  SUBMIT_EXPENSE_MESSAGE,
+} from 'cnxapp/src/containers/Expense/constants';
 
 import Dialog from 'cnxapp/src/components/Dialog';
 import { createStructuredSelector } from 'reselect';
@@ -28,6 +31,7 @@ import {
   setEditExpenseModalVisibility,
   setDeleteExpense,
   setTriggerExpenseDelete,
+  setSubmitExpense,
 } from '../../actions';
 import {
   selectExpenseDetails,
@@ -35,7 +39,7 @@ import {
 } from '../../selectors';
 
 class ReportDetails extends PureComponent {
-  state = { dialogVisible: false };
+  state = { dialogVisible: false, isDeleteDialog: false };
 
   componentDidUpdate() {
     const {
@@ -49,13 +53,23 @@ class ReportDetails extends PureComponent {
     }
   }
 
-  deleteExpenseConfirmation = () => this.setState({ dialogVisible: true });
+  deleteExpenseConfirmation = () =>
+    this.setState({ dialogVisible: true, isDeleteDialog: true });
 
-  onDialogDismiss = () => this.setState({ dialogVisible: false });
+  submitExpenseConfirmation = () =>
+    this.setState({ dialogVisible: true, isDeleteDialog: false });
+
+  onDialogDismiss = () =>
+    this.setState({ dialogVisible: false, isDeleteDialog: false });
 
   onDialogConfirm = () => {
-    this.props.dispatchDeleteExpense();
-    this.setState({ dialogVisible: false });
+    const { dispatchSubmitExpense, dispatchDeleteExpense } = this.props;
+    if (this.state.isDeleteDialog) {
+      dispatchDeleteExpense();
+    } else {
+      dispatchSubmitExpense();
+    }
+    this.setState({ dialogVisible: false, isDeleteDialog: false });
   };
 
   render() {
@@ -98,14 +112,21 @@ class ReportDetails extends PureComponent {
             )}
             right={rightProp => (
               <View {...rightProp} style={styles.cardRight}>
-                <IconButton
-                  icon={() => (
-                    <FontAwesome5 name="marker" color="#FFF" size={16} solid />
-                  )}
-                  color="#FFF"
-                  size={20}
-                  onPress={() => dispatchEditExpenseModalState(true)}
-                />
+                {ExpenseUIActions.EnableEdit ? (
+                  <IconButton
+                    icon={() => (
+                      <FontAwesome5
+                        name="marker"
+                        color="#FFF"
+                        size={16}
+                        solid
+                      />
+                    )}
+                    color="#FFF"
+                    size={20}
+                    onPress={() => dispatchEditExpenseModalState(true)}
+                  />
+                ) : null}
                 {ExpenseUIActions.EnableSubmit ? (
                   <IconButton
                     icon={() => (
@@ -118,7 +139,7 @@ class ReportDetails extends PureComponent {
                     )}
                     color="#FFF"
                     size={20}
-                    // onPress={() => console.log('Pressed')}
+                    onPress={this.submitExpenseConfirmation}
                   />
                 ) : null}
                 {ExpenseUIActions.EnableDelete ? (
@@ -205,8 +226,12 @@ class ReportDetails extends PureComponent {
         <EditExpense initialValues={mappedValues} />
         <Dialog
           visible={this.state.dialogVisible}
-          title="Delete!"
-          message={DELETE_EXPENSE_MESSAGE}
+          title={this.state.isDeleteDialog ? 'Delete!' : 'Submit!'}
+          message={
+            this.state.isDeleteDialog
+              ? DELETE_EXPENSE_MESSAGE
+              : SUBMIT_EXPENSE_MESSAGE
+          }
           onDismiss={this.onDialogDismiss}
           onConfirm={this.onDialogConfirm}
         />
@@ -220,6 +245,7 @@ ReportDetails.propTypes = {
   expenseDetailsData: PropTypes.object,
   dispatchEditExpenseModalState: PropTypes.func.isRequired,
   dispatchDeleteExpense: PropTypes.func.isRequired,
+  dispatchSubmitExpense: PropTypes.func.isRequired,
   triggerExpenseDelete: PropTypes.bool,
   navigation: PropTypes.any,
   onBack: PropTypes.func,
@@ -278,6 +304,7 @@ const mapDispatchToProps = dispatch => ({
   dispatchEditExpenseModalState: visibility =>
     dispatch(setEditExpenseModalVisibility(visibility)),
   dispatchDeleteExpense: () => dispatch(setDeleteExpense()),
+  dispatchSubmitExpense: () => dispatch(setSubmitExpense()),
   dispatchTriggerExpenseDelete: value =>
     dispatch(setTriggerExpenseDelete(value)),
 });

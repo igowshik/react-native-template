@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
-import { Divider, Card, DataTable, IconButton } from 'react-native-paper';
+import { Divider, Card, DataTable, IconButton, Text } from 'react-native-paper';
 import { Col, Grid } from 'react-native-easy-grid';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -16,49 +16,14 @@ class ReportReceipts extends React.PureComponent {
   receiptItems = ExpenseReceipts =>
     ExpenseReceipts.map(item => (
       <DataTable.Row key={item.ExpenseReceiptId}>
-        <DataTable.Cell>{item.ReceiptName}</DataTable.Cell>
+        <DataTable.Cell>
+          <Text style={styles.linkText}>{item.ReceiptName}</Text>
+        </DataTable.Cell>
         <DataTable.Cell>{item.ExpenseItemId}</DataTable.Cell>
         <DataTable.Cell>
           {getDateByFormat(item.UpdatedDate, 'L')}
         </DataTable.Cell>
         <DataTable.Cell>{item.Comment ? item.Comment : ''}</DataTable.Cell>
-        {/* <DataTable.Cell> */}
-        {/* <View
-          style={{
-            flexDirection: 'row',
-          }}
-        >
-          <IconButton
-            icon={() => (
-              <FontAwesome5
-                name="pen-alt"
-                color={Colors.PRIMARY}
-                size={15}
-                solid
-              />
-            )}
-            size={25}
-            onPress={() => {
-              // this.editAddressHandler(add.ConexionAddressId);
-            }}
-          />
-          <IconButton
-            icon={() => (
-              <FontAwesome5
-                name="trash"
-                color={Colors.SECONDARY}
-                size={15}
-                solid
-              />
-            )}
-            color={Colors.SECONDARY}
-            size={25}
-            onPress={() => {
-              // this.deleteAddressConfirmation(add.ConexionAddressId);
-            }}
-          />
-        </View> */}
-        {/* </DataTable.Cell> */}
       </DataTable.Row>
     ));
 
@@ -97,22 +62,24 @@ class ReportReceipts extends React.PureComponent {
                 <FontAwesome5 name="receipt" color="#FA2A6C" size={20} light />
               </View>
             )}
-            right={rightProps => (
-              <IconButton
-                {...rightProps}
-                icon={() => (
-                  <FontAwesome5
-                    name="plus-circle"
-                    color={Colors.PRIMARY}
-                    size={25}
-                    light
-                  />
-                )}
-                style={{ height: 50, width: 50 }}
-                color={Colors.PRIMARY}
-                // onPress={() => console.log('Pressed')}
-              />
-            )}
+            right={rightProps =>
+              expenseDetailsData.ExpenseUIActions.EnableEdit ? (
+                <IconButton
+                  {...rightProps}
+                  icon={() => (
+                    <FontAwesome5
+                      name="plus-circle"
+                      color={Colors.PRIMARY}
+                      size={25}
+                      light
+                    />
+                  )}
+                  style={{ height: 50, width: 50 }}
+                  color={Colors.PRIMARY}
+                  // onPress={() => console.log('Pressed')}
+                />
+              ) : null
+            }
           />
           <Divider />
           <Card.Content>
@@ -124,7 +91,6 @@ class ReportReceipts extends React.PureComponent {
                     <DataTable.Title>Transaction Id</DataTable.Title>
                     <DataTable.Title>Uploaded On</DataTable.Title>
                     <DataTable.Title>Comment</DataTable.Title>
-                    {/* <DataTable.Title>Actions</DataTable.Title> */}
                   </DataTable.Header>
                   {this.receiptItems(expenseDetailsData.ExpenseReceipts.Data)}
                   {this.renderPageNumber(

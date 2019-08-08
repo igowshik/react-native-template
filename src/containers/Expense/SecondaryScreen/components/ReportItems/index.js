@@ -4,11 +4,12 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
-import { Divider, Card, DataTable, IconButton } from 'react-native-paper';
+import { Divider, Card, DataTable, IconButton, Text } from 'react-native-paper';
 import { Col, Grid } from 'react-native-easy-grid';
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 import { createStructuredSelector } from 'reselect';
 import Swipeout from 'react-native-swipeout';
+import Dialog from 'cnxapp/src/components/Dialog';
 import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
 import {
   selectExpenseDetails,
@@ -18,58 +19,76 @@ import {
   getExpenseReportItems,
   setCreateReportItemModalVisibility,
   setExpenseReportItemsQuery,
+  setDeleteExpenceReportItem,
 } from '../../actions';
 import CreateReportItem from './CreateReportItem';
+import { DELETE_REPORT_ITEM_MESSAGE } from '../../../constants';
 const uuidv1 = require('uuid/v1');
 
 class ReportItems extends React.Component {
-  tableItems = ExpenseItems => {
-    const rightButton = [
-      {
-        component: (
-          <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
-            <IconButton
-              icon={() => (
-                <FontAwesome5 name="marker" color="#FFF" size={16} solid />
-              )}
-              size={20}
-              color="#FFF"
-              onPress={() => alert('Edit Pressed')}
-            />
-          </View>
-        ),
-        backgroundColor: Colors.PURPLE,
-        underlayColor: 'rgba(0, 0, 1, 0.6)',
-        onPress: () => {
-          alert('Edit Pressed');
-        },
-      },
-      {
-        component: (
-          <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
-            <IconButton
-              icon={() => (
-                <FontAwesome5 name="trash" color="#FFF" size={16} solid />
-              )}
-              size={20}
-              color="#FFF"
-              onPress={() => alert('Delete Pressed')}
-            />
-          </View>
-        ),
-        backgroundColor: Colors.RED,
-        underlayColor: 'rgba(0, 0,1, 0.6)',
-        onPress: () => {
-          alert('Delete Pressed');
-        },
-      },
-    ];
+  state = { dialogVisible: false, selectedReportItemId: null };
 
-    return ExpenseItems.map(item => (
+  onDialogDismiss = () => this.setState({ dialogVisible: false });
+
+  onDialogConfirm = () => {
+    this.setState({ dialogVisible: false });
+    this.props.dispatchDeleteExpenseReportItem(this.state.selectedReportItemId);
+  };
+
+  swipeDelete = Item => {
+    this.setState({
+      dialogVisible: true,
+      selectedReportItemId: Item.ExpenseItemId,
+    });
+  };
+
+  swipeRightButton = item => [
+    {
+      component: (
+        <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
+          <IconButton
+            icon={() => (
+              <FontAwesome5 name="marker" color="#FFF" size={16} solid />
+            )}
+            size={20}
+            color="#FFF"
+            onPress={() => alert('Functionality to be implemented')}
+          />
+        </View>
+      ),
+      backgroundColor: Colors.PURPLE,
+      underlayColor: 'rgba(0, 0, 1, 0.6)',
+      onPress: () => {
+        alert('Functionality to be implemented');
+      },
+    },
+    {
+      component: (
+        <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
+          <IconButton
+            icon={() => (
+              <FontAwesome5 name="trash" color="#FFF" size={16} solid />
+            )}
+            size={20}
+            color="#FFF"
+            onPress={() => this.swipeDelete(item)}
+          />
+        </View>
+      ),
+      backgroundColor: Colors.RED,
+      underlayColor: 'rgba(0, 0,1, 0.6)',
+      onPress: () => this.swipeDelete(item),
+    },
+  ];
+
+  tableItems = ExpenseItems =>
+    ExpenseItems.map(item => (
       <Swipeout
-        right={rightButton}
+        right={this.swipeRightButton(item)}
         autoClose
+        buttonWidth={75}
         backgroundColor="transparent"
+        disabled={!this.props.expenseDetailsData.ExpenseUIActions.EnableSubmit}
         key={uuidv1()}
       >
         <DataTable.Row key={item.ExpenseItemId}>
@@ -85,12 +104,12 @@ class ReportItems extends React.Component {
             {item.PaymentType.Value ? item.PaymentType.Value : ''}
           </DataTable.Cell>
           <DataTable.Cell>{item.BusinessPurpose}</DataTable.Cell>
-          <DataTable.Cell>$ {item.Amount}</DataTable.Cell>
-          {/* <DataTable.Cell>$500.00</DataTable.Cell> */}
+          <DataTable.Cell>
+            <Text style={styles.linkText}>$ {item.Amount}</Text>
+          </DataTable.Cell>
         </DataTable.Row>
       </Swipeout>
     ));
-  };
 
   renderPaging = pageDetail => {
     const {
@@ -124,7 +143,7 @@ class ReportItems extends React.Component {
     const intialValues = {
       ri_transaction_date: new Date(),
       riStandardMileageRate: '0.00',
-      riAmount: '0.00',
+      riAmount: '0',
     };
     return (
       <View style={{ flex: 1, margin: 10 }}>
@@ -142,22 +161,24 @@ class ReportItems extends React.Component {
                 <FontAwesome5 name="list-ul" color="#1F914E" size={20} light />
               </View>
             )}
-            right={rightProps => (
-              <IconButton
-                {...rightProps}
-                icon={() => (
-                  <FontAwesome5
-                    name="plus-circle"
-                    color={Colors.PRIMARY}
-                    size={25}
-                    light
-                  />
-                )}
-                style={{ height: 50, width: 50 }}
-                color={Colors.PRIMARY}
-                onPress={() => dispatchModalStateVisibility(true)}
-              />
-            )}
+            right={rightProps =>
+              expenseDetailsData.ExpenseUIActions.EnableEdit ? (
+                <IconButton
+                  {...rightProps}
+                  icon={() => (
+                    <FontAwesome5
+                      name="plus-circle"
+                      color={Colors.PRIMARY}
+                      size={25}
+                      light
+                    />
+                  )}
+                  style={{ height: 50, width: 50 }}
+                  color={Colors.PRIMARY}
+                  onPress={() => dispatchModalStateVisibility(true)}
+                />
+              ) : null
+            }
           />
           <Divider />
           <Card.Content>
@@ -172,7 +193,6 @@ class ReportItems extends React.Component {
                     <DataTable.Title>Payment Type</DataTable.Title>
                     <DataTable.Title>Business Purpose</DataTable.Title>
                     <DataTable.Title>Amount</DataTable.Title>
-                    {/* <DataTable.Title>Action</DataTable.Title> */}
                   </DataTable.Header>
                   {this.tableItems(expenseDetailsData.ExpenseItems.Data)}
                   {this.renderPaging(
@@ -187,6 +207,13 @@ class ReportItems extends React.Component {
           modalOpen={reportItemModalVisibility}
           initialValues={intialValues}
         />
+        <Dialog
+          visible={this.state.dialogVisible}
+          title="Delete!"
+          message={DELETE_REPORT_ITEM_MESSAGE}
+          onDismiss={this.onDialogDismiss}
+          onConfirm={this.onDialogConfirm}
+        />
       </View>
     );
   }
@@ -197,6 +224,7 @@ ReportItems.propTypes = {
   expenseDetailsData: PropTypes.object,
   dispatchSetExpenseReportItemsQuery: PropTypes.func.isRequired,
   dispatchGetExpenseReportItems: PropTypes.func.isRequired,
+  dispatchDeleteExpenseReportItem: PropTypes.func.isRequired,
   reportItemModalVisibility: PropTypes.bool,
   dispatchModalStateVisibility: PropTypes.func.isRequired,
 };
@@ -230,6 +258,8 @@ const mapDispatchToProps = dispatch => ({
   dispatchModalStateVisibility: visibility =>
     dispatch(setCreateReportItemModalVisibility(visibility)),
   dispatchGetExpenseReportItems: () => dispatch(getExpenseReportItems()),
+  dispatchDeleteExpenseReportItem: reportItemId =>
+    dispatch(setDeleteExpenceReportItem(reportItemId)),
 });
 
 const withConnect = connect(

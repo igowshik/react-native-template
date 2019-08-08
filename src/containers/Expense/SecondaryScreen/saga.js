@@ -14,11 +14,10 @@ import {
   saveExpenseReportItems,
   saveExpenseReportReceipts,
   setCreateReportItemModalVisibility,
-  getExpenseReportItems,
-  setExpenseReportItemsQuery,
   setTriggerExpenseDelete,
   updateExpenseDetails,
   setEditExpenseModalVisibility,
+  getExpenseDetails,
 } from './actions';
 import {
   GET_EXPENSE,
@@ -27,6 +26,9 @@ import {
   CREATE_EXP_REPORT_ITEM,
   DELETE_EXPENSE,
   EDIT_EXPENSE,
+  SUBMIT_EXPENSE_REPORT,
+  DELETE_REPORT_ITEM,
+  CREATE_REPORT_ITEM_FORM,
 } from './constants';
 import {
   selectCurrentExpenseID,
@@ -34,11 +36,13 @@ import {
   selectNewExpReportItem,
   selectExpenseDetails,
   selectEditExpenseObject,
+  selectDeleteReportItemId,
 } from './selectors';
 import {
   getExpenseSummary,
   setExpensePageNumber,
   getExpenseList,
+  resetReduxForm,
 } from '../PrimaryScreen/actions';
 // import { EXPENSE_STATUS } from '../constants';
 // import { selectExpenseMetadata } from '../PrimaryScreen/selectors';
@@ -138,8 +142,8 @@ function* createExpReportItemAPI() {
   const response = yield call(request, requestURL, options);
   if (response.success) {
     yield put(setRootGlobalLoader(false));
-    yield put(setExpenseReportItemsQuery(1));
-    yield put(getExpenseReportItems());
+    yield put(getExpenseDetails(expenseDetailsData.ExpenseDetail.ExpenseId));
+    yield put(resetReduxForm(CREATE_REPORT_ITEM_FORM));
     yield put(setCreateReportItemModalVisibility(false));
   } else {
     yield put(
@@ -209,6 +213,66 @@ function* setEditExpenseAPI() {
     yield put(setToastVisibility(true));
   }
 }
+function* submitExpenseAPI() {
+  yield put(setRootGlobalLoader(true));
+  const expenseDetailsData = yield select(selectExpenseDetails());
+  const payLoad = {
+    ExpenseId: expenseDetailsData.ExpenseDetail.ExpenseId,
+    Status: 'SUBM',
+    Comment: '',
+  };
+  const requestURL = `${config.apiURL}ChangeExpenseStatus`;
+  const options = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payLoad),
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(getExpenseDetails(expenseDetailsData.ExpenseDetail.ExpenseId));
+    yield put(getExpenseSummary());
+    yield put(setExpensePageNumber(1));
+    yield put(getExpenseList());
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
+function* deleteReportItemAPI() {
+  yield put(setRootGlobalLoader(true));
+  const deleteExpenseReportItemId = yield select(selectDeleteReportItemId());
+  const expenseDetailsData = yield select(selectExpenseDetails());
+  const requestURL = `${
+    config.apiURL
+  }DeleteExpenseItem?expenseItemId=${deleteExpenseReportItemId}`;
+
+  const options = {
+    method: 'DELETE',
+  };
+  const response = yield call(request, requestURL, options);
+  if (response.success) {
+    yield put(setRootGlobalLoader(false));
+    yield put(getExpenseDetails(expenseDetailsData.ExpenseDetail.ExpenseId));
+  } else {
+    yield put(
+      setToastMessage({
+        toastMessage: response.message,
+        toastType: ERROR,
+      }),
+    );
+    yield put(setRootGlobalLoader(false));
+    yield put(setToastVisibility(true));
+  }
+}
 export default function* initConexionSaga() {
   yield takeLatest(GET_EXPENSE, getExpenseAPI);
   yield takeLatest(GET_EXP_REPORT_ITEMS, getExpReportItemsAPI);
@@ -216,4 +280,6 @@ export default function* initConexionSaga() {
   yield takeLatest(CREATE_EXP_REPORT_ITEM, createExpReportItemAPI);
   yield takeLatest(DELETE_EXPENSE, setDeleteExpenseAPI);
   yield takeLatest(EDIT_EXPENSE, setEditExpenseAPI);
+  yield takeLatest(SUBMIT_EXPENSE_REPORT, submitExpenseAPI);
+  yield takeLatest(DELETE_REPORT_ITEM, deleteReportItemAPI);
 }
