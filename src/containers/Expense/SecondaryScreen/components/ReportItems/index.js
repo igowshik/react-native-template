@@ -88,6 +88,7 @@ class ReportItems extends React.Component {
         autoClose
         buttonWidth={75}
         backgroundColor="transparent"
+        disabled={!this.props.expenseDetailsData.ExpenseUIActions.EnableSubmit}
         key={uuidv1()}
       >
         <DataTable.Row key={item.ExpenseItemId}>
