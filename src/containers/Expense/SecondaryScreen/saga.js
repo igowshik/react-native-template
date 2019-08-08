@@ -233,6 +233,9 @@ function* submitExpenseAPI() {
   if (response.success) {
     yield put(setRootGlobalLoader(false));
     yield put(getExpenseDetails(expenseDetailsData.ExpenseDetail.ExpenseId));
+    yield put(getExpenseSummary());
+    yield put(setExpensePageNumber(1));
+    yield put(getExpenseList());
   } else {
     yield put(
       setToastMessage({

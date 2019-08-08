@@ -33,6 +33,7 @@ export const IntialState = {
   deleteReportItemId: '',
   expenseDetails: {
     ExpenseUIActions: {
+      EnableEdit: false,
       EnableDelete: false,
       EnableSubmit: false,
       EnableManagerApprove: false,
