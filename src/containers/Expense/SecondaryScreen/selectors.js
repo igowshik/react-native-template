@@ -57,6 +57,11 @@ const selectEditExpenseObject = () =>
     expenseReducers,
     dataState => dataState.editExpenseObject,
   );
+const selectDeleteReportItemId = () =>
+  createSelector(
+    expenseReducers,
+    dataState => dataState.deleteReportItemId,
+  );
 export {
   selectCurrentExpenseID,
   selectExpenseDetails,
@@ -66,4 +71,5 @@ export {
   selectEditModalOpen,
   selectTriggerExpenseDelete,
   selectEditExpenseObject,
+  selectDeleteReportItemId,
 };
