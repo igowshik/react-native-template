@@ -17,6 +17,7 @@ import {
 import {
   getExpenseReportItems,
   setCreateReportItemModalVisibility,
+  setExpenseReportItemsQuery,
 } from '../../actions';
 import CreateReportItem from './CreateReportItem';
 const uuidv1 = require('uuid/v1');
@@ -71,28 +72,31 @@ class ReportItems extends React.Component {
         backgroundColor="transparent"
         key={uuidv1()}
       >
-      <DataTable.Row key={item.ExpenseItemId}>
-        <DataTable.Cell>{item.ExpenseItemId}</DataTable.Cell>
-        <DataTable.Cell>
-          {getDateByFormat(item.TransactionDate, 'L')}
-        </DataTable.Cell>
-        <DataTable.Cell>
-          {item.ExpenseType.Value ? item.ExpenseType.Value : ''}
-        </DataTable.Cell>
-        <DataTable.Cell>{item.Miles ? item.Miles : ''}</DataTable.Cell>
-        <DataTable.Cell>
-          {item.PaymentType.Value ? item.PaymentType.Value : ''}
-        </DataTable.Cell>
-        <DataTable.Cell>{item.BusinessPurpose}</DataTable.Cell>
-        <DataTable.Cell>$ {item.Amount}</DataTable.Cell>
-        {/* <DataTable.Cell>$500.00</DataTable.Cell> */}
-      </DataTable.Row>
+        <DataTable.Row key={item.ExpenseItemId}>
+          <DataTable.Cell>{item.ExpenseItemId}</DataTable.Cell>
+          <DataTable.Cell>
+            {getDateByFormat(item.TransactionDate, 'L')}
+          </DataTable.Cell>
+          <DataTable.Cell>
+            {item.ExpenseType.Value ? item.ExpenseType.Value : ''}
+          </DataTable.Cell>
+          <DataTable.Cell>{item.Miles ? item.Miles : ''}</DataTable.Cell>
+          <DataTable.Cell>
+            {item.PaymentType.Value ? item.PaymentType.Value : ''}
+          </DataTable.Cell>
+          <DataTable.Cell>{item.BusinessPurpose}</DataTable.Cell>
+          <DataTable.Cell>$ {item.Amount}</DataTable.Cell>
+          {/* <DataTable.Cell>$500.00</DataTable.Cell> */}
+        </DataTable.Row>
       </Swipeout>
     ));
   };
 
   renderPaging = pageDetail => {
-    const { dispatchGetExpenseReportItems } = this.props;
+    const {
+      dispatchGetExpenseReportItems,
+      dispatchSetExpenseReportItemsQuery,
+    } = this.props;
     if (pageDetail.TotalPages <= 1) return null;
     return (
       <DataTable.Pagination

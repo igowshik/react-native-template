@@ -18,6 +18,7 @@ export const TRIGGER_EXP_DELETE = '@Expense/TRIGGER_EXP_DELETE';
 export const SET_EDIT_EXP_OBJ = '@Expense/SET_EDIT_EXP_OBJ';
 export const EDIT_EXPENSE = '@Expense/EDIT_EXPENSE';
 export const UPDATE_EXP_DETAILS = '@Expense/UPDATE_EXP_DETAILS';
+export const SUBMIT_EXPENSE_REPORT = '@Expense/SUBMIT_EXPENSE_REPORT';
 
 export const CREATE_REPORT_ITEM_FORM = 'createReportItemForm';
 export const EDIT_EXPENSE_FORM = 'editExpenseForm';
