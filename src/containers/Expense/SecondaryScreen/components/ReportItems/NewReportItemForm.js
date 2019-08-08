@@ -48,6 +48,17 @@ class NewReportItemForm extends React.Component {
     this.showDatePicker = this.showDatePicker.bind(this);
     this.hideDateTimePicker = this.hideDateTimePicker.bind(this);
   }
+  componentDidUpdate(prevProps) {
+    const { riMiles, riStandardMileageRate, changeRDXField } = this.props;
+    if (riMiles !== prevProps.riMiles) {
+      if (typeof riMiles === 'undefined')
+        changeRDXField(CREATE_REPORT_ITEM_FORM, 'riAmount', '0.00');
+      else {
+        const amount = parseFloat(riMiles) * parseFloat(riStandardMileageRate);
+        changeRDXField(CREATE_REPORT_ITEM_FORM, 'riAmount', amount.toString());
+      }
+    }
+  }
 
   showDatePicker = () => this.setState({ isDatePickerVisible: true });
 
@@ -79,14 +90,8 @@ class NewReportItemForm extends React.Component {
     return paymentType;
   };
 
-  onMilesChanged = () => {
-    // const { riMiles, riStandardMileageRate, changeRDXField } = this.props;
-    // const amount = parseFloat(riMiles) * parseFloat(riStandardMileageRate);
-    // changeRDXField(CREATE_REPORT_ITEM_FORM, 'riAmount', amount.toString());
-  };
-
   onExpenseTypeChanged = () => {
-    const { riExpenseType, changeRDXField } = this.props;
+    const { riExpenseType, changeRDXField,riMiles } = this.props;
     if (riExpenseType === 'TPER' || riExpenseType === 'TPAO') {
       this.setState({
         isMileageRowVisible: true,
@@ -99,6 +104,10 @@ class NewReportItemForm extends React.Component {
         riExpenseType === 'TPER' ? '0.535' : '0.19',
       );
       changeRDXField(CREATE_REPORT_ITEM_FORM, 'ri_payment_Type', 'CASH');
+      if(riMiles){
+        const amount = parseFloat(riMiles) * parseFloat(riExpenseType === 'TPER' ? '0.535' : '0.19');
+        changeRDXField(CREATE_REPORT_ITEM_FORM, 'riAmount', amount.toString());
+      }
       return;
     }
     this.setState({
@@ -108,6 +117,8 @@ class NewReportItemForm extends React.Component {
     });
     changeRDXField(CREATE_REPORT_ITEM_FORM, 'riStandardMileageRate', '0.0');
     changeRDXField(CREATE_REPORT_ITEM_FORM, 'ri_payment_Type', '');
+    changeRDXField(CREATE_REPORT_ITEM_FORM, 'riMiles', '');
+    changeRDXField(CREATE_REPORT_ITEM_FORM, 'riAmount', '0');
   };
 
   closeCamera = uri => {
@@ -190,7 +201,7 @@ class NewReportItemForm extends React.Component {
                     <NumberInput
                       label="Miles"
                       name="riMiles"
-                      onChangeTrigger={this.onMilesChanged}
+                      //onChangeTrigger={this.onMilesChanged}
                     />
                   </Col>
                   <Col>
