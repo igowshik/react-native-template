@@ -8,25 +8,14 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import * as Colors from 'cnxapp/src/utils/colorsConstants';
+import { statusColorMapper } from 'cnxapp/src/containers/Expense/mappers';
 import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
 import { createStructuredSelector } from 'reselect';
 import { selectExpenseDetails } from '../../selectors';
-const { ExpenseColors } = Colors;
 
 const profileBG = require('cnxapp/src/assets/images/cardbg3.png');
 
 class ExpenseCard extends PureComponent {
-  statusColor = status => {
-    const _status = status.toUpperCase();
-    if (_status.includes('ALL')) return ExpenseColors.ALL;
-    if (_status.includes('NEW')) return ExpenseColors.SAVED;
-    if (_status.includes('SUBMITED')) return ExpenseColors.SUBMITED;
-    if (_status.includes('APPROVED')) return ExpenseColors.APPROVED;
-    if (_status.includes('REJECTED')) return ExpenseColors.REJECTED;
-    return ExpenseColors.ALL;
-  };
-
   render() {
     const { expenseDetailsData } = this.props;
     const { ExpenseDetail } = expenseDetailsData;
@@ -36,7 +25,6 @@ class ExpenseCard extends PureComponent {
         <LinearGradient
           start={{ x: 0, y: 1 }}
           end={{ x: 1, y: 0 }}
-          // colors={['#4E9753', '#67AA70', '#4E9753']}
           colors={['#FFF', '#FFF']}
           style={styles.linearGradient}
         >
@@ -46,7 +34,7 @@ class ExpenseCard extends PureComponent {
                 <Col style={styles.status}>
                   <FontAwesome5
                     name="circle"
-                    color={this.statusColor(ExpenseDetail.CurrentStatus.Value)}
+                    color={statusColorMapper(ExpenseDetail.CurrentStatus.Code)}
                     size={13}
                     solid
                     style={{ paddingRight: 5 }}

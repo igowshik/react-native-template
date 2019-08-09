@@ -44,8 +44,6 @@ import {
   getExpenseList,
   resetReduxForm,
 } from '../PrimaryScreen/actions';
-// import { EXPENSE_STATUS } from '../constants';
-// import { selectExpenseMetadata } from '../PrimaryScreen/selectors';
 
 function* getExpenseAPI() {
   yield put(setRootGlobalLoader(true));
@@ -273,6 +271,13 @@ function* deleteReportItemAPI() {
     yield put(setToastVisibility(true));
   }
 }
+
+// function* refreshExpenseDashboard() {
+//   yield put(getExpenseSummary());
+//   yield put(setExpensePageNumber(1));
+//   yield put(getExpenseList());
+// }
+
 export default function* initConexionSaga() {
   yield takeLatest(GET_EXPENSE, getExpenseAPI);
   yield takeLatest(GET_EXP_REPORT_ITEMS, getExpReportItemsAPI);

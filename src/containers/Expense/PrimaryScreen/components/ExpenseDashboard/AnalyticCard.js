@@ -3,11 +3,14 @@ import { StyleSheet, View } from 'react-native';
 import { Card, Text } from 'react-native-paper';
 import { CNXH1 } from 'cnxapp/src/components/Typography';
 import PropTypes from 'prop-types';
-import * as Colors from 'cnxapp/src/utils/colorsConstants';
 import LinearGradient from 'react-native-linear-gradient';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import {
+  statusColorMapper,
+  gradientColorMapper,
+} from 'cnxapp/src/containers/Expense/mappers';
 import {
   getExpenseList,
   setExpenseSearchQuery,
@@ -18,9 +21,6 @@ import {
   selectCurrentExpenseStatus,
   selectExpenseFilterQuery,
 } from '../../selectors';
-
-const { ExpenseColors } = Colors;
-const { LINEAR_EXPE_COLORS } = Colors;
 
 class AnalyticsCard extends React.Component {
   constructor(props) {
@@ -34,51 +34,12 @@ class AnalyticsCard extends React.Component {
   }
 
   componentDidMount() {
-    const { fetchExpenseList } = this.props;
-    this._getColorCode();
+    const { fetchExpenseList, status } = this.props;
+    this.setState({
+      selectedColor: statusColorMapper(status),
+      linearColor: gradientColorMapper(status),
+    });
     fetchExpenseList();
-  }
-
-  _getColorCode() {
-    const { status } = this.props;
-    switch (status) {
-      case 'ALL':
-        this.setState({
-          selectedColor: ExpenseColors.ALL,
-          linearColor: LINEAR_EXPE_COLORS.ALL,
-        });
-        break;
-      case 'SAVE':
-        this.setState({
-          selectedColor: ExpenseColors.SAVED,
-          linearColor: LINEAR_EXPE_COLORS.SAVED,
-        });
-        break;
-      case 'SUBM':
-        this.setState({
-          selectedColor: ExpenseColors.SUBMITED,
-          linearColor: LINEAR_EXPE_COLORS.SUBMITED,
-        });
-        break;
-      case 'APPR':
-        this.setState({
-          selectedColor: ExpenseColors.APPROVED,
-          linearColor: LINEAR_EXPE_COLORS.APPROVED,
-        });
-        break;
-      case 'REJE':
-        this.setState({
-          selectedColor: ExpenseColors.REJECTED,
-          linearColor: LINEAR_EXPE_COLORS.REJECTED,
-        });
-        break;
-      default:
-        this.setState({
-          selectedColor: ExpenseColors.ALL,
-          linearColor: LINEAR_EXPE_COLORS.ALL,
-        });
-        break;
-    }
   }
 
   cardClicked = () => {
@@ -104,7 +65,6 @@ class AnalyticsCard extends React.Component {
       setExpenseList([]);
       return;
     }
-    // updateExpensePageNumber(1);
     fetchExpenseList();
   };
 

@@ -4,29 +4,8 @@ import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 
-import * as Colors from 'cnxapp/src/utils/colorsConstants';
-const { ExpenseColors } = Colors;
+import { statusColorMapper } from 'cnxapp/src/containers/Expense/mappers';
 export default class ListItemRight extends PureComponent {
-  statusColor = status => {
-    switch (status.toUpperCase()) {
-      case 'ALL':
-        return ExpenseColors.ALL;
-      case 'NEW': // NEW is SAVED
-        return ExpenseColors.SAVED;
-      case 'SUBM':
-        return ExpenseColors.SUBMITED;
-      case 'MAPR':
-      case 'AAPR':
-        return ExpenseColors.APPROVED;
-      case 'REJECTED':
-      case 'MREJ':
-      case 'AREJ':
-        return ExpenseColors.REJECTED;
-      default:
-        return ExpenseColors.ALL;
-    }
-  };
-
   render() {
     const { item } = this.props;
     return (
@@ -70,7 +49,7 @@ export default class ListItemRight extends PureComponent {
           >
             <FontAwesome5
               name="circle"
-              color={this.statusColor(item.CurrentStatus)}
+              color={statusColorMapper(item.CurrentStatus)}
               size={10}
               solid
               style={{ paddingRight: 5 }}
