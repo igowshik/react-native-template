@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.4.2",
+    "@react-native-community/blur": "^3.3.1",
     "@react-native-community/cameraroll": "^1.1.1",
     "@redux-offline/redux-offline": "^2.5.1",
     "babel-polyfill": "^6.26.0",

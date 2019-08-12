@@ -106,6 +106,9 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+        renderscriptTargetApi 23
+        renderscriptSupportModeEnabled true
+        missingDimensionStrategy 'react-native-camera', 'general'
     }
     splits {
         abi {
@@ -141,9 +144,10 @@ android {
 }
 
 dependencies {
+    implementation project(':@react-native-community_blur')
     implementation project(':@react-native-community_cameraroll')
     implementation project(':react-native-fs')
-    implementation project(':react-native-camera')
+//    implementation project(':react-native-camera')
     implementation project(':react-native-reanimated')
     implementation project(':@react-native-community_async-storage')
     implementation project(':react-native-webview')
@@ -162,3 +166,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+//apply plugin: 'com.google.gms.google-services'

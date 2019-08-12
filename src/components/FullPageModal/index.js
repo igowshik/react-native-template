@@ -13,13 +13,10 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import LinearGradient from 'react-native-linear-gradient';
 
 import * as colors from 'cnxapp/src/utils/colorsConstants';
-import {
-  LINEAR_START,
-  LINEAR_END,
-  // CARD_BORDER_RADIUS,
-} from 'cnxapp/src/utils/valueconstants';
+import { LINEAR_START, LINEAR_END } from 'cnxapp/src/utils/valueconstants';
 import { IconButton, Headline } from 'react-native-paper';
 import { Grid, Col } from 'react-native-easy-grid';
+import Loader from './loader';
 
 const { height } = Dimensions.get('window');
 
@@ -59,7 +56,12 @@ class FullPageModal extends React.Component {
   };
 
   render() {
-    const { visible, modalHeaderText, modalHeaderRightComponent } = this.props;
+    const {
+      visible,
+      modalHeaderText,
+      modalHeaderRightComponent,
+      loader,
+    } = this.props;
     return (
       <View
         style={{
@@ -72,6 +74,7 @@ class FullPageModal extends React.Component {
           transparent={false}
           visible={visible}
         >
+          {visible ? <Loader loading={loader} /> : null}
           <StatusBar barStyle={visible ? 'light-content' : 'default'} />
           <View style={styles.parentView}>
             <LinearGradient
@@ -125,8 +128,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     height: 60,
-    // borderTopRightRadius: CARD_BORDER_RADIUS,
-    // borderTopLeftRadius: CARD_BORDER_RADIUS,
     paddingTop: Platform.OS === 'ios' ? 10 : 0,
   },
   closeIcon: {
@@ -162,6 +163,7 @@ FullPageModal.propTypes = {
   ]).isRequired,
   modalHeaderText: PropTypes.string,
   modalHeaderRightComponent: PropTypes.element,
+  loader: PropTypes.bool,
 };
 
 export default FullPageModal;

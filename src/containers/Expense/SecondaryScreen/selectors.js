@@ -1,21 +1,22 @@
 import { createSelector } from 'reselect';
 
 // Relative imports
-// import { rootInitialState } from 'cnxapp/src/app/rootReducer';
+import { rootInitialState } from 'cnxapp/src/app/rootReducer';
 import { IntialState } from './reducer';
 
-// const rootReducers = state =>
-//   state.rootStore ? state.rootStore : rootInitialState;
+const rootReducers = state =>
+  state.rootStore ? state.rootStore : rootInitialState;
 
 const expenseReducers = state =>
   state.expenseSecondaryScreenStore
     ? state.expenseSecondaryScreenStore
     : IntialState;
 
-// const store = state =>
-//   state.expenseSecondaryScreenStore
-//     ? state.expenseSecondaryScreenStore
-//     : IntialState;
+const selectGlobalLoader = () =>
+  createSelector(
+    rootReducers,
+    dataState => dataState.globalLoader,
+  );
 
 const selectCurrentExpenseID = () =>
   createSelector(
@@ -63,6 +64,7 @@ const selectDeleteReportItemId = () =>
     dataState => dataState.deleteReportItemId,
   );
 export {
+  selectGlobalLoader,
   selectCurrentExpenseID,
   selectExpenseDetails,
   selectExpenseReportItemQuery,
