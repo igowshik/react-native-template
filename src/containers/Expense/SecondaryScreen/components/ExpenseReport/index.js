@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import ReportItems from '../ReportItems';
 import ExpenseCard from './ExpenseCard';
 import ReportDetails from './ReportDetails';
-import ReportReceipts from './ReportReceipts';
+import ReportReceipts from '../ReportReceipts';
 import ReportHistory from './ReportHistory';
 import { getExpenseDetails } from '../../actions';
 import { selectExpenseDetails } from '../../selectors';
