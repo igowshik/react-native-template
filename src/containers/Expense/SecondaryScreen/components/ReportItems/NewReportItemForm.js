@@ -48,6 +48,7 @@ class NewReportItemForm extends React.Component {
     this.showDatePicker = this.showDatePicker.bind(this);
     this.hideDateTimePicker = this.hideDateTimePicker.bind(this);
   }
+
   componentDidUpdate(prevProps) {
     const { riMiles, riStandardMileageRate, changeRDXField } = this.props;
     if (riMiles !== prevProps.riMiles) {
@@ -91,7 +92,7 @@ class NewReportItemForm extends React.Component {
   };
 
   onExpenseTypeChanged = () => {
-    const { riExpenseType, changeRDXField,riMiles } = this.props;
+    const { riExpenseType, changeRDXField, riMiles } = this.props;
     if (riExpenseType === 'TPER' || riExpenseType === 'TPAO') {
       this.setState({
         isMileageRowVisible: true,
@@ -104,8 +105,10 @@ class NewReportItemForm extends React.Component {
         riExpenseType === 'TPER' ? '0.535' : '0.19',
       );
       changeRDXField(CREATE_REPORT_ITEM_FORM, 'ri_payment_Type', 'CASH');
-      if(riMiles){
-        const amount = parseFloat(riMiles) * parseFloat(riExpenseType === 'TPER' ? '0.535' : '0.19');
+      if (riMiles) {
+        const amount =
+          parseFloat(riMiles) *
+          parseFloat(riExpenseType === 'TPER' ? '0.535' : '0.19');
         changeRDXField(CREATE_REPORT_ITEM_FORM, 'riAmount', amount.toString());
       }
       return;
@@ -201,7 +204,7 @@ class NewReportItemForm extends React.Component {
                     <NumberInput
                       label="Miles"
                       name="riMiles"
-                      //onChangeTrigger={this.onMilesChanged}
+                      // onChangeTrigger={this.onMilesChanged}
                     />
                   </Col>
                   <Col>
@@ -346,9 +349,9 @@ NewReportItemForm.propTypes = {
   paymentTypeMetadata: PropTypes.array.isRequired,
   ri_transaction_date: PropTypes.object,
   riExpenseType: PropTypes.string,
-  // riMiles: PropTypes.string,
+  riMiles: PropTypes.string,
   changeRDXField: PropTypes.func,
-  // riStandardMileageRate: PropTypes.string,
+  riStandardMileageRate: PropTypes.string,
   pushRDXArray: PropTypes.func,
   ri_exp_receipt: PropTypes.array,
 };
