@@ -31,6 +31,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'rgba(52, 52, 52, 0.8)',
     padding: 5,
+    borderBottomRightRadius: 3,
+    borderBottomLeftRadius: 3,
   },
   imageThumbnail: {
     justifyContent: 'center',
