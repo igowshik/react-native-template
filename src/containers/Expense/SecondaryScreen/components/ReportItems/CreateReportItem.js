@@ -10,6 +10,7 @@ import { createStructuredSelector } from 'reselect';
 
 import FullPageModal from 'cnxapp/src/components/FullPageModal';
 import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
+
 // import * as colors from 'cnxapp/src/utils/colorsConstants';
 
 import { CREATE_REPORT_ITEM_FORM } from '../../constants';
@@ -20,6 +21,7 @@ import {
 } from '../../actions';
 import NewReportItemForm from './NewReportItemForm';
 import { reportItemFormValidate as validate } from '../../../Validator';
+import { selectGlobalLoader } from '../../selectors';
 
 class CreateReportItem extends Component {
   constructor(props) {
@@ -29,21 +31,22 @@ class CreateReportItem extends Component {
   }
 
   onCreateReportItem = values => {
+    const EMPTY = '';
     const { dispatchSetNewReportItem, createExpenseReportItem } = this.props;
     const valuesForm = JSON.stringify(values, null, 2);
     const objectForm = JSON.parse(valuesForm);
     const objBuilder = {
-      ExpenseId: '',
+      ExpenseId: EMPTY,
       TransactionDate: getDateByFormat(objectForm.ri_transaction_date, 'L'),
       ExpenseType: objectForm.riExpenseType,
-      PaymentType: objectForm.ri_payment_Type ? objectForm.ri_payment_Type : '',
-      Currency: '',
+      PaymentType: objectForm.ri_payment_Type || EMPTY,
+      Currency: EMPTY,
       Amount: objectForm.riAmount,
       BusinessPurpose: objectForm.ri_business_purpose,
-      Comment: objectForm.ri_comment ? objectForm.ri_comment : '',
-      Miles: objectForm.riMiles ? objectForm.riMiles : '',
+      Comment: objectForm.ri_comment || EMPTY,
+      Miles: objectForm.riMiles || EMPTY,
       StandardMileageRate: objectForm.riStandardMileageRate,
-      ProjectChargeable: '',
+      ProjectChargeable: EMPTY,
     };
     dispatchSetNewReportItem(objBuilder);
     createExpenseReportItem();
@@ -62,6 +65,7 @@ class CreateReportItem extends Component {
       pristine,
       invalid,
       handleSubmit,
+      loader,
     } = this.props;
 
     return (
@@ -79,6 +83,7 @@ class CreateReportItem extends Component {
             disabled={pristine || submitting || invalid}
           />
         }
+        loader={loader}
       >
         <NewReportItemForm style={styles.container} />
       </FullPageModal>
@@ -95,6 +100,7 @@ CreateReportItem.propTypes = {
   invalid: PropTypes.bool,
   dispatchFormReset: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  loader: PropTypes.bool.isRequired,
 };
 
 const reduxFormExpense = reduxForm({
@@ -120,7 +126,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-const mapStateToProps = createStructuredSelector({});
+const mapStateToProps = createStructuredSelector({
+  loader: selectGlobalLoader(),
+});
 
 const mapDispatchToProps = dispatch => ({
   dispatchFormReset: formName => dispatch(reset(formName)),

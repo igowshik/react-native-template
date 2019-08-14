@@ -89,6 +89,7 @@
 		A239F5718FE145E280C23E84 /* libRNReanimated.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F40E49B39D7A434391DF3164 /* libRNReanimated.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B299AFA9D8A1421E81258160 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 700BA15C2B8040238C6AC3A7 /* MaterialCommunityIcons.ttf */; };
+		B3AADE7E075D4E569B7FECD4 /* libRNBlur.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E3E39F3F869D4CB790DE3932 /* libRNBlur.a */; };
 		BFED31E9DC5D452C944F1727 /* libRNReanimated-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C561D3F7B1E84D468A0C3E93 /* libRNReanimated-tvOS.a */; };
 		C4F8981825B0470AB4C1A5AF /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09C1A393C6544CB194664D29 /* Foundation.ttf */; };
 		CE9E85B4A3BF411FBB350B03 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 410E7B7617494EF59C888D21 /* libRNSVG.a */; };
@@ -339,6 +340,20 @@
 			remoteGlobalIDString = 58B5115D1A9E6B3D00147676;
 			remoteInfo = RNCCameraRoll;
 		};
+		38C0E2B023015F230067FAFC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F38E695E11A8405EBC62DD9B /* RNBlur.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = A68BD7BC1BC31318005F02DF;
+			remoteInfo = RNBlur;
+		};
+		38C0E2B223015F230067FAFC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F38E695E11A8405EBC62DD9B /* RNBlur.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 64D1BD361EEFE88700F3F219;
+			remoteInfo = "RNBlur-tvOS";
+		};
 		38E4CF3B22A3FA1300C0E3AC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FD46E81A41D04937ADD64B3F /* RNCAsyncStorage.xcodeproj */;
@@ -577,10 +592,12 @@
 		CE81853D77CE4C709E69406F /* libRNCAsyncStorage.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCAsyncStorage.a; sourceTree = "<group>"; };
 		DE2E7593D93B42A28DEBD086 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		E206C2EFA7CB412596D883B4 /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
+		E3E39F3F869D4CB790DE3932 /* libRNBlur.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNBlur.a; sourceTree = "<group>"; };
 		E5A80C26373544DC8AD3B646 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/native-base/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		E90749F76C0D473EAAF31B90 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/native-base/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		E9B696CD5E2C405D8D34F19D /* Roboto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Roboto.ttf; path = "../node_modules/native-base/Fonts/Roboto.ttf"; sourceTree = "<group>"; };
 		EF83C6CF8C02494CBC55AB5E /* libRNCamera.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCamera.a; sourceTree = "<group>"; };
+		F38E695E11A8405EBC62DD9B /* RNBlur.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNBlur.xcodeproj; path = "../node_modules/@react-native-community/blur/ios/RNBlur.xcodeproj"; sourceTree = "<group>"; };
 		F40E49B39D7A434391DF3164 /* libRNReanimated.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNReanimated.a; sourceTree = "<group>"; };
 		F4B4747AE70E4FCA8BE0B160 /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		F82883646CAF46EFBB7E5101 /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = "<group>"; };
@@ -625,6 +642,7 @@
 				37CBC1BAFD7E4FEBA326CA3A /* libRNCamera.a in Frameworks */,
 				FA176C8355CB4E0E94CCCCC1 /* libRNFS.a in Frameworks */,
 				37499787EE3642ED9103F6E4 /* libRNCCameraRoll.a in Frameworks */,
+				B3AADE7E075D4E569B7FECD4 /* libRNBlur.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -791,6 +809,7 @@
 				EF83C6CF8C02494CBC55AB5E /* libRNCamera.a */,
 				A254F5C0B4054546BF795646 /* libRNFS.a */,
 				5A0B3CA12638483BA25E9A8F /* libRNCCameraRoll.a */,
+				E3E39F3F869D4CB790DE3932 /* libRNBlur.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -872,6 +891,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		38C0E2AC23015F230067FAFC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				38C0E2B123015F230067FAFC /* libRNBlur.a */,
+				38C0E2B323015F230067FAFC /* libRNBlur.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		38E4CF3822A3FA1300C0E3AC /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -922,6 +950,7 @@
 				C40AA400BA66453F82F35686 /* RNCamera.xcodeproj */,
 				57DE3131EEA840ECA9433792 /* RNFS.xcodeproj */,
 				6BE236E1F27B4347AC847618 /* RNCCameraRoll.xcodeproj */,
+				F38E695E11A8405EBC62DD9B /* RNBlur.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1196,6 +1225,10 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
+					ProductGroup = 38C0E2AC23015F230067FAFC /* Products */;
+					ProjectRef = F38E695E11A8405EBC62DD9B /* RNBlur.xcodeproj */;
+				},
+				{
 					ProductGroup = 3860C47C22F805BA0079E465 /* Products */;
 					ProjectRef = C40AA400BA66453F82F35686 /* RNCamera.xcodeproj */;
 				},
@@ -1465,6 +1498,20 @@
 			fileType = archive.ar;
 			path = libRNCCameraRoll.a;
 			remoteRef = 3860C56722F82B6C0079E465 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		38C0E2B123015F230067FAFC /* libRNBlur.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNBlur.a;
+			remoteRef = 38C0E2B023015F230067FAFC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		38C0E2B323015F230067FAFC /* libRNBlur.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNBlur.a;
+			remoteRef = 38C0E2B223015F230067FAFC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		38E4CF3C22A3FA1300C0E3AC /* libRNCAsyncStorage.a */ = {
@@ -1806,6 +1853,7 @@
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/@react-native-community/cameraroll/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/blur/ios",
 				);
 				INFOPLIST_FILE = cnxappTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1813,6 +1861,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1849,6 +1898,7 @@
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/@react-native-community/cameraroll/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/blur/ios",
 				);
 				INFOPLIST_FILE = cnxappTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1856,6 +1906,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1895,6 +1946,7 @@
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/@react-native-community/cameraroll/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/blur/ios",
 				);
 				INFOPLIST_FILE = cnxapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1932,6 +1984,7 @@
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/@react-native-community/cameraroll/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/blur/ios",
 				);
 				INFOPLIST_FILE = cnxapp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1974,12 +2027,14 @@
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/@react-native-community/cameraroll/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/blur/ios",
 				);
 				INFOPLIST_FILE = "cnxapp-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2024,12 +2079,14 @@
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/@react-native-community/cameraroll/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/blur/ios",
 				);
 				INFOPLIST_FILE = "cnxapp-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2073,12 +2130,14 @@
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/@react-native-community/cameraroll/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/blur/ios",
 				);
 				INFOPLIST_FILE = "cnxapp-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2122,12 +2181,14 @@
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fs/**",
 					"$(SRCROOT)/../node_modules/@react-native-community/cameraroll/ios",
+					"$(SRCROOT)/../node_modules/@react-native-community/blur/ios",
 				);
 				INFOPLIST_FILE = "cnxapp-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
