@@ -32,20 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new BlurViewPackage(),
-            new CameraRollPackage(),
-            new RNFSPackage(),
-            new RNCameraPackage(),
-            new ReanimatedPackage(),
-            new AsyncStoragePackage(),
-            new RNCWebViewPackage(),
-            new VectorIconsPackage(),
-            new SvgPackage(),
-            new LinearGradientPackage(),
-            new RNGestureHandlerPackage()
-      );
+      return Arrays.<ReactPackage>asList(new MainReactPackage());
     }
 
     @Override
