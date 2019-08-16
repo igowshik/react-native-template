@@ -70,7 +70,8 @@
     "whatwg-fetch": "^3.0.0"
   },
   "pre-commit": [
-    "precommit-msg"
+    "precommit-msg",
+    "eslint-pre-commit"
   ],
   "jest": {
     "preset": "react-native"
