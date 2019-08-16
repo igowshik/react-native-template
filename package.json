@@ -43,11 +43,10 @@
     "react-native-htmlview": "^0.14.0",
     "react-native-keyboard-aware-scroll-view": "^0.8.0",
     "react-native-keyboard-aware-view": "^0.0.14",
-    "react-native-keyboard-spacer": "^0.4.1",
     "react-native-linear-gradient": "^2.5.3",
     "react-native-material-dropdown": "^0.11.1",
     "react-native-modal": "^11.3.1",
-    "react-native-modal-datetime-picker": "^7.4.2",
+    "react-native-modal-datetime-picker": "^7.5.0",
     "react-native-multiple-select": "^0.5.2",
     "react-native-paper": "^2.14.0",
     "react-native-reanimated": "^1.2.0",
@@ -64,15 +63,14 @@
     "redux": "^4.0.1",
     "redux-dynamic-modules": "^3.3.1",
     "redux-dynamic-modules-saga": "^3.3.1",
-    "redux-form": "^8.2.3",
+    "redux-form": "^8.2.6",
     "redux-saga": "0.16.0",
     "reselect": "^4.0.0",
     "uuid": "^3.3.2",
     "whatwg-fetch": "^3.0.0"
   },
   "pre-commit": [
-    "precommit-msg",
-    "eslint-pre-commit"
+    "precommit-msg"
   ],
   "jest": {
     "preset": "react-native"

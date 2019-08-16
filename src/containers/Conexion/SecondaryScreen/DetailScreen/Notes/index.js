@@ -30,7 +30,7 @@ import Dialog from 'cnxapp/src/components/Dialog';
 import { DELETE_NOTE_MESSAGE } from 'cnxapp/src/containers/Conexion/constants';
 import DateTimePicker from 'cnxapp/src/components/DateTimePicker';
 
-import NotesView from './NotesView';
+// import NotesView from './NotesView';
 import RichTextExample from './RichTextEditor';
 import {
   selectConexionNoteFilter,
@@ -191,45 +191,45 @@ class Notes extends Component {
     return _notes;
   };
 
-  renderNotes = () => {
-    const { conexionNotes } = this.props;
-    if (this.getRenderingNoteList().length === 1 || Lo.isEmpty(conexionNotes))
-      return (
-        <View style={styles.noDataContainer}>
-          <FontAwesome5
-            name="info-circle"
-            color={colors.GREY}
-            size={35}
-            light
-          />
-          <Text style={styles.noDataText}>No Data</Text>
-        </View>
-      );
+  // renderNotes = () => {
+  //   const { conexionNotes } = this.props;
+  //   if (this.getRenderingNoteList().length === 1 || Lo.isEmpty(conexionNotes))
+  //     return (
+  //       <View style={styles.noDataContainer}>
+  //         <FontAwesome5
+  //           name="info-circle"
+  //           color={colors.GREY}
+  //           size={35}
+  //           light
+  //         />
+  //         <Text style={styles.noDataText}>No Data</Text>
+  //       </View>
+  //     );
 
-    return (
-      <NotesView
-        style={styles.list}
-        data={this.getRenderingNoteList()}
-        circleSize={20}
-        circleColor={colors.ORANGE}
-        lineColor="rgba(0,0,0,0.6)"
-        timeContainerStyle={{ minWidth: 170, marginTop: -5 }}
-        timeStyle={{
-          textAlign: 'center',
-          color: colors.PURPLE,
-          padding: 5,
-          borderRadius: 13,
-        }}
-        descriptionStyle={{ color: 'black' }} // color was set 'gray'
-        options={{
-          style: { paddingTop: 5 },
-        }}
-        innerCircle="icon"
-        onClickEdit={this.handleNoteEdit}
-        onClickDelete={this.handleNoteDelete}
-      />
-    );
-  };
+  //   return (
+  //     <NotesView
+  //       style={styles.list}
+  //       data={this.getRenderingNoteList()}
+  //       circleSize={20}
+  //       circleColor={colors.ORANGE}
+  //       lineColor="rgba(0,0,0,0.6)"
+  //       timeContainerStyle={{ minWidth: 170, marginTop: -5 }}
+  //       timeStyle={{
+  //         textAlign: 'center',
+  //         color: colors.PURPLE,
+  //         padding: 5,
+  //         borderRadius: 13,
+  //       }}
+  //       descriptionStyle={{ color: 'black' }} // color was set 'gray'
+  //       options={{
+  //         style: { paddingTop: 5 },
+  //       }}
+  //       innerCircle="icon"
+  //       onClickEdit={this.handleNoteEdit}
+  //       onClickDelete={this.handleNoteDelete}
+  //     />
+  //   );
+  // };
 
   render() {
     const {
@@ -321,7 +321,7 @@ class Notes extends Component {
           </Row>
         </Surface>
         <View style={styles.container}>
-          {this.renderNotes()}
+          {/* {this.renderNotes()} */}
           <Dialog
             visible={dialogVisible}
             title="Delete!"

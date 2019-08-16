@@ -7,7 +7,6 @@ import { withNavigation } from 'react-navigation';
 import { compose } from 'redux';
 import { Row, Grid } from 'react-native-easy-grid';
 import AsyncStorage from '@react-native-community/async-storage';
-// import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 // Absolute imports
 import BackgroundImage from 'cnxapp/src/components/BackgroundImage';

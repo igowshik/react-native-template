@@ -33,7 +33,7 @@ import {
   selectConexionTimelineFilter,
   selectConexionTimelineData,
 } from '../../../selectors';
-import TimelineView from './TimelineView';
+// import TimelineView from './TimelineView';
 const timeline = require('cnxapp/src/assets/pastel/timeline.jpg');
 
 class Timeline extends Component {
@@ -147,46 +147,46 @@ class Timeline extends Component {
     return _timeline;
   };
 
-  renderTimeline = () => {
-    const { conexionTimeline } = this.props;
-    if (
-      this.getRenderingTimeline().length === 1 ||
-      Lo.isEmpty(conexionTimeline)
-    )
-      return (
-        <View style={styles.noDataContainer}>
-          <FontAwesome5
-            name="info-circle"
-            color={colors.GREY}
-            size={35}
-            light
-          />
-          <Text style={styles.noDataText}>No Data</Text>
-        </View>
-      );
+  // renderTimeline = () => {
+  //   const { conexionTimeline } = this.props;
+  //   if (
+  //     this.getRenderingTimeline().length === 1 ||
+  //     Lo.isEmpty(conexionTimeline)
+  //   )
+  //     return (
+  //       <View style={styles.noDataContainer}>
+  //         <FontAwesome5
+  //           name="info-circle"
+  //           color={colors.GREY}
+  //           size={35}
+  //           light
+  //         />
+  //         <Text style={styles.noDataText}>No Data</Text>
+  //       </View>
+  //     );
 
-    return (
-      <TimelineView
-        style={styles.list}
-        data={this.getRenderingTimeline()}
-        circleSize={20}
-        circleColor="#7CB342" // {colors.ORANGE}
-        lineColor="rgba(0,0,0,0.6)"
-        timeContainerStyle={{ minWidth: 170, marginTop: -5 }}
-        timeStyle={{
-          textAlign: 'center',
-          color: colors.PURPLE,
-          padding: 5,
-          borderRadius: 13,
-        }}
-        descriptionStyle={{ color: 'black' }} // color was set 'gray'
-        options={{
-          style: { paddingTop: 5 },
-        }}
-        innerCircle="icon"
-      />
-    );
-  };
+  //   return (
+  //     <TimelineView
+  //       style={styles.list}
+  //       data={this.getRenderingTimeline()}
+  //       circleSize={20}
+  //       circleColor="#7CB342" // {colors.ORANGE}
+  //       lineColor="rgba(0,0,0,0.6)"
+  //       timeContainerStyle={{ minWidth: 170, marginTop: -5 }}
+  //       timeStyle={{
+  //         textAlign: 'center',
+  //         color: colors.PURPLE,
+  //         padding: 5,
+  //         borderRadius: 13,
+  //       }}
+  //       descriptionStyle={{ color: 'black' }} // color was set 'gray'
+  //       options={{
+  //         style: { paddingTop: 5 },
+  //       }}
+  //       innerCircle="icon"
+  //     />
+  //   );
+  // };
 
   render() {
     const { searchText } = this.state;
@@ -271,7 +271,7 @@ class Timeline extends Component {
           </Row>
         </Surface>
         <View style={styles.container}>
-          {this.renderTimeline()}
+          {/* {this.renderTimeline()} */}
           <DateTimePicker
             value={this.getSelectedDate()}
             mode="date"
