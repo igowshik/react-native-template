@@ -17,6 +17,14 @@ import {
   UPDATE_EXP_DETAILS,
   SUBMIT_EXPENSE_REPORT,
   DELETE_REPORT_ITEM,
+  REFRESH_EXP_DASHBOARD,
+  SET_EDIT_REPORT_ITEM_MODAL_VISIBILITY,
+  EDIT_EXP_RTEPORT_ITEM,
+  SET_EDIT_EXP_REPORT,
+  CREATE_EXP_RECEIPT,
+  SET_NEW_EXP_RECEIPT,
+  DELETE_EXP_RECEIPT,
+  PDF_RECEIPT_VIEWER_VISIBILITY,
 } from './constants';
 
 export const getExpenseDetails = expenseId => ({
@@ -51,13 +59,19 @@ export const setCreateReportItemModalVisibility = visibility => ({
   type: SET_REPORT_ITEM_MODAL_VISIBILITY,
   visibility,
 });
+export const setEditReportItemModalVisibility = visibility => ({
+  type: SET_EDIT_REPORT_ITEM_MODAL_VISIBILITY,
+  visibility,
+});
 export const setNewReportItem = form => ({
   type: SET_EXP_REPORT_ITEM,
   form,
 });
+export const setEditReportItem = form => ({ type: SET_EDIT_EXP_REPORT, form });
 export const createNewExpenseReportItem = () => ({
   type: CREATE_EXP_REPORT_ITEM,
 });
+export const editExpenseReportItem = () => ({ type: EDIT_EXP_RTEPORT_ITEM });
 export const setEditExpenseModalVisibility = visibility => ({
   type: EDIT_EXP_MODAL_VISIBILITY,
   visibility,
@@ -82,4 +96,18 @@ export const setSubmitExpense = () => ({ type: SUBMIT_EXPENSE_REPORT });
 export const setDeleteExpenceReportItem = reportItemId => ({
   type: DELETE_REPORT_ITEM,
   reportItemId,
+});
+export const refreshExpenseDashboard = () => ({ type: REFRESH_EXP_DASHBOARD });
+export const setNewExpReceipt = expReceipt => ({
+  type: SET_NEW_EXP_RECEIPT,
+  expReceipt,
+});
+export const createNewExpReceipt = () => ({ type: CREATE_EXP_RECEIPT });
+export const deleteExpenseReceipt = receiptId => ({
+  type: DELETE_EXP_RECEIPT,
+  receiptId,
+});
+export const setReceiptPdfViewerVisibility = visibility => ({
+  type: PDF_RECEIPT_VIEWER_VISIBILITY,
+  visibility,
 });

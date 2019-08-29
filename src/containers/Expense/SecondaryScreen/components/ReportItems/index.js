@@ -3,14 +3,17 @@ import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import Lo from 'lodash';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { Divider, Card, DataTable, IconButton, Text } from 'react-native-paper';
+
 import { Col, Grid } from 'react-native-easy-grid';
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
 import { createStructuredSelector } from 'reselect';
 import Swipeout from 'react-native-swipeout';
 import Dialog from 'cnxapp/src/components/Dialog';
 import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
+import { CARD_BORDER_RADIUS } from 'cnxapp/src/utils/valueconstants';
 import {
   selectExpenseDetails,
   selectReportItemModalVisibility,
@@ -20,13 +23,39 @@ import {
   setCreateReportItemModalVisibility,
   setExpenseReportItemsQuery,
   setDeleteExpenceReportItem,
+  setEditReportItemModalVisibility,
 } from '../../actions';
+import EditReportItem from '../EditReportItem';
 import CreateReportItem from './CreateReportItem';
 import { DELETE_REPORT_ITEM_MESSAGE } from '../../../constants';
+import { editExpenseItemMapper } from '../../../mappers';
 const uuidv1 = require('uuid/v1');
 
 class ReportItems extends React.Component {
-  state = { dialogVisible: false, selectedReportItemId: null };
+  state = {
+    dialogVisible: false,
+    selectedReportItemId: null,
+    mappedValues: {
+      ri_transaction_date: new Date(),
+      riExpenseType: '',
+      riMiles: '',
+      riStandardMileageRate: '',
+      ri_payment_Type: '',
+      riAmount: '',
+      ri_business_purpose: '',
+      ri_comment: '',
+      riExpReceipt: [],
+    },
+    editReportItem: {},
+  };
+
+  handleViewAttachment = expenseItemId => {
+    const { expenseDetailsData, onAttachmentClick } = this.props;
+    const expReceipt = Lo.find(expenseDetailsData.ExpenseReceipts.Data, {
+      ExpenseItemId: expenseItemId,
+    });
+    if (expReceipt) onAttachmentClick(expReceipt);
+  };
 
   onDialogDismiss = () => this.setState({ dialogVisible: false });
 
@@ -42,41 +71,80 @@ class ReportItems extends React.Component {
     });
   };
 
+  editExpenseItem = item => {
+    const { expenseDetailsData } = this.props;
+
+    const formValues = editExpenseItemMapper(item);
+    if (item.HasReceipts) {
+      const expReceipt = Lo.find(expenseDetailsData.ExpenseReceipts.Data, {
+        ExpenseItemId: item.ExpenseItemId,
+      });
+      formValues.riExpReceipt.push(expReceipt.BlobUrl);
+    }
+
+    this.setState({
+      mappedValues: formValues,
+      editReportItem: item,
+    });
+    this.props.dispatchEditExpenseItemModalState(true);
+  };
+
   swipeRightButton = item => [
     {
       component: (
-        <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
+        <View
+          style={[
+            styles.iconRoundActions,
+            {
+              backgroundColor: '#F5ECFF',
+              marginTop: 4,
+            },
+          ]}
+        >
           <IconButton
             icon={() => (
-              <FontAwesome5 name="marker" color="#FFF" size={16} solid />
+              <FontAwesome5
+                name="marker"
+                color={Colors.PURPLE}
+                size={16}
+                solid
+              />
             )}
-            size={20}
-            color="#FFF"
-            onPress={() => alert('Functionality to be implemented')}
+            size={18}
+            color={Colors.PURPLE}
+            onPress={() => this.editExpenseItem(item)}
           />
         </View>
       ),
-      backgroundColor: Colors.PURPLE,
-      underlayColor: 'rgba(0, 0, 1, 0.6)',
+      backgroundColor: 'transparent',
+      underlayColor: 'transparent',
       onPress: () => {
-        alert('Functionality to be implemented');
+        this.editExpenseItem(item);
       },
     },
     {
       component: (
-        <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
+        <View
+          style={[
+            styles.iconRoundActions,
+            {
+              backgroundColor: '#FFECEC',
+              marginTop: 4,
+            },
+          ]}
+        >
           <IconButton
             icon={() => (
-              <FontAwesome5 name="trash" color="#FFF" size={16} solid />
+              <FontAwesome5 name="trash" color={Colors.RED} size={16} solid />
             )}
-            size={20}
-            color="#FFF"
+            size={18}
+            color={Colors.RED}
             onPress={() => this.swipeDelete(item)}
           />
         </View>
       ),
-      backgroundColor: Colors.RED,
-      underlayColor: 'rgba(0, 0,1, 0.6)',
+      backgroundColor: 'transparent',
+      underlayColor: 'transparent',
       onPress: () => this.swipeDelete(item),
     },
   ];
@@ -90,6 +158,7 @@ class ReportItems extends React.Component {
         backgroundColor="transparent"
         disabled={!this.props.expenseDetailsData.ExpenseUIActions.EnableSubmit}
         key={uuidv1()}
+        // style={{ borderColor: 'rgba(0,0,0,0.2)', borderBottomWidth: 0.5 }}
       >
         <DataTable.Row key={item.ExpenseItemId}>
           <DataTable.Cell>{item.ExpenseItemId}</DataTable.Cell>
@@ -108,12 +177,15 @@ class ReportItems extends React.Component {
             <Text style={styles.linkText}>$ {item.Amount}</Text>
           </DataTable.Cell>
           <DataTable.Cell>
-            <FontAwesome5
-              name="paperclip"
-              size={20}
-              light
-              color={Colors.BLUE}
-            />
+            {item.HasReceipts ? (
+              <FontAwesome5
+                name="paperclip"
+                size={20}
+                light
+                color={Colors.BLUE}
+                onPress={() => this.handleViewAttachment(item.ExpenseItemId)}
+              />
+            ) : null}
           </DataTable.Cell>
         </DataTable.Row>
       </Swipeout>
@@ -127,10 +199,10 @@ class ReportItems extends React.Component {
     if (pageDetail.TotalPages <= 1) return null;
     return (
       <DataTable.Pagination
-        page={pageDetail.CurrentPageNumber}
+        page={pageDetail.CurrentPageNumber - 1}
         numberOfPages={pageDetail.TotalPages}
         onPageChange={page => {
-          dispatchSetExpenseReportItemsQuery(page);
+          dispatchSetExpenseReportItemsQuery(page + 1);
           dispatchGetExpenseReportItems();
         }}
         label={
@@ -216,6 +288,11 @@ class ReportItems extends React.Component {
           modalOpen={reportItemModalVisibility}
           initialValues={intialValues}
         />
+
+        <EditReportItem
+          initialValues={this.state.mappedValues}
+          reportItem={this.state.editReportItem}
+        />
         <Dialog
           visible={this.state.dialogVisible}
           title="Delete!"
@@ -236,15 +313,36 @@ ReportItems.propTypes = {
   dispatchDeleteExpenseReportItem: PropTypes.func.isRequired,
   reportItemModalVisibility: PropTypes.bool,
   dispatchModalStateVisibility: PropTypes.func.isRequired,
+  dispatchEditExpenseItemModalState: PropTypes.func.isRequired,
+  onAttachmentClick: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
+  absolute: {
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
   iconRoundBackground: {
     alignItems: 'center',
     justifyContent: 'center',
     width: 45,
     height: 45,
     borderRadius: 100,
+  },
+  iconRoundActions: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignContent: 'center',
+    width: 40,
+    height: 40,
+    borderRadius: 80,
   },
   linkText: {
     color: Colors.LINK,
@@ -254,6 +352,18 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: 15,
+  },
+  content: {
+    backgroundColor: 'white',
+    borderRadius: CARD_BORDER_RADIUS,
+  },
+  close: {
+    margin: 8,
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    width: 50,
+    height: 50,
   },
 });
 
@@ -269,6 +379,8 @@ const mapDispatchToProps = dispatch => ({
   dispatchGetExpenseReportItems: () => dispatch(getExpenseReportItems()),
   dispatchDeleteExpenseReportItem: reportItemId =>
     dispatch(setDeleteExpenceReportItem(reportItemId)),
+  dispatchEditExpenseItemModalState: visibility =>
+    dispatch(setEditReportItemModalVisibility(visibility)),
 });
 
 const withConnect = connect(

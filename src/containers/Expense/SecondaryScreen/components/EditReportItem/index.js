@@ -13,31 +13,43 @@ import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
 
 // import * as colors from 'cnxapp/src/utils/colorsConstants';
 
-import { CREATE_REPORT_ITEM_FORM } from '../../constants';
+import { EDIT_REPORT_ITEM_FORM } from '../../constants';
 import {
-  setCreateReportItemModalVisibility,
-  setNewReportItem,
-  createNewExpenseReportItem,
+  editExpenseReportItem,
+  setEditReportItemModalVisibility,
+  setEditReportItem,
 } from '../../actions';
-import NewReportItemForm from './NewReportItemForm';
+import EditReportItemForm from './EditReportItemForm';
 import { reportItemFormValidate as validate } from '../../../Validator';
-import { selectGlobalLoader } from '../../selectors';
+import {
+  selectGlobalLoader,
+  selectEditExpItemModalVisibility,
+  selectExpenseDetails,
+} from '../../selectors';
 
-class CreateReportItem extends Component {
+class EditReportItem extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
-    this.onCreateReportItem = this.onCreateReportItem.bind(this);
+    this.state = {
+      attachmentModified: false,
+    };
+    this.onEditReportItem = this.onEditReportItem.bind(this);
   }
 
-  onCreateReportItem = values => {
+  onEditReportItem = values => {
     const EMPTY = '';
-    const { dispatchSetNewReportItem, createExpenseReportItem } = this.props;
+    const {
+      dispatchSetEditReportItem,
+      dispatchEditExpenseReportItem,
+      expenseDetailsData,
+      reportItem,
+    } = this.props;
     const valuesForm = JSON.stringify(values, null, 2);
     const objectForm = JSON.parse(valuesForm);
 
     const objBuilder = {
-      ExpenseId: EMPTY,
+      ExpenseId: expenseDetailsData.ExpenseDetail.ExpenseId,
+      ExpenseItemId: reportItem.ExpenseItemId,
       TransactionDate: getDateByFormat(objectForm.ri_transaction_date, 'L'),
       ExpenseType: objectForm.riExpenseType,
       PaymentType: objectForm.ri_payment_Type || EMPTY,
@@ -48,16 +60,31 @@ class CreateReportItem extends Component {
       Miles: objectForm.riMiles || EMPTY,
       StandardMileageRate: objectForm.riStandardMileageRate,
       ProjectChargeable: EMPTY,
-      Receipts: objectForm.riExpReceipt ? objectForm.riExpReceipt : [],
+      IsReceiptDeleted: this.state.attachmentModified,
+      Receipts: [],
     };
-    dispatchSetNewReportItem(objBuilder);
-    createExpenseReportItem();
+    if (
+      objectForm.riExpReceipt.length > 0 &&
+      !this.isUrl(objectForm.riExpReceipt[0])
+    ) {
+      objBuilder.Receipts.push(objectForm.riExpReceipt[0]);
+    }
+    dispatchSetEditReportItem(objBuilder);
+    dispatchEditExpenseReportItem();
   };
+
+  isUrl(s) {
+    const regexp = /(ftp|http|https):/;
+    return regexp.test(s);
+  }
+
+  handleAttchmentChanged = attachmentChanged =>
+    this.setState({ attachmentModified: attachmentChanged });
 
   _closeModal = () => {
     const { dispatchModalStateVisibility, dispatchFormReset } = this.props;
     dispatchModalStateVisibility(false);
-    dispatchFormReset(CREATE_REPORT_ITEM_FORM);
+    dispatchFormReset(EDIT_REPORT_ITEM_FORM);
   };
 
   render() {
@@ -74,43 +101,48 @@ class CreateReportItem extends Component {
       <FullPageModal
         visible={modalOpen}
         handleModalVisible={this._closeModal}
-        modalHeaderText="Create Expense Report Item"
+        modalHeaderText="Edit Expense Report Item"
         modalHeaderRightComponent={
           <IconButton
             icon={() => (
               <FontAwesome5 name="check-circle" color="#FFF" size={25} solid />
             )}
             color="#FFF"
-            onPress={handleSubmit(this.onCreateReportItem)}
+            onPress={handleSubmit(this.onEditReportItem)}
             disabled={pristine || submitting || invalid}
           />
         }
         loader={loader}
       >
-        <NewReportItemForm style={styles.container} />
+        <EditReportItemForm
+          style={styles.container}
+          attachmentChanged={this.handleAttchmentChanged}
+        />
       </FullPageModal>
     );
   }
 }
-CreateReportItem.propTypes = {
+EditReportItem.propTypes = {
   modalOpen: PropTypes.bool.isRequired,
   dispatchModalStateVisibility: PropTypes.func.isRequired,
-  dispatchSetNewReportItem: PropTypes.func.isRequired,
-  createExpenseReportItem: PropTypes.func.isRequired,
+  dispatchSetEditReportItem: PropTypes.func.isRequired,
+  dispatchEditExpenseReportItem: PropTypes.func.isRequired,
   submitting: PropTypes.bool,
   pristine: PropTypes.bool,
   invalid: PropTypes.bool,
   dispatchFormReset: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   loader: PropTypes.bool.isRequired,
+  expenseDetailsData: PropTypes.object.isRequired,
+  reportItem: PropTypes.object,
 };
 
 const reduxFormExpense = reduxForm({
-  form: CREATE_REPORT_ITEM_FORM,
+  form: EDIT_REPORT_ITEM_FORM,
   validate,
-  enableReinitialize: false,
-  destroyOnUnmount: false,
-  keepDirtyOnReinitialize: true,
+  enableReinitialize: true,
+  destroyOnUnmount: true,
+  keepDirtyOnReinitialize: false,
 });
 
 const styles = StyleSheet.create({
@@ -130,14 +162,16 @@ const styles = StyleSheet.create({
 });
 const mapStateToProps = createStructuredSelector({
   loader: selectGlobalLoader(),
+  modalOpen: selectEditExpItemModalVisibility(),
+  expenseDetailsData: selectExpenseDetails(),
 });
 
 const mapDispatchToProps = dispatch => ({
   dispatchFormReset: formName => dispatch(reset(formName)),
-  dispatchSetNewReportItem: value => dispatch(setNewReportItem(value)),
-  createExpenseReportItem: () => dispatch(createNewExpenseReportItem()),
+  dispatchSetEditReportItem: value => dispatch(setEditReportItem(value)),
+  dispatchEditExpenseReportItem: () => dispatch(editExpenseReportItem()),
   dispatchModalStateVisibility: visibility =>
-    dispatch(setCreateReportItemModalVisibility(visibility)),
+    dispatch(setEditReportItemModalVisibility(visibility)),
 });
 const withConnect = connect(
   mapStateToProps,
@@ -147,4 +181,4 @@ const withConnect = connect(
 export default compose(
   withConnect,
   reduxFormExpense,
-)(CreateReportItem);
+)(EditReportItem);

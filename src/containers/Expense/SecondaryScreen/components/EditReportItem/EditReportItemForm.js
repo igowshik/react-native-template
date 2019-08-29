@@ -10,6 +10,7 @@ import {
   Title,
   Caption,
   Divider,
+  ActivityIndicator,
 } from 'react-native-paper';
 import { Grid, Row, Col } from 'react-native-easy-grid';
 import { compose } from 'redux';
@@ -34,9 +35,10 @@ import { isPermissionEnabled } from 'cnxapp/src/containers/Expense/mappers';
 
 import { EXPENSE_TYPE, PAYMENT_TYPE } from '../../../constants';
 import { selectExpenseMetadata } from '../../../PrimaryScreen/selectors';
-import { CREATE_REPORT_ITEM_FORM } from '../../constants';
+import { EDIT_REPORT_ITEM_FORM } from '../../constants';
+// const errImg = require('cnxapp/src/assets/images/brokenImg.jpg');
 
-class NewReportItemForm extends React.Component {
+class EditReportItemForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -48,6 +50,7 @@ class NewReportItemForm extends React.Component {
       viewImageBase64: null,
       cameraPermission: false,
       photoPermission: false,
+      imageLoadeState: true,
     };
     this.showDatePicker = this.showDatePicker.bind(this);
     this.hideDateTimePicker = this.hideDateTimePicker.bind(this);
@@ -55,16 +58,25 @@ class NewReportItemForm extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { riMiles, riStandardMileageRate, changeRDXField } = this.props;
+    const {
+      riMiles,
+      riStandardMileageRate,
+      changeRDXField,
+      riExpReceipt,
+      attachmentChanged,
+    } = this.props;
     if (riMiles !== prevProps.riMiles) {
-      if (typeof riMiles === 'undefined')
-        changeRDXField(CREATE_REPORT_ITEM_FORM, 'riAmount', '0.00');
+      if (typeof riMiles === 'undefined' || riMiles === '')
+        changeRDXField(EDIT_REPORT_ITEM_FORM, 'riAmount', '0.00');
       else {
         const amount = parseFloat(riMiles) * parseFloat(riStandardMileageRate);
-        changeRDXField(CREATE_REPORT_ITEM_FORM, 'riAmount', amount.toString());
+        changeRDXField(EDIT_REPORT_ITEM_FORM, 'riAmount', amount.toString());
       }
+      this.onExpenseTypeChanged();
     }
-    // this._checkCameraAndPhotos();
+    if (riExpReceipt !== prevProps.riExpReceipt) {
+      attachmentChanged(true);
+    }
   }
 
   showDatePicker = () => this.setState({ isDatePickerVisible: true });
@@ -106,16 +118,16 @@ class NewReportItemForm extends React.Component {
         isPaymentTypeDisabled: true,
       });
       changeRDXField(
-        CREATE_REPORT_ITEM_FORM,
+        EDIT_REPORT_ITEM_FORM,
         'riStandardMileageRate',
         riExpenseType === 'TPER' ? '0.535' : '0.19',
       );
-      changeRDXField(CREATE_REPORT_ITEM_FORM, 'ri_payment_Type', 'CASH');
+      changeRDXField(EDIT_REPORT_ITEM_FORM, 'ri_payment_Type', 'CASH');
       if (riMiles) {
         const amount =
           parseFloat(riMiles) *
           parseFloat(riExpenseType === 'TPER' ? '0.535' : '0.19');
-        changeRDXField(CREATE_REPORT_ITEM_FORM, 'riAmount', amount.toString());
+        changeRDXField(EDIT_REPORT_ITEM_FORM, 'riAmount', amount.toString());
       }
       return;
     }
@@ -124,10 +136,10 @@ class NewReportItemForm extends React.Component {
       isAmountDisabled: false,
       isPaymentTypeDisabled: false,
     });
-    changeRDXField(CREATE_REPORT_ITEM_FORM, 'riStandardMileageRate', '0.0');
-    changeRDXField(CREATE_REPORT_ITEM_FORM, 'ri_payment_Type', '');
-    changeRDXField(CREATE_REPORT_ITEM_FORM, 'riMiles', '');
-    changeRDXField(CREATE_REPORT_ITEM_FORM, 'riAmount', '0');
+    changeRDXField(EDIT_REPORT_ITEM_FORM, 'riStandardMileageRate', '0.0');
+    changeRDXField(EDIT_REPORT_ITEM_FORM, 'ri_payment_Type', '');
+    changeRDXField(EDIT_REPORT_ITEM_FORM, 'riMiles', '');
+    changeRDXField(EDIT_REPORT_ITEM_FORM, 'riAmount', '0');
   };
 
   _checkCameraAndPhotos = () => {
@@ -138,6 +150,11 @@ class NewReportItemForm extends React.Component {
       });
     });
   };
+
+  isUrl(s) {
+    const regexp = /(ftp|http|https):/;
+    return regexp.test(s);
+  }
 
   openFilePicker = () => {
     const options = {
@@ -158,7 +175,7 @@ class NewReportItemForm extends React.Component {
     ImagePicker.showImagePicker(options, response => {
       if (response.data) {
         this.props.pushRDXArray(
-          CREATE_REPORT_ITEM_FORM,
+          EDIT_REPORT_ITEM_FORM,
           'riExpReceipt',
           response.data,
         );
@@ -170,9 +187,9 @@ class NewReportItemForm extends React.Component {
 
   _hideDialog = () => this.setState({ visible: false });
 
-  handleViewImageClick = index => {
+  handleViewImageClick = viewBase64 => {
     this.setState({
-      viewImageBase64: this.props.riExpReceipt[index],
+      viewImageBase64: viewBase64,
       visible: true,
     });
   };
@@ -353,7 +370,6 @@ class NewReportItemForm extends React.Component {
                   {this.renderPermissionMessage()}
                 </View>
               </Row>
-
               <Row>
                 <Divider />
                 <FieldArray
@@ -391,9 +407,14 @@ class NewReportItemForm extends React.Component {
                 height: '100%',
                 borderRadius: CARD_BORDER_RADIUS,
               }}
+              onLoadEnd={() => this.setState({ imageLoadeState: false })}
+              onLoadStart={() => this.setState({ imageLoadeState: true })}
+              // onError={() => this.setState({ viewImageBase64: errImg })}
               source={{
-                isStatic: true,
-                uri: `data:image/jpeg;base64,${viewImageBase64}`,
+                isStatic: !this.isUrl(viewImageBase64),
+                uri: this.isUrl(viewImageBase64)
+                  ? viewImageBase64
+                  : `data:image/jpeg;base64,${viewImageBase64}`,
               }}
             />
             <IconButton
@@ -410,6 +431,11 @@ class NewReportItemForm extends React.Component {
               onPress={this._hideDialog}
               color={colors.RED}
             />
+            {this.state.imageLoadeState ? (
+              <View style={styles.absolute}>
+                <ActivityIndicator animating size="large" />
+              </View>
+            ) : null}
           </View>
         </Modal>
         {this.renderForm()}
@@ -417,7 +443,7 @@ class NewReportItemForm extends React.Component {
     );
   }
 }
-NewReportItemForm.propTypes = {
+EditReportItemForm.propTypes = {
   expenseTypeMetadata: PropTypes.array.isRequired,
   paymentTypeMetadata: PropTypes.array.isRequired,
   ri_transaction_date: PropTypes.object,
@@ -427,9 +453,21 @@ NewReportItemForm.propTypes = {
   riStandardMileageRate: PropTypes.string,
   pushRDXArray: PropTypes.func,
   riExpReceipt: PropTypes.array,
+  attachmentChanged: PropTypes.func,
 };
 
 const styles = StyleSheet.create({
+  absolute: {
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+  },
   dateView: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
@@ -463,8 +501,7 @@ const styles = StyleSheet.create({
     height: 50,
   },
 });
-
-const selectorCreateExpense = formValueSelector(CREATE_REPORT_ITEM_FORM);
+const selectorEditExpense = formValueSelector(EDIT_REPORT_ITEM_FORM);
 
 const mapStateToProps = createStructuredSelector({
   expenseTypeMetadata: selectExpenseMetadata(EXPENSE_TYPE),
@@ -483,7 +520,7 @@ const withConnect = connect(
 
 export default compose(
   connect(state =>
-    selectorCreateExpense(
+    selectorEditExpense(
       state,
       'riStandardMileageRate',
       'ri_transaction_date',
@@ -494,4 +531,4 @@ export default compose(
     ),
   ),
   withConnect,
-)(NewReportItemForm);
+)(EditReportItemForm);

@@ -1,7 +1,13 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import { Card } from 'react-native-paper';
+import { StyleSheet, Image } from 'react-native';
+import { Card, IconButton } from 'react-native-paper';
 import PropTypes from 'prop-types';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
+import * as Colors from 'cnxapp/src/utils/colorsConstants';
+import { View } from 'native-base';
+
+const loaderImage = require('cnxapp/src/assets/images/imgloader.png');
+const pdfImage = require('cnxapp/src/assets/images/pdfIcon.png');
 
 class ReportReceiptItem extends React.PureComponent {
   render() {
@@ -10,13 +16,44 @@ class ReportReceiptItem extends React.PureComponent {
     return (
       <Card
         elevation={2}
-        style={{ flex: 1, flexDirection: 'column', margin: 3 }}
+        style={{
+          flexDirection: 'column',
+          margin: 5,
+          borderRadius: 10,
+          width: 90,
+          height: 90,
+        }}
         onPress={() => onClick(item.BlobUrl)}
       >
-        <Card.Cover source={{ uri: item.BlobUrl }} />
-        <View style={styles.overlay}>
-          <Text style={{ color: 'white' }}>{item.ReceiptName}</Text>
-        </View>
+        {item.BlobUrl.includes('.pdf') ? (
+          <View
+            style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}
+          >
+            <Image
+              resizeMethod="auto"
+              style={styles.imageContainerPdf}
+              defaultSource={pdfImage}
+            />
+          </View>
+        ) : (
+          <Image
+            resizeMode="cover"
+            source={{
+              isStatic: false,
+              uri: item.BlobUrl,
+            }}
+            style={styles.imageContainer}
+            defaultSource={loaderImage}
+          />
+        )}
+        <IconButton
+          icon={() => (
+            <FontAwesome5 name="trash" size={15} solid color={Colors.RED} />
+          )}
+          style={styles.close}
+          onPress={() => this.props.deleteReceipt(item.ExpenseReceiptId)}
+          color={Colors.RED}
+        />
       </Card>
     );
   }
@@ -24,6 +61,7 @@ class ReportReceiptItem extends React.PureComponent {
 ReportReceiptItem.propTypes = {
   item: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
+  deleteReceipt: PropTypes.func.isRequired,
 };
 const styles = StyleSheet.create({
   overlay: {
@@ -39,5 +77,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 150,
   },
+  imageContainer: {
+    width: 90,
+    height: 90,
+    borderRadius: 10,
+  },
+  imageContainerPdf: {
+    width: 50,
+    height: 50,
+    borderRadius: 10,
+  },
+  close: {
+    margin: 3,
+    position: 'absolute',
+    backgroundColor: 'rgba(253, 254, 254 ,0.8)',
+    top: 0,
+    left: 0,
+    width: 30,
+    height: 30,
+  },
 });
+
 export default ReportReceiptItem;

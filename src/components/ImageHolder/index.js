@@ -12,7 +12,11 @@ const uuidv1 = require('uuid/v1');
 const ImageHolder = ({ fields, viewImageHadler }) =>
   fields.map((image, index) => (
     <View style={styles.container} key={uuidv1()}>
-      <Field name={image} component={RFImageHolder} />
+      <Field
+        name={image}
+        component={RFImageHolder}
+        viewImage={viewImageHadler}
+      />
       <IconButton
         icon={() => (
           <FontAwesome5
@@ -25,14 +29,6 @@ const ImageHolder = ({ fields, viewImageHadler }) =>
         color={colors.RED}
         style={styles.close}
         onPress={() => fields.remove(index)}
-      />
-      <IconButton
-        icon={() => (
-          <FontAwesome5 name="eye" color={colors.PRIMARY} size={20} solid />
-        )}
-        color={colors.PRIMARY}
-        style={styles.view}
-        onPress={() => viewImageHadler(index)}
       />
     </View>
   ));

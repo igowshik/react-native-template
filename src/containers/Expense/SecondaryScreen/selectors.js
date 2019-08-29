@@ -63,6 +63,31 @@ const selectDeleteReportItemId = () =>
     expenseReducers,
     dataState => dataState.deleteReportItemId,
   );
+const selectEditExpItemModalVisibility = () =>
+  createSelector(
+    expenseReducers,
+    dataState => dataState.editReportItemModalVisible,
+  );
+const selectEditExpenseItem = () =>
+  createSelector(
+    expenseReducers,
+    dataState => dataState.editExpenseReportItem,
+  );
+const selectNewExpReceipt = () =>
+  createSelector(
+    expenseReducers,
+    dataState => dataState.newExpenseReceipt,
+  );
+const selectDeleteExpReceiptId = () =>
+  createSelector(
+    expenseReducers,
+    dataState => dataState.deleteExpReceiptId,
+  );
+const selectPdfViewerVisible = () =>
+  createSelector(
+    expenseReducers,
+    dataState => dataState.pdfReceiptViewerVisible,
+  );
 export {
   selectGlobalLoader,
   selectCurrentExpenseID,
@@ -74,4 +99,9 @@ export {
   selectTriggerExpenseDelete,
   selectEditExpenseObject,
   selectDeleteReportItemId,
+  selectEditExpItemModalVisibility,
+  selectEditExpenseItem,
+  selectNewExpReceipt,
+  selectDeleteExpReceiptId,
+  selectPdfViewerVisible,
 };

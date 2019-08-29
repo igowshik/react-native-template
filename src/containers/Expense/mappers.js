@@ -39,6 +39,25 @@ export const editExpenseMapper = data => {
   }
   return {};
 };
+export const editExpenseItemMapper = data => {
+  if (!Lo.isEmpty(data)) {
+    const payload = {
+      ri_transaction_date: new Date(data.TransactionDate),
+      riExpenseType: data.ExpenseType ? data.ExpenseType.Code : '',
+      riMiles: data.Miles ? data.Miles.toString() : '',
+      riStandardMileageRate: data.StandardMileageRate
+        ? data.StandardMileageRate.toString()
+        : '',
+      ri_payment_Type: data.PaymentType ? data.PaymentType.Code : '',
+      riAmount: data.Amount ? data.Amount.toString() : '',
+      ri_business_purpose: data.BusinessPurpose,
+      ri_comment: data.Comment,
+      riExpReceipt: [],
+    };
+    return payload;
+  }
+  return {};
+};
 export const statusColorMapper = statusCode => {
   switch (statusCode) {
     case 'ALL':
@@ -79,5 +98,16 @@ export const gradientColorMapper = statusCode => {
       return LINEAR_EXPE_COLORS.REJECTED;
     default:
       return LINEAR_EXPE_COLORS.ALL;
+  }
+};
+export const isPermissionEnabled = permission => {
+  switch (permission) {
+    case 'authorized':
+      return true;
+    case 'denied':
+    case 'restricted':
+      return false;
+    default:
+      return true;
   }
 };

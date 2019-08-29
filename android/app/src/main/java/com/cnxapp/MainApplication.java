@@ -3,6 +3,7 @@ package com.cnxapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.imagepicker.ImagePickerPackage;
 import com.cmcewen.blurview.BlurViewPackage;
 import com.reactnativecommunity.cameraroll.CameraRollPackage;
 import com.rnfs.RNFSPackage;
@@ -34,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ImagePickerPackage(),
             new BlurViewPackage(),
             new CameraRollPackage(),
             new RNFSPackage(),

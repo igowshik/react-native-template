@@ -14,6 +14,11 @@ import {
   SET_EDIT_EXP_OBJ,
   UPDATE_EXP_DETAILS,
   DELETE_REPORT_ITEM,
+  SET_EDIT_REPORT_ITEM_MODAL_VISIBILITY,
+  SET_EDIT_EXP_REPORT,
+  SET_NEW_EXP_RECEIPT,
+  DELETE_EXP_RECEIPT,
+  PDF_RECEIPT_VIEWER_VISIBILITY,
 } from './constants';
 
 export const IntialState = {
@@ -26,11 +31,16 @@ export const IntialState = {
   expenseReportReceiptsQuery: { ExpenseId: 0, PageSize: 10, PageNumber: 1 },
   currentExpenseId: '',
   createReportItemModalVisible: false,
+  editReportItemModalVisible: false,
   editExpenseModelVisibility: false,
   triggerExpenseDelete: false,
+  pdfReceiptViewerVisible: false,
   newExpenseReportItem: {},
   editExpenseObject: {},
   deleteReportItemId: '',
+  editExpenseReportItem: {},
+  newExpenseReceipt: {},
+  deleteExpReceiptId: '',
   expenseDetails: {
     ExpenseUIActions: {
       EnableEdit: false,
@@ -126,6 +136,10 @@ const expenseSecondaryScreenStore = (state = IntialState, action) =>
         draftState.createReportItemModalVisible = action.visibility;
         break;
       }
+      case SET_EDIT_REPORT_ITEM_MODAL_VISIBILITY: {
+        draftState.editReportItemModalVisible = action.visibility;
+        break;
+      }
       case SET_EXP_REPORT_ITEM: {
         draftState.newExpenseReportItem = action.form;
         break;
@@ -148,6 +162,22 @@ const expenseSecondaryScreenStore = (state = IntialState, action) =>
       }
       case DELETE_REPORT_ITEM: {
         draftState.deleteReportItemId = action.reportItemId;
+        break;
+      }
+      case SET_EDIT_EXP_REPORT: {
+        draftState.editExpenseReportItem = action.form;
+        break;
+      }
+      case SET_NEW_EXP_RECEIPT: {
+        draftState.newExpenseReceipt = action.expReceipt;
+        break;
+      }
+      case DELETE_EXP_RECEIPT: {
+        draftState.deleteExpReceiptId = action.receiptId;
+        break;
+      }
+      case PDF_RECEIPT_VIEWER_VISIBILITY: {
+        draftState.pdfReceiptViewerVisible = action.visibility;
         break;
       }
       default: {

@@ -1,27 +1,95 @@
 import React from 'react';
-import { View, StyleSheet, FlatList, Image, Text } from 'react-native';
+import { View, StyleSheet, FlatList, Text, Alert } from 'react-native';
 import PropTypes from 'prop-types';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5Pro';
 import { Divider, Card, IconButton } from 'react-native-paper';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import * as Colors from 'cnxapp/src/utils/colorsConstants';
-import Modal from 'react-native-modal';
-import { CARD_BORDER_RADIUS } from 'cnxapp/src/utils/valueconstants';
+import ImagePicker from 'react-native-image-picker';
+import Permissions from 'react-native-permissions';
 
-// import { getDateByFormat } from 'cnxapp/src/utils/DateFormatter';
+import { CARD_BORDER_RADIUS } from 'cnxapp/src/utils/valueconstants';
+import { isPermissionEnabled } from 'cnxapp/src/containers/Expense/mappers';
+import Dialog from 'cnxapp/src/components/Dialog';
+
 import { createStructuredSelector } from 'reselect';
 import { selectExpenseDetails } from '../../selectors';
-import { getExpenseReportReceipts } from '../../actions';
+import {
+  getExpenseReportReceipts,
+  setNewExpReceipt,
+  createNewExpReceipt,
+  deleteExpenseReceipt,
+} from '../../actions';
 import ReportReceiptItem from './ReportReceiptItem';
+import { DELETE_RECEIPT_MESSAGE } from '../../constants';
 
 class ReportReceipts extends React.Component {
-  state = { imageModalVisible: false, imgSrc: '' };
+  state = {
+    receiptId: '',
+    deleteReceiptConfirmationVisible: false,
+  };
 
-  _hideDialog = () => this.setState({ imageModalVisible: false });
+  openFilePicker = () => {
+    const {
+      dispatchSetNewExpReceipt,
+      expenseDetailsData,
+      dispatchCreateNewExpReceipt,
+    } = this.props;
+    const options = {
+      title: 'Select Receipt',
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+      quality: 0.2,
+      permissionDenied: {
+        title: 'Permission denied',
+        text:
+          'To be able to take pictures with your camera and choose images from your library.',
+        reTryTitle: 're-try',
+        okTitle: "I'm sure",
+      },
+    };
 
-  handleImageClick = image =>
-    this.setState({ imageModalVisible: true, imgSrc: image });
+    Permissions.checkMultiple(['camera', 'photo']).then(response => {
+      const hasCameraPermission = isPermissionEnabled(response.camera);
+      const hasPhotoPermission = isPermissionEnabled(response.photo);
+      if (hasCameraPermission && hasPhotoPermission) {
+        ImagePicker.showImagePicker(options, controlResponse => {
+          if (controlResponse.data) {
+            const receiptObj = {
+              ExpenseId: expenseDetailsData.ExpenseDetail.ExpenseId.toString(),
+              Receipts: [],
+            };
+            receiptObj.Receipts.push(controlResponse.data);
+            dispatchSetNewExpReceipt(receiptObj);
+            dispatchCreateNewExpReceipt();
+          }
+        });
+      } else {
+        let permissionMessage = '';
+        if (!hasCameraPermission)
+          permissionMessage += 'Camera permission is disabled. ';
+
+        if (!hasPhotoPermission)
+          permissionMessage += 'Photo album permission is disabled. ';
+
+        permissionMessage += 'Enable permission from Settings -> BOAST';
+        Alert.alert(
+          'Permission required!',
+          permissionMessage,
+          [
+            {
+              text: 'OK',
+              style: 'cancel',
+            },
+          ],
+          { cancelable: true },
+        );
+      }
+    });
+  };
 
   renderReceipts = () => {
     const { expenseDetailsData } = this.props;
@@ -30,9 +98,13 @@ class ReportReceipts extends React.Component {
         <FlatList
           data={expenseDetailsData.ExpenseReceipts.Data}
           renderItem={({ item }) => (
-            <ReportReceiptItem item={item} onClick={this.handleImageClick} />
+            <ReportReceiptItem
+              item={item}
+              onClick={() => this.props.onReceiptClick(item)}
+              deleteReceipt={this.handleDeleteReceipt}
+            />
           )}
-          numColumns={3}
+          numColumns={10}
           keyExtractor={(item, index) => index.toString()}
         />
       );
@@ -46,9 +118,23 @@ class ReportReceipts extends React.Component {
     );
   };
 
+  handleDeleteReceipt = receiptId =>
+    this.setState({
+      receiptId,
+      deleteReceiptConfirmationVisible: true,
+    });
+
+  onDialogDismiss = () =>
+    this.setState({ deleteReceiptConfirmationVisible: false });
+
+  onDialogConfirm = () => {
+    this.props.dispatchDeleteReportReceipt(this.state.receiptId);
+    this.setState({ deleteReceiptConfirmationVisible: false });
+  };
+
   render() {
     const { expenseDetailsData } = this.props;
-    const { imageModalVisible, imgSrc } = this.state;
+
     return (
       <View style={{ flex: 1, margin: 10 }}>
         <Card elevation={4} style={styles.card}>
@@ -79,7 +165,7 @@ class ReportReceipts extends React.Component {
                   )}
                   style={{ height: 50, width: 50 }}
                   color={Colors.PRIMARY}
-                  // onPress={() => console.log('Pressed')}
+                  onPress={this.openFilePicker}
                 />
               ) : null
             }
@@ -87,41 +173,15 @@ class ReportReceipts extends React.Component {
           <Divider />
           <Card.Content>
             <View style={styles.MainContainer}>{this.renderReceipts()}</View>
-            <Modal
-              isVisible={imageModalVisible}
-              onBackdropPress={() => this._hideDialog}
-            >
-              <View style={styles.content}>
-                <Image
-                  resizeMode="stretch"
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: CARD_BORDER_RADIUS,
-                  }}
-                  source={{
-                    isStatic: true,
-                    uri: `${imgSrc}`,
-                  }}
-                />
-                <IconButton
-                  icon={() => (
-                    <FontAwesome5
-                      name="times-circle"
-                      size={30}
-                      light
-                      color={Colors.RED}
-                    />
-                  )}
-                  size={30}
-                  style={styles.close}
-                  onPress={this._hideDialog}
-                  color={Colors.RED}
-                />
-              </View>
-            </Modal>
           </Card.Content>
         </Card>
+        <Dialog
+          visible={this.state.deleteReceiptConfirmationVisible}
+          title="Delete!"
+          message={DELETE_RECEIPT_MESSAGE}
+          onDismiss={this.onDialogDismiss}
+          onConfirm={this.onDialogConfirm}
+        />
       </View>
     );
   }
@@ -131,6 +191,10 @@ ReportReceipts.propTypes = {
   data: PropTypes.object,
   expenseDetailsData: PropTypes.object,
   dispatchGetExpenseReportReceipts: PropTypes.func.isRequired,
+  dispatchSetNewExpReceipt: PropTypes.func.isRequired,
+  dispatchCreateNewExpReceipt: PropTypes.func.isRequired,
+  dispatchDeleteReportReceipt: PropTypes.func.isRequired,
+  onReceiptClick: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -142,14 +206,6 @@ const styles = StyleSheet.create({
   content: {
     backgroundColor: 'white',
     borderRadius: CARD_BORDER_RADIUS,
-  },
-  close: {
-    margin: 8,
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    width: 50,
-    height: 50,
   },
   iconRoundBackground: {
     alignItems: 'center',
@@ -182,6 +238,11 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
   dispatchGetExpenseReportReceipts: pageNumber =>
     dispatch(getExpenseReportReceipts(pageNumber)),
+  dispatchSetNewExpReceipt: expReceipt =>
+    dispatch(setNewExpReceipt(expReceipt)),
+  dispatchCreateNewExpReceipt: () => dispatch(createNewExpReceipt()),
+  dispatchDeleteReportReceipt: receiptId =>
+    dispatch(deleteExpenseReceipt(receiptId)),
 });
 
 const withConnect = connect(
