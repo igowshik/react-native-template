@@ -54,7 +54,7 @@ export default class ListItemRight extends PureComponent {
               solid
               style={{ paddingRight: 5 }}
             />
-            <Text style={{ fontSize: 10 }}>{item.CurrentStatus}</Text>
+            <Text style={{ fontSize: 10 }}>{item.CurrentStatus.Code}</Text>
           </View>
         </View>
       </View>
