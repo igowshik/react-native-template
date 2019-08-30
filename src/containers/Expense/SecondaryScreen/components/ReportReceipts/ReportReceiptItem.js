@@ -11,7 +11,7 @@ const pdfImage = require('cnxapp/src/assets/images/pdfIcon.png');
 
 class ReportReceiptItem extends React.PureComponent {
   render() {
-    const { item, onClick } = this.props;
+    const { item, onClick, isDeleteEnabled } = this.props;
 
     return (
       <Card
@@ -46,14 +46,16 @@ class ReportReceiptItem extends React.PureComponent {
             defaultSource={loaderImage}
           />
         )}
-        <IconButton
-          icon={() => (
-            <FontAwesome5 name="trash" size={15} solid color={Colors.RED} />
-          )}
-          style={styles.close}
-          onPress={() => this.props.deleteReceipt(item.ExpenseReceiptId)}
-          color={Colors.RED}
-        />
+        {isDeleteEnabled ? (
+          <IconButton
+            icon={() => (
+              <FontAwesome5 name="trash" size={15} solid color={Colors.RED} />
+            )}
+            style={styles.close}
+            onPress={() => this.props.deleteReceipt(item.ExpenseReceiptId)}
+            color={Colors.RED}
+          />
+        ) : null}
       </Card>
     );
   }
@@ -62,6 +64,7 @@ ReportReceiptItem.propTypes = {
   item: PropTypes.object.isRequired,
   onClick: PropTypes.func.isRequired,
   deleteReceipt: PropTypes.func.isRequired,
+  isDeleteEnabled: PropTypes.bool,
 };
 const styles = StyleSheet.create({
   overlay: {

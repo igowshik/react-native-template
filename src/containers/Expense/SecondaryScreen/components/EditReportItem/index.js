@@ -69,6 +69,7 @@ class EditReportItem extends Component {
     ) {
       objBuilder.Receipts.push(objectForm.riExpReceipt[0]);
     }
+    this.setState({ attachmentModified: false });
     dispatchSetEditReportItem(objBuilder);
     dispatchEditExpenseReportItem();
   };

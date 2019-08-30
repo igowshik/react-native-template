@@ -58,13 +58,7 @@ class EditReportItemForm extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const {
-      riMiles,
-      riStandardMileageRate,
-      changeRDXField,
-      riExpReceipt,
-      attachmentChanged,
-    } = this.props;
+    const { riMiles, riStandardMileageRate, changeRDXField } = this.props;
     if (riMiles !== prevProps.riMiles) {
       if (typeof riMiles === 'undefined' || riMiles === '')
         changeRDXField(EDIT_REPORT_ITEM_FORM, 'riAmount', '0.00');
@@ -74,10 +68,9 @@ class EditReportItemForm extends React.Component {
       }
       this.onExpenseTypeChanged();
     }
-    if (riExpReceipt !== prevProps.riExpReceipt) {
-      attachmentChanged(true);
-    }
   }
+
+  removeImageHandler = () => this.props.attachmentChanged(true);
 
   showDatePicker = () => this.setState({ isDatePickerVisible: true });
 
@@ -376,6 +369,7 @@ class EditReportItemForm extends React.Component {
                   name="riExpReceipt"
                   component={ImageHolder}
                   viewImageHadler={this.handleViewImageClick}
+                  onDeleteItem={this.removeImageHandler}
                 />
               </Row>
             </Grid>

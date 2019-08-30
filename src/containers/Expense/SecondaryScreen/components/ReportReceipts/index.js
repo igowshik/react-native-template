@@ -102,6 +102,7 @@ class ReportReceipts extends React.Component {
               item={item}
               onClick={() => this.props.onReceiptClick(item)}
               deleteReceipt={this.handleDeleteReceipt}
+              isDeleteEnabled={expenseDetailsData.ExpenseUIActions.EnableEdit}
             />
           )}
           numColumns={10}
